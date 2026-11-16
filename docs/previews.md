@@ -21,3 +21,5 @@ V04: [Map 01 art pass](https://github.com/VietCodeBug/forest-post-cafe/tree/prev
 contains five actual-render after shots plus V03 before images, with full source
 SHA. See [the visual review](map01-v04-art-review.md). The earlier environment
 expansion direction was superseded; no new map is part of this version.
+
+V05: [Hero building review](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-hero-building), five Godot after captures and V04 before references. Source and limitations: [review](v05-hero-building-review.md).

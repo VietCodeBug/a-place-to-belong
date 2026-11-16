@@ -59,3 +59,6 @@ height function. Quaternius CC0 assets supplement Kenney; verify both manifests.
 User visual approval of Map 01 is required before starting any additional map or
 gameplay system. Passing tests is not visual approval; current premium target is
 not yet met. Publish this session to preview/ver-04-map01-art-pass, preserve ver-01/02/03.
+
+## V05 architecture review takes priority
+Read docs/v05-hero-building-review.md. Review only the hero café, preserve Map 01 and gameplay. Blender source lives under art_source/hero_cafe_v05, runtime GLB under assets/hero_cafe. Do not restore primitive building assembly. User avatar is user-owned, 52 bones, no clips; preserve original source bytes. Validate with tools/validate_hero_asset.py and display integration test. Publish V05 screenshots only to preview/ver-05-hero-building; preserve ver-01 through ver-04. User art approval is still pending; do not claim premium completion or start another map.

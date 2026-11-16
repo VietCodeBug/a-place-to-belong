@@ -1,0 +1,12 @@
+{
+  "name": "Forest Post Cafe Hero Building",
+  "version": "V05",
+  "scope": "Map 01 architecture only; no terrain or vegetation changes",
+  "dimensions_m": {"frontage": 15, "main_depth": 11, "main_ridge": 7, "door_height": 2.25, "porch_depth": 4},
+  "style": "Handcrafted stylized low poly forest lodge, moss shingles, honey timber, cream infill, teal trim, stone footing, warm rooms",
+  "requirements": ["two coherent architectural volumes", "layered modeled roofing", "beveled wood joinery", "recessed furnished windows", "editable Blender source", "separate physics", "actual Godot review"],
+  "negative_requirements": ["no science fiction", "no neon", "no external building modules", "no scene expansion", "no gameplay additions", "no fog or bloom to conceal geometry"],
+  "budgets": {"triangles_max": 180000, "materials_max": 48, "external_textures": 0},
+  "ownership": "Original project-authored geometry and procedural material palette; no third-party building models",
+  "reference_limitation": "Nighttime reference image is mentioned by user but no image bytes are attached in this conversation; textual architectural quality requirements guide this review."
+}

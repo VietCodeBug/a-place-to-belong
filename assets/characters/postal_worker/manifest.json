@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "origin": "User upload base.glb; user confirmed self-authored/owned on 2026-11-16",
+  "rights": "Project/user-owned; no CC0 license inferred",
+  "workflow": "Manual inspected import; game-dev CLI unavailable; user authorized manual workflow",
+  "files": [
+    {
+      "path": "assets/characters/postal_worker/base.glb",
+      "sha256": "d2be0aa5d6c98eaed3541fc3a4f56bde0f291c9d3747e234884a4aa29dc76232",
+      "bytes": 1031952
+    }
+  ]
+}

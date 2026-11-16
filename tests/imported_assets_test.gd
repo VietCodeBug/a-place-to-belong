@@ -30,11 +30,15 @@ func run() -> void:
 		var box: AABB = door.global_transform*door.get_aabb()
 		print("Measured door: ",box.size)
 		check(box.size.y >= 2.1 and box.size.y <= 2.3,"door height is human-usable (2.1–2.3 m)")
-	var roof: Node3D = cafe.get_node("MainHallRoof")
+	var roof: Node3D = cafe.find_child("MainHallRoof",true,false)
 	var roof_box := FieldAssets.bounds(roof)
-	check(absf(roof_box.end.y-7.0)<0.01,"main hall roof ridge reaches 7 m above the lodge datum")
-	var porch: MeshInstance3D = cafe.get_node("PorchDeck")
-	check(porch.mesh.size.x >= 15 and porch.mesh.size.z >= 4,"porch is at least 15 x 4 m")
+	check(roof_box.end.y>=6.8 and roof_box.end.y<=7.25,"authored roof keeps the V04 roughly 7 m ridge, including layered caps")
+	var porch: MeshInstance3D = cafe.find_child("PorchDeck",true,false)
+	var porch_box := FieldAssets.bounds(porch)
+	check(porch_box.size.x >= 15 and porch_box.size.z >= 4,"porch is at least 15 x 4 m")
+	var skeleton: Skeleton3D = hub.player.find_skeleton(hub.player.model)
+	check(skeleton != null and skeleton.get_bone_count() == 52,"user avatar preserves all 52 rig bones")
+	check(normalized_skin(hub.player.model),"runtime skin weight sums are normalized")
 	var player_box := FieldAssets.bounds(hub.player)
 	check(player_box.size.y >= 1.6 and player_box.size.y <= 1.9,"player provides a roughly 1.8 m scale reference")
 	for i in range(3):
@@ -51,3 +55,20 @@ func run() -> void:
 	check(tallest >= 14 and tallest < 23,"forest has hero trees at least twice the roof height")
 	print("ASSET INTEGRATION COMPLETE; failures=",failures)
 	quit(1 if failures else 0)
+
+func normalized_skin(node: Node) -> bool:
+	if node is MeshInstance3D:
+		for surface in range(node.mesh.get_surface_count()):
+			var arrays: Array = node.mesh.surface_get_arrays(surface)
+			var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+			var influences := 8 if node.mesh.surface_get_format(surface) & Mesh.ARRAY_FLAG_USE_8_BONE_WEIGHTS else 4
+			for offset in range(0,weights.size(),influences):
+				var total := 0.0
+				for influence in range(influences):
+					total += weights[offset+influence]
+				if absf(total-1.0)>0.0001:
+					return false
+	for child in node.get_children():
+		if not normalized_skin(child):
+			return false
+	return true

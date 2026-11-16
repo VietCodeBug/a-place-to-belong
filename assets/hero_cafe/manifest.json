@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "origin": "Original geometry authored in Blender for Forest Post Café; no third-party building model",
+  "rights": "Project/user-owned; no CC0 license inferred",
+  "workflow": "Manual inspected import; game-dev CLI unavailable; user authorized manual workflow",
+  "files": [
+    {
+      "path": "assets/hero_cafe/forest_post_cafe_v05.glb",
+      "sha256": "13d03ae08343f6052258b008f187602c47b9b2c7f115878e930fe9b2560f5ec3",
+      "bytes": 7713304
+    },
+    {
+      "path": "art_source/hero_cafe_v05/build_hero.py",
+      "sha256": "d0a3af4dc0bd64d813b9140e5435fc2d504a35d4e88e16177cca6a6cb92d03d6",
+      "bytes": 20852
+    },
+    {
+      "path": "art_source/hero_cafe_v05/spec.json",
+      "sha256": "5eb1a15fac32b7fb9ca388c52492a22ef1d3fb7f78c0f6d7b0df3293c01baf0e",
+      "bytes": 1171
+    },
+    {
+      "path": "art_source/hero_cafe_v05/build_report.json",
+      "sha256": "3d8f27a5a2d96f09525ccb59981e98df3e2e8f5dcab4d2e3f87dbf51c49cbe54",
+      "bytes": 287
+    },
+    {
+      "path": "art_source/hero_cafe_v05/hero_cafe_v05.blend",
+      "sha256": "9b464c067f6d762ec007a21d194ae3210c1496f71f2c106bd6ec2f2b266114d1",
+      "bytes": 4735336
+    }
+  ]
+}
