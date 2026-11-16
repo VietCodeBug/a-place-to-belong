@@ -19,6 +19,8 @@ static func bounds(node: Node, inherited := Transform3D.IDENTITY) -> AABB:
 
 static func model(pack: String, asset: String, height: float) -> Node3D:
 	var path := ("res://assets/vendor/quaternius/"+asset+".glb") if pack == "quaternius" else BASE+pack+"/"+asset+".glb"
+	if pack == "meadow":
+		path = "res://assets/vegetation/meadow/"+asset+".glb"
 	if not scenes.has(path):
 		scenes[path] = load(path)
 	var visual: Node3D = scenes[path].instantiate()

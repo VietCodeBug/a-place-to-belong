@@ -39,6 +39,9 @@ func run() -> void:
 	var skeleton: Skeleton3D = hub.player.find_skeleton(hub.player.model)
 	check(skeleton != null and skeleton.get_bone_count() == 52,"user avatar preserves all 52 rig bones")
 	check(normalized_skin(hub.player.model),"runtime skin weight sums are normalized")
+	var colors := {}
+	avatar_colors(hub.player.model,colors)
+	check(colors.size() == 9,"runtime avatar keeps nine distinct material colors")
 	var player_box := FieldAssets.bounds(hub.player)
 	check(player_box.size.y >= 1.6 and player_box.size.y <= 1.9,"player provides a roughly 1.8 m scale reference")
 	for i in range(3):
@@ -72,3 +75,12 @@ func normalized_skin(node: Node) -> bool:
 		if not normalized_skin(child):
 			return false
 	return true
+
+func avatar_colors(node: Node, colors: Dictionary) -> void:
+	if node is MeshInstance3D:
+		for surface in range(node.mesh.get_surface_count()):
+			var material: Material = node.get_active_material(surface)
+			if material is StandardMaterial3D:
+				colors[material.albedo_color.to_html()] = true
+	for child in node.get_children():
+		avatar_colors(child,colors)

@@ -62,3 +62,6 @@ not yet met. Publish this session to preview/ver-04-map01-art-pass, preserve ver
 
 ## V05 architecture review takes priority
 Read docs/v05-hero-building-review.md. Review only the hero café, preserve Map 01 and gameplay. Blender source lives under art_source/hero_cafe_v05, runtime GLB under assets/hero_cafe. Do not restore primitive building assembly. User avatar is user-owned, 52 bones, no clips; preserve original source bytes. Validate with tools/validate_hero_asset.py and display integration test. Publish V05 screenshots only to preview/ver-05-hero-building; preserve ver-01 through ver-04. User art approval is still pending; do not claim premium completion or start another map.
+
+## V06 user feedback supersedes architecture-only review
+The user likes the V05 house: preserve its GLB/materials/collision/lights. V06 changes grass and colors the user-owned avatar. Read docs/v06-grass-character-color.md. Runtime loads postal_worker_colored_v06.glb; preserve base.glb unchanged. Use tools/validate_v06_assets.py. Do not restore gray-only avatar or broad leaf meshes as grass. Preserve the 52-bone rig and existing movement. Save V06 review images on preview/ver-06-grass-character-color, retaining older versions. No new map or gameplay systems.

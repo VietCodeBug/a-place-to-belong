@@ -1,6 +1,6 @@
 extends SceneTree
-## V05 architecture-first review; camera 01 is the actual unmodified gameplay camera.
-var folder := "/tmp/forest-v05-captures"
+## V06 architecture-first review; camera 01 is the actual unmodified gameplay camera.
+var folder := "/tmp/forest-v06-captures"
 func _initialize() -> void: call_deferred("capture")
 func capture() -> void:
 	if DisplayServer.get_name()=="headless":
@@ -29,7 +29,11 @@ func capture() -> void:
 	await save_frame("04-golden-hour-exterior.png")
 	pose(camera,Vector3(10,12,12),Vector3(-2,5,-3),38)
 	await save_frame("05-roof-joinery.png")
-	print("V05 actual architecture review captured: ",folder)
+	pose(camera,Vector3(3.8,2.5,7.2),Vector3(0.85,1.32,2.7),32)
+	await save_frame("06-character-color.png")
+	pose(camera,Vector3(12,4,20),Vector3(6,0.15,14),42)
+	await save_frame("07-meadow-detail.png")
+	print("V06 actual architecture review captured: ",folder)
 	quit()
 func pose(camera: Camera3D,eye: Vector3,focus: Vector3,lens: float) -> void:
 	camera.position=eye

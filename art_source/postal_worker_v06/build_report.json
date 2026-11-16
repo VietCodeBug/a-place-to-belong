@@ -1,0 +1,29 @@
+{
+  "source_sha256": "d2be0aa5d6c98eaed3541fc3a4f56bde0f291c9d3747e234884a4aa29dc76232",
+  "output_sha256": "3e3f09569c3261db779aa6a0e786bb4bb0ad55f3d5bd185a72f65890557929b0",
+  "palette_srgb": {
+    "Skin": "D99B70",
+    "Hair": "493326",
+    "Jacket": "49776B",
+    "Shirt": "E8D9B5",
+    "Trousers": "425466",
+    "Boots": "69432E",
+    "Leather": "97633E",
+    "Brass": "C59B52",
+    "Sole": "352E29"
+  },
+  "faces_by_material": {
+    "Skin": 3894,
+    "Hair": 1836,
+    "Jacket": 2736,
+    "Shirt": 396,
+    "Trousers": 3286,
+    "Boots": 1114,
+    "Leather": 1043,
+    "Brass": 4,
+    "Sole": 691
+  },
+  "rig_bones": 52,
+  "method": "source-coordinate face material assignment, original topology and rig preserved",
+  "animations_added": 0
+}

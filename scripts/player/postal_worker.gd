@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		right_leg.rotation.x = -stride
 
 func load_user_avatar() -> bool:
-	var path := "res://assets/characters/postal_worker/base.glb"
+	var path := "res://assets/characters/postal_worker/postal_worker_colored_v06.glb"
 	if not ResourceLoader.exists(path):
 		return false
 	var avatar: Node3D = load(path).instantiate()

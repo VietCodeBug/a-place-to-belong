@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "origin": "Original Blender-authored curved blade modules for Forest Post Caf\u00e9",
+  "rights": "Project-authored; no third-party model or texture",
+  "workflow": "Previously authorized manual Blender workflow; game-dev CLI unavailable",
+  "files": [
+    {
+      "path": "assets/vegetation/meadow/tuft_0.glb",
+      "bytes": 3108,
+      "sha256": "4a43fad98105a1eddda80bbd9c0c4d6fb4ef37fe2106e59031f80b22094b7dad"
+    },
+    {
+      "path": "assets/vegetation/meadow/tuft_1.glb",
+      "bytes": 3688,
+      "sha256": "7257e8e2bf12029ceb53ffa0c0c67fc4bbb041d7c16f81a69a6d2dbfd27ee51c"
+    },
+    {
+      "path": "assets/vegetation/meadow/tuft_2.glb",
+      "bytes": 2816,
+      "sha256": "da936828dd317438ec60f14988b807dce656057efc0c66e26d565647cfa4c1e5"
+    },
+    {
+      "path": "art_source/meadow_v06/build_grass.py",
+      "bytes": 2112,
+      "sha256": "747611fd8c8df9cda3e10013d21e6c4e197447ba4240777981eb3a6d3ce0e562"
+    },
+    {
+      "path": "art_source/meadow_v06/meadow_tufts.blend",
+      "bytes": 488900,
+      "sha256": "9b10adae1fa18be7b8a9e285eb534263a7fd7f1318977a70efd8be1950bc19ab"
+    },
+    {
+      "path": "art_source/meadow_v06/build_report.json",
+      "bytes": 282,
+      "sha256": "82930bf452cdda94fdbd1568d1f2ebf94e9b738d70c29eb66ad2fc5eaf8423f1"
+    }
+  ]
+}

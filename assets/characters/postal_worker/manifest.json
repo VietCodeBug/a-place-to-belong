@@ -6,8 +6,29 @@
   "files": [
     {
       "path": "assets/characters/postal_worker/base.glb",
-      "sha256": "d2be0aa5d6c98eaed3541fc3a4f56bde0f291c9d3747e234884a4aa29dc76232",
-      "bytes": 1031952
+      "bytes": 1031952,
+      "sha256": "d2be0aa5d6c98eaed3541fc3a4f56bde0f291c9d3747e234884a4aa29dc76232"
+    },
+    {
+      "path": "assets/characters/postal_worker/postal_worker_colored_v06.glb",
+      "bytes": 821532,
+      "sha256": "3e3f09569c3261db779aa6a0e786bb4bb0ad55f3d5bd185a72f65890557929b0"
+    },
+    {
+      "path": "art_source/postal_worker_v06/color_avatar.py",
+      "bytes": 3385,
+      "sha256": "7f96df6acfb276e3107129b6e5a18f8d85b68978bd6b5ffe205df8201fb579c4"
+    },
+    {
+      "path": "art_source/postal_worker_v06/postal_worker_colored_v06.blend",
+      "bytes": 2893692,
+      "sha256": "40fadf9ef747e4dfe8e9809df6021bedc3779f5b05d5626ab68cb4242d8d8948"
+    },
+    {
+      "path": "art_source/postal_worker_v06/build_report.json",
+      "bytes": 748,
+      "sha256": "0b3ee0292960c4fe90732f8d14fcf7ab7d7d751a29d5f3f0bf5ce13093d38055"
     }
-  ]
+  ],
+  "derivative": "V06: nine material regions applied to user-owned model; triangle count and named 52-joint skin preserved; no animations added"
 }

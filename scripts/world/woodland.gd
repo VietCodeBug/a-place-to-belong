@@ -37,11 +37,15 @@ func _ready() -> void:
 		var n := MultiMeshInstance3D.new()
 		n.multimesh = mm
 		n.material_override = item.material
+		if item.material.resource_name.begins_with("Meadow"):
+			n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(n)
 	batches.clear()
 
 func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural") -> void:
 	var pack := "quaternius" if asset.begins_with("PineTree") or asset.begins_with("BirchTree") or asset in ["Bush_1","Rock_Moss_1"] else "nature"
+	if asset.begins_with("tuft_"):
+		pack = "meadow"
 	var model := A.model(pack,asset,height)
 	A.style(model,role,layer)
 	model.position = at
@@ -77,27 +81,42 @@ func trunk_collision(at: Vector3, height: float) -> void:
 	add_child(body)
 	body.position = at
 
+func meadow_tuft(p: Vector2, height: float, yaw: float) -> void:
+	if ForestLandscape.on_road(p,0.18) or (absf(p.x)<8.4 and p.y<5.1):
+		return
+	plant("tuft_"+str(rng.randi_range(0,2)),Vector3(p.x,ForestLandscape.height_at(p.x,p.y)-0.008,p.y),height,yaw)
+
 func gardens() -> void:
+	# Fine blades in unequal meadow islands; retain open, short lawn around the porch.
 	var centers := [Vector2(-10,5),Vector2(11,5),Vector2(-8,15),Vector2(7,15),Vector2(-10,-4),Vector2(14,-9)]
 	for k in range(centers.size()):
 		var center: Vector2 = centers[k]
-		for i in range(20):
+		for i in range(95):
 			var a := rng.randf()*TAU
-			var p := center+Vector2(cos(a),sin(a))*sqrt(rng.randf())*2.2
-			if ForestLandscape.on_road(p,0.35):
+			var radius := sqrt(rng.randf())
+			var p := center+Vector2(cos(a)*3.1,sin(a)*1.7)*radius
+			# Thin the fringe instead of making a circular ring of identical clumps.
+			if radius>0.7 and rng.randf()<0.45:
 				continue
-			var at := Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y)
-			plant("grass_large" if i%2 else "grass_leafs",at,rng.randf_range(0.18,0.4),a)
-			if i%7 == 0:
-				plant("flower_yellowA",at,0.3,a)
+			for tuft in range(4):
+				var offset := Vector2(rng.randf_range(-0.20,0.20),rng.randf_range(-0.20,0.20))
+				meadow_tuft(p+offset,rng.randf_range(0.11,0.25),a+tuft)
+			if i%32 == 0 and not ForestLandscape.on_road(p,0.5):
+				plant("flower_yellowA",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.18,a)
 		for i in range(2):
 			var p := center+Vector2(i*0.8-0.4,-0.6)
 			plant("Bush_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.7+i*0.12,i)
 		var p := center+Vector2(0.4,0.8)
 		plant("Rock_Moss_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.65,k)
-	for i in range(70):
-		var p := ForestLandscape.road_point(rng.randf())
-		p.x += (1.0 if i%2 else -1.0)*(ClearingLayout.path_half_width(p.y)+rng.randf_range(0.15,0.65))
-		plant("grass_leafs",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),rng.randf_range(0.15,0.28),i)
+	# Broken, wider bands beside the path; no evenly spaced oversized leaves.
+	for i in range(210):
+		var t := rng.randf()
+		if sin(t*29.0)>0.68:
+			continue
+		var p := ForestLandscape.road_point(t)
+		p.x += (1.0 if i%2 else -1.0)*(ClearingLayout.path_half_width(p.y)+rng.randf_range(0.25,1.4))
+		for tuft in range(3):
+			var offset := Vector2(rng.randf_range(-0.16,0.16),rng.randf_range(-0.16,0.16))
+			meadow_tuft(p+offset,rng.randf_range(0.09,0.20),rng.randf()*TAU)
 	plant("stump_roundDetailed",Vector3(8,ForestLandscape.height_at(8,12),12),0.65,0.3)
 	plant("log_stack",Vector3(-10,ForestLandscape.height_at(-10,0),0),0.7,0.5)
