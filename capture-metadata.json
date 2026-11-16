@@ -1,0 +1,47 @@
+{
+  "code_commit": "2960ead726adf9c036633637dd172162c4162de1",
+  "before_code_commit": "e7844db23c3a7a10f1bfe5228eeaed9fbf9fe5cc",
+  "renderer": "Godot 4.6.3 Compatibility, Mesa llvmpipe",
+  "resolution": [
+    1280,
+    720
+  ],
+  "active_player": "samatha",
+  "joe": "inactive, gray-only source",
+  "eggeght": "NPC, retained V06 appearance",
+  "idle": "static lowered-arm pose, no idle clip supplied",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "d63f0917df850d695aa2d22abd5cb61fd13a67d4402c77cba226cf8a675fa957"
+    },
+    {
+      "path": "after/01-samatha-gameplay.png",
+      "sha256": "2baf55624fcd4b5f5303bfe1417b1bd3925ed4a169dd9cd702a7bc4c7aec7d6d"
+    },
+    {
+      "path": "after/02-samatha-original-color.png",
+      "sha256": "1b50f3ffe498fb4b1f4d414c1e2af60c0405f529155c853d0c93ab0d46d873d2"
+    },
+    {
+      "path": "after/03-samatha-face.png",
+      "sha256": "bc72cf2fd49f17b11f9e41705c5bd8656a2ca663d7667c83d09feeced8006078"
+    },
+    {
+      "path": "after/04-eggeght-npc.png",
+      "sha256": "c532c5b7afb35def9816566c50341fba1af87a9b953307931a5057f4d53f88b5"
+    },
+    {
+      "path": "after/05-samatha-walking.png",
+      "sha256": "8c2e21c9bfdaa100f2d0836ad474313b662a3146f685232f9c1a2cf09445f450"
+    },
+    {
+      "path": "before/01-gameplay-hero.png",
+      "sha256": "c37cc56beb91979e88a22703a3f29640f9926c5047fded7941fca300335473e5"
+    },
+    {
+      "path": "before/06-character-color.png",
+      "sha256": "5366ca9415bc1f32a5cdf1260c304d83f9aa145a6532257bbe0607151ee241b4"
+    }
+  ]
+}
