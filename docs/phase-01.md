@@ -62,3 +62,6 @@ quests, inventory, multiplayer, save/load, and time-of-day systems are out of sc
 
 The current Early Autumn art pass and three rendered review angles are documented
 in [early-autumn-art-pass.md](early-autumn-art-pass.md).
+
+The current external-model replacement, licenses and measured dimensions are in
+[asset-kitbash-slice.md](asset-kitbash-slice.md). Earlier art-pass images are historical.

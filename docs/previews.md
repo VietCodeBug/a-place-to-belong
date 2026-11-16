@@ -1,0 +1,18 @@
+# Versioned preview branches
+
+Each visual review session publishes its images to its own `preview/ver-XX-name`
+branch. These branches contain only PNGs and a README with source commit, capture
+method, renderer and limitations. Keep screenshots out of gameplay branches; keep
+runtime textures and licensed source assets in the game project.
+
+| Version | Preview branch | Code reference |
+| --- | --- | --- |
+| ver-01 | [early-autumn](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-01-early-autumn) | 1950ce3 |
+| ver-02 | [composition-depth](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-02-composition-depth) | 31c43cb |
+| ver-03 | [kenney-kitbash](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-03-kenney-kitbash) | feature/licensed-asset-vertical-slice; full SHA in preview README |
+
+The initial foundation session has no retained committed screenshot set; it is not
+relabelled using later images. Prior images remain recoverable in Git history.
+
+Future sessions increment the version, preserve old preview branches, and record
+the exact code commit. The game PR links its preview branch instead of adding PNGs.

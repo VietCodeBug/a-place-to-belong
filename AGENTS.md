@@ -36,3 +36,16 @@ Latest composition guide: docs/composition-depth-pass.md. ClearingLayout owns th
 path curve/width; use it for road edges and verge planting. Preserve the open roof
 sightline, the southeast camera corridor, the left seating cluster and right postal
 corner. Background trees must use the same elevation function as their terrain.
+
+Current environment uses licensed external Kenney GLBs. Read docs/asset-kitbash-slice.md
+and assets/vendor/kenney/README.md. FieldAssets owns runtime normalization/material
+styling; cafe_kit.gd assembles imported architecture. Preserve source bytes and
+manifest.json; verify with python tools/verify_vendor_assets.py. Do not restore
+procedural cone trees or treat player/bicycle/mailbox placeholders as production.
+Run tests/imported_assets_test.gd with a real rendering display (GPU MultiMesh
+readback); keep tests/smoke_test.gd for headless gameplay regression.
+
+Publish each session's review screenshots to a separate preview/ver-XX-name branch,
+with its code SHA in a README. See docs/previews.md. Keep screenshot PNGs out of
+code branches and preserve older preview versions. Runtime asset textures stay in
+assets/vendor; this rule concerns review images.

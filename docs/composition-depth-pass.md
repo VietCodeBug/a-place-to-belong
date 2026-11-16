@@ -37,11 +37,11 @@ Palette mùa thu vẫn tách riêng. Chưa thêm chuyển mùa, thời tiết ha
 Giữ ảnh art pass trước trong `screenshots/early-autumn/` để so sánh. Ảnh mới ở dưới
 được chụp cùng ba góc bằng Godot 4.6.3 / OpenGL Compatibility / Mesa llvmpipe:
 
-![Camera chơi thật, giữ UI](screenshots/composition-depth/01-playable-view.png)
+![Camera chơi thật, giữ UI](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-02-composition-depth/01-playable-view.png)
 
-![Bố cục gần–trung–xa](screenshots/composition-depth/02-woodland-clearing.png)
+![Bố cục gần–trung–xa](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-02-composition-depth/02-woodland-clearing.png)
 
-![Góc café và nhận thư](screenshots/composition-depth/03-cafe-porch.png)
+![Góc café và nhận thư](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-02-composition-depth/03-cafe-porch.png)
 
 Tái tạo với display thật/ảo có OpenGL:
 
@@ -59,3 +59,5 @@ art pass trước. Không dùng ảnh headless để đánh giá hình ảnh.
   khóa di chuyển trong panel, camera follow và zoom.
 - Đã render và xem cả ba ảnh 1280×720. Cảnh báo V-Sync trên Xorg dummy là giới hạn
   display kiểm thử; chưa chạy native Windows hay đo hiệu năng trên phần cứng PC.
+
+Bộ preview riêng: [preview/ver-02-composition-depth](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-02-composition-depth).

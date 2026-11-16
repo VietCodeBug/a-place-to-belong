@@ -30,11 +30,11 @@ Có thể tạo palette mùa khác và truyền vào woodland mà không đổi 
 
 Ảnh PNG 1280×720 từ Godot 4.6.3 / OpenGL Compatibility / Mesa llvmpipe:
 
-![Góc chơi với UI](screenshots/early-autumn/01-playable-view.png)
+![Góc chơi với UI](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-01-early-autumn/01-playable-view.png)
 
-![Khoảng rừng và café](screenshots/early-autumn/02-woodland-clearing.png)
+![Khoảng rừng và café](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-01-early-autumn/02-woodland-clearing.png)
 
-![Chi tiết hiên café](screenshots/early-autumn/03-cafe-porch.png)
+![Chi tiết hiên café](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-01-early-autumn/03-cafe-porch.png)
 
 Tái tạo bằng display có renderer thật (không dùng --headless):
 
@@ -59,3 +59,5 @@ Góc 01 giữ nguyên follow camera và UI khi chơi; góc 02/03 chỉ phục v�
 
 Lượt chỉnh bố cục tiếp theo: [Composition & depth](composition-depth-pass.md), có
 ảnh mới đặt cạnh ảnh cũ theo cùng góc máy và báo cáo thay đổi không gian/props.
+
+Bộ preview riêng: [preview/ver-01-early-autumn](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-01-early-autumn).
