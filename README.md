@@ -30,7 +30,7 @@ Each day begins at your counter: brew something warm, sort the incoming post, an
 
 ## The rhythm of a day
 
-\`\`\`text
+```text
 Open the café
       ↓
 Receive and sort letters
@@ -44,7 +44,7 @@ Deliver, meet neighbors, and uncover stories
 Help restore connections across the community
       ↓
 Return to the café, unwind, and make it yours
-\`\`\`
+```
 
 Days should feel lived in, not optimized. The player can linger in a place, take a detour, and enjoy the weather without racing a clock.
 
@@ -61,7 +61,7 @@ The art direction is established, but the six original concept images have **not
 | **[Lakeside Village](docs/art-prompts.md#05-lakeside-villagepng)** | Little cottages gathered around still water and mountain air. |
 | **[Forest evening](docs/art-prompts.md#06-forest-eveningpng)** | Rain, glowing windows, and the comfort of returning home. |
 
-All future artwork will live in \`assets/concept-art/\`. The [art direction guide](docs/art-direction.md) and [production-ready artwork briefs](docs/art-prompts.md) define the visual rules shared by every scene.
+All future artwork will live in `assets/concept-art/`. The [art direction guide](docs/art-direction.md) and [production-ready artwork briefs](docs/art-prompts.md) define the visual rules shared by every scene.
 
 ## Planned features
 
