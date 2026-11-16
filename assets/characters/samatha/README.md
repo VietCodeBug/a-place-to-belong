@@ -7,3 +7,5 @@ WASD dùng Walking, Shift dùng Running. Không có idle clip trong file: dùng 
 Controller/camera/collider người chơi tiếp tục dùng scene `scenes/player/postal_worker.tscn`; metadata nhận diện Samatha. Nguồn GLB chuẩn hóa trọng số trên bản mesh runtime, giữ UV/material/texture. Cao 1,7 m. Scene visual riêng `scenes/characters/samatha.tscn` dùng để tái sử dụng.
 
 Nguồn do người dùng cung cấp cho prototype; không có paid generation và không tự gán CC0. SHA-256 và tên nguồn đầy đủ trong manifest. Chưa có đo hiệu năng phần cứng Windows.
+
+Godot import tự trích ba PNG nhúng thành file `samatha_texture_*.png` kề GLB. Các PNG runtime này được giữ cùng sidecar và ghi hash riêng trong manifest; không phải ảnh preview hay texture tô mới.
