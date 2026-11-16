@@ -1,0 +1,54 @@
+{
+  "code_commit": "c3adaabbad695a854eaa6a8c5238e0d601d1883a",
+  "before_code_commit": "aa5f7181f9d29abbbfb6791fe2070a6895112eff",
+  "engine": "Godot 4.6.3",
+  "renderer": "Compatibility OpenGL 4.5 Mesa llvmpipe",
+  "capture": "actual Godot viewport",
+  "resolution": [
+    1280,
+    720
+  ],
+  "review_status": "awaiting user art approval",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "d49a722ec06cce29912ad09fa5b45a791bc580d579f2f0f1abe672741a21d3e3"
+    },
+    {
+      "path": "after/01-gameplay-hero.png",
+      "sha256": "75e53a34ace824517b057e9504466d73ef7e47f44c4d5e84a2236ee51a1f4439"
+    },
+    {
+      "path": "after/02-wood-material-closeup.png",
+      "sha256": "1cf8f8f33e2eac05414b1e787539e14e230f0f8e216c49138c90987d0650aa89"
+    },
+    {
+      "path": "after/03-player-entrance-scale.png",
+      "sha256": "28c35541c536cf2b444cc7eb1c83631626bed583c538f02f4ccde71690c3bf52"
+    },
+    {
+      "path": "after/04-golden-hour-exterior.png",
+      "sha256": "1a90711146e6fa1083e841d59dbde86464ae0ef6ded22689d2b486e902f1bacd"
+    },
+    {
+      "path": "after/05-roof-joinery.png",
+      "sha256": "debb4dd061cfdb957ab085b89d4584aaaa2aa52be6a84b745a71bf6e553fd241"
+    },
+    {
+      "path": "before/01-map01-gameplay.png",
+      "sha256": "d21066d64e7047fef77032c38ab0633abb9fbcc36f8411274b6f0c0e60642a72"
+    },
+    {
+      "path": "before/02-cafe-player-scale.png",
+      "sha256": "a7461686dcf1f975c671ceb7824239efc8dc972ea20ed2aa2bbcf6b30d6476cb"
+    },
+    {
+      "path": "before/03-architecture-detail.png",
+      "sha256": "7bc2346f554bc2a6d73a690bcd3f720bde8d494abbc68056f41afa597b3ff39d"
+    },
+    {
+      "path": "before/05-map01-wide.png",
+      "sha256": "308eee1477315f57a1e98b55200dc9c9c58ff80f567673101583ada205b71f55"
+    }
+  ]
+}
