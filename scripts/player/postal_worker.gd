@@ -1,25 +1,35 @@
 extends CharacterBody3D
-
+## Samatha is the temporary player; retain supplied textures and animation clips.
+const AVATAR = preload("res://assets/characters/samatha/samatha.glb")
 var blocked := false
 var state := "idle"
-var walk_time := 0.0
 @onready var model: Node3D = $Model
-var left_leg: MeshInstance3D
-var right_leg: MeshInstance3D
+var animation_player: AnimationPlayer
+var avatar_skeleton: Skeleton3D
+var idle_arms: Dictionary = {}
+var idle_applied := false
+var walking_clip := ""
+var running_clip := ""
 
 func _ready() -> void:
-	if load_user_avatar():
-		return
-	ForestShapes.box(model, Vector3(0,1.0,0), Vector3(0.55,0.6,0.32), "496B59")
-	ForestShapes.box(model, Vector3(0,1.53,0), Vector3(0.48,0.45,0.43), "E5BA93")
-	ForestShapes.cone(model, Vector3(0,1.79,0), 0.32, 0.13, "C87760", 0.27)
-	for x in [-0.12,0.12]:
-		ForestShapes.box(model, Vector3(x,1.56,-0.222), Vector3(0.045,0.045,0.02), "343C38")
-	for x in [-0.36,0.36]:
-		ForestShapes.box(model, Vector3(x,0.99,0), Vector3(0.15,0.56,0.2), "B88254")
-	left_leg = ForestShapes.box(model, Vector3(-0.16,0.36,0), Vector3(0.22,0.65,0.25), "384E52")
-	right_leg = ForestShapes.box(model, Vector3(0.16,0.36,0), Vector3(0.22,0.65,0.25), "384E52")
-	ForestShapes.box(model, Vector3(0.34,0.8,0.12), Vector3(0.24,0.35,0.3), "C87760")
+	var avatar: Node3D = AVATAR.instantiate()
+	var box := FieldAssets.bounds(avatar)
+	avatar.scale *= 1.7/maxf(0.001,box.size.y)
+	avatar.rotation.y = PI
+	avatar.position -= avatar.basis*Vector3(box.get_center().x,box.position.y,box.get_center().z)
+	normalize_skin_weights(avatar)
+	model.add_child(avatar)
+	avatar_skeleton = find_skeleton(avatar)
+	animation_player = find_animation_player(avatar)
+	if animation_player != null:
+		for clip in animation_player.get_animation_list():
+			if clip == "RESET":
+				continue
+			animation_player.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
+			if clip.ends_with("Walking"): walking_clip = clip
+			if clip.ends_with("Running"): running_clip = clip
+	prepare_idle_arms()
+	update_animation(false,false)
 
 func _physics_process(delta: float) -> void:
 	var input := Vector2.ZERO if blocked else Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -34,68 +44,60 @@ func _physics_process(delta: float) -> void:
 	state = "walking" if direction.length() > 0.1 else "idle"
 	if state == "walking":
 		model.rotation.y = lerp_angle(model.rotation.y, atan2(-direction.x,-direction.z), 1-exp(-12*delta))
-		walk_time += delta*9
-	var stride := sin(walk_time)*0.22 if state == "walking" else 0.0
-	if left_leg != null:
-		left_leg.rotation.x = stride
-	if right_leg != null:
-		right_leg.rotation.x = -stride
+	update_animation(state == "walking",Input.is_action_pressed("jog"))
 
-func load_user_avatar() -> bool:
-	var path := "res://assets/characters/postal_worker/postal_worker_colored_v06.glb"
-	if not ResourceLoader.exists(path):
-		return false
-	var avatar: Node3D = load(path).instantiate()
-	var box := FieldAssets.bounds(avatar)
-	var factor := 1.8/maxf(0.001,box.size.y)
-	avatar.scale *= factor
-	avatar.rotation.y = PI
-	avatar.position -= avatar.basis*Vector3(box.get_center().x,box.position.y,box.get_center().z)
-	normalize_skin_weights(avatar)
-	matte_avatar(avatar)
-	model.add_child(avatar)
-	var skeleton := find_skeleton(avatar)
-	if skeleton != null:
-		relax_arms(skeleton)
-	return true
+
+func update_animation(moving: bool, jogging: bool) -> void:
+	if moving and animation_player != null:
+		idle_applied = false
+		var clip := running_clip if jogging else walking_clip
+		if not clip.is_empty() and (not animation_player.is_playing() or animation_player.current_animation != clip):
+			animation_player.play(clip,0.15)
+	elif not idle_applied:
+		if animation_player != null:
+			animation_player.stop()
+		if avatar_skeleton != null:
+			avatar_skeleton.reset_bone_poses()
+			for index in idle_arms:
+				avatar_skeleton.set_bone_pose_rotation(index,idle_arms[index])
+		idle_applied = true
+
+func prepare_idle_arms() -> void:
+	# No idle clip was supplied: use a quiet static pose, not the walking cycle.
+	if avatar_skeleton == null: return
+	avatar_skeleton.reset_bone_poses()
+	for side in ["Left","Right"]:
+		var index := bone_suffix(avatar_skeleton,side+"Arm")
+		var forearm := bone_suffix(avatar_skeleton,side+"ForeArm")
+		if index < 0 or forearm < 0: continue
+		var pose := avatar_skeleton.get_bone_global_pose(index)
+		var child := avatar_skeleton.get_bone_global_pose(forearm)
+		var direction := (child.origin-pose.origin).normalized()
+		var desired := Vector3(0.18 if pose.origin.x>0 else -0.18,-0.98,0.03).normalized()
+		var world_rotation := Basis(Quaternion(direction,desired))*pose.basis
+		var parent := avatar_skeleton.get_bone_parent(index)
+		var parent_basis := avatar_skeleton.get_bone_global_pose(parent).basis if parent >= 0 else Basis.IDENTITY
+		var local := parent_basis.inverse()*world_rotation
+		idle_arms[index] = local.orthonormalized().get_rotation_quaternion()
+
+func bone_suffix(skeleton: Skeleton3D, suffix: String) -> int:
+	for index in range(skeleton.get_bone_count()):
+		if skeleton.get_bone_name(index).ends_with(suffix): return index
+	return -1
 
 func find_skeleton(node: Node) -> Skeleton3D:
-	if node is Skeleton3D:
-		return node
+	if node is Skeleton3D: return node
 	for child in node.get_children():
 		var result := find_skeleton(child)
-		if result != null:
-			return result
+		if result != null: return result
 	return null
 
-func relax_arms(skeleton: Skeleton3D) -> void:
-	# A static review pose, not an invented animation clip; skin and 52 bones stay intact.
-	for bone_name in ["LeftArm","RightArm"]:
-		var index := skeleton.find_bone(bone_name)
-		var forearm := skeleton.find_bone("LeftForeArm" if bone_name == "LeftArm" else "RightForeArm")
-		if index < 0 or forearm < 0:
-			continue
-		var pose := skeleton.get_bone_global_pose(index)
-		var child := skeleton.get_bone_global_pose(forearm)
-		var direction := (child.origin-pose.origin).normalized()
-		var desired := Vector3(0.25 if pose.origin.x>0 else -0.25,-0.96,0.04).normalized()
-		var world_rotation := Basis(Quaternion(direction,desired))*pose.basis
-		var parent := skeleton.get_bone_parent(index)
-		var parent_basis := skeleton.get_bone_global_pose(parent).basis if parent >= 0 else Basis.IDENTITY
-		var local := skeleton.get_bone_rest(index).basis.inverse()*parent_basis.inverse()*world_rotation
-		skeleton.set_bone_pose_rotation(index,local.orthonormalized().get_rotation_quaternion())
-
-func matte_avatar(node: Node) -> void:
-	if node is MeshInstance3D:
-		for i in range(node.mesh.get_surface_count()):
-			var source: Material = node.get_active_material(i)
-			if source is StandardMaterial3D:
-				var material: StandardMaterial3D = source.duplicate()
-				material.roughness = 0.8
-				material.metallic = 0.0
-				node.set_surface_override_material(i,material)
+func find_animation_player(node: Node) -> AnimationPlayer:
+	if node is AnimationPlayer: return node
 	for child in node.get_children():
-		matte_avatar(child)
+		var result := find_animation_player(child)
+		if result != null: return result
+	return null
 
 func normalize_skin_weights(node: Node) -> void:
 	# Preserve the source GLB; normalize its imported skin weights on a runtime mesh copy.

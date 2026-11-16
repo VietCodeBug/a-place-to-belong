@@ -25,3 +25,5 @@ expansion direction was superseded; no new map is part of this version.
 V05: [Hero building review](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-hero-building), five Godot after captures and V04 before references. Source and limitations: [review](v05-hero-building-review.md).
 
 V06: [Grass and character colors](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-06-grass-character-color). [Vietnamese report](v06-grass-character-color.md). House V05 preserved.
+
+V07: [Samatha temporary player](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-07-samatha-player). Original color textures, lowered idle arms, eggeght NPC; Joe excluded because gray. [Vietnamese report](v07-character-roles.md).

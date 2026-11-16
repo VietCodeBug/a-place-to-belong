@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "origin": "User upload, 2026-11-16",
+  "source_filename": "Meshy_AI_61e43d46143775914cf9d73200ac528f_reduced_20261116_animated_mixamo_All_animation.glb",
+  "rights": "User supplied for this prototype; no third-party CC0 license inferred or separate commercial license verification claimed",
+  "status": "Temporary player, user-selected after embedded color texture review",
+  "rig_joints": 66,
+  "animation_clips": [
+    "Running",
+    "Walking",
+    "Casual_Walk"
+  ],
+  "workflow": "Unmodified GLB, manual structural/texture inspection and Godot import; no generation provider used",
+  "files": [
+    {
+      "path": "assets/characters/samatha/samatha.glb",
+      "bytes": 26785556,
+      "sha256": "1647b9c21670479476bcf9b4657bf7a204f03542d1728e6581d59017ec77f03b"
+    }
+  ]
+}

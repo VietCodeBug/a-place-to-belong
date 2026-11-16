@@ -28,6 +28,10 @@ func _ready() -> void:
 	forest.name = "LicensedWoodland"
 	forest.set_script(preload("res://scripts/world/woodland.gd"))
 	add_child(forest)
+	var eggeght := preload("res://scenes/npc/eggeght.tscn").instantiate()
+	eggeght.name = "Eggeght"
+	add_child(eggeght)
+	eggeght.position = ground(-5.4,6.8)
 	player = preload("res://scenes/player/postal_worker.tscn").instantiate()
 	player.name = "Player"
 	add_child(player)

@@ -37,13 +37,27 @@ func run() -> void:
 	var porch_box := FieldAssets.bounds(porch)
 	check(porch_box.size.x >= 15 and porch_box.size.z >= 4,"porch is at least 15 x 4 m")
 	var skeleton: Skeleton3D = hub.player.find_skeleton(hub.player.model)
-	check(skeleton != null and skeleton.get_bone_count() == 52,"user avatar preserves all 52 rig bones")
+	check(skeleton != null and skeleton.get_bone_count() == 66,"Samatha player preserves all 66 supplied rig bones")
 	check(normalized_skin(hub.player.model),"runtime skin weight sums are normalized")
-	var colors := {}
-	avatar_colors(hub.player.model,colors)
-	check(colors.size() == 9,"runtime avatar keeps nine distinct material colors")
+	check(hub.player.get_meta("character_id") == "samatha","Samatha is the temporary player")
+	check(has_textured_material(hub.player.model),"player retains original color and normal textures")
+	check(arms_lowered(hub.player),"idle shoulders place both arms down, not in T-pose")
+	var eggeght: Node3D = hub.get_node("Eggeght")
+	check(eggeght is StaticBody3D and eggeght.get_meta("role") == "npc","eggeght is an NPC, not a second player controller")
+	check(hub.find_child("Joe",true,false) == null,"uncolored Joe is absent from the active hub")
+	Input.action_press("move_up")
+	for frame in range(4): await physics_frame
+	check(hub.player.animation_player.is_playing() and hub.player.animation_player.current_animation.ends_with("Walking"),"WASD selects the supplied Walking clip")
+	Input.action_press("jog")
+	for frame in range(4): await physics_frame
+	check(hub.player.animation_player.current_animation.ends_with("Running"),"Shift selects the supplied Running clip")
+	Input.action_release("move_up")
+	Input.action_release("jog")
+	for frame in range(4): await physics_frame
+	check(not hub.player.animation_player.is_playing(),"release returns to a static idle pose")
+	check(arms_lowered(hub.player),"arms stay lowered after walking/running stops")
 	var player_box := FieldAssets.bounds(hub.player)
-	check(player_box.size.y >= 1.6 and player_box.size.y <= 1.9,"player provides a roughly 1.8 m scale reference")
+	check(player_box.size.y >= 1.6 and player_box.size.y <= 1.9,"Samatha provides a roughly 1.7 m scale reference")
 	for i in range(3):
 		await process_frame
 	await RenderingServer.frame_post_draw
@@ -76,11 +90,22 @@ func normalized_skin(node: Node) -> bool:
 			return false
 	return true
 
-func avatar_colors(node: Node, colors: Dictionary) -> void:
+func has_textured_material(node: Node) -> bool:
 	if node is MeshInstance3D:
 		for surface in range(node.mesh.get_surface_count()):
 			var material: Material = node.get_active_material(surface)
-			if material is StandardMaterial3D:
-				colors[material.albedo_color.to_html()] = true
+			if material is StandardMaterial3D and material.albedo_texture != null and material.normal_texture != null:
+				return true
 	for child in node.get_children():
-		avatar_colors(child,colors)
+		if has_textured_material(child): return true
+	return false
+
+func arms_lowered(player: Node) -> bool:
+	var skeleton: Skeleton3D = player.avatar_skeleton
+	for side in ["Left","Right"]:
+		var shoulder: int = player.bone_suffix(skeleton,side+"Arm")
+		var elbow: int = player.bone_suffix(skeleton,side+"ForeArm")
+		if shoulder<0 or elbow<0: return false
+		var direction := (skeleton.get_bone_global_pose(elbow).origin-skeleton.get_bone_global_pose(shoulder).origin).normalized()
+		if direction.y > -0.85: return false
+	return true
