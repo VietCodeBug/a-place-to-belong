@@ -1,10 +1,15 @@
 class_name ForestShapes
 extends RefCounted
 
+static var materials: Dictionary = {}
+
 static func material(hex: String) -> StandardMaterial3D:
+	if materials.has(hex):
+		return materials[hex]
 	var m := StandardMaterial3D.new()
 	m.albedo_color = Color(hex)
 	m.roughness = 1.0
+	materials[hex] = m
 	return m
 
 static func mesh(parent: Node3D, shape: Mesh, at: Vector3, color: String) -> MeshInstance3D:

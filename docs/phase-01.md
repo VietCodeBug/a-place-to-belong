@@ -42,7 +42,7 @@ godot --headless --path . --script tests/smoke_test.gd
 The functional suite checks ground contact, movement, stopping/idle, building
 collision, nearby/far mailbox selection, E opening the exact welcome message,
 modal movement lock, Esc dismissal, zoom minimum, and smooth follow convergence.
-`tools/capture.gd` captures an actual rendered frame to /tmp/forest-post-cafe.png
+`tools/capture.gd` captures an actual rendered frame to /tmp/forest-captures/
 when run with a working display; headless mode is not a graphics test.
 
 Validated in cloud: editor import, 120-frame startup, 13 functional assertions,
@@ -59,3 +59,6 @@ Before expanding Phase 02, playtest controls and camera on Windows, tune input a
 accessibility, profile representative hardware, replace the character asset, then
 prototype one short delivery route. Bicycle riding, café management, NPC stories,
 quests, inventory, multiplayer, save/load, and time-of-day systems are out of scope.
+
+The current Early Autumn art pass and three rendered review angles are documented
+in [early-autumn-art-pass.md](early-autumn-art-pass.md).

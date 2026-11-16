@@ -7,8 +7,9 @@ status and play instructions are in docs/phase-01.md.
 
 Use the existing isolated checkout; do not create worktrees unless requested.
 Architecture: scenes/world/forest_hub.tscn composes the hub; reusable player and
-mailbox scenes live in scenes/player and scenes/props. ForestShapes builds matte
-primitive geometry; player movement, camera and interactions have separate scripts.
+mailbox scenes live in scenes/player and scenes/props. ForestShapes builds shared matte
+primitive geometry; woodland.gd batches clustered vegetation, with seasonal art
+data in ForestPalette / assets/palettes/early_autumn.tres; player movement, camera and interactions have separate scripts.
 Interactables join the interactables group and expose interaction_radius,
 interaction_name and an activated(title, message) signal. UI owns modal input lock.
 
@@ -26,3 +27,7 @@ Validation (from repository root):
 - With a display: godot --path . (manually check visuals, WASD, Shift, wheel, E, Esc).
 Headless checks do not establish Windows or graphical playtesting. Commit .uid
 sidecars. Work on feature branches and submit a PR; never auto-merge.
+
+Current visual target: Early Autumn Cozy Forest. See docs/early-autumn-art-pass.md
+for composition, palette, capture commands and screenshots. Keep the clearing and
+mailbox approach open; do not scatter large trees into the southeast camera corridor.

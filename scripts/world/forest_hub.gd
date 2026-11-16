@@ -3,29 +3,45 @@ const S = preload("res://scripts/world/shapes.gd")
 var player: CharacterBody3D
 var mailbox: Node3D
 var ui: CanvasLayer
+const PALETTE = preload("res://assets/palettes/early_autumn.tres")
 
 func _ready() -> void:
 	configure_inputs()
 	var environment := WorldEnvironment.new()
 	var settings := Environment.new()
 	settings.background_mode = Environment.BG_COLOR
-	settings.background_color = Color("B6CFCE")
+	settings.background_color = PALETTE.haze
 	settings.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	settings.ambient_light_color = Color("F6E8D0")
-	settings.ambient_light_energy = 0.4
+	settings.ambient_light_color = Color("DBDDC8")
+	settings.ambient_light_energy = 0.45
+	settings.fog_enabled = true
+	settings.fog_light_color = PALETTE.haze
+	settings.fog_light_energy = 0.7
+	settings.fog_mode = Environment.FOG_MODE_DEPTH
+	settings.fog_depth_begin = 24.0
+	settings.fog_depth_end = 100.0
+	settings.fog_depth_curve = 1.4
+	settings.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	environment.environment = settings
 	add_child(environment)
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-38,-35,0)
-	sun.light_color = Color("FFE1AF")
-	sun.light_energy = 0.7
+	sun.rotation_degrees = Vector3(-48,-48,0)
+	sun.light_color = Color("FFE3B8")
+	sun.light_energy = 0.55
+	sun.directional_shadow_max_distance = 65
+	sun.shadow_blur = 2.0
+	sun.shadow_normal_bias = 2.0
+	sun.shadow_bias = 0.12
+	sun.light_angular_distance = 2.5
 	sun.shadow_enabled = true
 	add_child(sun)
-	S.box(self,Vector3(0,-0.3,0),Vector3(48,0.6,48),"78956D",true)
-	# A gently winding sandy route; broad overlapping patches avoid visible gaps.
-	for i in range(32):
-		var z := -8.0+i*0.95
-		S.cone(self,Vector3(sin(z*0.22)*2,0.012,z),1.8,0.025,"D8BF91",1.8)
+	S.box(self,Vector3(0,-0.3,0),Vector3(48,0.6,48),PALETTE.ground.to_html(),true)
+	S.box(self,Vector3(0,-0.85,-10),Vector3(160,0.6,160),"7B896C")
+	build_ground()
+	var woods := Node3D.new()
+	woods.name = "EarlyAutumnWoodland"
+	woods.set_script(preload("res://scripts/world/woodland.gd"))
+	add_child(woods)
 	build_cafe()
 	mailbox = preload("res://scenes/props/mailbox.tscn").instantiate()
 	mailbox.name = "Mailbox"
@@ -38,35 +54,28 @@ func _ready() -> void:
 	S.box(self,Vector3(-6,0.35,1),Vector3(0.2,0.7,0.2),"92633F",true)
 	S.cone(self,Vector3(-6,0.93,1),0.12,0.22,"F6E8D0",0.14)
 	S.box(self,Vector3(6,0.8,6),Vector3(0.15,1.6,0.15),"B88254",true)
-	S.box(self,Vector3(6,1.5,6),Vector3(1.5,0.4,0.15),"F6E8D0")
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 4816
-	for i in range(65):
-		var p := Vector3(rng.randf_range(-22,22),0,rng.randf_range(-22,22))
-		if absf(p.x) < 8 and p.z > -10 and p.z < 19:
-			continue
-		build_tree(p,rng.randf_range(0.8,1.4))
-	for i in range(90):
-		var p := Vector3(rng.randf_range(-19,19),0,rng.randf_range(-18,19))
-		if absf(p.x) < 5 and p.z > -9:
-			continue
-		if i % 3 == 0:
-			S.cone(self,p+Vector3(0,0.3,0),0.65,0.6,"82948E",0.3)
-		elif i % 3 == 1:
-			S.cone(self,p+Vector3(0,0.35,0),0.8,0.7,"496B59",0.35)
-		else:
-			flower(p)
+	var direction_board := S.box(self,Vector3(6,1.5,6),Vector3(1.5,0.4,0.15),"B88254")
+	direction_board.rotation.z = 0.06
+	S.box(self,Vector3(6,1.5,6.09),Vector3(1.3,0.27,0.035),"496B59")
+	S.box(self,Vector3(5.7,1.5,6.12),Vector3(0.32,0.19,0.02),"F6E8D0")
+	S.beam(self,Vector3(5.54,1.59,6.14),Vector3(5.7,1.48,6.14),0.02,"92633F")
+	S.beam(self,Vector3(5.7,1.48,6.14),Vector3(5.86,1.59,6.14),0.02,"92633F")
+	S.beam(self,Vector3(6.35,1.5,6.14),Vector3(6.1,1.5,6.14),0.035,"E9D4A1")
+	S.beam(self,Vector3(6.1,1.5,6.14),Vector3(6.2,1.6,6.14),0.035,"E9D4A1")
+	S.beam(self,Vector3(6.1,1.5,6.14),Vector3(6.2,1.4,6.14),0.035,"E9D4A1")
 	for x in [-4.5,4.5]:
 		S.cone(self,Vector3(x,0.3,1.5),0.38,0.6,"C87760",0.48)
 		for j in range(5):
 			flower(Vector3(x+(j-2)*0.12,0.55,1.5+sin(j)*0.2))
 	# Solid trunks and terrain perimeter keep the hub bounded.
 	for p in [Vector3(-24,1,0),Vector3(24,1,0)]:
-		S.box(self,p,Vector3(0.5,3,48),"496B59",true)
+		S.box(self,p,Vector3(0.5,3,48),"496B59",true).visible = false
 	for z in [-24,24]:
-		S.box(self,Vector3(0,1,z),Vector3(48,3,0.5),"496B59",true)
+		S.box(self,Vector3(0,1,z),Vector3(48,3,0.5),"496B59",true).visible = false
 	for i in range(9):
-		S.cone(self,Vector3(-36+i*9,2,-34),8,14+(i%3)*3,"7E9B9A")
+		S.cone(self,Vector3(-45+i*12,-2,-47),13,16+(i%3)*4,"9DAFA5")
+	decorate_cafe()
+	build_fences()
 	player = preload("res://scenes/player/postal_worker.tscn").instantiate()
 	player.name = "Player"
 	add_child(player)
@@ -132,15 +141,6 @@ func build_cafe() -> void:
 	var ramp := S.box(cafe,Vector3(0,0.07,2.35),Vector3(2,0.15,1.2),"B88254",true)
 	ramp.rotation.x = 0.2
 
-func build_tree(p: Vector3, scale_factor: float) -> void:
-	var tree := Node3D.new()
-	add_child(tree)
-	tree.position = p
-	tree.scale = Vector3.ONE*scale_factor
-	S.box(tree,Vector3(0,1,0),Vector3(0.35,2,0.35),"92633F",true)
-	for tier in range(3):
-		S.cone(tree,Vector3(0,1.7+tier*0.9,0),1.5-tier*0.33,2,"496B59" if tier%2 == 0 else "66856B")
-
 func flower(p: Vector3) -> void:
 	S.cone(self,p+Vector3(0,0.16,0),0.035,0.32,"496B59",0.035)
 	S.cone(self,p+Vector3(0,0.35,0),0.15,0.09,"F6E8D0",0.08)
@@ -186,3 +186,129 @@ func build_bicycle(p: Vector3) -> void:
 	bike.add_child(body)
 	body.add_child(collision)
 	collision.position.y = 0.5
+
+func build_ground() -> void:
+	# Continuous path ribbon with irregular verges instead of overlapping disks.
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var edges: Array[Vector3] = []
+	for i in range(59):
+		var z := -5.0+i*0.5
+		var center := sin(z*0.22)*2
+		var width := 1.5+sin(i*1.7)*0.08
+		edges.append(Vector3(center-width,0.045,z))
+		edges.append(Vector3(center+width,0.045,z))
+	for i in range(58):
+		var a := i*2
+		for index in [a,a+1,a+2,a+1,a+3,a+2]:
+			st.add_vertex(edges[index])
+	st.generate_normals()
+	S.mesh(self,st.commit(),Vector3.ZERO,PALETTE.path.to_html()).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	# Low faceted rises frame the clearing without changing the playable center.
+	for item in [Vector3(-17,0,-12),Vector3(14,0,-14),Vector3(-19,0,11),Vector3(19,0,4)]:
+		var shape := SphereMesh.new()
+		shape.radial_segments = 12
+		shape.rings = 5
+		var hill := S.mesh(self,shape,item-Vector3.UP*0.6,"869165")
+		hill.scale = Vector3(8,2.0,6)
+		hill.create_trimesh_collision()
+	# Single-surface organic meadow patches avoid thin, overlapping cylinder caps.
+	for i in range(13):
+		var z := -9.0+i*2.5
+		for side in [-1,1]:
+			var center := Vector3(side*(6.2+sin(i)*0.8),0.01+i*0.0015,z)
+			var patch := SurfaceTool.new()
+			patch.begin(Mesh.PRIMITIVE_TRIANGLES)
+			for j in range(11):
+				var angle := j*TAU/11
+				var next := (j+1)*TAU/11
+				var r := 2.4+sin(j*2.2+i)*0.35
+				var r_next := 2.4+sin((j+1)*2.2+i)*0.35
+				patch.set_normal(Vector3.UP)
+				patch.add_vertex(Vector3.ZERO)
+				patch.add_vertex(Vector3(cos(angle)*r,0,sin(angle)*r*1.3))
+				patch.add_vertex(Vector3(cos(next)*r_next,0,sin(next)*r_next*1.3))
+			var n := S.mesh(self,patch.commit(),center,"879267" if i%2 else "75845B")
+			n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+func decorate_cafe() -> void:
+	var cafe: Node3D = $Cafe
+	# Chimney, ridge tiles, and a sloping porch canopy preserve the original gable.
+	S.box(cafe,Vector3(-2,4.8,-4),Vector3(0.65,2,0.65),"9D8268")
+	S.box(cafe,Vector3(-2,5.85,-4),Vector3(0.85,0.18,0.85),"715F50")
+	for i in range(12):
+		S.box(cafe,Vector3(0,5.57,-6.35+i*0.6),Vector3(0.38,0.16,0.45),"BD8061")
+	var awning := S.box(cafe,Vector3(0,3.08,0.7),Vector3(8.8,0.16,1.9),"637C60")
+	awning.rotation.x = 0.13
+	S.box(cafe,Vector3(0,2.95,1.65),Vector3(8.8,0.2,0.18),"92633F")
+	for x in [-4.1,4.1]:
+		S.box(cafe,Vector3(x,1.55,1.85),Vector3(0.18,2.5,0.18),"92633F",true)
+		S.beam(cafe,Vector3(x,2.15,1.85),Vector3(x*0.82,2.75,1.85),0.12,"B88254")
+	for x in [-2.5,2.5]:
+		# Flower boxes beneath warm windows.
+		S.box(cafe,Vector3(x,1.04,0.45),Vector3(1.9,0.28,0.48),"92633F")
+		for j in range(7):
+			var p := Vector3(x-0.72+j*0.24,1.18,0.45)
+			S.cone(cafe,p,0.18,0.3,"6C865A",0.07)
+			S.cone(cafe,p+Vector3.UP*0.22,0.13,0.12,"E9D4A1" if j%2 else "C78D69",0.06)
+		# Warm window material, restrained emission rather than extra shadow lights.
+		var glass := S.material("F4D5A0").duplicate()
+		glass.emission_enabled = true
+		glass.emission = Color("D29A53")
+		glass.emission_energy_multiplier = 0.25
+		var pane := S.box(cafe,Vector3(x,1.8,0.245),Vector3(1.45,1.15,0.02),"F4D5A0")
+		pane.material_override = glass
+	for x in [-1.0,1.0]:
+		S.beam(cafe,Vector3(x,2.7,1),Vector3(x,2.25,1),0.035,"574C3C")
+		S.box(cafe,Vector3(x,2.19,1),Vector3(0.25,0.08,0.25),"574C3C")
+		var lamp := S.box(cafe,Vector3(x,2.35,1),Vector3(0.17,0.25,0.17),"F8D99F")
+		var glow := S.material("F8D99F").duplicate()
+		glow.emission_enabled = true
+		glow.emission = Color("F8CA82")
+		lamp.material_override = glow
+		S.box(cafe,Vector3(x,2.52,1),Vector3(0.28,0.07,0.28),"574C3C")
+	# Timber framing and a side window give the camera-facing wall a lived-in silhouette.
+	for z in [-5.8,-3.0,-0.2]:
+		S.box(cafe,Vector3(4.06,1.6,z),Vector3(0.14,3.2,0.14),"92633F")
+	S.box(cafe,Vector3(4.1,1.85,-3),Vector3(0.18,1.5,1.75),"659A98")
+	S.box(cafe,Vector3(4.21,1.85,-3),Vector3(0.035,1.23,1.47),"E7C890")
+	S.box(cafe,Vector3(4.24,1.85,-3),Vector3(0.04,1.32,0.08),"659A98")
+	S.box(cafe,Vector3(4.24,1.85,-3),Vector3(0.04,0.08,1.55),"659A98")
+	S.box(cafe,Vector3(4.25,0.99,-3),Vector3(0.4,0.28,1.8),"92633F")
+	for j in range(6):
+		S.cone(cafe,Vector3(4.25,1.21,-3.65+j*0.25),0.21,0.32,"8C9563",0.05)
+		S.cone(cafe,Vector3(4.25,1.42,-3.65+j*0.25),0.11,0.1,"E9D4A1",0.04)
+	# Hanging botanical baskets on the outer ends of the canopy.
+	for x in [-3.5,3.5]:
+		S.beam(cafe,Vector3(x,2.9,1.8),Vector3(x,2.25,1.8),0.035,"574C3C")
+		S.cone(cafe,Vector3(x,2.13,1.8),0.2,0.3,"B88254",0.33)
+		for j in range(5):
+			S.cone(cafe,Vector3(x+cos(j*1.3)*0.24,2.27,1.8+sin(j*1.3)*0.24),0.21,0.3,"8C9563",0.05)
+	# Freestanding café menu, parcels and envelope-shaped postal plaque.
+	var menu := Node3D.new()
+	add_child(menu)
+	menu.position = Vector3(2.6,0,2.9)
+	menu.rotation.y = -0.2
+	S.box(menu,Vector3(0,0.9,0),Vector3(0.9,1.1,0.12),"B88254",true)
+	S.box(menu,Vector3(0,0.9,0.07),Vector3(0.71,0.88,0.03),"354E44")
+	for side in [-1,1]:
+		S.beam(menu,Vector3(side*0.38,0,0.3),Vector3(side*0.38,1.4,0),0.08,"92633F")
+	for i in range(3):
+		S.box(menu,Vector3(-0.04,1.02-i*0.17,0.095),Vector3(0.45-i*0.07,0.025,0.01),"D9C9A6")
+	S.box(cafe,Vector3(-1.25,0.56,0.55),Vector3(0.7,0.5,0.55),"C6A47B")
+	S.box(cafe,Vector3(-1.25,0.82,0.55),Vector3(0.13,0.02,0.56),"E2CAA4")
+	S.box(cafe,Vector3(-1.35,0.94,0.55),Vector3(0.45,0.24,0.4),"B49168")
+	S.box(cafe,Vector3(0,3.85,0.04),Vector3(1.1,0.62,0.12),"F6E8D0")
+	S.beam(cafe,Vector3(-0.5,4.1,0.12),Vector3(0,3.8,0.12),0.035,"B88254")
+	S.beam(cafe,Vector3(0,3.8,0.12),Vector3(0.5,4.1,0.12),0.035,"B88254")
+
+func build_fences() -> void:
+	# Short fence arcs guide toward the clearing rather than boxing in the player.
+	for side in [-1,1]:
+		for i in range(4):
+			var x: float = side*(5.3+i*1.45)
+			var z := 9.5+sin(i*0.65)*0.9
+			S.box(self,Vector3(x,0.64,z),Vector3(0.14,1.28,0.14),"9E805B",true)
+			if i < 3:
+				for y in [0.45,0.98]:
+					S.beam(self,Vector3(x,y,z),Vector3(x+side*1.45,y,9.5+sin((i+1)*0.65)*0.9),0.09,"B49A70")
