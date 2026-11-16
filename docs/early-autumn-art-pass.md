@@ -56,3 +56,6 @@ Góc 01 giữ nguyên follow camera và UI khi chơi; góc 02/03 chỉ phục v�
   thân; cỏ/hoa/lá là trang trí. Ranh giới chơi cũ vẫn giữ, mesh tường biên được ẩn.
 - Chưa kiểm thử native Windows hoặc đo FPS trên máy người chơi. Geometry/material
   nhẹ và instancing là lựa chọn triển khai, không phải số liệu benchmark.
+
+Lượt chỉnh bố cục tiếp theo: [Composition & depth](composition-depth-pass.md), có
+ảnh mới đặt cạnh ảnh cũ theo cùng góc máy và báo cáo thay đổi không gian/props.

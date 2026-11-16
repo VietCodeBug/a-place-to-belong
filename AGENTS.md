@@ -31,3 +31,8 @@ sidecars. Work on feature branches and submit a PR; never auto-merge.
 Current visual target: Early Autumn Cozy Forest. See docs/early-autumn-art-pass.md
 for composition, palette, capture commands and screenshots. Keep the clearing and
 mailbox approach open; do not scatter large trees into the southeast camera corridor.
+
+Latest composition guide: docs/composition-depth-pass.md. ClearingLayout owns the
+path curve/width; use it for road edges and verge planting. Preserve the open roof
+sightline, the southeast camera corridor, the left seating cluster and right postal
+corner. Background trees must use the same elevation function as their terrain.

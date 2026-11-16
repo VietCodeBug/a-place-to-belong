@@ -12,22 +12,22 @@ func _ready() -> void:
 	settings.background_mode = Environment.BG_COLOR
 	settings.background_color = PALETTE.haze
 	settings.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	settings.ambient_light_color = Color("DBDDC8")
-	settings.ambient_light_energy = 0.45
+	settings.ambient_light_color = Color("DBDFD2")
+	settings.ambient_light_energy = 0.5
 	settings.fog_enabled = true
-	settings.fog_light_color = PALETTE.haze
-	settings.fog_light_energy = 0.7
+	settings.fog_light_color = Color("AFBFC0")
+	settings.fog_light_energy = 0.45
 	settings.fog_mode = Environment.FOG_MODE_DEPTH
-	settings.fog_depth_begin = 24.0
-	settings.fog_depth_end = 100.0
+	settings.fog_depth_begin = 42.0
+	settings.fog_depth_end = 170.0
 	settings.fog_depth_curve = 1.4
 	settings.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	environment.environment = settings
 	add_child(environment)
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-48,-48,0)
-	sun.light_color = Color("FFE3B8")
-	sun.light_energy = 0.55
+	sun.rotation_degrees = Vector3(-44,-30,0)
+	sun.light_color = Color("FFE0B9")
+	sun.light_energy = 0.6
 	sun.directional_shadow_max_distance = 65
 	sun.shadow_blur = 2.0
 	sun.shadow_normal_bias = 2.0
@@ -35,8 +35,14 @@ func _ready() -> void:
 	sun.light_angular_distance = 2.5
 	sun.shadow_enabled = true
 	add_child(sun)
+	# A low-energy, shadowless back light catches the roof edge without extra shadow maps.
+	var rim := DirectionalLight3D.new()
+	rim.rotation_degrees = Vector3(-24,145,0)
+	rim.light_color = Color("FFE7C2")
+	rim.light_energy = 0.16
+	add_child(rim)
 	S.box(self,Vector3(0,-0.3,0),Vector3(48,0.6,48),PALETTE.ground.to_html(),true)
-	S.box(self,Vector3(0,-0.85,-10),Vector3(160,0.6,160),"7B896C")
+	S.box(self,Vector3(0,-0.85,-10),Vector3(500,0.6,500),"7B896C")
 	build_ground()
 	var woods := Node3D.new()
 	woods.name = "EarlyAutumnWoodland"
@@ -48,11 +54,10 @@ func _ready() -> void:
 	add_child(mailbox)
 	mailbox.position = Vector3(3.6,0,3.5)
 	build_bicycle(Vector3(-3.8,0,2.7))
-	build_bench(Vector3(7,0,1))
-	build_bench(Vector3(-7,0,4))
-	S.cone(self,Vector3(-6,0.75,1),0.85,0.14,"B88254",0.85)
-	S.box(self,Vector3(-6,0.35,1),Vector3(0.2,0.7,0.2),"92633F",true)
-	S.cone(self,Vector3(-6,0.93,1),0.12,0.22,"F6E8D0",0.14)
+	build_bench(Vector3(-6.6,0,-0.2))
+	S.cone(self,Vector3(-6.6,0.75,1),0.85,0.14,"B88254",0.85)
+	S.box(self,Vector3(-6.6,0.35,1),Vector3(0.2,0.7,0.2),"92633F",true)
+	S.cone(self,Vector3(-6.6,0.93,1),0.12,0.22,"F6E8D0",0.14)
 	S.box(self,Vector3(6,0.8,6),Vector3(0.15,1.6,0.15),"B88254",true)
 	var direction_board := S.box(self,Vector3(6,1.5,6),Vector3(1.5,0.4,0.15),"B88254")
 	direction_board.rotation.z = 0.06
@@ -76,6 +81,7 @@ func _ready() -> void:
 		S.cone(self,Vector3(-45+i*12,-2,-47),13,16+(i%3)*4,"9DAFA5")
 	decorate_cafe()
 	build_fences()
+	compose_vignettes()
 	player = preload("res://scenes/player/postal_worker.tscn").instantiate()
 	player.name = "Player"
 	add_child(player)
@@ -188,17 +194,17 @@ func build_bicycle(p: Vector3) -> void:
 	collision.position.y = 0.5
 
 func build_ground() -> void:
-	# Continuous path ribbon with irregular verges instead of overlapping disks.
+	# Broad foreground narrows into a quiet S curve ending at the porch ramp.
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var edges: Array[Vector3] = []
-	for i in range(59):
-		var z := -5.0+i*0.5
-		var center := sin(z*0.22)*2
-		var width := 1.5+sin(i*1.7)*0.08
+	for i in range(73):
+		var z := 2.4+i*0.3
+		var center := ClearingLayout.path_center(z)
+		var width := ClearingLayout.path_half_width(z)+sin(i*1.7)*0.035
 		edges.append(Vector3(center-width,0.045,z))
 		edges.append(Vector3(center+width,0.045,z))
-	for i in range(58):
+	for i in range(72):
 		var a := i*2
 		for index in [a,a+1,a+2,a+1,a+3,a+2]:
 			st.add_vertex(edges[index])
@@ -213,23 +219,22 @@ func build_ground() -> void:
 		hill.scale = Vector3(8,2.0,6)
 		hill.create_trimesh_collision()
 	# Single-surface organic meadow patches avoid thin, overlapping cylinder caps.
-	for i in range(13):
-		var z := -9.0+i*2.5
-		for side in [-1,1]:
-			var center := Vector3(side*(6.2+sin(i)*0.8),0.01+i*0.0015,z)
-			var patch := SurfaceTool.new()
-			patch.begin(Mesh.PRIMITIVE_TRIANGLES)
-			for j in range(11):
-				var angle := j*TAU/11
-				var next := (j+1)*TAU/11
-				var r := 2.4+sin(j*2.2+i)*0.35
-				var r_next := 2.4+sin((j+1)*2.2+i)*0.35
-				patch.set_normal(Vector3.UP)
-				patch.add_vertex(Vector3.ZERO)
-				patch.add_vertex(Vector3(cos(angle)*r,0,sin(angle)*r*1.3))
-				patch.add_vertex(Vector3(cos(next)*r_next,0,sin(next)*r_next*1.3))
-			var n := S.mesh(self,patch.commit(),center,"879267" if i%2 else "75845B")
-			n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var patch_centers := [Vector3(-7,0,3),Vector3(-8,0,7),Vector3(7,0,0),Vector3(8,0,4),Vector3(-9,0,16),Vector3(5,0,14),Vector3(10,0,18),Vector3(13,0,10)]
+	for i in range(patch_centers.size()):
+		var center: Vector3 = patch_centers[i]+Vector3.UP*(0.01+i*0.0015)
+		var patch := SurfaceTool.new()
+		patch.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for j in range(11):
+			var angle := j*TAU/11
+			var next := (j+1)*TAU/11
+			var r := 2.4+sin(j*2.2+i)*0.35
+			var r_next := 2.4+sin((j+1)*2.2+i)*0.35
+			patch.set_normal(Vector3.UP)
+			patch.add_vertex(Vector3.ZERO)
+			patch.add_vertex(Vector3(cos(angle)*r,0,sin(angle)*r*1.3))
+			patch.add_vertex(Vector3(cos(next)*r_next,0,sin(next)*r_next*1.3))
+		var n := S.mesh(self,patch.commit(),center,"879267" if i%2 else "75845B")
+		n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 func decorate_cafe() -> void:
 	var cafe: Node3D = $Cafe
@@ -287,7 +292,7 @@ func decorate_cafe() -> void:
 	# Freestanding café menu, parcels and envelope-shaped postal plaque.
 	var menu := Node3D.new()
 	add_child(menu)
-	menu.position = Vector3(2.6,0,2.9)
+	menu.position = Vector3(-4.8,0,3.3)
 	menu.rotation.y = -0.2
 	S.box(menu,Vector3(0,0.9,0),Vector3(0.9,1.1,0.12),"B88254",true)
 	S.box(menu,Vector3(0,0.9,0.07),Vector3(0.71,0.88,0.03),"354E44")
@@ -312,3 +317,38 @@ func build_fences() -> void:
 			if i < 3:
 				for y in [0.45,0.98]:
 					S.beam(self,Vector3(x,y,z),Vector3(x+side*1.45,y,9.5+sin((i+1)*0.65)*0.9),0.09,"B49A70")
+
+func compose_vignettes() -> void:
+	# Postal loading corner: mailbox + sorting shelf + tied sacks/stacked crates.
+	var postal := Node3D.new()
+	postal.name = "PostalLoadingCorner"
+	add_child(postal)
+	postal.position = Vector3(5.2,0,1.8)
+	S.box(postal,Vector3(0,0.72,0),Vector3(1.3,0.14,0.65),"92633F",true)
+	for x in [-0.5,0.5]:
+		S.box(postal,Vector3(x,0.35,0),Vector3(0.12,0.7,0.5),"92633F",true)
+	for i in range(3):
+		S.box(postal,Vector3(-0.32+i*0.28,0.84+i*0.025,0),Vector3(0.35,0.05,0.27),"F6E8D0")
+	for i in range(2):
+		var p := Vector3(0.8+i*0.55,0.35,0.35)
+		S.cone(postal,p,0.27,0.7,"B9A181",0.16)
+		S.cone(postal,p+Vector3.UP*0.39,0.12,0.13,"7B6951",0.08)
+	S.cone(self,Vector3(-6.6,0.025,1),2.0,0.02,"989C83",2.0).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	# Two chairs face a shared table, sheltered by a crescent flower bed.
+	for p in [Vector3(-7.4,0,2.4),Vector3(-5.8,0,2.4)]:
+		S.box(self,p+Vector3.UP*0.5,Vector3(0.55,0.12,0.55),"B88254",true)
+		S.box(self,p+Vector3(0,0.9,0.22),Vector3(0.55,0.65,0.1),"92633F")
+		for x in [-0.2,0.2]:
+			S.box(self,p+Vector3(x,0.24,0),Vector3(0.08,0.48,0.45),"92633F")
+	# Foreground root/stump vignette occupies the lower right, away from the path.
+	var stump := Vector3(8,0,12)
+	S.cone(self,stump+Vector3.UP*0.45,0.62,0.9,"75624D",0.48)
+	S.cone(self,stump+Vector3.UP*0.91,0.44,0.025,"C1A77F",0.44)
+	for i in range(4):
+		var a := i*TAU/4
+		S.beam(self,stump+Vector3.UP*0.35,stump+Vector3(cos(a),0.08,sin(a))*1.1,0.18,"75624D")
+	# Flat inset stepping details near the entrance; decorative, no movement obstacle.
+	for i in range(4):
+		var z := 2.8+i*0.45
+		var n := S.box(self,Vector3(ClearingLayout.path_center(z),0.057,z),Vector3(0.6,0.02,0.25),"B9B19A")
+		n.rotation.y = sin(i*2.1)*0.12
