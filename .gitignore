@@ -1,0 +1,28 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor / local machine settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files and logs
+*.tmp
+*.temp
+*.log
+*.bak
+.cache/
+tmp/
+temp/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Concept art should be committed when approved.
+# No game-engine-specific exclusions until an engine is chosen.
