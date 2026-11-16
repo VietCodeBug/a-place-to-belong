@@ -1,0 +1,19 @@
+{
+  "version": "ver-04-map01-art-pass",
+  "source_commit": "aa5f7181f9d29abbbfb6791fe2070a6895112eff",
+  "before_source_commit": "33b493baefc82b6a05086eabd8b7308670ca6267",
+  "renderer": "Godot 4.6.3 Compatibility / Mesa llvmpipe",
+  "image_dimensions": [
+    1280,
+    720
+  ],
+  "after_sha256": {
+    "after/01-map01-gameplay.png": "d21066d64e7047fef77032c38ab0633abb9fbcc36f8411274b6f0c0e60642a72",
+    "after/02-cafe-player-scale.png": "a7461686dcf1f975c671ceb7824239efc8dc972ea20ed2aa2bbcf6b30d6476cb",
+    "after/03-architecture-detail.png": "7bc2346f554bc2a6d73a690bcd3f720bde8d494abbc68056f41afa597b3ff39d",
+    "after/04-forest-lighting.png": "0280fffa4b6969cd7884db0685864a8f19b479d9867b776dc2d77f26e10a05da",
+    "after/05-map01-wide.png": "308eee1477315f57a1e98b55200dc9c9c58ff80f567673101583ada205b71f55"
+  },
+  "visual_approval": false,
+  "premium_target_met": false
+}
