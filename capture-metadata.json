@@ -1,0 +1,56 @@
+{
+  "code_commit": "e7844db23c3a7a10f1bfe5228eeaed9fbf9fe5cc",
+  "before_code_commit": "c3adaabbad695a854eaa6a8c5238e0d601d1883a",
+  "renderer": "Godot 4.6.3 Compatibility, Mesa llvmpipe",
+  "resolution": [
+    1280,
+    720
+  ],
+  "capture": "actual viewport",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "f6d0c3bd5d46eb74db670334b4770bdc4412c8535f9989beb65e96d5f2269cb9"
+    },
+    {
+      "path": "after/01-gameplay-hero.png",
+      "sha256": "c37cc56beb91979e88a22703a3f29640f9926c5047fded7941fca300335473e5"
+    },
+    {
+      "path": "after/02-wood-material-closeup.png",
+      "sha256": "0d83ffe80a9acdf0ca15d736df4e102be3d2a626700da2e08aea9c9be49f04ea"
+    },
+    {
+      "path": "after/03-player-entrance-scale.png",
+      "sha256": "5957a881548794556727b62e378587515c9b42756f1e2c8813c876defe4fd2e7"
+    },
+    {
+      "path": "after/04-golden-hour-exterior.png",
+      "sha256": "21b10eacd073c9e7248847678234c4f8f793b46db7b066950763e830885855dd"
+    },
+    {
+      "path": "after/05-roof-joinery.png",
+      "sha256": "f5fc53b0acd82c8237820c0c6a490e23ef1fe6873017f058aec73835269712bd"
+    },
+    {
+      "path": "after/06-character-color.png",
+      "sha256": "5366ca9415bc1f32a5cdf1260c304d83f9aa145a6532257bbe0607151ee241b4"
+    },
+    {
+      "path": "after/07-meadow-detail.png",
+      "sha256": "3fcf1a76cc681797d112c7d036ebdf3f0da4b455e534f5d503c8aa5645d08785"
+    },
+    {
+      "path": "before/01-gameplay-hero.png",
+      "sha256": "75e53a34ace824517b057e9504466d73ef7e47f44c4d5e84a2236ee51a1f4439"
+    },
+    {
+      "path": "before/02-wood-material-closeup.png",
+      "sha256": "1cf8f8f33e2eac05414b1e787539e14e230f0f8e216c49138c90987d0650aa89"
+    },
+    {
+      "path": "before/03-player-entrance-scale.png",
+      "sha256": "28c35541c536cf2b444cc7eb1c83631626bed583c538f02f4ccde71690c3bf52"
+    }
+  ]
+}
