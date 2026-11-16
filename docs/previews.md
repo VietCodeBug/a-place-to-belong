@@ -16,3 +16,8 @@ relabelled using later images. Prior images remain recoverable in Git history.
 
 Future sessions increment the version, preserve old preview branches, and record
 the exact code commit. The game PR links its preview branch instead of adding PNGs.
+
+V04: [Map 01 art pass](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-04-map01-art-pass)
+contains five actual-render after shots plus V03 before images, with full source
+SHA. See [the visual review](map01-v04-art-review.md). The earlier environment
+expansion direction was superseded; no new map is part of this version.

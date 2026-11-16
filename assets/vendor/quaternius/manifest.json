@@ -1,0 +1,83 @@
+{
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "official_pack_page": "https://quaternius.com/packs/ultimatenature.html",
+  "source_repository": "https://github.com/trebeljahr/quaternius-showcase",
+  "source_commit": "0128ca510d653bb04d6d1e4885bd8890b5050b4f",
+  "source_note": "Third-party GLB conversion mirror; source blobs checked against pinned Git tree. Showcase MIT applies to code, not these CC0 models.",
+  "files": [
+    {
+      "path": "PineTree_1.glb",
+      "source_path": "public/glb/nature_pack/PineTree_1.glb",
+      "sha256": "82c2e4f9737c7b97358974b684b64b791efd4f342653c37aeee725158b7aad44",
+      "bytes": 106060,
+      "triangles": 1911
+    },
+    {
+      "path": "PineTree_2.glb",
+      "source_path": "public/glb/nature_pack/PineTree_2.glb",
+      "sha256": "de378bdc2d1faf7e6b76f96ec4566231e39049753aa680397649900c74d0b0bb",
+      "bytes": 93688,
+      "triangles": 1681
+    },
+    {
+      "path": "PineTree_3.glb",
+      "source_path": "public/glb/nature_pack/PineTree_3.glb",
+      "sha256": "996806cadf03c7ae8ea08602e140e00c5588a46d25ae2e082c8ccf67768a07cf",
+      "bytes": 131548,
+      "triangles": 2383
+    },
+    {
+      "path": "PineTree_4.glb",
+      "source_path": "public/glb/nature_pack/PineTree_4.glb",
+      "sha256": "77155cfd490340577bd15b0b7798567f922259138a9b5fed33527dd78133cedb",
+      "bytes": 94396,
+      "triangles": 1695
+    },
+    {
+      "path": "PineTree_5.glb",
+      "source_path": "public/glb/nature_pack/PineTree_5.glb",
+      "sha256": "092a22e85b4983ea62406f2032cc3a86ac93d8c2b792e24636157c38befb43cf",
+      "bytes": 87452,
+      "triangles": 1566
+    },
+    {
+      "path": "BirchTree_Autumn_1.glb",
+      "source_path": "public/glb/nature_pack/BirchTree_Autumn_1.glb",
+      "sha256": "0431034d69c8d4a90e98ec95303fe7bcdf5396b5ca1f42d233052ad0131250bd",
+      "bytes": 98220,
+      "triangles": 1704
+    },
+    {
+      "path": "BirchTree_Autumn_3.glb",
+      "source_path": "public/glb/nature_pack/BirchTree_Autumn_3.glb",
+      "sha256": "d798ba7e87357376b66c0481a81d49529f6e1a889f235ac70bf52ddee7b6b1d0",
+      "bytes": 99484,
+      "triangles": 1730
+    },
+    {
+      "path": "Bush_1.glb",
+      "source_path": "public/glb/nature_pack/Bush_1.glb",
+      "sha256": "a10307dcb7030d364093fae966f01a3776e3482bf7bb0ab0231b16a3e1b65e27",
+      "bytes": 21348,
+      "triangles": 364
+    },
+    {
+      "path": "Rock_Moss_1.glb",
+      "source_path": "public/glb/nature_pack/Rock_Moss_1.glb",
+      "sha256": "f3350f34273f076e0adbae0097c899f8f107131b4fcd38cae8c5bc1719f583fe",
+      "bytes": 6560,
+      "triangles": 70
+    }
+  ],
+  "license_evidence": [
+    {
+      "path": "official-license.html.txt",
+      "sha256": "ea6363d099ee19284d7305462acb84b5c923e51efd649c2195d78dc89c1a543d",
+      "statement": "CC0",
+      "url": "https://quaternius.com/packs/ultimatenature.html"
+    }
+  ],
+  "source_tree": "bcb5e01c378170bd13fa886b14a32936f0c04bed"
+}

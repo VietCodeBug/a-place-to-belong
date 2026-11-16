@@ -49,3 +49,13 @@ Publish each session's review screenshots to a separate preview/ver-XX-name bran
 with its code SHA in a README. See docs/previews.md. Keep screenshot PNGs out of
 code branches and preserve older preview versions. Runtime asset textures stay in
 assets/vendor; this rule concerns review images.
+
+## Current user priority — Map 01 V04
+Only improve the existing Map 01. Preserve the -24..24 playable bounds, café clearing,
+S path and mailbox x=3.6/z=3.5. No Map 02, regions, creek/bridge expansion, bicycle
+systems or other gameplay features. The earlier V04 expansion brief was superseded.
+Read docs/map01-v04-art-review.md. ForestLandscape owns the shared mesh/collider
+height function. Quaternius CC0 assets supplement Kenney; verify both manifests.
+User visual approval of Map 01 is required before starting any additional map or
+gameplay system. Passing tests is not visual approval; current premium target is
+not yet met. Publish this session to preview/ver-04-map01-art-pass, preserve ver-01/02/03.

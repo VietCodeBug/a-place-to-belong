@@ -1,100 +1,94 @@
 extends Node3D
 const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
-const PALETTE = preload("res://assets/palettes/early_autumn.tres")
+const L = preload("res://scripts/world/landscape.gd")
 var player: CharacterBody3D
 var mailbox: Node3D
 var ui: CanvasLayer
+var cafe_base := L.CAFE_LEVEL
+var collision_probe := Vector3(0,L.CAFE_LEVEL+0.65,2)
 
 func _ready() -> void:
 	configure_inputs()
 	lighting()
-	S.box(self,Vector3(0,-0.3,0),Vector3(48,0.6,48),PALETTE.ground.to_html(),true)
-	S.box(self,Vector3(0,-0.85,-10),Vector3(500,0.6,500),"7B896C")
-	build_ground()
-	var forest := Node3D.new()
-	forest.name = "LicensedWoodland"
-	forest.set_script(preload("res://scripts/world/woodland.gd"))
-	add_child(forest)
+	var landscape := L.new()
+	add_child(landscape)
 	var cafe := Node3D.new()
 	cafe.name = "Cafe"
+	cafe.position.y = cafe_base
 	cafe.set_script(preload("res://scripts/world/cafe_kit.gd"))
 	add_child(cafe)
 	mailbox = preload("res://scenes/props/mailbox.tscn").instantiate()
 	mailbox.name = "Mailbox"
 	add_child(mailbox)
-	mailbox.position = Vector3(3.6,0,3.5)
-	build_bicycle(Vector3(-3.8,0.28,2.0))
-	props()
-	for p in [Vector3(-24,1,0),Vector3(24,1,0)]:
-		S.box(self,p,Vector3(0.5,3,48),"496B59",true).visible = false
-	for z in [-24,24]:
-		S.box(self,Vector3(0,1,z),Vector3(48,3,0.5),"496B59",true).visible = false
+	mailbox.position = Vector3(3.6,0.4,3.5)
+	build_bicycle(Vector3(-1.9,cafe_base+0.4,2.3))
+	landmarks()
+	var forest := Node3D.new()
+	forest.name = "LicensedWoodland"
+	forest.set_script(preload("res://scripts/world/woodland.gd"))
+	add_child(forest)
 	player = preload("res://scenes/player/postal_worker.tscn").instantiate()
 	player.name = "Player"
 	add_child(player)
-	player.position = Vector3(1,0.1,7)
+	player.position = ground(1,13,0.15)
+	player.floor_snap_length = 0.45
 	var camera := Camera3D.new()
+	camera.name = "GameplayCamera"
 	camera.set_script(preload("res://scripts/player/follow_camera.gd"))
 	camera.target = player
-	camera.fov = 55
 	add_child(camera)
 	ui = CanvasLayer.new()
 	ui.set_script(preload("res://scripts/interactions/interaction_controller.gd"))
 	ui.player = player
 	add_child(ui)
 
+func ground(x: float, z: float, extra := 0.0) -> Vector3:
+	return Vector3(x,L.height_at(x,z)+extra,z)
+
 func lighting() -> void:
 	var world := WorldEnvironment.new()
 	var env := Environment.new()
-	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color("ADBDB8")
+	env.background_mode = Environment.BG_SKY
+	var sky := Sky.new()
+	var atmosphere := ProceduralSkyMaterial.new()
+	atmosphere.sky_top_color = Color("6F8E9A")
+	atmosphere.sky_horizon_color = Color("D3CBB1")
+	atmosphere.ground_horizon_color = Color("BFC6B4")
+	atmosphere.ground_bottom_color = Color("7A8E82")
+	atmosphere.sky_energy_multiplier = 0.65
+	sky.sky_material = atmosphere
+	env.sky = sky
+	env.background_color = Color("AABCB7")
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("DBDFD2")
-	env.ambient_light_energy = 0.55
+	env.ambient_light_color = Color("9EBCBF")
+	env.ambient_light_energy = 0.65
 	env.fog_enabled = true
-	env.fog_light_color = Color("AFBFC0")
-	env.fog_light_energy = 0.5
+	env.fog_light_color = Color("A3BAB8")
+	env.fog_light_energy = 0.45
 	env.fog_mode = Environment.FOG_MODE_DEPTH
-	env.fog_depth_begin = 38
-	env.fog_depth_end = 145
+	env.fog_depth_begin = 55
+	env.fog_depth_end = 190
 	world.environment = env
 	add_child(world)
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-42,-32,0)
-	sun.light_color = Color("FFE0BB")
-	sun.light_energy = 0.7
+	sun.rotation_degrees = Vector3(-27,-44,0)
+	sun.light_color = Color("FFD0A1")
+	sun.light_energy = 0.65
 	sun.shadow_enabled = true
-	sun.shadow_normal_bias = 2
-	sun.shadow_blur = 2
-	sun.directional_shadow_max_distance = 65
+	sun.shadow_normal_bias = 1.4
+	sun.shadow_blur = 3
+	sun.directional_shadow_max_distance = 100
 	add_child(sun)
 
-func props() -> void:
-	# Imported seating models have a common, human-usable scale.
-	var table := A.place(self,"furniture","tableRound",Vector3(-6.5,0,1.6),0.78)
-	A.style(table)
-	A.solid(table)
-	for p in [Vector3(-7.5,0,2.4),Vector3(-5.4,0,2.4)]:
-		var chair := A.place(self,"furniture","chair",p,1.0,PI)
-		A.style(chair)
-		A.solid(chair)
-	var bench := A.place(self,"furniture","bench",Vector3(-6.5,0,-0.2),1.05)
-	A.style(bench)
-	A.solid(bench)
+func landmarks() -> void:
+	# Same Map 01 postal corner beside the existing mailbox.
+	A.place(self,"furniture","bookcaseOpenLow",ground(9.0,1.4),1.15,PI/2)
 	for i in range(3):
-		var parcel := A.place(self,"furniture","cardboardBoxClosed",Vector3(5.2+i*0.5,0,1.7),0.45+i*0.12,i*0.2)
-		A.style(parcel)
-	var shelf := A.place(self,"furniture","bookcaseOpenLow",Vector3(5.5,0,0.6),1.2,PI/2)
-	A.style(shelf)
-	var sign := A.place(self,"nature","sign",Vector3(5.7,0,6.5),1.6,-0.3)
-	A.style(sign)
-	A.solid(sign)
-	for side in [-1,1]:
-		for i in range(3):
-			var fence := A.place(self,"nature","fence_planksDouble",Vector3(side*(5.2+i*1.9),0,10),1.0)
-			A.style(fence)
-			A.solid(fence)
+		A.place(self,"furniture","cardboardBoxClosed",ground(9.0+i*0.5,3.0),0.4+i*0.12,i*0.12)
+	for x in [8.5,10.5]:
+		A.place(self,"furniture","pottedPlant",ground(x,4.6),0.75)
+	A.place(self,"nature","sign",ground(6.0,7.3),1.4,-0.3)
 
 func configure_inputs() -> void:
 	var bindings := {"move_left":KEY_A,"move_right":KEY_D,"move_up":KEY_W,"move_down":KEY_S,"jog":KEY_SHIFT,"interact":KEY_E}
@@ -104,49 +98,6 @@ func configure_inputs() -> void:
 			var key := InputEventKey.new()
 			key.physical_keycode = bindings[action]
 			InputMap.action_add_event(action,key)
-
-func build_ground() -> void:
-	# Broad foreground narrows into a quiet S curve ending at the porch ramp.
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var edges: Array[Vector3] = []
-	for i in range(73):
-		var z := 2.4+i*0.3
-		var center := ClearingLayout.path_center(z)
-		var width := ClearingLayout.path_half_width(z)+sin(i*1.7)*0.035
-		edges.append(Vector3(center-width,0.045,z))
-		edges.append(Vector3(center+width,0.045,z))
-	for i in range(72):
-		var a := i*2
-		for index in [a,a+1,a+2,a+1,a+3,a+2]:
-			st.add_vertex(edges[index])
-	st.generate_normals()
-	S.mesh(self,st.commit(),Vector3.ZERO,PALETTE.path.to_html()).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	# Low faceted rises frame the clearing without changing the playable center.
-	for item in [Vector3(-17,0,-12),Vector3(14,0,-14),Vector3(-19,0,11),Vector3(19,0,4)]:
-		var shape := SphereMesh.new()
-		shape.radial_segments = 12
-		shape.rings = 5
-		var hill := S.mesh(self,shape,item-Vector3.UP*0.6,"869165")
-		hill.scale = Vector3(8,2.0,6)
-		hill.create_trimesh_collision()
-	# Single-surface organic meadow patches avoid thin, overlapping cylinder caps.
-	var patch_centers := [Vector3(-7,0,3),Vector3(-8,0,7),Vector3(7,0,0),Vector3(8,0,4),Vector3(-9,0,16),Vector3(5,0,14),Vector3(10,0,18),Vector3(13,0,10)]
-	for i in range(patch_centers.size()):
-		var center: Vector3 = patch_centers[i]+Vector3.UP*(0.01+i*0.0015)
-		var patch := SurfaceTool.new()
-		patch.begin(Mesh.PRIMITIVE_TRIANGLES)
-		for j in range(11):
-			var angle := j*TAU/11
-			var next := (j+1)*TAU/11
-			var r := 2.4+sin(j*2.2+i)*0.35
-			var r_next := 2.4+sin((j+1)*2.2+i)*0.35
-			patch.set_normal(Vector3.UP)
-			patch.add_vertex(Vector3.ZERO)
-			patch.add_vertex(Vector3(cos(angle)*r,0,sin(angle)*r*1.3))
-			patch.add_vertex(Vector3(cos(next)*r_next,0,sin(next)*r_next*1.3))
-		var n := S.mesh(self,patch.commit(),center,"879267" if i%2 else "75845B")
-		n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 func build_bicycle(p: Vector3) -> void:
 	var bike := Node3D.new()

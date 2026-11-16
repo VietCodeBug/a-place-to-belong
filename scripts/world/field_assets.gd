@@ -18,7 +18,7 @@ static func bounds(node: Node, inherited := Transform3D.IDENTITY) -> AABB:
 	return result
 
 static func model(pack: String, asset: String, height: float) -> Node3D:
-	var path := BASE+pack+"/"+asset+".glb"
+	var path := ("res://assets/vendor/quaternius/"+asset+".glb") if pack == "quaternius" else BASE+pack+"/"+asset+".glb"
 	if not scenes.has(path):
 		scenes[path] = load(path)
 	var visual: Node3D = scenes[path].instantiate()
@@ -36,6 +36,7 @@ static func place(parent: Node3D, pack: String, asset: String, at: Vector3, heig
 	parent.add_child(n)
 	n.position = at
 	n.rotation.y = yaw
+	style(n)
 	return n
 
 static func recolor(node: Node, color: String) -> void:
@@ -61,6 +62,8 @@ static func style(node: Node, role := "natural", layer := 0) -> void:
 					m.albedo_color = Color("4F7658") if name.contains("leaf") else Color("819367")
 					if role == "autumn":
 						m.albedo_color = Color("BD985B")
+				elif name.contains("rock") or name.contains("stone"):
+					m.albedo_color = Color("858D81")
 				elif name.contains("bark") or name == "wood":
 					m.albedo_color = Color("896044")
 				if layer > 0:

@@ -65,3 +65,6 @@ in [early-autumn-art-pass.md](early-autumn-art-pass.md).
 
 The current external-model replacement, licenses and measured dimensions are in
 [asset-kitbash-slice.md](asset-kitbash-slice.md). Earlier art-pass images are historical.
+
+Current revision: [Map 01 V04 visual review](map01-v04-art-review.md). This supersedes
+the earlier environment/camera dimensions while keeping the original Map 01 footprint.

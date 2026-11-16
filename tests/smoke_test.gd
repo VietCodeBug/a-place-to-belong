@@ -29,17 +29,17 @@ func run() -> void:
 	await frames(30)
 	check(Vector2(player.velocity.x,player.velocity.z).length()<0.01, "smooth deceleration reaches idle")
 	check(player.state == "idle", "idle state restored")
-	player.position = Vector3(0,0.5,1.2)
+	player.position = hub.collision_probe
 	player.velocity = Vector3.ZERO
 	await frames(20)
-	# Press camera-relative northwest, whose horizontal components cancel.
+	# W + D cancels the rotated X components and moves directly toward the front wall.
 	Input.action_press("move_up")
-	Input.action_press("move_left")
+	Input.action_press("move_right")
 	await frames(90)
 	Input.action_release("move_up")
-	Input.action_release("move_left")
-	check(player.position.z > 0.23, "cafe collision prevents walking through front wall")
-	player.position = Vector3(3.6,0.1,5.1)
+	Input.action_release("move_right")
+	check(player.position.z > 0.23 and player.position.z < 1.3 and absf(player.velocity.z)<0.05, "cafe collision prevents walking through front wall")
+	player.position = hub.mailbox.position+Vector3(0,0.15,1.6)
 	player.velocity = Vector3.ZERO
 	await frames(20)
 	check(hub.ui.active == hub.mailbox, "mailbox selected within range")
@@ -57,7 +57,7 @@ func run() -> void:
 	Input.parse_input_event(escape)
 	await frames(2)
 	check(not hub.ui.panel.visible and not player.blocked, "Esc closes panel and restores movement")
-	player.position = Vector3(15,0.1,15)
+	player.position = hub.ground(18,19,0.15)
 	await frames(5)
 	check(hub.ui.active == null, "distant mailbox cannot be selected")
 	var camera: Camera3D = hub.get_viewport().get_camera_3d()

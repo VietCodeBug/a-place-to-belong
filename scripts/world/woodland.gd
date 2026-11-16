@@ -1,32 +1,31 @@
 extends Node3D
-## Licensed Kenney models, normalized to metres and batched without editing source GLBs.
+## Curated Map 01 planting; Quaternius crowns replace unsuitable Kenney cone silhouettes.
 const A = preload("res://scripts/world/field_assets.gd")
-const S = preload("res://scripts/world/shapes.gd")
-@export var palette: ForestPalette = preload("res://assets/palettes/early_autumn.tres")
 var rng := RandomNumberGenerator.new()
 var batches: Dictionary = {}
-const PINES := ["tree_pineTallA_detailed","tree_pineTallB_detailed","tree_pineTallC_detailed","tree_pineTallD_detailed","tree_pineRoundC"]
-
+const PINES := ["PineTree_1","PineTree_2","PineTree_3","PineTree_4","PineTree_5"]
 func _ready() -> void:
 	rng.seed = 4816
-	var groves := [Vector2(-13,-8),Vector2(-18,2),Vector2(-20,14),Vector2(15,-11),Vector2(5,-19)]
-	for g in range(groves.size()):
-		for i in range(7):
-			var a := i*2.4+g
-			var p: Vector2 = groves[g]+Vector2(cos(a),sin(a))*sqrt(float(i))*1.9
-			var height: float = [7.0,10.5,14.0][(g+i)%3]*rng.randf_range(0.9,1.08)
-			plant(PINES[(g+i)%5],Vector3(p.x,0,p.y),height,i*1.7,0)
-			trunk_collision(Vector3(p.x,height*0.22,p.y),height*0.44)
-	for layer in [1,2]:
-		for g in range(5):
-			var center := Vector2(-36+g*17,-29-layer*15+sin(g*2.1)*5)
-			for i in range(6):
-				var a := i*2.4
-				var p := center+Vector2(cos(a),sin(a))*sqrt(float(i))*2.3
-				plant(PINES[(i+g)%4],Vector3(p.x,-0.55,p.y),rng.randf_range(10,16),a,layer)
-	# One autumn broadleaf accent instead of recoloring every pine yellow.
-	for p in [Vector3(-10,0,2),Vector3(10,0,-9),Vector3(-16,0,-17)]:
-		plant("tree_oak_fall",p,rng.randf_range(6.5,8.5),rng.randf()*TAU,0,"autumn")
+	var heroes := [Vector3(-14,17,-7),Vector3(-12,16,-19),Vector3(12,18,-16),Vector3(20,15,-4),Vector3(-17,14,10)]
+	for i in range(heroes.size()):
+		var p: Vector3 = heroes[i]
+		var h := ForestLandscape.height_at(p.x,p.z)
+		plant(PINES[i],Vector3(p.x,h,p.z),p.y,i*1.4)
+		trunk_collision(Vector3(p.x,h+p.y*0.2,p.z),p.y*0.4)
+	# Unequal small groves, placed around the original clearing. Southeast remains open.
+	var centers := [Vector2(-20,-12),Vector2(-21,0),Vector2(-22,17),Vector2(19,-19),Vector2(3,-24)]
+	for g in range(centers.size()):
+		for i in range(3+g%3):
+			var a := i*2.3+g
+			var p: Vector2 = centers[g]+Vector2(cos(a),sin(a))*sqrt(float(i))*2.3
+			plant(PINES[(g+i)%5],Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),rng.randf_range(9.5,15.5),a)
+	for i in range(24):
+		var a := PI+i*PI/23
+		var p := Vector2(cos(a)*55,sin(a)*27-29)
+		plant(PINES[i%5],Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),rng.randf_range(13,19),a,1 if i%3 else 2)
+	for i in range(3):
+		var p: Vector2 = [Vector2(-12,4),Vector2(18,-9),Vector2(-5,-22)][i]
+		plant("BirchTree_Autumn_1" if i%2 else "BirchTree_Autumn_3",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),8.5+i,i,0,"autumn")
 	gardens()
 	for item in batches.values():
 		var mm := MultiMesh.new()
@@ -42,7 +41,8 @@ func _ready() -> void:
 	batches.clear()
 
 func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural") -> void:
-	var model := A.model("nature",asset,height)
+	var pack := "quaternius" if asset.begins_with("PineTree") or asset.begins_with("BirchTree") or asset in ["Bush_1","Rock_Moss_1"] else "nature"
+	var model := A.model(pack,asset,height)
 	A.style(model,role,layer)
 	model.position = at
 	model.rotation.y = yaw
@@ -78,24 +78,26 @@ func trunk_collision(at: Vector3, height: float) -> void:
 	body.position = at
 
 func gardens() -> void:
-	var centers := [Vector3(-7,0,4),Vector3(-8,0,8),Vector3(7,0,1),Vector3(7,0,5),Vector3(-9,0,16),Vector3(6,0,14),Vector3(11,0,18)]
+	var centers := [Vector2(-10,5),Vector2(11,5),Vector2(-8,15),Vector2(7,15),Vector2(-10,-4),Vector2(14,-9)]
 	for k in range(centers.size()):
-		var center: Vector3 = centers[k]
-		for i in range(35):
+		var center: Vector2 = centers[k]
+		for i in range(20):
 			var a := rng.randf()*TAU
-			var p := center+Vector3(cos(a),0,sin(a))*sqrt(rng.randf())*2.7
-			if ClearingLayout.on_path(p,0.3):
+			var p := center+Vector2(cos(a),sin(a))*sqrt(rng.randf())*2.2
+			if ForestLandscape.on_road(p,0.35):
 				continue
-			plant("grass_large" if i%2 else "grass_leafs",p,rng.randf_range(0.25,0.65),a)
+			var at := Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y)
+			plant("grass_large" if i%2 else "grass_leafs",at,rng.randf_range(0.18,0.4),a)
 			if i%7 == 0:
-				plant("flower_yellowA" if i%2 else "flower_redC",p+Vector3(0.2,0,0),0.5,a)
-		for i in range(3):
-			var p := center+Vector3(i*0.8-0.7,0,-0.7)
-			plant("plant_bushDetailed" if i%2 else "plant_bushLarge",p,0.8+i*0.15,i)
-			plant("rock_largeA" if i%2 else "rock_largeB",p+Vector3(0.3,0,0.8),0.6,i)
-	for i in range(180):
-		var z := rng.randf_range(4.0,23.0)
-		var x := ClearingLayout.path_center(z)+(1.0 if i%2 else -1.0)*(ClearingLayout.path_half_width(z)+rng.randf_range(0.1,0.7))
-		plant("grass_leafs",Vector3(x,0,z),rng.randf_range(0.12,0.32),i)
-	plant("stump_roundDetailed",Vector3(8,0,12),0.8,0.3)
-	plant("log_stack",Vector3(-7.7,0,-1),0.8,0.4)
+				plant("flower_yellowA",at,0.3,a)
+		for i in range(2):
+			var p := center+Vector2(i*0.8-0.4,-0.6)
+			plant("Bush_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.7+i*0.12,i)
+		var p := center+Vector2(0.4,0.8)
+		plant("Rock_Moss_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.65,k)
+	for i in range(70):
+		var p := ForestLandscape.road_point(rng.randf())
+		p.x += (1.0 if i%2 else -1.0)*(ClearingLayout.path_half_width(p.y)+rng.randf_range(0.15,0.65))
+		plant("grass_leafs",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),rng.randf_range(0.15,0.28),i)
+	plant("stump_roundDetailed",Vector3(8,ForestLandscape.height_at(8,12),12),0.65,0.3)
+	plant("log_stack",Vector3(-10,ForestLandscape.height_at(-10,0),0),0.7,0.5)
