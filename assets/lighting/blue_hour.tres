@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="ForestLightingPreset" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/lighting/lighting_preset.gd" id="1"]
+[resource]
+script = ExtResource("1")
+preset_name = "Blue Hour"
+sun_rotation = Vector3(-12, -62, 0)
+sun_color = Color(0.7137255, 0.8, 0.9411765, 1)
+sun_energy = 0.2
+ambient_color = Color(0.6078431, 0.6823529, 0.8196078, 1)
+ambient_energy = 0.5
+sky_top = Color(0.1411765, 0.2392157, 0.4039216, 1)
+sky_horizon = Color(0.5607843, 0.6352941, 0.7568628, 1)
+ground_horizon = Color(0.427451, 0.5215686, 0.627451, 1)
+ground_bottom = Color(0.2156863, 0.2941176, 0.3333333, 1)
+sky_energy = 0.7
+sky_curve = 0.24
+sun_glow_angle = 0.0
+sun_in_sky = false
+fog_color = Color(0.4705882, 0.5921569, 0.6941176, 1)
+fog_energy = 0.35
+fog_begin = 50.0
+fog_end = 170.0
+fog_sky_affect = 0.22
+shadow_blur = 2.5
+shadow_distance = 85.0
+shadow_blend_splits = true

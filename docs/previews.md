@@ -29,3 +29,5 @@ V06: [Grass and character colors](https://github.com/VietCodeBug/forest-post-caf
 V07: [Samatha temporary player](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-07-samatha-player). Original color textures, lowered idle arms, eggeght NPC; Joe excluded because gray. [Vietnamese report](v07-character-roles.md).
 
 Requested ground session: [preview/ver-05-ground-environment](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-ground-environment). This name follows the explicit user request, distinct from ver-05-hero-building. Five matched views against V04 and the current V07 baseline; [report](map01-ground-environment-review.md). Earlier versions remain intact.
+
+V08: [Lighting presets](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-08-lighting-presets), matched PR09 baseline / Golden Hour / Blue Hour, five views each plus sunlight trials. [Vietnamese report](sky-sun-atmosphere-review.md). Golden is default; original assets unchanged.
