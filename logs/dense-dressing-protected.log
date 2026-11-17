@@ -1,0 +1,4 @@
+PASS accepted cafe, original actors, controls/camera, physics/terrain/path, tree placement, presets, renderer and vendor bytes unchanged
+PASS dense grass uses original procedural meshes; GPU geometry/placement checked by dense_meadow_test.gd
+PASS original source/export hashes, CC0 provenance and procedural rain audio
+PASS vegetation generator/shader/preset/scene SHA-256 provenance

@@ -1,0 +1,27 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 21845, "grass_main": 1871, "grass_accent": 12, "flowers_white": 60, "flowers_purple": 27 } generation_ms=2591
+Forest floor instances: { "grass_carpet": 21845, "grass_main": 1871, "grass_accent": 12, "flowers_white": 60, "flowers_purple": 27, "fern_rosette": 75, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=24 pebbles=12
+PASS: daylight energizes actual directional sun
+PASS: dynamic sky uses Compatibility shader
+PASS: night disables below-horizon sunlight/shadows
+PASS: night has real moon illumination
+PASS: runtime window/lantern emission follows nighttime
+PASS: existing cafe local lights brighten at night
+PASS: lighting wraps smoothly at midnight
+PASS: pause holds time while wind remains active
+PASS: configurable duration advances one hour correctly
+PASS: unknown weather rejected
+PASS: rain transitions gradually
+PASS: rain wets ground and starts CPU particles
+PASS: heavy rain shader receives intensity
+PASS: ground dries gradually after rain
+PASS: rain ambience loops
+PASS: shared wind reaches actual tree/bush foliage
+PASS: ground/grass materials receive wetness
+PASS: LOD simplifies layer 0
+PASS: LOD simplifies layer 1
+PASS: LOD simplifies layer 2
+WEATHER COMPLETE; failures=0

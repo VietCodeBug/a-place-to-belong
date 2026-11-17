@@ -1,0 +1,22 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Lighting preset: PR09 baseline sun=(-32.0, -44.0, 0.0) energy=0.82 ambient=0.85
+PASS: pr09_baseline: exactly one sky/environment and one directional light, no extra geometry
+PASS: pr09_baseline: original café local light is untouched
+PASS: pr09_baseline: verified SSAO settings retained
+PASS: PR09 sun and ambient baseline reproduced
+PASS: PR09 sky and fog baseline reproduced
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+PASS: golden_hour: exactly one sky/environment and one directional light, no extra geometry
+PASS: golden_hour: original café local light is untouched
+PASS: golden_hour: verified SSAO settings retained
+PASS: Golden Hour has warm directional emphasis with reduced ambient
+PASS: Golden sky sun uses the actual directional light
+Lighting preset: Blue Hour sun=(-12.0, -62.0, 0.0) energy=0.2 ambient=0.5
+PASS: blue_hour: exactly one sky/environment and one directional light, no extra geometry
+PASS: blue_hour: original café local light is untouched
+PASS: blue_hour: verified SSAO settings retained
+PASS: Blue Hour uses low-energy cool directional fill
+PASS: Blue Hour does not add an inconsistent visible sun disc
+PASS: Compatibility remains the renderer
+LIGHTING PRESETS COMPLETE; failures=0

@@ -1,0 +1,423 @@
+{
+  "final_layout_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+  "grass_weather_motion_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+  "before_commit": "68c21d6731bf105b21d22a6f62560f1f29c38e2b",
+  "renderer": "Godot 4.6.3 Compatibility / Linux Mesa llvmpipe (software)",
+  "files": [
+    {
+      "file": "before-v08/01-default-gameplay.png",
+      "source_commit": "68c21d6731bf105b21d22a6f62560f1f29c38e2b",
+      "sha256": "f919b97035b85c9c47f0710883836a8741c565a66f4184234dc55d8fa4beb646",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "before-v08/02-ground-grass.png",
+      "source_commit": "68c21d6731bf105b21d22a6f62560f1f29c38e2b",
+      "sha256": "ccc9c0d2005d7b0342168e14c6d271522f0dbcc53991acb5e16c7404e7654f20",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "before-v08/03-path-transitions.png",
+      "source_commit": "68c21d6731bf105b21d22a6f62560f1f29c38e2b",
+      "sha256": "5628c68f0e7e941d8219691b43fbfa86bf9b0bb66c2edd43a7751cd93631341d",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "before-v08/04-forest-floor.png",
+      "source_commit": "68c21d6731bf105b21d22a6f62560f1f29c38e2b",
+      "sha256": "3ff0d1a28b05fae3a9384b5a0f8be03df7c29532c40a57fd18e581e726006dd8",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "before-v08/05-map01-composition.png",
+      "source_commit": "68c21d6731bf105b21d22a6f62560f1f29c38e2b",
+      "sha256": "44606011d12d854bbd9853b5969d3bf6735bdd41fec36032f1ca865cfd23607c",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "matched-golden/01-default-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "a73a5bf80bf5a42994215bba2b7cf1d43e97c024294650b14feab1c00aceb617",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "matched-golden/02-ground-grass.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "7b894e756d28f9f1ae2de35712db0e265038be36851424cda92f01581ef9fa79",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "matched-golden/03-path-transitions.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "ae37e0d37afa2e1bc770175f9a5c7855889ddc85d7d95633766f4fc5e982a625",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "matched-golden/04-forest-floor.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "9e67280c613a47489f7e1804f449f1f5eb5b09b13ccb84f7bcb9d30e2cb66f46",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "matched-golden/05-map01-composition.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "2a42cc730fc82ea0975f8cff3b572e9491e239003cd38fa7fd89730f129a2ad0",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "final-layout/01-default-gameplay.png",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "18913fa2caa321c8f4ec2533bc7b755fe39225decce3e4038aa9af5f31f41125",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "final-layout/02-ground-grass.png",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "4f9dc26c002faa51f27ef1a11ada72225eed7d3bf777f7d62bd69772d80c724f",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "final-layout/03-path-transitions.png",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "b245469505bd2ff230d12c3ce6e4bd242e073c47a987a4d5a6a82c20831d2582",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "final-layout/04-forest-floor.png",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "d9e66142541d32034ecec872aa435ea72ee243a3d626e689b8c74f83e611fb4c",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "final-layout/05-map01-composition.png",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "f13cf9167b3d4cc1c9a1ee213d3df05b5c903450992e99a0a0909ca6d7312187",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/day-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "d256f722c7a33dc9ea95022bf3bd4614952f3aa8f6aeecc4eb9c0776b70c1cf8",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/day-sky.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "7b11d1db53422942e0b770bce1953062c01aa1fffaa578c3aff8f054772d3181",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/heavy-rain-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "53b752ac4245a34da7759a76b4f853e314413d265732072b576cf45dabf30d7a",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/heavy-rain-sky.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "41ec96abf38e92e9be16a1bf2f853670187d720964bcd8a276945f46b4e05ba3",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/light-rain-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "4faf00951f2a32dc2374ddda4e366fda1898daff9057d106759360365a23c0f5",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/light-rain-sky.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "cc77caa430a75daf1b0b229e9e0c93bdc6ae167771ec260ef921f01481e75677",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/night-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "f334abaf5e09daf9bfafc5b867a68d2c061c2589d4c94357d34b1be68895082b",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/night-sky.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "b101ad984884827762f892e387f9c75d551a1fe814fa232bc09e954f2a345542",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/overcast-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "0b4e0fda7b90f06555f8b8dd0edfa7a73525e15e1ac54ddd7d879a3c558df4a3",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/overcast-sky.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "133492ad6f8e8047a8d8752a260907e1c1ef88fa5487948c1c4187e0e771bcce",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/sunset-gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "6f9e9e27a2de4e3ffff7e33e1c005ec66ad55f66eb213295289f090d87cf06e5",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "weather/sunset-sky.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "e499d786ae0ad49bcca90ac89f4704f1b1c1f15808dba6040588cb19b5ea2dd7",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "grass-demo/gameplay.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "e73da6a3a179839f6aeab3a6b2ad2136427601c169de801d96127bb3a9ea9db2",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "grass-demo/close.png",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "1be1a57b632b3a06420268400b421aba460a5d606f1181fd319c0c5a16f3e8ec",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "motion/grass-close.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "d5e6f923c681377eaf9dd85a1d0c979a7c98b5dc14ab167ff13212bcf3ceef3b",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "48"
+          }
+        ],
+        "format": {
+          "duration": "4.000000"
+        }
+      }
+    },
+    {
+      "file": "motion/grass-gameplay.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "aba8bfca359518a859b8f60cd652c5e47c8a6f56383986690d1dc7c8a1333187",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "24"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "motion/wind.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "ce88e79945f1435429d4aa219b584d40c54b7299115b812c1f2431a101efba75",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "24"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "motion/day.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "3a9a35afa03608a4db1c3bf7f1b336e5d86cfaa59a86d8c9dee7060e0827a9fb",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "24"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "motion/sunset.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "d48274151c1fc3fde5278007e6163c3e1e65d3f57d81c8cba0046988828d9986",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "24"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "motion/night.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "838d8e055007652ef8531cd7cbde5e2f1e22c0be7d9742f2f268e9367969729d",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "24"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "motion/rain.mp4",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "385bf48a479e0c7b535f72305bdf8a70c258b0f20a26ad789ee99e20b83f3a88",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 854,
+            "height": 480,
+            "r_frame_rate": "12/1",
+            "nb_frames": "24"
+          },
+          {
+            "codec_name": "aac",
+            "r_frame_rate": "0/0",
+            "nb_frames": "44"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "logs/dense-dressing-tests.log",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "db0cefb28e1fdf9b97f1a0e1ed82e84d63a6595cf1790899e28b0366442f739e"
+    },
+    {
+      "file": "logs/dense-dressing-scope.log",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "a02c636f644fc47d127bb3a42103e4053f514092d7868229be4e787e0604a3a1"
+    },
+    {
+      "file": "logs/dense-dressing-protected.log",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "48a21d51ebef5b253e18c996b154114f4fd028cf0fd77dc794f3ae7f89999b5b"
+    },
+    {
+      "file": "logs/dense-smoke-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "5e3e7c244183fe43b366d96eddaf409324ae30bb500804bdd8a1700894389fdd"
+    },
+    {
+      "file": "logs/dense-map-tests-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "243f6e28bb145e2c061a8db50bd254106df902f7d796733a125cc969fafb71c0"
+    },
+    {
+      "file": "logs/dense-integration-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "eb2198769d367e2d773c1cb5dfd198952075bb9134198b5e613a810a2dcbf620"
+    },
+    {
+      "file": "logs/dense-weather-tests-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "858b5d3eca6a9831c8f915f7e600fb853cb523dfbc69b50bf27c292b32881e66"
+    },
+    {
+      "file": "logs/dense-light-tests-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "074ff231831fb839578514f7db75a84fc9a856d69ea99dee18366dc51393eff0"
+    },
+    {
+      "file": "logs/dense-vendor-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "1204b673bfe66441dd7605ad28007d32af0ca2183c20df4621afe49b098633b9"
+    },
+    {
+      "file": "logs/dense-characters-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "3c3e9231de2dcffd89232dd1ccf571a20bfe01c512626d2ec98b8a51c68e7489"
+    },
+    {
+      "file": "logs/dense-dressing-final.log",
+      "source_commit": "9d937ff98405bba7272e056b6f4bc5afbb84ec99",
+      "sha256": "016c47339365d4de657e9ad6d7c36b7f6225c3dfb02c6aa65695ea0529ca5dff"
+    },
+    {
+      "file": "logs/dense-weather-capture-final.log",
+      "source_commit": "207635454420034821d834a40b6dc3d42cc44a24",
+      "sha256": "42a9f2ab527e05d5196af2cae2d7bf32bce595e5a4ba93586dfa9a29bf033f32"
+    }
+  ]
+}

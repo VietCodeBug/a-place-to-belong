@@ -1,0 +1,14 @@
+{
+  "camera_transform": "[X: (0.738071, 0.0, -0.674723), Y: (-0.298399, 0.89689, -0.326415), Z: (0.605152, 0.442255, 0.661969), O: (17.11275, 15.59794, 27.81334)]",
+  "clip": "night",
+  "final_hours": 22.0,
+  "fps": 12,
+  "frames": 24,
+  "grass_preset": "medium",
+  "render_size": "(854, 480)",
+  "renderer": "gl_compatibility",
+  "time_lapse": false,
+  "weather": "partly_cloudy",
+  "wind_multiplier": 1.0,
+  "note": "Offline actual Godot frames at fixed 12 fps; sunset is accelerated 16:30\u201319:30. MP4 padded by at most one pixel to even dimensions. Rain audio muxes the runtime WAV; not a direct audio mixer recording."
+}

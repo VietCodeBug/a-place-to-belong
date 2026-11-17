@@ -1,0 +1,9 @@
+PASS hero: 160760 triangles, 20 meshes, 31 PBR materials, no external textures; stable semantic nodes; sha256=13d03ae08343f6052258b008f187602c47b9b2c7f115878e930fe9b2560f5ec3
+NOTE source rig: 201/12824 vertices have weight sums outside 1 ± 0.02; source retained unchanged
+PASS user avatar: original SHA-256 preserved, 52 skin joints, finite positive weights and valid joint indices, 0 animation clips
+PASS provenance roster: assets/hero_cafe
+PASS provenance roster: assets/characters/postal_worker
+PASS Joe source: unchanged 52-bone model; confirmed gray-only, excluded from active hub
+PASS source roster: joe
+PASS Samatha: unchanged supplied bytes, 10997 triangles, 66 joints, 3 clips, 3 embedded 4096px PBR maps; reviewed color texture retained
+PASS source roster: samatha

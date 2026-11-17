@@ -1,0 +1,29 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Dense meadow: { "grass_carpet": 391, "grass_main": 85, "grass_accent": 6, "flowers_white": 23, "flowers_purple": 9 } generation_ms=7
+PASS: 5x5 carpet has at least 14.8 accepted clumps per m2
+PASS: separate main tuft layer present
+PASS: separate sparse accent layer present
+PASS: white and purple flowers present
+Dense meadow: { "grass_carpet": 391, "grass_main": 85, "grass_accent": 6, "flowers_white": 23, "flowers_purple": 9 } generation_ms=5
+PASS: same seed regenerates deterministically without accumulating nodes
+PASS: all roots sample the actual non-flat test surface
+PASS: wind advances without regenerating terrain
+PASS: carpet distance mesh removes over 90 percent of triangles
+Dense meadow: { "grass_carpet": 110, "grass_main": 93, "grass_accent": 1, "flowers_white": 19, "flowers_purple": 9 } generation_ms=4
+PASS: Inspector density changes accepted population
+Dense meadow: {  } generation_ms=2
+PASS: 45 degree slopes rejected by 35 degree limit
+Dense meadow: {  } generation_ms=2
+PASS: custom exclusion masks reject placements
+Dense meadow: {  } generation_ms=3
+PASS: painted zero RGBA mask rejects all layers
+PASS: Clear removes all generated batches
+PASS: valid low density/LOD preset
+PASS: valid medium density/LOD preset
+PASS: valid high density/LOD preset
+PASS: valid ultra density/LOD preset
+DENSE MEADOW COMPLETE; failures=0
