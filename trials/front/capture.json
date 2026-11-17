@@ -1,0 +1,22 @@
+{
+	"ambient_energy": 0.52,
+	"candidate": "front",
+	"measurements": {
+		"01-gameplay.png": {
+			"draw_calls": 896.0,
+			"primitives": 1155828.0
+		},
+		"02-cafe-exterior.png": {
+			"draw_calls": 947.0,
+			"primitives": 1242759.0
+		},
+		"03-forest-clearing.png": {
+			"draw_calls": 1065.0,
+			"primitives": 1274203.0
+		}
+	},
+	"preset": "Golden Hour",
+	"rendering_method": "gl_compatibility",
+	"sun_energy": 1.0,
+	"sun_rotation": "(-26.0, -32.0, 0.0)"
+}

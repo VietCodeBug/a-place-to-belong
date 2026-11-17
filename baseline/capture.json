@@ -1,0 +1,30 @@
+{
+	"ambient_energy": 0.85,
+	"candidate": "",
+	"measurements": {
+		"01-gameplay.png": {
+			"draw_calls": 782.0,
+			"primitives": 1077112.0
+		},
+		"02-cafe-exterior.png": {
+			"draw_calls": 726.0,
+			"primitives": 1063451.0
+		},
+		"03-forest-clearing.png": {
+			"draw_calls": 797.0,
+			"primitives": 1092930.0
+		},
+		"04-low-sky.png": {
+			"draw_calls": 1054.0,
+			"primitives": 1269043.0
+		},
+		"05-wide-composition.png": {
+			"draw_calls": 870.0,
+			"primitives": 1056765.0
+		}
+	},
+	"preset": "PR09 baseline",
+	"rendering_method": "gl_compatibility",
+	"sun_energy": 0.82,
+	"sun_rotation": "(-32.0, -44.0, 0.0)"
+}

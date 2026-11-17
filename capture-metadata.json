@@ -1,0 +1,147 @@
+{
+  "code_commit": "2c901267359475fafc5c82db0722d068ba9f4b80",
+  "baseline_commit": "82cfd4ed68627bcfdb428e10947c20f1b692b15b",
+  "engine": "Godot 4.6.3",
+  "renderer": "Compatibility/OpenGL4.5 Mesa llvmpipe",
+  "resolution": [
+    1280,
+    720
+  ],
+  "default": "golden_hour",
+  "visual_approval": "pending user review",
+  "controls": "matching cameras; actors/wind frozen only during capture",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "1636de62266811ff727839164ff71049a51b26ab8dfc3fd5c475baf1c7a3aa49"
+    },
+    {
+      "path": "baseline/01-gameplay.png",
+      "sha256": "ee90838ca5689570b95ff8c5f68e3c1aa5389b6af6700fe437302ccaa3929184"
+    },
+    {
+      "path": "baseline/02-cafe-exterior.png",
+      "sha256": "fe0a48fff7810d0e91ee60c1c856994a691c2c1ddbdb7deac47ed255258d84ed"
+    },
+    {
+      "path": "baseline/03-forest-clearing.png",
+      "sha256": "0127d9bf9c49bb9a53bfc36e281c7d5fc874f34b9018e0cf5ad68216c155a195"
+    },
+    {
+      "path": "baseline/04-low-sky.png",
+      "sha256": "5f8154c98aa62ed1a7f6655164cc9243fe0ff7f4389010790dc656f2a6c50ff5"
+    },
+    {
+      "path": "baseline/05-wide-composition.png",
+      "sha256": "b358a461abddae8153129557b7c84730ac71d7de9fd22815fe091e01005cd3a8"
+    },
+    {
+      "path": "baseline/capture.json",
+      "sha256": "77a457a4a2780f279400673ccfa6235829aa522441ed2a9ed53604d8a8ff4b03"
+    },
+    {
+      "path": "blue-hour/01-gameplay.png",
+      "sha256": "33373f3d6597cafb9fc6bd6160c4ac6615638059de0eca9ed5ff4ba4e7bb75e0"
+    },
+    {
+      "path": "blue-hour/02-cafe-exterior.png",
+      "sha256": "c3943f397a471629b85310641482efe145b62b8456f6b944d6a15ab3138bdd8e"
+    },
+    {
+      "path": "blue-hour/03-forest-clearing.png",
+      "sha256": "b81f82f16b686b77c5382940b56e8abc0d8254a6b3b78b8adda9e66b91d93bdc"
+    },
+    {
+      "path": "blue-hour/04-low-sky.png",
+      "sha256": "c2499a4db893a41c7cbc0af236715486e9b36f324bd71d6fef0b4467934024e6"
+    },
+    {
+      "path": "blue-hour/05-wide-composition.png",
+      "sha256": "10ce0b3ed31ba8f7242f4edc707612f0e1d573df717d0ba560a645f89e91cf83"
+    },
+    {
+      "path": "blue-hour/capture.json",
+      "sha256": "e6c79de644e8e224eff7412b5c4ef8a6ecb4f9ffe791bd49a36ddcc6980ea915"
+    },
+    {
+      "path": "golden-hour/01-gameplay.png",
+      "sha256": "e93d1ee3293a60bbae25a8b7afc6cecc5ea63ab83224373a319b4283f751b1ea"
+    },
+    {
+      "path": "golden-hour/02-cafe-exterior.png",
+      "sha256": "4333c973fb857b8d19191d2dafa0cfe3eaa2405f3ee406c0d2ddda4dc75ff446"
+    },
+    {
+      "path": "golden-hour/03-forest-clearing.png",
+      "sha256": "79687d5f25d7061b5922799f36bc4c5e585a65d13b08a21c77827296790c7068"
+    },
+    {
+      "path": "golden-hour/04-low-sky.png",
+      "sha256": "021e705d804a00c2181cce216c55e9118d959c284d7c94829c5dfb5d85ff9883"
+    },
+    {
+      "path": "golden-hour/05-wide-composition.png",
+      "sha256": "44606011d12d854bbd9853b5969d3bf6735bdd41fec36032f1ca865cfd23607c"
+    },
+    {
+      "path": "golden-hour/capture.json",
+      "sha256": "4c96a955cc6c1f8c08018998792dbb9f1c6785573d6fc2c63db9d305af34f42a"
+    },
+    {
+      "path": "parameters.json",
+      "sha256": "5c0f4ccf139e50b8e27d018bedfb82cdab76cdc1200e376ec14b64c349a5566f"
+    },
+    {
+      "path": "software-wall-frame-cost.json",
+      "sha256": "cb270fb2b2ee43451d2e65cbed6393f0fdcb7abb17d42bd62751647eb9de829b"
+    },
+    {
+      "path": "trials/front/01-gameplay.png",
+      "sha256": "37f6925eb8ccf1b0874d8acfdf22b39286ffef39adb423022ba96927dc69aa72"
+    },
+    {
+      "path": "trials/front/02-cafe-exterior.png",
+      "sha256": "5b16abf6f7f24c18ecb923a8357248f5b70ef6f86a464cd635b34ab49d45af60"
+    },
+    {
+      "path": "trials/front/03-forest-clearing.png",
+      "sha256": "87700d6e3e1a538e3955e4345953d3eb9dc262587c2e8fd2b09e09e07480e71c"
+    },
+    {
+      "path": "trials/front/capture.json",
+      "sha256": "b0fc36703258504a34aac201dba0a4c6937212bcf6b2af31ef7c24e6ff3282e1"
+    },
+    {
+      "path": "trials/low/01-gameplay.png",
+      "sha256": "098f082cf4cfcf3ade22f62f96772f0dbf6dd06b07a0af67da30f2f1b2400109"
+    },
+    {
+      "path": "trials/low/02-cafe-exterior.png",
+      "sha256": "5cb0770769afd00cea2d98de802ddb99d09b858280634268f41f1f073df008aa"
+    },
+    {
+      "path": "trials/low/03-forest-clearing.png",
+      "sha256": "bb61871796cf3f29a826a4836dd757cf0fc95238a8e462f2d0ee5fcb98461e2f"
+    },
+    {
+      "path": "trials/low/capture.json",
+      "sha256": "912d48c77fb279dc89e2ea721d95b5b1c3bf317d952c24eafc1160e13951b0c2"
+    },
+    {
+      "path": "trials/side/01-gameplay.png",
+      "sha256": "3efee92e7f66c9f9b38066869c45bce870618256face8e2e7df16bab34dc6b3e"
+    },
+    {
+      "path": "trials/side/02-cafe-exterior.png",
+      "sha256": "de0587c036139e165e2900bd90fd29d6cd575ba6712c416c8da330560af715e1"
+    },
+    {
+      "path": "trials/side/03-forest-clearing.png",
+      "sha256": "d81b15ce001e47a534709d2ae5d360f5f477ba121eb2c9e7ac0846afa49c5425"
+    },
+    {
+      "path": "trials/side/capture.json",
+      "sha256": "b346b5f2aa6d470b2e274bd5b1d646e884c0ebc3f8f1c6e3a99cc512cf959b74"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+	"measurement": "wall frame intervals on frozen default view, software Mesa llvmpipe; not hardware GPU timing",
+	"profiles": {
+		"blue_hour": {
+			"draw_calls": 842.0,
+			"max_frame_ms": 2034.868,
+			"median_frame_ms": 983.1525,
+			"min_frame_ms": 970.778,
+			"primitives": 1048285.0
+		},
+		"golden_hour": {
+			"draw_calls": 843.0,
+			"max_frame_ms": 2010.878,
+			"median_frame_ms": 1022.9765,
+			"min_frame_ms": 979.861,
+			"primitives": 1053325.0
+		},
+		"pr09_baseline": {
+			"draw_calls": 782.0,
+			"max_frame_ms": 2017.366,
+			"median_frame_ms": 1010.3715,
+			"min_frame_ms": 973.281,
+			"primitives": 1077112.0
+		}
+	},
+	"renderer": "gl_compatibility",
+	"samples": 12
+}
