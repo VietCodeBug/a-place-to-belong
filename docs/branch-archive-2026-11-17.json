@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-17",
+  "purpose": "User requested branch cleanup; preserve all source and preview snapshots with same-name tags before deleting redundant branches",
+  "kept_remote_branches": [
+    "3D_model",
+    "feature/map01-lighting-presets",
+    "main",
+    "preview/ver-08-lighting-presets"
+  ],
+  "main_commit_unchanged": "d7d12034a38f2f0f6f05c2c74a956f3d22293117",
+  "model_branch_commit_unchanged": "d7d12034a38f2f0f6f05c2c74a956f3d22293117",
+  "latest_code_before_documentation": "2c901267359475fafc5c82db0722d068ba9f4b80",
+  "archived": [
+    {
+      "branch": "feature/composed-forest-depth",
+      "commit": "31c43cb558c5ccc84e55f743d2150a81e8d64b6c",
+      "archive_tag": "feature/composed-forest-depth",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/composed-forest-depth"
+    },
+    {
+      "branch": "feature/early-autumn-cozy-forest",
+      "commit": "1950ce387b1ebaa4f375069d4f55a93041d523f6",
+      "archive_tag": "feature/early-autumn-cozy-forest",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/early-autumn-cozy-forest"
+    },
+    {
+      "branch": "feature/licensed-asset-vertical-slice",
+      "commit": "33b493baefc82b6a05086eabd8b7308670ca6267",
+      "archive_tag": "feature/licensed-asset-vertical-slice",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/licensed-asset-vertical-slice"
+    },
+    {
+      "branch": "feature/map01-ground-environment",
+      "commit": "82cfd4ed68627bcfdb428e10947c20f1b692b15b",
+      "archive_tag": "feature/map01-ground-environment",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/map01-ground-environment"
+    },
+    {
+      "branch": "feature/phase-01-godot-foundation",
+      "commit": "4a7550eb6de3f941eb098849012810b912294948",
+      "archive_tag": "feature/phase-01-godot-foundation",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/phase-01-godot-foundation"
+    },
+    {
+      "branch": "feature/v04-map01-art-pass",
+      "commit": "aa5f7181f9d29abbbfb6791fe2070a6895112eff",
+      "archive_tag": "feature/v04-map01-art-pass",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/v04-map01-art-pass"
+    },
+    {
+      "branch": "feature/v05-hero-building",
+      "commit": "c3adaabbad695a854eaa6a8c5238e0d601d1883a",
+      "archive_tag": "feature/v05-hero-building",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/v05-hero-building"
+    },
+    {
+      "branch": "feature/v06-grass-character-color",
+      "commit": "e7844db23c3a7a10f1bfe5228eeaed9fbf9fe5cc",
+      "archive_tag": "feature/v06-grass-character-color",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/v06-grass-character-color"
+    },
+    {
+      "branch": "feature/v07-character-roles",
+      "commit": "e5900df3f9a5df304df845521c3903e94b779649",
+      "archive_tag": "feature/v07-character-roles",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/feature/v07-character-roles"
+    },
+    {
+      "branch": "preview/ver-01-early-autumn",
+      "commit": "62e7803a80d88717e07b064252c348dd2a7c402b",
+      "archive_tag": "preview/ver-01-early-autumn",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-01-early-autumn"
+    },
+    {
+      "branch": "preview/ver-02-composition-depth",
+      "commit": "852af1e9b8b98608700836150a4a0f86b0f38a9b",
+      "archive_tag": "preview/ver-02-composition-depth",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-02-composition-depth"
+    },
+    {
+      "branch": "preview/ver-03-kenney-kitbash",
+      "commit": "ff6b9be90f30dba994678e0f07f95e897278e667",
+      "archive_tag": "preview/ver-03-kenney-kitbash",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-03-kenney-kitbash"
+    },
+    {
+      "branch": "preview/ver-04-map01-art-pass",
+      "commit": "e1c93ad6b62310374bc6567a1328346097f567db",
+      "archive_tag": "preview/ver-04-map01-art-pass",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-04-map01-art-pass"
+    },
+    {
+      "branch": "preview/ver-05-ground-environment",
+      "commit": "2c95e785ca90d46ba70bb3a54d8ffd136f86a3b9",
+      "archive_tag": "preview/ver-05-ground-environment",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-ground-environment"
+    },
+    {
+      "branch": "preview/ver-05-hero-building",
+      "commit": "99795bee104aa05005e1d53f070183a98eeaa6bf",
+      "archive_tag": "preview/ver-05-hero-building",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-hero-building"
+    },
+    {
+      "branch": "preview/ver-06-grass-character-color",
+      "commit": "9ca9781d9e30ced171eda22f8a1a8e06d90b7189",
+      "archive_tag": "preview/ver-06-grass-character-color",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-06-grass-character-color"
+    },
+    {
+      "branch": "preview/ver-07-samatha-player",
+      "commit": "fe24ae83beec810d1cecf4f6f66ad01d9c9acf8c",
+      "archive_tag": "preview/ver-07-samatha-player",
+      "url": "https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-07-samatha-player"
+    }
+  ],
+  "review": "PR #10 consolidates the complete prototype against main; PR #1–9 superseded and closed without merge"
+}

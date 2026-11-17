@@ -1,4 +1,6 @@
-# Versioned preview branches
+# Versioned preview branches and archive tags
+
+After the user-requested cleanup on 2026-11-17, older previews are preserved as same-name **tags**; the latest preview remains a branch. All existing links still resolve. See [branch management](branch-management.md) and [exact archive commits](branch-archive-2026-11-17.json).
 
 Each visual review session publishes its images to its own `preview/ver-XX-name`
 branch. These branches contain only PNGs and a README with source commit, capture
