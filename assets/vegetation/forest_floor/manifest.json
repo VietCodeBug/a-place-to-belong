@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "created_date": "2026-11-17",
+  "origin": "Original Blender-authored Forest Post Caf\u00e9 floor modules; no third-party meshes or textures in this package",
+  "rights": "Project-authored geometry; no external license or CC0 claim assigned",
+  "workflow": "Manual Blender 4.3.2 export and validation; existing user authorization for manual workflow, game-dev CLI unavailable; no paid generation",
+  "policy": {
+    "max_triangles_per_module": 256,
+    "external_textures": 0,
+    "runtime_instances_max": 25000,
+    "physics_bodies_added": 0
+  },
+  "files": [
+    {
+      "path": "assets/vegetation/forest_floor/fallen_leaf.glb",
+      "bytes": 1960,
+      "sha256": "fde1388c370cdf465c4f9a54db84a324882f0fbc3b24879cc7b53f34e633214a"
+    },
+    {
+      "path": "assets/vegetation/forest_floor/fern_rosette.glb",
+      "bytes": 21308,
+      "sha256": "fd2aac8ee460bf3d8b2e2597b89a16406b45c601557c95a26412e63181c0d26a"
+    },
+    {
+      "path": "assets/vegetation/forest_floor/meadow_sweep.glb",
+      "bytes": 2924,
+      "sha256": "9a48c8fc0f6c94437c41e6fce8f1693b8cf3d06d0e05d2dc6dc011b6d8865d37"
+    },
+    {
+      "path": "assets/vegetation/forest_floor/short_blades.glb",
+      "bytes": 2680,
+      "sha256": "03bcf1aadcb23d0e38fccfaa53d9702a07b7bb0449427d004c7478d62fa86844"
+    },
+    {
+      "path": "assets/vegetation/forest_floor/soft_fan.glb",
+      "bytes": 3156,
+      "sha256": "47b0312ffe62f03d667c382e7da673dfc2e50f04305e853256b1100d041f1029"
+    },
+    {
+      "path": "assets/vegetation/forest_floor/tall_sedge.glb",
+      "bytes": 3404,
+      "sha256": "b109d33c4458fb42a3fa36e412a29c8abdbef927747c64f12fe26e4e721d62e6"
+    },
+    {
+      "path": "assets/vegetation/forest_floor/twig.glb",
+      "bytes": 1464,
+      "sha256": "4ac68b6c930831c871be3828d428b3ed5837c2f54b1e8784300faf57a4c9ec94"
+    },
+    {
+      "path": "art_source/forest_floor/build_assets.py",
+      "bytes": 4015,
+      "sha256": "437e179a051303f741b516903f54653fbb0989910e0bd1ab2ffecd1d52dc4d58"
+    },
+    {
+      "path": "art_source/forest_floor/forest_floor.blend",
+      "bytes": 486108,
+      "sha256": "d2f805b01ea3b36d1773c9986be09ebce64f8b00692a113ad8a010e3944c0fe6"
+    },
+    {
+      "path": "art_source/forest_floor/build_report.json",
+      "bytes": 601,
+      "sha256": "2283f7b18676f631a3cb1a034e3f6a213d1acfa70955a7190c29c3ca3d557dbd"
+    }
+  ]
+}

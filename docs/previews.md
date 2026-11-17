@@ -27,3 +27,5 @@ V05: [Hero building review](https://github.com/VietCodeBug/forest-post-cafe/tree
 V06: [Grass and character colors](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-06-grass-character-color). [Vietnamese report](v06-grass-character-color.md). House V05 preserved.
 
 V07: [Samatha temporary player](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-07-samatha-player). Original color textures, lowered idle arms, eggeght NPC; Joe excluded because gray. [Vietnamese report](v07-character-roles.md).
+
+Requested ground session: [preview/ver-05-ground-environment](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-ground-environment). This name follows the explicit user request, distinct from ver-05-hero-building. Five matched views against V04 and the current V07 baseline; [report](map01-ground-environment-review.md). Earlier versions remain intact.

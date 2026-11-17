@@ -81,42 +81,19 @@ func trunk_collision(at: Vector3, height: float) -> void:
 	add_child(body)
 	body.position = at
 
-func meadow_tuft(p: Vector2, height: float, yaw: float) -> void:
-	if ForestLandscape.on_road(p,0.18) or (absf(p.x)<8.4 and p.y<5.1):
-		return
-	plant("tuft_"+str(rng.randi_range(0,2)),Vector3(p.x,ForestLandscape.height_at(p.x,p.y)-0.008,p.y),height,yaw)
-
 func gardens() -> void:
-	# Fine blades in unequal meadow islands; retain open, short lawn around the porch.
-	var centers := [Vector2(-10,5),Vector2(11,5),Vector2(-8,15),Vector2(7,15),Vector2(-10,-4),Vector2(14,-9)]
+	# Unequal shrub/rock anchors; grass and fern habitats are composed by ground_cover.gd.
+	var centers := [Vector2(-11,5),Vector2(11,5),Vector2(-8,15),Vector2(10,12),Vector2(-15,-4),Vector2(16,-9)]
 	for k in range(centers.size()):
-		var center: Vector2 = centers[k]
-		for i in range(95):
-			var a := rng.randf()*TAU
-			var radius := sqrt(rng.randf())
-			var p := center+Vector2(cos(a)*3.1,sin(a)*1.7)*radius
-			# Thin the fringe instead of making a circular ring of identical clumps.
-			if radius>0.7 and rng.randf()<0.45:
-				continue
-			for tuft in range(4):
-				var offset := Vector2(rng.randf_range(-0.20,0.20),rng.randf_range(-0.20,0.20))
-				meadow_tuft(p+offset,rng.randf_range(0.11,0.25),a+tuft)
-			if i%32 == 0 and not ForestLandscape.on_road(p,0.5):
-				plant("flower_yellowA",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.18,a)
-		for i in range(2):
-			var p := center+Vector2(i*0.8-0.4,-0.6)
-			plant("Bush_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.7+i*0.12,i)
-		var p := center+Vector2(0.4,0.8)
-		plant("Rock_Moss_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),0.65,k)
-	# Broken, wider bands beside the path; no evenly spaced oversized leaves.
-	for i in range(210):
-		var t := rng.randf()
-		if sin(t*29.0)>0.68:
-			continue
-		var p := ForestLandscape.road_point(t)
-		p.x += (1.0 if i%2 else -1.0)*(ClearingLayout.path_half_width(p.y)+rng.randf_range(0.25,1.4))
-		for tuft in range(3):
-			var offset := Vector2(rng.randf_range(-0.16,0.16),rng.randf_range(-0.16,0.16))
-			meadow_tuft(p+offset,rng.randf_range(0.09,0.20),rng.randf()*TAU)
+		var center: Vector2=centers[k]
+		for i in range(1+k%3):
+			var p:=center+Vector2(rng.randf_range(-.8,.8),rng.randf_range(-.7,.7))
+			plant("Bush_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),rng.randf_range(.45,.95),rng.randf()*TAU,0,"autumn" if k==1 else "natural")
+		for i in range(3):
+			var bloom:=center+Vector2(rng.randf_range(-1.5,1.5),rng.randf_range(-1.1,1.1))
+			if not ForestFloorDesign.reserved(bloom,.3):
+				plant("flower_yellowA" if k%2 else "flower_purpleB",Vector3(bloom.x,ForestLandscape.height_at(bloom.x,bloom.y),bloom.y),.16,rng.randf()*TAU)
+		var p:=center+Vector2(.8,.6)
+		plant("Rock_Moss_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y)-.05,p.y),.55+k*.05,k)
 	plant("stump_roundDetailed",Vector3(8,ForestLandscape.height_at(8,12),12),0.65,0.3)
 	plant("log_stack",Vector3(-10,ForestLandscape.height_at(-10,0),0),0.7,0.5)

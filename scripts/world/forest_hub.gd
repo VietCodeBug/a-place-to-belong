@@ -28,6 +28,9 @@ func _ready() -> void:
 	forest.name = "LicensedWoodland"
 	forest.set_script(preload("res://scripts/world/woodland.gd"))
 	add_child(forest)
+	var floor_cover := preload("res://scripts/world/ground_cover.gd").new()
+	floor_cover.name = "CuratedGroundCover"
+	add_child(floor_cover)
 	var eggeght := preload("res://scenes/npc/eggeght.tscn").instantiate()
 	eggeght.name = "Eggeght"
 	add_child(eggeght)
@@ -56,8 +59,8 @@ func lighting() -> void:
 	env.background_mode = Environment.BG_SKY
 	var sky := Sky.new()
 	var atmosphere := ProceduralSkyMaterial.new()
-	atmosphere.sky_top_color = Color("6F8E9A")
-	atmosphere.sky_horizon_color = Color("D3CBB1")
+	atmosphere.sky_top_color = Color("789794")
+	atmosphere.sky_horizon_color = Color("DDCCAD")
 	atmosphere.ground_horizon_color = Color("BFC6B4")
 	atmosphere.ground_bottom_color = Color("7A8E82")
 	atmosphere.sky_energy_multiplier = 0.65
@@ -65,23 +68,29 @@ func lighting() -> void:
 	env.sky = sky
 	env.background_color = Color("AABCB7")
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("9EBCBF")
-	env.ambient_light_energy = 0.65
+	env.ambient_light_color = Color("A8B5AC")
+	env.ambient_light_energy = 0.85
+	# Godot 4.6 Compatibility supports SSAO; validated with frozen-camera A/B.
+	env.ssao_enabled = true
+	env.ssao_radius = 0.55
+	env.ssao_intensity = 0.65
+	env.ssao_power = 1.1
 	env.fog_enabled = true
-	env.fog_light_color = Color("A3BAB8")
+	env.fog_light_color = Color("B3BFAF")
 	env.fog_light_energy = 0.45
 	env.fog_mode = Environment.FOG_MODE_DEPTH
-	env.fog_depth_begin = 55
-	env.fog_depth_end = 190
+	env.fog_depth_begin = 38
+	env.fog_depth_end = 155
 	world.environment = env
 	add_child(world)
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-27,-44,0)
+	sun.rotation_degrees = Vector3(-32,-44,0)
 	sun.light_color = Color("FFD0A1")
-	sun.light_energy = 0.65
+	sun.light_energy = 0.82
 	sun.shadow_enabled = true
-	sun.shadow_normal_bias = 1.4
-	sun.shadow_blur = 3
+	sun.shadow_normal_bias = 1.1
+	sun.shadow_bias = 0.09
+	sun.shadow_blur = 2
 	sun.directional_shadow_max_distance = 100
 	add_child(sun)
 

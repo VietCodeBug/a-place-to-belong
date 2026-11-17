@@ -63,10 +63,11 @@ func terrain() -> void:
 	st.generate_normals()
 	var mesh := MeshInstance3D.new()
 	mesh.name = "ContinuousMap01Terrain"
+	# Receive tree/building shadows, but avoid coplanar terrain self-shadow bands.
+	mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	mesh.mesh = st.commit()
-	var mat := StandardMaterial3D.new()
-	mat.vertex_color_use_as_albedo = true
-	mat.roughness = 1
+	var mat := ShaderMaterial.new()
+	mat.shader = preload("res://shaders/forest_floor.gdshader")
 	mesh.material_override = mat
 	add_child(mesh)
 	var body := StaticBody3D.new()
@@ -78,24 +79,31 @@ func terrain() -> void:
 	add_child(body)
 
 func road() -> void:
+	# Same centerline and core width; a conforming visual shoulder has no collider.
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for i in range(120):
 		var p := road_point(float(i)/120)
 		var q := road_point(float(i+1)/120)
-		var half := ClearingLayout.path_half_width(p.y)
-		var next_half := ClearingLayout.path_half_width(q.y)
-		var verts: Array[Vector3] = []
-		for v in [p-Vector2(half,0),p+Vector2(half,0),q-Vector2(next_half,0),q+Vector2(next_half,0)]:
-			verts.append(Vector3(v.x,height_at(v.x,v.y)+0.075,v.y))
-		for index in [0,1,2,1,3,2]:
-			st.set_color(Color(1,1,1,1-smoothstep(22.0,24.0,verts[index].z)))
-			st.add_vertex(verts[index])
+		for strip in range(12):
+			var cells: Array[Vector3] = []
+			var coords: Array[Vector2] = []
+			for item in [[p,strip],[p,strip+1],[q,strip],[q,strip+1]]:
+				var point: Vector2 = item[0]
+				var half := ClearingLayout.path_half_width(point.y)
+				var lateral := lerpf(-half-0.55,half+0.55,float(item[1])/12.0)
+				var x := point.x+lateral
+				cells.append(Vector3(x,height_at(x,point.y)+0.025,point.y))
+				coords.append(Vector2(lateral,half))
+			for index in [0,1,2,1,3,2]:
+				st.set_uv(coords[index])
+				st.add_vertex(cells[index])
 	st.generate_normals()
-	var n := S.mesh(self,st.commit(),Vector3.ZERO,"A9977A")
+	var n := MeshInstance3D.new()
+	n.mesh = st.commit()
 	n.name = "ExistingDeliveryPath"
-	var dirt: StandardMaterial3D = n.material_override.duplicate()
-	dirt.vertex_color_use_as_albedo = true
-	dirt.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	var dirt := ShaderMaterial.new()
+	dirt.shader = preload("res://shaders/forest_path.gdshader")
 	n.material_override = dirt
 	n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(n)
