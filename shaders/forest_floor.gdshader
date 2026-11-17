@@ -1,11 +1,12 @@
 shader_type spatial;
 render_mode diffuse_burley;
 #include "res://shaders/forest_floor_common.gdshaderinc"
-uniform vec4 meadow_dark:source_color=vec4(.30,.41,.28,1);
-uniform vec4 meadow_light:source_color=vec4(.43,.53,.33,1);
+uniform vec4 meadow_dark:source_color=vec4(.40,.51,.25,1);
+uniform vec4 meadow_light:source_color=vec4(.48,.58,.31,1);
 uniform vec4 moss:source_color=vec4(.27,.36,.24,1);
 uniform vec4 earth:source_color=vec4(.40,.29,.20,1);
 uniform vec4 soil:source_color=vec4(.55,.42,.29,1);
+uniform float wetness=0.0;
 varying vec3 floor_position;
 void vertex() { floor_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz; }
 void fragment() {
@@ -26,7 +27,7 @@ void fragment() {
  color=mix(color,soil.rgb,shoulder*.62);
  float root=max(grove(p,vec2(-14,-7),1.7),grove(p,vec2(-17,10),1.5));
  root=max(root,grove(p,vec2(-12,4),1.0));root=max(root,grove(p,vec2(20,-4),1.5));root=max(root,grove(p,vec2(12,-16),1.7));
- ALBEDO=color*(1.0-root*.16);
- ROUGHNESS=1.0;SPECULAR=.12;
+ ALBEDO=color*(1.0-root*.16)*mix(1.0,.77,wetness);
+ ROUGHNESS=mix(1.0,.63,wetness);SPECULAR=mix(.12,.22,wetness);
  AO=1.0-root*.2;AO_LIGHT_AFFECT=.15;
 }

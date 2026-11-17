@@ -59,6 +59,9 @@ func lighting() -> void:
 	if has_meta("lighting_preset"): preset=get_meta("lighting_preset")
 	if preset==null: preset=rig.from_arguments()
 	rig.apply(self,preset)
+	var weather=preload("res://scripts/environment/forest_weather.gd").new()
+	weather.name="ForestWeather"
+	add_child(weather)
 
 func landmarks() -> void:
 	# Same Map 01 postal corner beside the existing mailbox.

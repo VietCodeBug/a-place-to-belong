@@ -33,3 +33,5 @@ V07: [Samatha temporary player](https://github.com/VietCodeBug/forest-post-cafe/
 Requested ground session: [preview/ver-05-ground-environment](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-ground-environment). This name follows the explicit user request, distinct from ver-05-hero-building. Five matched views against V04 and the current V07 baseline; [report](map01-ground-environment-review.md). Earlier versions remain intact.
 
 V08: [Lighting presets](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-08-lighting-presets), matched PR09 baseline / Golden Hour / Blue Hour, five views each plus sunlight trials. [Vietnamese report](sky-sun-atmosphere-review.md). Golden is default; original assets unchanged.
+
+V09: [Grass, wind, sky and weather](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-09-grass-sky-weather), isolated grass tests, five matched V08/V09 views, day/sunset/night/weather shots and seven short Godot motion recordings. [Vietnamese report](grass-sky-weather-v09.md). Older V08 is retained as its exact same-name tag after archive verification.

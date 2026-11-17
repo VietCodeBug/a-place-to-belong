@@ -2,7 +2,7 @@ extends Node3D
 ## Curated floor: short carpet, longer meadow pockets, sedges, ferns and wind-gathered litter.
 const D = preload("res://scripts/world/forest_floor_design.gd")
 const A = preload("res://scripts/world/field_assets.gd")
-const ASSETS := ["short_blades","soft_fan","meadow_sweep","tall_sedge","fern_rosette","fallen_leaf","twig"]
+const ASSETS := ["fern_rosette","fallen_leaf","twig"]
 var rng := RandomNumberGenerator.new()
 var field := FastNoiseLite.new()
 var meshes: Dictionary = {}
@@ -19,7 +19,7 @@ func _ready() -> void:
 		meshes[asset]=extract_mesh(source,Transform3D.IDENTITY)
 		source.free()
 		var mat:=ShaderMaterial.new()
-		mat.shader=preload("res://shaders/forest_grass.gdshader")
+		mat.shader=preload("res://shaders/meadow_wind.gdshader") if asset=="fern_rosette" else preload("res://shaders/forest_grass.gdshader")
 		if asset=="fern_rosette":
 			mat.set_shader_parameter("root_color",Color("556843"))
 			mat.set_shader_parameter("tip_color",Color("84975D"))
@@ -39,6 +39,9 @@ func _ready() -> void:
 	accents()
 	litter()
 	flush()
+	var details=preload("res://environment/vegetation/scripts/meadow_details.gd").new()
+	details.name="MeadowDetails"
+	add_child(details)
 
 func extract_mesh(node: Node, inherited: Transform3D) -> ArrayMesh:
 	var transform:=inherited
@@ -67,38 +70,17 @@ func plant(asset: String,p: Vector2,scale_value: float,yaw: float, offset := -0.
 	var basis:=Basis(Vector3.UP,yaw).scaled(Vector3.ONE*scale_value)
 	var position:=Vector3(p.x,ForestLandscape.height_at(p.x,p.y)+offset,p.y)
 	batches[key].transforms.append(Transform3D(basis,position))
-	var tone:=rng.randf_range(0.9,1.08)
-	batches[key].tints.append(Color(tone,tone*rng.randf_range(.97,1.03),tone*rng.randf_range(.92,1.02),rng.randf()))
+	var tone:=lerpf(.94,1.04,field.get_noise_2dv(p)*.5+.5)
+	batches[key].tints.append(Color(tone,tone,tone,rng.randf()))
 	instance_counts[asset]=instance_counts.get(asset,0)+1
 
 func carpet() -> void:
-	# Jittered candidates accepted through habitat fields: continuous short grass and resting lawns.
-	for x in range(-99,100):
-		for z in range(-99,100):
-			var p:=Vector2(x*0.24+rng.randf_range(-.1,.1),z*0.24+rng.randf_range(-.1,.1))
-			if D.reserved(p,0.05): continue
-			var woods:=D.forest(p)
-			var bed:=D.bed(p)
-			var meadow:=clampf(field.get_noise_2dv(p)*.8+.5,0,1)
-			var density:=clampf(lerpf(.05,.75,smoothstep(.3,.75,meadow))+bed*.35-woods*.35,.04,.95)
-			# Trim the entrance lawn without emptying every foreground area.
-			if p.y<8.0 and absf(p.x)<8.4: density*=.3
-			if rng.randf()>density: continue
-			var asset: String="short_blades"
-			if bed>.3 and meadow>.45 and rng.randf()<.5: asset="soft_fan"
-			if bed>.6 and rng.randf()<.2: asset="meadow_sweep"
-			plant(asset,p,rng.randf_range(.4,.82) if asset=="short_blades" else rng.randf_range(.75,1.2),rng.randf()*TAU)
+	var meadow=preload("res://environment/vegetation/scripts/dense_meadow.gd").new()
+	meadow.name="DenseMeadow"
+	add_child(meadow)
+	instance_counts.merge(meadow.counts)
 
 func accents() -> void:
-	for patch in D.BEDS:
-		var center:=Vector2(patch.x,patch.y)
-		for i in range(64):
-			var a:=rng.randf()*TAU
-			var p:=center+Vector2(cos(a),sin(a))*(.4+sqrt(rng.randf())*1.5)
-			if not D.reserved(p,.3): plant("meadow_sweep",p,rng.randf_range(.75,1.15),a)
-		for i in range(7):
-			var p:=center+Vector2(rng.randf_range(-.85,.85),rng.randf_range(-.65,.65))
-			if not D.reserved(p,.4): plant("tall_sedge",p,rng.randf_range(.7,1.15),rng.randf()*TAU)
 	for grove in D.GROVES:
 		for i in range(9):
 			var a:=rng.randf()*TAU
@@ -145,10 +127,10 @@ func flush() -> void:
 			mm.set_instance_custom_data(i,item.tints[i])
 		var node:=MultiMeshInstance3D.new()
 		node.name=item.asset.to_pascal_case()
-		node.extra_cull_margin=.06
+		node.extra_cull_margin=.1
 		node.multimesh=mm
 		node.material_override=materials[item.asset]
-		if item.asset!="fern_rosette" and item.asset!="tall_sedge": node.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		node.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(node)
 	batches.clear()
 	print("Forest floor instances: ",instance_counts)

@@ -7,7 +7,7 @@ The user requested fewer branches. Keep these four remote heads:
 | main | Published/default history; unchanged by cleanup |
 | 3D_model | Existing user branch; unchanged |
 | feature/map01-lighting-presets | Current complete prototype, including all earlier feature work |
-| preview/ver-08-lighting-presets | Latest image review |
+| preview/ver-09-grass-sky-weather | Latest image and motion review |
 
 All nine older feature branches are ancestors of the current code. Archive those and eight older preview branches as **tags with exactly the same names and commit IDs**, verify the tags on GitHub, then remove the redundant branch heads. Existing `/tree/preview/ver-XX-...` links still resolve to the same snapshots via tags. Nothing is merged into main or removed from Git history.
 
@@ -23,3 +23,5 @@ git switch -c restored-samatha refs/tags/preview/ver-07-samatha-player
 ```
 
 No gameplay or asset files changed during this cleanup. Previous validation remains recorded in the visual reports; cleanup does not grant permission to merge or approve art.
+
+V09 follow-up: ver-08 is archived to the identical `preview/ver-08-lighting-presets` tag before its branch head is removed. Source code continues on the same feature branch and PR #10.

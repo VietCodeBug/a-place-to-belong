@@ -127,3 +127,7 @@ The forest is waiting. We hope you'll enjoy finding your way through it.
 ---
 
 <sub>Forest Post Café — an indie game concept in early development. All gameplay descriptions are aspirational until implemented and validated.</sub>
+
+Latest environment pass: [V09 grass / wind / dynamic sky / weather](docs/grass-sky-weather-v09.md).
+Default starts at 16:30 with a configurable 20-minute day. Static lighting references
+remain available. Review [preview V09](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-09-grass-sky-weather).

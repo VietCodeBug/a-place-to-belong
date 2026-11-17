@@ -79,3 +79,22 @@ Read docs/sky-sun-atmosphere-review.md. Preserve all PR09 assets, shaders, veget
 
 ## User-requested branch cleanup supersedes old branch retention rules
 Read docs/branch-management.md and docs/branch-archive-2026-11-17.json. Keep main, 3D_model, current feature/map01-lighting-presets and latest preview/ver-08-lighting-presets as branch heads. Older code and preview snapshots are preserved as same-name tags at their original commits, so existing links work. Prefer the current code branch and consolidated PR #10 for follow-up edits unless the user asks for a new branch. Count both tags and branches when choosing preview versions; archive older heads only after verifying their tags remotely. Do not recreate the retired feature/preview branches by default. PR #1–9 are historical and closed without merge; PR #10 targets main. Main and the user 3D_model branch remain unchanged. No merge or visual approval is implied by cleanup.
+
+## V09 grass, coherent wind and dynamic weather supersede static-only scope
+Read docs/grass-sky-weather-v09.md. Current user requests dense layered grass with a 5x5 m test, Inspector density/masks,
+Low-Ultra LOD presets, anchored directional gusts, continuous time/sky/clouds,
+moon, rain/wetness/audio and runtime synchronization of existing cafe lights/glass
+emission. Preserve original cafe/actor/vendor assets, cafe_kit, tree placements,
+terrain/path geometry, gameplay/collision/camera and Compatibility. Static
+--lighting=golden_hour/blue_hour/baseline remain reference modes; default now runs
+a configurable 20-minute day beginning at 16:30. Terrain3D is absent; use the existing sampler and custom chunks, do not claim native
+Terrain3D integration. Rejected Blender grass trials were removed; current geometry
+is the original procedural fallback under environment/vegetation. Inspect meadow_demo before
+mass replacement; do not claim art approval from tests. Validate with
+validate_environment_rebuild.py, existing ground/gameplay/integration tests and
+weather_cycle_test.gd. Capture actual PNGs and motion frames. Continue PR #10;
+preview/ver-09-grass-sky-weather is next unused. Archive ver-08 head as its identical
+same-name tag after verification; keep only latest preview as a branch. No merge.
+
+Latest follow-up also authorizes small white/purple flower groups, mushrooms and
+small stones around meadow edges. Keep path/porch/mailbox approaches clear.
