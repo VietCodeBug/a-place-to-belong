@@ -1,0 +1,165 @@
+{
+  "captures": [
+    {
+      "file": "before-v09/01-default-gameplay.png",
+      "bytes": 926915,
+      "sha256": "18913fa2caa321c8f4ec2533bc7b755fe39225decce3e4038aa9af5f31f41125",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "before-v09/02-ground-grass.png",
+      "bytes": 1219754,
+      "sha256": "4f9dc26c002faa51f27ef1a11ada72225eed7d3bf777f7d62bd69772d80c724f",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "before-v09/03-path-transitions.png",
+      "bytes": 1002196,
+      "sha256": "b245469505bd2ff230d12c3ce6e4bd242e073c47a987a4d5a6a82c20831d2582",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "before-v09/04-forest-floor.png",
+      "bytes": 956527,
+      "sha256": "d9e66142541d32034ecec872aa435ea72ee243a3d626e689b8c74f83e611fb4c",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "before-v09/05-map01-composition.png",
+      "bytes": 905828,
+      "sha256": "f13cf9167b3d4cc1c9a1ee213d3df05b5c903450992e99a0a0909ca6d7312187",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "matched-v09/01-default-gameplay.png",
+      "bytes": 971266,
+      "sha256": "6d52e214006b4fb525f1e60730d5d1d01b4a53d2bc399ea2d22dfed8f43c55e4",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "matched-v09/02-ground-grass.png",
+      "bytes": 1297210,
+      "sha256": "eca8c23a56e9cd62e5aad1a7bfba775237b567aedc1f67daab873404cafd5a68",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "matched-v09/03-path-transitions.png",
+      "bytes": 1097836,
+      "sha256": "1ad49c2e8788043b89785855af38a9465bf1d2170e0208add98f013ce349ade4",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "matched-v09/04-forest-floor.png",
+      "bytes": 788298,
+      "sha256": "78da9450cb02c711059e19fed9e2bb93cc4a2fb329e27ca32b5d2b5ebf049579",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "matched-v09/05-map01-composition.png",
+      "bytes": 970594,
+      "sha256": "8f2c2fb9691f8f68134089cadaf71b17173a560b8cc1e04ddbb7953c228bcd96",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/00-scenic-title-menu.png",
+      "bytes": 957877,
+      "sha256": "09dea68b8f68950f1db09792ae7ba31e9b9ad5a0e91ce9ba94284e287bd2a578",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/01-default-player-camera.png",
+      "bytes": 1095901,
+      "sha256": "9c8de567c647bdb75926a9a6dcabfbfd9d23523d60ee7ca79b5e320b4c274a0c",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/02-cafe-exterior.png",
+      "bytes": 948723,
+      "sha256": "d0849c52fd8e5747edbfcab17920c24c5720e98ff2d00619397a76ceedce4137",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/03-path-closeup.png",
+      "bytes": 1006949,
+      "sha256": "073fd969e1444ff112885a69f551b17d0e00ef6d22486d1b472f1de92811ea10",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/04-forest-floor-woodland.png",
+      "bytes": 594716,
+      "sha256": "029335ab265d995e27172217394a7fd8bbf0001c6af76b12de516acdf92c5a17",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/05-wide-environment.png",
+      "bytes": 973897,
+      "sha256": "085595c68b4a16482d7493da37ed162d27e4cf4e7102bf4e11f610d6ce2b7b1b",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/06-morning.png",
+      "bytes": 997647,
+      "sha256": "d55c222ef552f9e19a05bb7d39a6ace51f80314c0f64c14562324bb8ba9076b0",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/07-sunset.png",
+      "bytes": 1051096,
+      "sha256": "51b7b856aef833241d50809559f3540b8d05fe90f3c7998fe31d7dcc4435c1e0",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/08-night.png",
+      "bytes": 791113,
+      "sha256": "1240422a21845ae9a607fc6ce6af03528b22f82871522facad367105af735127",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/09-rain.png",
+      "bytes": 1129666,
+      "sha256": "896383ae2f741d7e58b510ebb6fac3182c2217f5806342f7a75e948d4939888b",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/10-ui-mailbox-letter.png",
+      "bytes": 759962,
+      "sha256": "ed3093a581fcafa603ce91e59a01000afe95e5c3d1aa372839329d684276c958",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/11-ui-pause-atmosphere-menu.png",
+      "bytes": 719519,
+      "sha256": "eb612fb8dc47157febedf840524f27a08b8dbe7960d2991330eaf50febc482b2",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    },
+    {
+      "file": "v10/12-stylized-sky-clouds.png",
+      "bytes": 563644,
+      "sha256": "913a0bf2af6e40b9640d3e1ca891e52189ea77fac4bdc06e206a066b0f5fb93a",
+      "resolution": "1280x720",
+      "source": "Godot 4.7.2 OpenGL Compatibility runtime (NVIDIA GeForce RTX 3050 Laptop GPU)"
+    }
+  ]
+}
