@@ -11,14 +11,14 @@
     "accent_low": 6
   },
   "files": {
-    "environment/vegetation/presets/high.tres": "6fd0a736b4aeaf98a2664c5c900dda603188242abafae0e01e1bfcd85e0982b2",
+    "environment/vegetation/presets/high.tres": "2745e32871a30a1c793f17914f8b81b49570ffa6191163b7b071371dd3818871",
     "environment/vegetation/presets/low.tres": "d8163609ef65a3baf5fb0f681450326d8f40b262163354b789040d3f78cdb601",
     "environment/vegetation/presets/medium.tres": "f55c16b1bad5bde0ad252309aabc5a663bfa5cc69abd8a4283819c7aa54b3e37",
-    "environment/vegetation/presets/ultra.tres": "a4151f66a58e312f79c5ca3747726d794b5dac375985b6257ef8985c0e027075",
+    "environment/vegetation/presets/ultra.tres": "04d8f381e37d0f12db09b1b03989591e2e8377ab3d8e3368edaf78b33509d4c5",
     "environment/vegetation/scenes/meadow_demo.tscn": "8ead4e987f366da9acafcf0ce611da4b8aac3c542e437d38eadfe9d7762693a6",
-    "environment/vegetation/scripts/dense_meadow.gd": "ada3a15b739d4ee169f68e3704031f4838e8168201af0f0d2535cad594ec056d",
+    "environment/vegetation/scripts/dense_meadow.gd": "c0753d06c1261d5ed26cd3f3805497d9d01727fa40e006dc07147ab77a8be7d2",
     "environment/vegetation/scripts/meadow_demo.gd": "ea0b8b65faad32c897c687e7dce4db73ba26fc62e6189976143983faf495d950",
-    "environment/vegetation/scripts/meadow_details.gd": "89be3106717e578bd8ffe6a9ecf16aff9debcf97351ee6a7b5a0eb867be90e20",
+    "environment/vegetation/scripts/meadow_details.gd": "76c64db3b3e800b8a72756ca78a64e0bc56b643107336d3549009c19fb7048f2",
     "environment/vegetation/scripts/meadow_meshes.gd": "183facf4a8e6ebc28445cd9eeddd045141297ec800f3b0422b4e2751f9dc9dfa",
     "environment/vegetation/scripts/meadow_settings.gd": "135d7911625adca415abec441078e924a4ba8249e3464979c98aca8d93755f12",
     "environment/vegetation/shaders/dense_meadow.gdshader": "8e6f860a0fe3d5291a7c7495ddc3cf055de85ec05f7f224a50353fcb286a201e"

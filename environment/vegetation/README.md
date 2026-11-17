@@ -46,8 +46,8 @@ No ground coverage should be expected on a deliberately excluded road/building.
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | Low | 10 | 1.5 | .25 | .30 | 38 m | 9–16 m |
 | Medium | 14 | 3 | .4 | .45 | 48 m | 12–20 m |
-| High (default) | 18 | 4.5 | .6 | .65 | 60 m | 14–24 m |
-| Ultra | 22 | 6 | .8 | .9 | 70 m | 18–30 m |
+| High (default) | 18 | 4.5 | .6 | 2.5 | 60 m | 14–24 m |
+| Ultra | 22 | 6 | .8 | 3.0 | 70 m | 18–30 m |
 
 Habitat masks reduce these candidate densities. Carpet has 24 blades / 240 triangles,
 main 16 / 160, accent 12 / 120. Distance meshes have 4/4/3 blades (8/8/6 triangles).
@@ -79,3 +79,7 @@ painted/circle masks, LOD simplification and presets. Passing tests is not art a
 Cloud screenshots use Linux llvmpipe OpenGL software rendering. This does not
 validate 60 FPS at 1080p on Windows/mid-range hardware. Native Terrain3D painting,
 region streaming and texture/control-map APIs are not implemented in this project.
+
+Final dressing places flowers in six authored verge/stone pockets with offset
+white/purple groups; mushrooms and pebbles follow six shaded tree/bush anchors.
+Large trees keep their established framing and roof sightline.

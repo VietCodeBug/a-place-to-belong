@@ -74,7 +74,7 @@ func regenerate() -> void:
 				if layer==0:acceptance=lerpf(.92,.30,woods)*lerpf(.90,1.,patch)
 				elif layer==1:acceptance=smoothstep(.28,.68,patch)*lerpf(.45,1.,bed)*(1.-woods*.4)
 				elif layer==2:acceptance=bed*smoothstep(.55,.86,patch)*.8
-				else:acceptance=(.14+bed*.86)*smoothstep(.30,.65,patch)*.8
+				else:acceptance=(bed*smoothstep(.30,.65,patch)*.8) if isolated_test else flower_weight(p,layer==4)*.95
 				if rng.randf()>acceptance*mask_weight(p,layer):continue
 				var h:=height(p)
 				if not is_finite(h):continue
@@ -139,3 +139,13 @@ func mask_weight(p: Vector2,layer: int) -> float:
 	var y:=clampi(floori(uv.y*mask_image.get_height()),0,mask_image.get_height()-1)
 	var color:=mask_image.get_pixel(x,y)
 	return [color.r,color.g,color.b,color.a,color.a][layer]
+
+func flower_weight(p: Vector2,purple: bool) -> float:
+	# Hand-composed verge/rock pockets, offset by color; never blanket the walking route.
+	var pockets: Array[Vector3]=[Vector3(6.0,10.5,2.0),Vector3(-6.2,16.7,1.8),Vector3(1.1,19.4,1.6),Vector3(-9.1,12.7,1.9),Vector3(10.3,10.4,1.8),Vector3(-12.2,4.2,1.3)]
+	var value:=0.
+	for pocket in pockets:
+		var center:=Vector2(pocket.x,pocket.y)+(Vector2(.6,.7) if purple else Vector2.ZERO)
+		var delta: Vector2=(p-center)*Vector2(1.,1.25)
+		value=maxf(value,1.-smoothstep(pocket.z*.35,pocket.z,delta.length()))
+	return value

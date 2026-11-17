@@ -7,7 +7,7 @@ var mushroom_count:=0
 var pebble_count:=0
 func _ready() -> void:
 	var rng:=RandomNumberGenerator.new();rng.seed=91377
-	var clusters: Array[Vector2]=[Vector2(-10,13),Vector2(11,11),Vector2(-12,3),Vector2(16,-8),Vector2(-16,11),Vector2(13,-15)]
+	var clusters: Array[Vector2]=[Vector2(-13.6,8.2),Vector2(10.6,12.3),Vector2(-12.3,3.0),Vector2(18.4,-5.0),Vector2(-16.0,10.2),Vector2(13.0,-15.4)]
 	var batches: Array=[[],[]]
 	for k in range(clusters.size()):
 		for i in range(3+k%3):

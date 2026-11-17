@@ -7,7 +7,7 @@ Preview: https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-09-gra
 12 lá. Nền đồng cỏ đổi sang xanh vàng gần màu chân cỏ; bỏ giảm mật độ .3 trên cả
 hình chữ nhật trước quán. Hoa trắng/tím, vài cụm nấm màu nâu cam/vàng nhạt và đá
 Kenney nhỏ bổ sung ở rìa cỏ/gốc cây, không chắn đường. Lần sinh High hiện tại có 21.845 carpet, 1.871 main, 12 accent,
-60 hoa trắng + 27 hoa tím; thêm 24 nấm và 12 viên đá nhỏ. Không dùng bộ Blender thử
+39 hoa trắng + 11 hoa tím; thêm 24 nấm và 12 viên đá nhỏ. Không dùng bộ Blender thử
 trước đó vì silhouette chưa đạt; geometry hiện tại là procedural mesh gấp cong,
 không texture photoreal/alpha card, có scene mẫu 5×5 m riêng.
 
@@ -93,3 +93,14 @@ bầu trời/GLES và theo dõi bộ nhớ trên GPU thật trước khi coi đ�
 
 Ảnh PNG dùng High. Clip cận cỏ dùng High, các clip sau dùng Medium để xuất trên
 host phần mềm; đọc capture.json từng clip. Không dùng tốc độ xuất video làm benchmark.
+
+## Dàn cảnh cuối theo phản hồi mới nhất
+
+Giữ cây lớn làm khung rừng/silhouette đã có. Hoa được gom thành sáu dải/pocket
+bên lối đi và quanh đá; trắng và tím lệch tâm để tránh trộn màu ngẫu nhiên toàn
+bãi. Nấm/đá chuyển sát mép bụi và bóng cây, tránh rải giữa sân trống. Cỏ thấp nối
+các cụm lại, không dùng hoa/nấm che đường hoặc hòm thư.
+
+Ảnh `final-layout` là bố cục cuối. Bộ video và các ảnh so sánh cỏ/thời tiết dùng
+commit `207635454420034821d834a40b6dc3d42cc44a24`, trước lần tinh chỉnh vị trí hoa/nấm
+cuối này; README preview ghi riêng SHA cho hai mốc, không gán ảnh cũ cho code mới.
