@@ -35,3 +35,5 @@ Requested ground session: [preview/ver-05-ground-environment](https://github.com
 V08: [Lighting presets](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-08-lighting-presets), matched PR09 baseline / Golden Hour / Blue Hour, five views each plus sunlight trials. [Vietnamese report](sky-sun-atmosphere-review.md). Golden is default; original assets unchanged.
 
 V09: [Grass, wind, sky and weather](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-09-grass-sky-weather), isolated grass tests, five matched V08/V09 views, day/sunset/night/weather shots and seven short Godot motion recordings. [Vietnamese report](grass-sky-weather-v09.md). Older V08 is retained as its exact same-name tag after archive verification.
+
+V10: [Map 01 complete visual overhaul & scenic menu](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-10-map01-visual-overhaul), matched V09/V10 views, Scenic 3D Main Menu, compact HUD, letter/pause UI, layered mountain backdrop, canopy separation, rain puddles, night lanterns/fireflies, and RTX 3050 1080p benchmark. [Vietnamese report](v10-map01-visual-overhaul.md). V09 preview branch retained intact.

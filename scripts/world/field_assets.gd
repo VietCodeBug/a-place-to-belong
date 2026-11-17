@@ -33,12 +33,12 @@ static func model(pack: String, asset: String, height: float) -> Node3D:
 	visual.position -= Vector3(box.get_center().x,box.position.y,box.get_center().z)*scale_factor
 	return wrapper
 
-static func place(parent: Node3D, pack: String, asset: String, at: Vector3, height: float, yaw := 0.0) -> Node3D:
+static func place(parent: Node3D, pack: String, asset: String, at: Vector3, height: float, yaw := 0.0, role := "natural") -> Node3D:
 	var n := model(pack,asset,height)
 	parent.add_child(n)
 	n.position = at
 	n.rotation.y = yaw
-	style(n)
+	style(n, role)
 	return n
 
 static func recolor(node: Node, color: String) -> void:
@@ -60,16 +60,26 @@ static func style(node: Node, role := "natural", layer := 0) -> void:
 				m.metallic = 0
 				m.roughness = 1
 				var name := source.resource_name.to_lower()
-				if name.contains("leaf") or name == "grass":
-					m.albedo_color = Color("4F7658") if name.contains("leaf") else Color("819367")
+				if name.contains("leaf") or name.contains("leaves") or name in ["grass","green","orange","lightorange"]:
 					if role == "autumn":
-						m.albedo_color = Color("BD985B")
+						m.albedo_color = Color("CC8E4B") if name != "orange" else Color("C86E43")
+					elif role == "russet":
+						m.albedo_color = Color("B96B45")
+					elif role == "sage":
+						m.albedo_color = Color("5E8360")
+					elif role == "spruce":
+						m.albedo_color = Color("3E6553")
+					elif role == "cedar":
+						m.albedo_color = Color("6B8754")
+					else:
+						m.albedo_color = Color("4F7859") if (name.contains("leaf") or name.contains("leaves") or name == "green") else Color("819367")
 				elif name.contains("rock") or name.contains("stone"):
-					m.albedo_color = Color("858D81")
+					m.albedo_color = Color("868E82") if role != "warm_stone" else Color("968C7B")
 				elif name.contains("bark") or name == "wood":
-					m.albedo_color = Color("896044")
+					m.albedo_color = Color("8C6245") if role != "birch_bark" else Color("D8CFC0")
 				if layer > 0:
-					m.albedo_color = m.albedo_color.lerp(Color("8DA5A1"),0.18 if layer == 1 else 0.4)
+					var h_col := Color("7F9B99") if layer == 1 else Color("6F8E94")
+					m.albedo_color = m.albedo_color.lerp(h_col,0.22 if layer == 1 else 0.44)
 				styled_materials[key] = m
 			node.set_surface_override_material(surface,styled_materials[key])
 	for child in node.get_children():
