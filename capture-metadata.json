@@ -1,0 +1,108 @@
+{
+  "code_commit": "82cfd4ed68627bcfdb428e10947c20f1b692b15b",
+  "before_current": "e5900df3f9a5df304df845521c3903e94b779649",
+  "before_v04": "aa5f7181f9d29abbbfb6791fe2070a6895112eff",
+  "renderer": "Godot 4.6.3 Compatibility/OpenGL4.5 Mesa llvmpipe",
+  "resolution": [
+    1280,
+    720
+  ],
+  "visual_approval": "pending user review",
+  "cafe_asset_sha256": "13d03ae08343f6052258b008f187602c47b9b2c7f115878e930fe9b2560f5ec3",
+  "ssao": {
+    "enabled": true,
+    "radius": 0.55,
+    "intensity": 0.65,
+    "power": 1.1,
+    "ab_controls": "camera/player/wind frozen",
+    "mean_absolute_rgb_difference": [
+      0.96195,
+      1.072709,
+      0.874886
+    ],
+    "quality_score": false
+  },
+  "forward_plus": "failed Vulkan initialization, observed fallback to Compatibility",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "b02a37c196f98b95dc1374f8ee2a5d65dcf9abd5b7f2c70b02dd31652dc19152"
+    },
+    {
+      "path": "after/01-default-gameplay.png",
+      "sha256": "4735896a477885c3d50210f7716d2021a934695bf1d94c06e317b80ed1d67817"
+    },
+    {
+      "path": "after/02-ground-grass.png",
+      "sha256": "2bc7ef79c851591f8c6acf8846faf241343068144a686a4543ce9b8542519b92"
+    },
+    {
+      "path": "after/03-path-transitions.png",
+      "sha256": "f77c8871d29aa86204ae5bb0be515f3a2b304e5b7bcf8fae204697d3dafe5bfb"
+    },
+    {
+      "path": "after/04-forest-floor.png",
+      "sha256": "48e5850004619451958df4c07cded40176506a72b0be3e05ebc4ef51ff55da60"
+    },
+    {
+      "path": "after/05-map01-composition.png",
+      "sha256": "b358a461abddae8153129557b7c84730ac71d7de9fd22815fe091e01005cd3a8"
+    },
+    {
+      "path": "ao-evaluation/forward-plus-probe.txt",
+      "sha256": "235dc4b40dc0647955c587e78ea066784c6f644a83de4cddce9e98e4336358fd"
+    },
+    {
+      "path": "ao-evaluation/ssao-log.txt",
+      "sha256": "e09effbeb88c46845f8ccc6784695fd5465a119afb2edf22460993ae3852293a"
+    },
+    {
+      "path": "ao-evaluation/ssao-off.png",
+      "sha256": "afababf9641f50b504fc3fff5632ff1ca211aa9c41e3b3af5f6cf46df79ba4f3"
+    },
+    {
+      "path": "ao-evaluation/ssao-on.png",
+      "sha256": "2bc7ef79c851591f8c6acf8846faf241343068144a686a4543ce9b8542519b92"
+    },
+    {
+      "path": "before-current/01-default-gameplay.png",
+      "sha256": "58a750e0383d7d0584d028e933270b40a37380f5132bb820a97a7938f4c392bd"
+    },
+    {
+      "path": "before-current/02-ground-grass.png",
+      "sha256": "08fddf604dc5c2a365e6b25c184bcb17a4bd16595e5dd211e9693a67df961849"
+    },
+    {
+      "path": "before-current/03-path-transitions.png",
+      "sha256": "f004413a28b1fa27611a2eda36d339932141fd2c8f4b304efe0745b88dad0030"
+    },
+    {
+      "path": "before-current/04-forest-floor.png",
+      "sha256": "ef9363dee117288e513ecfcbf4cc8d4002f033d582bc5a20c0d63a922260409c"
+    },
+    {
+      "path": "before-current/05-map01-composition.png",
+      "sha256": "6ac81751804cd4dcb18bf213ee8463e24c445a6bd718cef0dfd698bfebe23818"
+    },
+    {
+      "path": "before-v04/01-default-gameplay.png",
+      "sha256": "9b90ce4d7aa69e28f5df51fc2e404e16c6420d2aea42f0b4cf5b833e502eab34"
+    },
+    {
+      "path": "before-v04/02-ground-grass.png",
+      "sha256": "dc43227b82924a5b552fda69782915576ea96c40d9ceae265c8539c80186319b"
+    },
+    {
+      "path": "before-v04/03-path-transitions.png",
+      "sha256": "7e1576ec0e53223086e3829dc19c82717ab87e77e348088dcb778a93e264d363"
+    },
+    {
+      "path": "before-v04/04-forest-floor.png",
+      "sha256": "df880fe0e4fa8e41f3e48b76d190e88bce359314c57a83221b1a4dcfbcb87d57"
+    },
+    {
+      "path": "before-v04/05-map01-composition.png",
+      "sha256": "edd464700e7be67b8b8692e1b09ffc726748722a20bb52dd22631ba2babce7eb"
+    }
+  ]
+}
