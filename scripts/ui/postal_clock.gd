@@ -5,7 +5,7 @@ var hours:=16.5
 var icon: Control
 func _ready() -> void:
 	custom_minimum_size=Vector2(124,132);mouse_filter=Control.MOUSE_FILTER_IGNORE
-	icon=preload("res://scripts/ui/cozy_ui_icons.gd").new("partly_cloudy",Vector2(27,27));icon.position=Vector2(86,91);icon.modulate=Color("809B88");add_child(icon)
+	icon=preload("res://scripts/ui/postal_weather_icon.gd").new("partly_cloudy",Vector2(27,27));icon.position=Vector2(86,91);add_child(icon)
 func _draw() -> void:
 	var c:=Vector2(57,68)
 	draw_arc(Vector2(57,12),10,0,TAU,32,T.OAK,3.,true)
