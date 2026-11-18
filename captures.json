@@ -1,0 +1,20 @@
+{
+  "source_commit": "bfae2f9d75386f0499808c184d614d97e924dd80",
+  "environment_capture_commit": "0a6a5e08e3f0a2122f97045f18095832b42f5f4a",
+  "engine": "Godot 4.6.3",
+  "renderer": "Compatibility",
+  "host": "Linux Xorg Mesa llvmpipe",
+  "size": [
+    1280,
+    720
+  ],
+  "images": {
+    "gameplay.png": "6ba5f948a50dd721313c2433bf251087b565f9ca2639bec0c5de6abe21949a43",
+    "mountain-vista.png": "84f46622989937091435fba8929696eb2314455c10ee9ff68e4369d5495acb75",
+    "habitat.png": "8e7fc0ca9576717678be3e5bdd3af49521839508a20a1b2be988eab152d3006e",
+    "downpour.png": "bdc47ac6be813fcab6f397b9be7a2fa43c554e8886ea1ee588639ad26baefae6",
+    "weather-atlas.png": "b1fe61ba7fcb8df9095abec86885475a39bdc2b5f5b30c5ccb8f40f7ba58dd2c",
+    "menu.png": "64c4d78efc9f6581b1917574148eac37b01d11c6335667ddb910386a82b54fa7",
+    "night-habitat.png": "242bcd5a2ce47bf18a898230efeed523fb2cf900190dc05d07c47f9c4ffbf5cd"
+  }
+}
