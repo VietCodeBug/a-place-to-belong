@@ -1,0 +1,187 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "PRO-002",
+  "status": "draft",
+  "title": "Ngày cuối cùng đi làm",
+  "chapter": "prologue",
+  "order": 2,
+  "kind": "interactive_narrative",
+  "setting": "work_screen_location_undecided",
+  "duration_target_sec": {
+    "min": 120,
+    "max": 180,
+    "approved": false
+  },
+  "entry": {
+    "previous_scene": "PRO-001",
+    "event": "previous_scene_complete",
+    "state_required": []
+  },
+  "exit": {
+    "next_scene": "PRO-003",
+    "set_flags": [
+      "pro002_completed"
+    ]
+  },
+  "confirmed_constraints": [
+    "social_ai_layoffs_montage_precedes_this_scene",
+    "termination_is_delivered_through_an_ordinary_cold_email",
+    "no_explosive_confrontation"
+  ],
+  "beats": [
+    {
+      "id": "PRO002-B01",
+      "stage": "ordinary_work",
+      "visual": "work_calendar_open_document_cup_ambient",
+      "audio_cues": [
+        "quiet_typing",
+        "fan_room"
+      ],
+      "interactive": [
+        "look_around"
+      ]
+    },
+    {
+      "id": "PRO002-B02",
+      "stage": "notification",
+      "visual": "single_email_notification",
+      "audio_cues": [
+        "email_notification_soft"
+      ],
+      "interactive": [
+        "open_email"
+      ]
+    },
+    {
+      "id": "PRO002-B03",
+      "stage": "read_email",
+      "visual": "human_resources_email",
+      "audio_cues": [
+        "room_tone_lowered"
+      ],
+      "interactive": [
+        "read_email"
+      ],
+      "set_flags_on_action": {
+        "read_email": [
+          "termination_email_read"
+        ]
+      }
+    },
+    {
+      "id": "PRO002-B04",
+      "stage": "pause",
+      "visual": "email_remains_open_until_player_action",
+      "audio_cues": [
+        "room_tone"
+      ],
+      "interactive": [
+        "reread_email",
+        "close_email"
+      ]
+    },
+    {
+      "id": "PRO002-B05",
+      "stage": "after_email",
+      "visual": "same_desk_details_now_feel_empty",
+      "audio_cues": [
+        "fan_room"
+      ],
+      "interactive": [
+        "look_around",
+        "leave_desk"
+      ]
+    },
+    {
+      "id": "PRO002-B06",
+      "stage": "transition",
+      "visual": "fade_to_pro003_days_passing",
+      "audio_cues": [
+        "ambient_fade"
+      ],
+      "interactive": [
+        "leave_desk"
+      ],
+      "set_flags_on_action": {
+        "leave_desk": [
+          "pro002_completed"
+        ]
+      }
+    }
+  ],
+  "interactions": {
+    "open_email": {
+      "requires": [],
+      "next_stage": "read_email",
+      "does_not_set": [
+        "termination_email_read"
+      ]
+    },
+    "read_email": {
+      "sets": [
+        "termination_email_read"
+      ],
+      "next_stage": "pause"
+    },
+    "reread_email": {
+      "requires": [
+        "termination_email_read"
+      ],
+      "sets": [],
+      "next_stage": "pause"
+    },
+    "close_email": {
+      "requires": [
+        "termination_email_read"
+      ],
+      "next_stage": "after_email"
+    },
+    "leave_desk": {
+      "requires": [
+        "termination_email_read"
+      ],
+      "sets": [
+        "pro002_completed"
+      ],
+      "next_scene": "PRO-003"
+    }
+  },
+  "localization_draft": {
+    "vi": {
+      "PRO002_EMAIL_SENDER": "Bộ phận Nhân sự",
+      "PRO002_EMAIL_SUBJECT": "Thông báo về vị trí công việc của bạn",
+      "PRO002_EMAIL_BODY": "Chào bạn,\n\nDo điều chỉnh cơ cấu hoạt động, công ty đã quyết định không tiếp tục duy trì vị trí công việc hiện tại của bạn.\n\nThông tin về thời điểm kết thúc công việc và các thủ tục liên quan sẽ được gửi trong một thông báo riêng.\n\nCảm ơn bạn vì những đóng góp trong thời gian qua.\n\nBộ phận Nhân sự",
+      "PRO002_ACTION_OPEN": "Mở email",
+      "PRO002_ACTION_REREAD": "Đọc lại",
+      "PRO002_ACTION_CLOSE": "Đóng email",
+      "PRO002_ACTION_LEAVE": "Rời bàn làm việc",
+      "PRO002_THOUGHT_01": "À... vậy là hết rồi."
+    }
+  },
+  "voiceover": {
+    "enabled": "undecided",
+    "optional_keys": [
+      "PRO002_THOUGHT_01"
+    ]
+  },
+  "ui": {
+    "free_read_time": true,
+    "forced_dialogue_choice": false,
+    "reduced_motion_needed": true,
+    "subtitle_support_needed": true
+  },
+  "production": {
+    "recommended_implementation": "static_camera_plus_ui",
+    "godot_integration": "not_implemented",
+    "assets": "placeholder",
+    "note": "Draft narrative model; requires implementation and a localization layer."
+  },
+  "unresolved": [
+    "work_location",
+    "voiceover",
+    "level_of_interactivity",
+    "character_job_and_identity",
+    "scene_skip_rules",
+    "exact_email_legal_wording"
+  ]
+}
