@@ -21,6 +21,8 @@
 - [02-idea-bank.md](02-idea-bank.md): phương án để trao đổi; **không phải canon**.
 - [chapters/prologue.md](chapters/prologue.md): bản nháp mở đầu cho người viết.
 - [chapters/prologue.json](chapters/prologue.json): cấu trúc phân cảnh trung tính, chưa có parser Godot.
+- [scenes/PRO-001.md](scenes/PRO-001.md): mở đầu thời AI, dựng cảnh và lời dẫn (nháp).
+- [scenes/PRO-001.json](scenes/PRO-001.json): nhịp hình/âm/chữ của PRO-001 (nháp, chưa tích hợp).
 
 ## Quy trình
 
