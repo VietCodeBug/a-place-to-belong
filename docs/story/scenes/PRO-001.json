@@ -1,0 +1,142 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "PRO-001",
+  "status": "draft",
+  "title": "Thế giới đang tăng tốc",
+  "chapter": "prologue",
+  "order": 1,
+  "kind": "cinematic",
+  "setting": "real_world_montage",
+  "duration_target_sec": {
+    "min": 55,
+    "max": 65,
+    "approved": false
+  },
+  "entry": {
+    "event": "new_game_started",
+    "state_required": []
+  },
+  "exit": {
+    "next_scene": "PRO-002",
+    "set_flags": [
+      "pro001_seen"
+    ],
+    "does_not_set": [
+      "termination_email_read"
+    ]
+  },
+  "approved_constraints": [
+    "show_ai_restructuring_layoffs_and_living_costs_before_pro002",
+    "termination_email_must_not_be_shown_in_pro001"
+  ],
+  "beats": [
+    {
+      "id": "PRO001-B01",
+      "window_sec": [
+        0,
+        12
+      ],
+      "visual": "ai_promotion_and_automation_interfaces",
+      "onscreen_text_keys": [
+        "PRO001_NEWS_AI"
+      ],
+      "audio_cues": [
+        "keyboard",
+        "distant_broadcast"
+      ]
+    },
+    {
+      "id": "PRO001-B02",
+      "window_sec": [
+        12,
+        27
+      ],
+      "visual": "office_restructuring_and_empty_workstation",
+      "onscreen_text_keys": [
+        "PRO001_NEWS_RESTRUCTURE"
+      ],
+      "audio_cues": [
+        "notification_short"
+      ]
+    },
+    {
+      "id": "PRO001-B03",
+      "window_sec": [
+        27,
+        42
+      ],
+      "visual": "rent_due_credit_minimum_due_application_received",
+      "onscreen_text_keys": [
+        "PRO001_RENT_DUE",
+        "PRO001_CREDIT_DUE",
+        "PRO001_APPLICATION_RECEIVED"
+      ],
+      "audio_cues": [
+        "phone_vibration",
+        "fan_room"
+      ]
+    },
+    {
+      "id": "PRO001-B04",
+      "window_sec": [
+        42,
+        55
+      ],
+      "visual": "ordinary_small_workspace_and_anonymous_protagonist",
+      "onscreen_text_keys": [],
+      "audio_cues": [
+        "fan_room",
+        "quiet_typing"
+      ]
+    },
+    {
+      "id": "PRO001-B05",
+      "window_sec": [
+        55,
+        62
+      ],
+      "visual": "camera_transition_to_pro002_inbox",
+      "onscreen_text_keys": [],
+      "audio_cues": [
+        "room_tone"
+      ]
+    }
+  ],
+  "localization_draft": {
+    "vi": {
+      "PRO001_NEWS_AI": "Công cụ AI mới giúp xử lý công việc trong vài giây.",
+      "PRO001_NEWS_RESTRUCTURE": "Thông báo điều chỉnh cơ cấu nhân sự.",
+      "PRO001_RENT_DUE": "Tiền thuê nhà sắp đến hạn",
+      "PRO001_CREDIT_DUE": "Kỳ thanh toán tín dụng sắp tới",
+      "PRO001_APPLICATION_RECEIVED": "Chúng tôi đã nhận hồ sơ ứng tuyển của bạn",
+      "PRO001_NARR_01": "Người ta nói mọi thứ đang trở nên dễ dàng hơn.",
+      "PRO001_NARR_02": "Nhưng có những ngày, tôi lại thấy mình khó thở hơn một chút.",
+      "PRO001_NARR_03": "Sáng hôm ấy, tôi vẫn nghĩ đó chỉ là một ngày bình thường."
+    }
+  },
+  "voiceover": {
+    "enabled": "undecided",
+    "optional_keys": [
+      "PRO001_NARR_01",
+      "PRO001_NARR_02",
+      "PRO001_NARR_03"
+    ]
+  },
+  "ui": {
+    "skippable_proposal": true,
+    "reduced_motion_needed": true,
+    "subtitle_support_needed": true
+  },
+  "production": {
+    "recommended_implementation": "2d_layered_cinematic",
+    "godot_integration": "not_implemented",
+    "assets": "placeholder",
+    "note": "Draft creative data, not executable scenes."
+  },
+  "unresolved": [
+    "voiceover",
+    "timing",
+    "art_direction_real_world",
+    "city_and_job_context"
+  ]
+}
