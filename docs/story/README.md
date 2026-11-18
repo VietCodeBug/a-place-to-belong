@@ -25,6 +25,8 @@
 - [scenes/PRO-001.json](scenes/PRO-001.json): nhịp hình/âm/chữ của PRO-001 (nháp, chưa tích hợp).
 - [scenes/PRO-002.md](scenes/PRO-002.md): ngày nhận email mất việc, tương tác và cảm xúc (nháp).
 - [scenes/PRO-002.json](scenes/PRO-002.json): dữ liệu PRO-002 (nháp, chưa tích hợp).
+- [scenes/PRO-003.md](scenes/PRO-003.md): những ngày sau mất việc qua ba khoảnh khắc trong căn hộ (nháp).
+- [scenes/PRO-003.json](scenes/PRO-003.json): dữ liệu tương tác xen montage của PRO-003 (nháp, chưa tích hợp).
 
 ## Quy trình
 
