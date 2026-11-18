@@ -36,9 +36,10 @@ func build_title() -> void:
 	wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);wash.mouse_filter=Control.MOUSE_FILTER_IGNORE;ui.title_screen.add_child(wash)
 	var left:=VBoxContainer.new();left.position=Vector2(62,42);left.custom_minimum_size=Vector2(385,0);left.add_theme_constant_override("separation",12);ui.title_screen.add_child(left)
 	var mast:=HBoxContainer.new();left.add_child(mast);var mark:=Mark.new();mark.seal=true;mast.add_child(mark)
-	var words:=column(mast,4);words.add_child(T.label("LETTERS FROM THE WOODLAND",11,T.FOREST));words.add_child(T.label("POST OFFICE  /  COFFEE HOUSE",11,T.SAGE))
-	left.add_child(T.label("Forest Post",72,T.FOREST,true));left.add_child(T.label("Café",82,T.FOREST,true))
-	left.add_child(T.label("A warm cup. A letter. A slower day.",15,T.FOREST))
+	var words:=column(mast,4);words.add_child(T.label("A PLACE TO BELONG",11,T.FOREST));words.add_child(T.label("A SECOND LIFE",11,T.SAGE))
+	left.add_child(T.label("A Place",72,T.FOREST,true));left.add_child(T.label("to Belong",82,T.FOREST,true))
+	var tagline:=T.label("A second life, somewhere between dreams and reality.",15,T.FOREST)
+	tagline.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;left.add_child(tagline)
 	var first:=button(left,"Begin your day   →",func():ui.exit_title_menu(false));first.primary=true;first.name="BeginDay";first.add_theme_font_size_override("font_size",19)
 	var settings:=button(left,"Settings",func():open_page("Settings"))
 	var leave:=button(left,"Leave the forest",func():ui.get_tree().quit())
@@ -49,11 +50,11 @@ func build_title() -> void:
 			var ghost:=StyleBoxFlat.new();ghost.bg_color=Color(0,0,0,0);ghost.content_margin_left=8;ghost.content_margin_top=5;ghost.content_margin_bottom=5
 			if state=="focus" or state=="hover":ghost.border_color=T.CREAM;ghost.border_width_bottom=1
 			secondary.add_theme_stylebox_override(state,ghost)
-	var signature:=T.label("FOREST POST  ·  LITTLE MOMENTS, DELIVERED",10,T.SAGE);signature.set_anchors_preset(Control.PRESET_BOTTOM_LEFT);signature.position=Vector2(62,-28);ui.title_screen.add_child(signature)
+	var signature:=T.label("A PLACE TO BELONG",10,T.SAGE);signature.set_anchors_preset(Control.PRESET_BOTTOM_LEFT);signature.position=Vector2(62,-28);ui.title_screen.add_child(signature)
 func make_page(name: String,subtitle: String) -> VBoxContainer:
 	var center:=CenterContainer.new();center.name=name.replace(" ","");center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);center.hide();shade.add_child(center);pages[name]=center
 	var paper:=PanelContainer.new();paper.custom_minimum_size=Vector2(660,0);paper.add_theme_stylebox_override("panel",T.paper());center.add_child(paper)
-	var col:=column(paper,14);col.add_child(T.label("FOREST POST  /  FIELD NOTES",11,T.CORAL));col.add_child(T.label(name,30,T.FOREST,true));col.add_child(T.label(subtitle,13,T.SAGE))
+	var col:=column(paper,14);col.add_child(T.label("A PLACE TO BELONG  /  FIELD NOTES",11,T.CORAL));col.add_child(T.label(name,30,T.FOREST,true));col.add_child(T.label(subtitle,13,T.SAGE))
 	return col
 func build_pause() -> void:
 	ui.pause_overlay=Control.new();ui.pause_overlay.name="CozyPauseMenu";ui.pause_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);ui.pause_overlay.hide();ui.root_ui.add_child(ui.pause_overlay)

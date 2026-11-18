@@ -1,6 +1,6 @@
 config_version=5
 [application]
-config/name="Forest Post Café"
+config/name="A Place to Belong"
 run/main_scene="res://scenes/world/forest_hub.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 [display]

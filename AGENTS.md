@@ -1,4 +1,4 @@
-# Forest Post Café development
+# A Place to Belong development
 
 Godot 4.6.3 stable, GDScript, Windows PC, Compatibility renderer. Start with
 README.md and docs/game-concept.md, art-direction.md, and art-prompts.md.
@@ -109,3 +109,6 @@ Latest V12 correction: weather is AUTOMATIC. Remove public weather/time pickers;
 
 ## Circular Postal UI approved implementation
 Read docs/circular-postal-ui.md. This follows V12 UI plan; preserve world and automatic-weather requirements, no scheduler/world changes here. Clock HUD reads environment only; Studio remains debug-gated. New round wax close button preserves modal/input APIs. UI screenshots go to preview/ver-13-circular-postal-ui (next unused preview number, not an environment rebuild). Preserve earlier refs, no merge.
+
+## Project rename: A Place to Belong
+New title: A Place to Belong. Exact tagline: A second life, somewhere between dreams and reality. Requested GitHub slug: VietCodeBug/a-place-to-belong. The user will rename the repository manually in GitHub Settings; origin remains VietCodeBug/forest-post-cafe until confirmed. Do not create broken new-slug links or claim the server rename succeeded. Preserve all existing branch/tag names, especially story/forest-post-cafe-narrative, and never rewrite docs/story. Narrative placeholders A/XXX remain unresolved; do not invent lore or quests. Historic café/location/asset names remain valid. Local workspace path need not match the repository slug. See docs/project-rename.md. No gameplay changes or automatic PR merges are authorized by the rename.
