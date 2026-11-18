@@ -34,6 +34,11 @@
 - [scenes/CH01-001.json](scenes/CH01-001.json): dữ liệu tương tác/cờ tiến trình cho CH01-001 (nháp, chưa tích hợp).
 - [scenes/CH01-002.md](scenes/CH01-002.md): từ hiên nhà thấy rừng ngập nắng, sau đó tìm thấy lối mòn mờ (nháp).
 - [scenes/CH01-002.json](scenes/CH01-002.json): dữ liệu cảnh CH01-002 (nháp, chưa tích hợp).
+- [scenes/CH01-003.md](scenes/CH01-003.md): gặp Thomas đốn củi; giữ nguyên thoại v1, chia chủ đề tùy chọn.
+- [scenes/CH01-003.json](scenes/CH01-003.json): dữ liệu lời thoại, flag, hướng dẫn người chơi và tình huống gặp lại.
+- [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
+- [characters/thomas.json](characters/thomas.json): nhận dạng/giới hạn thông tin Thomas dạng có cấu trúc.
+- [dialogue/README.md](dialogue/README.md): quy ước phân biệt giới thiệu, hỏi tùy chọn, gợi hướng khám phá, lời gặp lại.
 - [production/intro-comic-v0.md](production/intro-comic-v0.md): kịch bản dựng thử mở đầu dạng truyện tranh, 14 mốc storyboard/handoff.
 - [production/intro-comic-v0.json](production/intro-comic-v0.json): 12 panel truyện tranh dạng dữ liệu, handoff sang gameplay (nháp).
 
