@@ -1,0 +1,161 @@
+{
+  "schema": "apb.comic_intro.v0",
+  "id": "intro-comic-vertical-slice",
+  "status": "draft",
+  "title": "Opening Comic Prototype",
+  "game": "A Place to Belong",
+  "target_engine": "Godot 4.6.3 Compatibility",
+  "runtime_support": "not_implemented",
+  "source_scene_ids": [
+    "PRO-001",
+    "PRO-002",
+    "PRO-003",
+    "PRO-004"
+  ],
+  "panels": [
+    {
+      "id": "OPN-001",
+      "scene_ref": "PRO-001",
+      "art_key": "ai_automation_layoff_headlines",
+      "text_key": "PRO001_NEWS_AI",
+      "audio_cue": "ui_keyboard",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-002",
+      "scene_ref": "PRO-001",
+      "art_key": "office_empty_desks",
+      "text_key": "PRO001_NEWS_RESTRUCTURE",
+      "audio_cue": "distant_office",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-003",
+      "scene_ref": "PRO-001",
+      "art_key": "rent_credit_job_market",
+      "text_key": "PRO001_RENT_DUE",
+      "audio_cue": "notification_montage",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-004",
+      "scene_ref": "PRO-001",
+      "art_key": "pan_from_headlines_to_workstation",
+      "text_key": null,
+      "audio_cue": "quiet_typing",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-005",
+      "scene_ref": "PRO-002",
+      "art_key": "ordinary_work_email_arrives",
+      "text_key": null,
+      "audio_cue": "office_ambience",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-006",
+      "scene_ref": "PRO-002",
+      "art_key": "interactive_termination_email",
+      "text_key": "PRO002_EMAIL_BODY",
+      "audio_cue": "email_notification_soft",
+      "interaction": "open_email_then_continue",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-007",
+      "scene_ref": "PRO-002",
+      "art_key": "office_keeps_working_without_change",
+      "text_key": null,
+      "audio_cue": "air_conditioning",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-008",
+      "scene_ref": "PRO-003",
+      "art_key": "alarm_and_work_clothes",
+      "text_key": null,
+      "audio_cue": "alarm_clock",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-009",
+      "scene_ref": "PRO-003",
+      "art_key": "applications_and_bills",
+      "text_key": "PRO003_APPLICATION_REPLY",
+      "audio_cue": "keyboard_fade",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-010",
+      "scene_ref": "PRO-003",
+      "art_key": "alarm_disabled",
+      "text_key": null,
+      "audio_cue": "quiet_city",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-011",
+      "scene_ref": "PRO-004",
+      "art_key": "lie_down_city_fades",
+      "text_key": null,
+      "audio_cue": "city_fade",
+      "interaction": "next_panel",
+      "status": "draft"
+    },
+    {
+      "id": "OPN-012",
+      "scene_ref": "PRO-004",
+      "art_key": "black_to_forest_ambience",
+      "text_key": null,
+      "audio_cue": "bird_and_leaves",
+      "interaction": "next_panel",
+      "status": "draft"
+    }
+  ],
+  "handoff": {
+    "after": "OPN-012",
+    "desired": "CH01-001",
+    "v0_fallback": "forest_hub_preview_only",
+    "label_preview": true,
+    "do_not_claim_canon_map": true
+  },
+  "controls_proposal": {
+    "next": [
+      "mouse_click",
+      "enter",
+      "space"
+    ],
+    "skip": "escape_with_confirmation",
+    "reduce_motion": "static_panels_with_fade"
+  },
+  "art_direction_proposal": {
+    "real_world": "cool_desaturated_ink_panels",
+    "dream_world": "warm_sunlit_low_poly",
+    "text_style": "existing_storybook_ui_typography"
+  },
+  "constraints": [
+    "PRO-002_at_office",
+    "comic_must_not_reveal_the_forest_before_3d_handoff",
+    "CH01-002_first_outdoor_view_wide_sunlit_forest",
+    "faint_trail_after_initial_forest_view",
+    "no_story_branch_code_changes"
+  ],
+  "unresolved": [
+    "final_panel_art",
+    "timings",
+    "voiceover",
+    "skip_behavior",
+    "exact_house_scene",
+    "localized_final_copy"
+  ]
+}
