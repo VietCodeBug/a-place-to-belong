@@ -1,0 +1,128 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "CH01-002",
+  "status": "draft",
+  "title": "Bước ra ánh sáng",
+  "chapter": "chapter-01",
+  "order": 2,
+  "kind": "interactive_exploration",
+  "setting": "house_a_exterior_sunlit_forest",
+  "entry": {
+    "previous_scene": "CH01-001",
+    "event": "ch01_first_exit_complete",
+    "state_required": [
+      "ch01_first_exit_complete"
+    ]
+  },
+  "confirmed_constraints": [
+    "first_outdoor_view_is_wide_sunlit_living_forest",
+    "faint_trail_appears_only_after_initial_forest_impression",
+    "trail_suggests_people_once_passed_by_but_destination_unknown",
+    "no_mandatory_house_repairs_or_npc_intro_immediately"
+  ],
+  "draft_beats": [
+    {
+      "id": "CH01002-B01",
+      "mode": "interactive_transition",
+      "visual": "step_out_of_old_house_into_sunlit_forest",
+      "audio_cues": [
+        "forest_birds",
+        "soft_wind",
+        "leaves"
+      ]
+    },
+    {
+      "id": "CH01002-B02",
+      "mode": "free_exploration",
+      "visual": "wide_trees_sunbeams_living_forest_house_behind",
+      "optional_interactions": [
+        "observe_tree",
+        "listen_to_forest",
+        "look_back_at_house"
+      ]
+    },
+    {
+      "id": "CH01002-B03",
+      "mode": "soft_waypoint",
+      "visual": "open_patch_sunlit_ground_near_house",
+      "action": "reach_viewpoint"
+    },
+    {
+      "id": "CH01002-B04",
+      "mode": "soft_discovery",
+      "visual": "faint_human_worn_path_between_undergrowth",
+      "action": "discover_faint_trail",
+      "set_flags": [
+        "ch01_faint_trail_discovered"
+      ]
+    },
+    {
+      "id": "CH01002-B05",
+      "mode": "free_exploration",
+      "visual": "path_invites_forward_without_forced_quest",
+      "action": "complete_outdoor_intro",
+      "set_flags": [
+        "ch01_outdoor_intro_complete"
+      ]
+    }
+  ],
+  "optional_interactions": [
+    "observe_tree",
+    "listen_to_forest",
+    "look_back_at_house"
+  ],
+  "interactions": {
+    "reach_viewpoint": {
+      "optional": true,
+      "set_flags": [
+        "ch01_viewpoint_seen"
+      ]
+    },
+    "discover_faint_trail": {
+      "optional": true,
+      "set_flags": [
+        "ch01_faint_trail_discovered"
+      ]
+    },
+    "complete_outdoor_intro": {
+      "optional": false,
+      "proposal": true,
+      "set_flags": [
+        "ch01_outdoor_intro_complete"
+      ],
+      "next_event": "follow_the_trail_tbd"
+    }
+  },
+  "exit": {
+    "next_scene": null,
+    "next_event": "follow_the_trail_tbd",
+    "set_flags": [
+      "ch01_outdoor_intro_complete"
+    ]
+  },
+  "localization_draft": {
+    "vi": {
+      "CH01002_OBJ_EXPLORE": "Bước ra ngoài và ngắm khu rừng",
+      "CH01002_DISCOVERY_TRAIL": "Một lối mòn nhỏ len qua những tán cây.",
+      "CH01002_ACTION_RETURN": "Quay lại nhà"
+    }
+  },
+  "art_proposal": {
+    "style": "classic_low_poly_3d",
+    "lighting": "bright_morning",
+    "vegetation": "dense_natural_but_readable",
+    "feeling": "open_safe_living_forest"
+  },
+  "production": {
+    "godot_integration": "not_implemented",
+    "assets": "placeholder",
+    "note": "Narrative specification only. Faint trail is not yet a mapped route."
+  },
+  "unresolved": [
+    "viewpoint_location",
+    "trail_coordinates",
+    "first_resident",
+    "path_destination",
+    "gameplay_map_connection"
+  ]
+}
