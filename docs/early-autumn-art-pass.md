@@ -60,4 +60,4 @@ Góc 01 giữ nguyên follow camera và UI khi chơi; góc 02/03 chỉ phục v�
 Lượt chỉnh bố cục tiếp theo: [Composition & depth](composition-depth-pass.md), có
 ảnh mới đặt cạnh ảnh cũ theo cùng góc máy và báo cáo thay đổi không gian/props.
 
-Bộ preview riêng: [preview/ver-01-early-autumn](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-01-early-autumn).
+Bộ preview riêng: [preview/ver-01-early-autumn](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-01-early-autumn).

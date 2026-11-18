@@ -26,4 +26,4 @@ Godot 4.6.3 Compatibility trên Linux/Mesa llvmpipe: editor import, boot, smoke 
 
 ## Ảnh review
 
-[preview/ver-07-samatha-player](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-07-samatha-player): gameplay Samatha, toàn thân với hai tay hạ xuống, cận mặt texture gốc, NPC eggeght và clip Walking. Chụp trực tiếp Godot bằng `tools/capture_characters.gd`; không thay lighting hay dùng ảnh minh họa. Giữ ver-01–06. Chờ người dùng review hình ảnh, không tự tuyên bố hoàn thiện mỹ thuật.
+[preview/ver-07-samatha-player](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-07-samatha-player): gameplay Samatha, toàn thân với hai tay hạ xuống, cận mặt texture gốc, NPC eggeght và clip Walking. Chụp trực tiếp Godot bằng `tools/capture_characters.gd`; không thay lighting hay dùng ảnh minh họa. Giữ ver-01–06. Chờ người dùng review hình ảnh, không tự tuyên bố hoàn thiện mỹ thuật.

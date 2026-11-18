@@ -26,4 +26,4 @@ Editor import, smoke, V10 integration và V12 UI tests pass; UI test bổ sung k
 
 Kim/viền vẫn là vector thủ tục, chưa có artwork đồng hồ riêng; chuyển động tay kim theo game time, không mô phỏng cơ khí. Không thêm grain texture/blur hay âm giấy thu thật. Tranh main menu vẫn là asset minh họa V12; cảnh 3D không được nâng chất lượng trong lượt này. Cần duyệt trực tiếp về độ lớn HUD và độ rõ chữ trên các vùng rừng khác nhau.
 
-Preview: https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-13-circular-postal-ui
+Preview: https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-13-circular-postal-ui

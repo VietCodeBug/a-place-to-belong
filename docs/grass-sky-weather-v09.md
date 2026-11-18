@@ -1,7 +1,7 @@
 # V09 — Thảm cỏ dày, gió, bầu trời và thời tiết
 
 Bản làm việc tiếp tục trên PR #10 / `feature/map01-lighting-presets`. Không merge.
-Preview: https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-09-grass-sky-weather
+Preview: https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-09-grass-sky-weather
 
 Đã thay cách rải cỏ lưa thưa bằng carpet thấp 24 lá/cụm, main tufts 16 lá và accent
 12 lá. Nền đồng cỏ đổi sang xanh vàng gần màu chân cỏ; bỏ giảm mật độ .3 trên cả

@@ -60,4 +60,4 @@ art pass trước. Không dùng ảnh headless để đánh giá hình ảnh.
 - Đã render và xem cả ba ảnh 1280×720. Cảnh báo V-Sync trên Xorg dummy là giới hạn
   display kiểm thử; chưa chạy native Windows hay đo hiệu năng trên phần cứng PC.
 
-Bộ preview riêng: [preview/ver-02-composition-depth](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-02-composition-depth).
+Bộ preview riêng: [preview/ver-02-composition-depth](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-02-composition-depth).

@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-18",
+  "repository": "VietCodeBug/a-place-to-belong",
+  "retained_before": {
+    "story/forest-post-cafe-narrative": "efe69573fb8c8c08b4c143da6b9069ca70314cef",
+    "feature/map01-lighting-presets": "b24c5dfd129a3882b14beebd3b4fbf84a7fe1a95",
+    "main": "d7d12034a38f2f0f6f05c2c74a956f3d22293117"
+  },
+  "archived": [
+    {
+      "branch": "3D_model",
+      "commit": "d7d12034a38f2f0f6f05c2c74a956f3d22293117",
+      "archive_tag": "3D_model"
+    },
+    {
+      "branch": "feature/v10-map01-visual-overhaul",
+      "commit": "3351c01d7c24b527f068fcb84d2163b3652bf4bd",
+      "archive_tag": "feature/v10-map01-visual-overhaul"
+    },
+    {
+      "branch": "preview/ver-09-grass-sky-weather",
+      "commit": "00d0e500a93398d023e503c20ca191d88dac2988",
+      "archive_tag": "preview/ver-09-grass-sky-weather"
+    },
+    {
+      "branch": "preview/ver-10-map01-visual-overhaul",
+      "commit": "04700045b5df9a495a98c0c5b762b49b32c4797e",
+      "archive_tag": "preview/ver-10-map01-visual-overhaul"
+    },
+    {
+      "branch": "preview/ver-11-atmosphere-habitats",
+      "commit": "bdcaf3ca8bfd27b142692325e7a9d6ada8da56e7",
+      "archive_tag": "preview/ver-11-atmosphere-habitats"
+    },
+    {
+      "branch": "preview/ver-12-storybook-ui",
+      "commit": "807423c34884b9e87ca9792257faa181f7e842dd",
+      "archive_tag": "preview/ver-12-storybook-ui"
+    },
+    {
+      "branch": "preview/ver-13-circular-postal-ui",
+      "commit": "2c3ad2456b28a7e9dc9b3c0277101b1d5769b209",
+      "archive_tag": "preview/ver-13-circular-postal-ui"
+    }
+  ],
+  "main_readme_only_commit": "40240aea340117aecb1b898572285f097f0852ad",
+  "narrative_docs_tree": "a526ef60560d6c09a958eac810e7f588e6fa499f"
+}

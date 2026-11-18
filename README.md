@@ -10,11 +10,11 @@ The protagonist is an office worker laid off in the AI era. During a difficult p
 
 The story is still being developed. XXX and A remain placeholders; this introduction does not establish additional lore, quests or story outcomes. The new direction describes the intended game, not a claim that an open world or complete narrative has already been implemented.
 
-The creator's narrative documents remain on the preserved [story/forest-post-cafe-narrative branch](https://github.com/VietCodeBug/forest-post-cafe/tree/story/forest-post-cafe-narrative/docs/story). This rename does not edit or replace them. Older concept/art documents retain their historical names and are not automatically the current narrative canon.
+The creator's narrative documents remain on the preserved [story/forest-post-cafe-narrative branch](https://github.com/VietCodeBug/a-place-to-belong/tree/story/forest-post-cafe-narrative/docs/story). This rename does not edit or replace them. Older concept/art documents retain their historical names and are not automatically the current narrative canon.
 
 ## Current prototype
 
-The playable work is on [feature/map01-lighting-presets / PR #10](https://github.com/VietCodeBug/forest-post-cafe/pull/10), which remains unmerged. The default branch still contains the earlier concept baseline until changes are reviewed.
+The playable work is on [feature/map01-lighting-presets / PR #10](https://github.com/VietCodeBug/a-place-to-belong/pull/10), which remains unmerged. The default branch still contains the earlier concept baseline until changes are reviewed.
 
 - Godot **4.6.3**, GDScript, 3D, Compatibility renderer; target: Windows PC.
 - One existing 48 × 48 m forest hub with the café/post-office location, character movement, camera and reading/talking interactions.
@@ -26,7 +26,7 @@ The café and postal assets remain part of the prototype. Renaming the game does
 ## Run the development prototype
 
 ```bash
-git clone --branch feature/map01-lighting-presets https://github.com/VietCodeBug/forest-post-cafe.git
+git clone --branch feature/map01-lighting-presets https://github.com/VietCodeBug/a-place-to-belong.git
 cd a-place-to-belong
 godot --editor --path .
 ```
@@ -35,11 +35,11 @@ Install Godot 4.6.3 or use `tools/setup_godot.sh`. Press F6/F5 as appropriate in
 
 ## Development references
 
-- [Prototype status and controls](docs/phase-01.md)
-- [Circular postal UI report](docs/circular-postal-ui.md)
-- [UI design system](docs/ui-design-system.md)
-- [Versioned previews](docs/previews.md)
-- [Rename record and preservation checks](docs/project-rename.md)
-- [Asset sources and licensing](assets/vendor/kenney/README.md)
+- [Prototype status and controls](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/phase-01.md)
+- [Circular postal UI report](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/circular-postal-ui.md)
+- [UI design system](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/ui-design-system.md)
+- [Versioned previews](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/previews.md)
+- [Rename record and preservation checks](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/project-rename.md)
+- [Asset sources and licensing](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/assets/vendor/kenney/README.md)
 
-Historical preview branches/tags, source assets and Git history are preserved. No existing PR is merged as part of this branding change. Linux cloud checks are not a Windows GPU benchmark.
+Only three branch heads remain: main, feature/map01-lighting-presets (development), and story/forest-post-cafe-narrative. Historical previews and retired branches are preserved as same-name tags; source assets and Git history remain intact. No existing PR is merged as part of this branding change. Linux cloud checks are not a Windows GPU benchmark.

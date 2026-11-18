@@ -73,7 +73,7 @@ Chạy editor import/boot, gameplay smoke, Map 01 scope, floor scope, display in
 
 ## Ảnh trước / Golden / Blue
 
-Đã kiểm tra remote preview branches: số lớn nhất trước lượt này là 07, nên dùng [preview/ver-08-lighting-presets](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-08-lighting-presets), giữ nguyên các nhánh cũ.
+Đã kiểm tra remote preview branches: số lớn nhất trước lượt này là 07, nên dùng [preview/ver-08-lighting-presets](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-08-lighting-presets), giữ nguyên các nhánh cũ.
 
 Mỗi preset có 5 ảnh Godot thật, 1280 × 720, cùng camera: gameplay mặc định, café exterior, forest clearing, low-angle sky/horizon, wide composition. Baseline PR #9 được dựng lại bằng preset tái hiện chính xác. Freeze wind và actor chỉ trong công cụ capture để A/B ít nhiễu; scene game không bị freeze. Không restage quán, nhân vật hay cây. Không dùng ảnh AI hoặc chỉnh màu PNG để làm đẹp review.
 

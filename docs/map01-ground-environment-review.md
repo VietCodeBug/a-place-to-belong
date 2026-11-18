@@ -47,7 +47,7 @@ Không chuyển renderer mặc định. Forward+ có thể tăng chi phí GPU/VR
 
 Kết quả: editor import và boot qua; 13 smoke gameplay/UI/mailbox/collision, 11 Map 01 terrain/bounds/porch, 18 integration có display và 12 floor scope đều qua (0 lỗi). Kiểm tra source/vendor/hash không thay thế duyệt mỹ thuật.
 
-[preview/ver-05-ground-environment](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-ground-environment) chứa 5 ảnh Godot thật: gameplay mặc định, nền/cỏ cận, mép đường, nền rừng dưới tán và toàn cảnh Map 01. Ảnh codebase V04 `aa5f718` và baseline hiện tại `e5900df` được render lại bằng cùng năm camera để đối chiếu.
+[preview/ver-05-ground-environment](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-05-ground-environment) chứa 5 ảnh Godot thật: gameplay mặc định, nền/cỏ cận, mép đường, nền rừng dưới tán và toàn cảnh Map 01. Ảnh codebase V04 `aa5f718` và baseline hiện tại `e5900df` được render lại bằng cùng năm camera để đối chiếu.
 
 **V04 trong Git có quán phiên bản cũ hơn baseline hiện tại.** Vì vậy có cả cột “trước lượt này” cùng quán hiện tại để kiểm tra việc quán không bị sửa; không dùng chênh lệch kiến trúc V04→V07 làm thành tích của lượt ground pass. Bộ before được tạo từ `git archive` vào thư mục tạm, không sửa hoặc checkout đè repo đang làm việc.
 

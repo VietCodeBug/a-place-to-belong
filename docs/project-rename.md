@@ -1,3 +1,9 @@
+# Rename confirmed and branches consolidated — 18/11/2026
+
+The owner renamed GitHub to https://github.com/VietCodeBug/a-place-to-belong, repository ID1459537532. Origin and active document links are now updated. Seven retired branches are preserved as identical tags; three active branch heads remain. A README-only branding commit updates main without merging PR10. The original narrative branch/docs remain untouched. About description still needs the owner to edit it: integration PATCH is denied with HTTP403. The previous report below is historical and superseded where it says the new repository does not yet exist.
+
+---
+
 # A Place to Belong — branding update
 
 Ngày 18/11/2026. Tên game: **A Place to Belong**. Tagline chính xác: **A second life, somewhere between dreams and reality.**

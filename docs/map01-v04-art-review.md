@@ -99,7 +99,7 @@ bất kỳ Map 02, vùng mới hoặc hệ thống gameplay bổ sung nào.
 
 ## Preview V04 và trước–sau
 
-[preview/ver-04-map01-art-pass](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-04-map01-art-pass)
+[preview/ver-04-map01-art-pass](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-04-map01-art-pass)
 chứa 5 ảnh mới trong `after/`, 3 ảnh trước của V03 trong `before/`, cùng README ghi
 source commit và bảng so sánh. Các preview ver-01/02/03 giữ nguyên. Camera đã thay
 đổi nên bảng này là so sánh art direction/framing, không phải pixel-diff cùng camera.

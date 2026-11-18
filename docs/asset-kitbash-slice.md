@@ -98,4 +98,4 @@ godot --path . --audio-driver Dummy --script tools/capture.gd -- --output=/tmp/a
 
 ![Tỷ lệ quán và props](https://raw.githubusercontent.com/VietCodeBug/forest-post-cafe/refs/heads/preview/ver-03-kenney-kitbash/03-cafe-porch.png)
 
-Bộ preview riêng: [preview/ver-03-kenney-kitbash](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-03-kenney-kitbash).
+Bộ preview riêng: [preview/ver-03-kenney-kitbash](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-03-kenney-kitbash).

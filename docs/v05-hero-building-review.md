@@ -26,6 +26,6 @@ Kiểm tra: import editor, boot headless, smoke controller/UI/mailbox/collision,
 
 ## Ảnh review
 
-Ảnh chụp trực tiếp Godot, không dùng ảnh minh họa AI: gameplay, cận gỗ/hiên, nhân vật cạnh cửa, ngoại thất ánh sáng ấm, kết cấu mái. Nhánh [preview/ver-05-hero-building](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-05-hero-building) giữ riêng 5 ảnh after và ảnh before V04, bảng so sánh và SHA code. Camera review riêng không thay camera gameplay.
+Ảnh chụp trực tiếp Godot, không dùng ảnh minh họa AI: gameplay, cận gỗ/hiên, nhân vật cạnh cửa, ngoại thất ánh sáng ấm, kết cấu mái. Nhánh [preview/ver-05-hero-building](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-05-hero-building) giữ riêng 5 ảnh after và ảnh before V04, bảng so sánh và SHA code. Camera review riêng không thay camera gameplay.
 
 Ảnh reference ban đêm không có byte ảnh trong workspace lượt này; thiết kế dựa mô tả chữ. Chưa khẳng định khớp reference ảnh. Rừng, nền đất và một số prop cũ vẫn cần vòng review sau khi quán được duyệt. Material mái/gỗ có thể đổi palette sau này; chưa triển khai hệ thống mùa mới.

@@ -32,4 +32,4 @@ Editor import, smoke, map01_scope, weather_cycle, v10_visual_overhaul, v11_atmos
 
 Cần duyệt mỹ thuật trực tiếp, không suy ra mức wow từ test pass. Tranh nền menu không khớp từng chi tiết với mô hình café; nó là bưu thiếp minh họa. Settings chưa lưu qua lần mở game, chưa có journal/portrait/dialogue tree. Chưa benchmark Windows GPU. Hai texture leak lúc thoát Godot vẫn có từ baseline.
 
-Preview: https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-12-storybook-ui
+Preview: https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-12-storybook-ui

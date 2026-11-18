@@ -1,27 +1,24 @@
-# Branch layout after cleanup — 2026-11-17
+# Branch layout — 2026-11-18
 
-The user requested fewer branches. Keep these four remote heads:
+Repository: [VietCodeBug/a-place-to-belong](https://github.com/VietCodeBug/a-place-to-belong), ID1459537532. The owner completed the repository rename; origin and active document URLs use the new slug.
+
+Exactly three remote branch heads remain:
 
 | Branch | Purpose |
-| --- | --- |
-| main | Published/default history; unchanged by cleanup |
-| 3D_model | Existing user branch; unchanged |
-| feature/map01-lighting-presets | Current complete prototype, including all earlier feature work |
-| preview/ver-09-grass-sky-weather | Latest image and motion review |
+|---|---|
+| main | Default baseline; README branding updated separately, without merging gameplay PR10 |
+| feature/map01-lighting-presets | Current development / PR10; A Place to Belong application and menu branding |
+| story/forest-post-cafe-narrative | Creator narrative documents, unchanged |
 
-All nine older feature branches are ancestors of the current code. Archive those and eight older preview branches as **tags with exactly the same names and commit IDs**, verify the tags on GitHub, then remove the redundant branch heads. Existing `/tree/preview/ver-XX-...` links still resolve to the same snapshots via tags. Nothing is merged into main or removed from Git history.
+Seven removed heads (3D_model, feature/v10-map01-visual-overhaul, preview/ver-09 through ver-13) were first pushed and verified as same-name tags at identical original commits. See [exact archive receipt](branch-archive-2026-11-18.json). Earlier 18 tags remain unchanged. Source, screenshots and history are retained. Old preview READMEs still describe their historical version; changing those would falsify the snapshot.
 
-`branch-archive-2026-11-17.json` records the exact source commits and archive tags. Closed PRs #1–9 remain historical reviews; PR #10 targets main and represents the complete prototype for review. Closing old PRs does not mean their art was approved or their changes merged.
+Future screenshots use versioned tags rather than leaving new preview branch heads. Continue development on the existing development branch; no automatic PR merges. Do not rename the story branch just to match the new brand, and do not edit docs/story.
 
-Use the existing current code branch/PR for follow-up edits unless the user requests isolation. Keep each new image session versioned; retain the latest preview as a branch and archive older preview heads as same-name tags before removing them. Choose the next version using **both remote branches and tags**. Preserve all snapshot contents and URLs.
-
-Restore an archived branch if needed:
+To inspect an archived snapshot without creating a branch:
 
 ```sh
-git fetch origin tag preview/ver-07-samatha-player
-git switch -c restored-samatha refs/tags/preview/ver-07-samatha-player
+git fetch origin --tags
+git show refs/tags/preview/ver-13-circular-postal-ui:README.md
 ```
 
-No gameplay or asset files changed during this cleanup. Previous validation remains recorded in the visual reports; cleanup does not grant permission to merge or approve art.
-
-V09 follow-up: ver-08 is archived to the identical `preview/ver-08-lighting-presets` tag before its branch head is removed. Source code continues on the same feature branch and PR #10.
+GitHub About description is separate from repository name and README. Updating it through the integration returned HTTP403. The owner can edit About using the gear icon and paste the new tagline; no name/metadata change is falsely claimed here.

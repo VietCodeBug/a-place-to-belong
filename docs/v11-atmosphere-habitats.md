@@ -29,5 +29,5 @@ Godot 4.6.3 Linux, Compatibility. Import editor, smoke, map01_scope, weather_cyc
 
 Đây là bước chỉnh V11 để review, chưa tuyên bố đạt chất lượng premium. Núi vẫn đơn giản và cần đánh giá silhouette ở nhiều góc; mây cũ còn khá lớn/phẳng. Thỏ có hình khối tối giản, chuyển động thủ tục và chưa có rig/AI né người. Bướm đêm nhỏ, phải nhìn gần; chưa phải hệ sinh thái đa dạng đầy đủ. Postcard minh họa khác nhau theo loại thời tiết nhưng vẫn dùng chung bố cục. Cần xem chuyển động trong game và benchmark GPU thật trước khi chốt.
 
-Preview: https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-11-atmosphere-habitats
-PR: https://github.com/VietCodeBug/forest-post-cafe/pull/10
+Preview: https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-11-atmosphere-habitats
+PR: https://github.com/VietCodeBug/a-place-to-belong/pull/10
