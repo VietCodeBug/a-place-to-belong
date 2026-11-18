@@ -23,6 +23,8 @@
 - [chapters/prologue.json](chapters/prologue.json): cấu trúc phân cảnh trung tính, chưa có parser Godot.
 - [scenes/PRO-001.md](scenes/PRO-001.md): mở đầu thời AI, dựng cảnh và lời dẫn (nháp).
 - [scenes/PRO-001.json](scenes/PRO-001.json): nhịp hình/âm/chữ của PRO-001 (nháp, chưa tích hợp).
+- [scenes/PRO-002.md](scenes/PRO-002.md): ngày nhận email mất việc, tương tác và cảm xúc (nháp).
+- [scenes/PRO-002.json](scenes/PRO-002.json): dữ liệu PRO-002 (nháp, chưa tích hợp).
 
 ## Quy trình
 
