@@ -6,7 +6,7 @@
   "chapter": "prologue",
   "order": 2,
   "kind": "interactive_narrative",
-  "setting": "work_screen_location_undecided",
+  "setting": "office_workstation",
   "duration_target_sec": {
     "min": 120,
     "max": 180,
@@ -26,16 +26,18 @@
   "confirmed_constraints": [
     "social_ai_layoffs_montage_precedes_this_scene",
     "termination_is_delivered_through_an_ordinary_cold_email",
-    "no_explosive_confrontation"
+    "no_explosive_confrontation",
+    "termination_email_received_at_office_workstation"
   ],
   "beats": [
     {
       "id": "PRO002-B01",
       "stage": "ordinary_work",
-      "visual": "work_calendar_open_document_cup_ambient",
+      "visual": "office_desks_coworkers_working_calendar_open_document_cup",
       "audio_cues": [
-        "quiet_typing",
-        "fan_room"
+        "office_keyboards",
+        "air_conditioning",
+        "distant_colleague_chatter"
       ],
       "interactive": [
         "look_around"
@@ -83,9 +85,11 @@
     {
       "id": "PRO002-B05",
       "stage": "after_email",
-      "visual": "same_desk_details_now_feel_empty",
+      "visual": "same_office_continues_coworkers_unaware_desk_objects_unchanged",
       "audio_cues": [
-        "fan_room"
+        "office_ambience",
+        "distant_printer",
+        "chair_movement"
       ],
       "interactive": [
         "look_around",
@@ -95,7 +99,7 @@
     {
       "id": "PRO002-B06",
       "stage": "transition",
-      "visual": "fade_to_pro003_days_passing",
+      "visual": "leave_office_workstation_then_transition_to_pro003_days_passing",
       "audio_cues": [
         "ambient_fade"
       ],
@@ -174,10 +178,9 @@
     "recommended_implementation": "static_camera_plus_ui",
     "godot_integration": "not_implemented",
     "assets": "placeholder",
-    "note": "Draft narrative model; requires implementation and a localization layer."
+    "note": "Office is confirmed; exact city, employer, office layout, coworker behavior and staging remain draft. Narrative model; not implemented in Godot."
   },
   "unresolved": [
-    "work_location",
     "voiceover",
     "level_of_interactivity",
     "character_job_and_identity",
