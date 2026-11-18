@@ -10,7 +10,7 @@ Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải th�
 | ID | Cảnh | Diễn biến / trình bày đề xuất | Trải nghiệm | Trạng thái |
 |---|---|---|---|---|
 | [PRO-001](../scenes/PRO-001.md) | Thế giới tăng tốc | Montage ngắn: tin tức AI phát triển, tự động hóa ở văn phòng, thông báo cắt giảm nhân sự, cạnh tranh tuyển dụng; xen tin giá thuê nhà, khoản phải trả. Không dùng tên công ty/tin tức có thật khi chưa nghiên cứu. | Cinematic ngắn, âm thanh thông báo dày lên | draft |
-| [PRO-002](../scenes/PRO-002.md) | Một ngày bình thường | Chuyển từ tin tức sang màn hình làm việc của nhân vật. Nhịp sinh hoạt vốn quen thuộc. Email chấm dứt công việc đến, lạnh lùng và ngắn gọn; tránh diễn xuất ồn ào. | Người chơi quan sát/đọc email | draft |
+| [PRO-002](../scenes/PRO-002.md) | Một ngày bình thường | Chuyển từ tin tức sang bàn làm việc tại văn phòng. Nhịp sinh hoạt vẫn quen thuộc, đồng nghiệp vẫn làm việc. Email chấm dứt công việc đến, lạnh lùng và ngắn gọn; tránh diễn xuất ồn ào. | Người chơi quan sát/đọc email | draft |
 | PRO-003 | Những ngày không tên | Chuỗi thời gian trong căn hộ thuê: hồ sơ xin việc, hóa đơn, bữa ăn nguội, ngày và đêm lặp lại. Nhân vật dần mất phương hướng. | Tương tác đồ vật chọn lọc; không ép người chơi làm việc lặp lại | draft |
 | PRO-004 | Thiếp đi | Một đêm kiệt sức, nhân vật ngủ. Âm thanh thành phố và tiếng thông báo lùi dần vào im lặng. | Chuyển cảnh không giải thích quy luật giấc mơ | draft |
 | CH01-001 | Sáng ở nơi xa lạ | Nhân vật thức dậy là **A** trong căn nhà giữa rừng. Ký ức đời thực chỉ còn những mảnh cảm giác mơ hồ. Cho người chơi quan sát và bước ra ngoài; **không** mặc định A đã có bạn bè hay nghề nghiệp. | Trao quyền khám phá, mở Chapter 01 | draft |
@@ -25,7 +25,7 @@ Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải th�
 - Tạo được cảm giác tương phản qua ánh sáng/âm thanh, nhưng chưa quyết định XXX có phép thuật.
 
 ## Chưa chốt
-- Lời dẫn/đối thoại chính thức; nhân vật làm việc tại nhà hay tại văn phòng.
+- Lời dẫn/đối thoại chính thức; nhân vật **làm việc tại văn phòng (đã chốt)**, nhưng tên công ty, ngành nghề và bố trí chưa chốt.
 - Thời gian chơi ở đời thực và khả năng bỏ qua cinematic.
 - Lý do A sở hữu ngôi nhà, việc NPC có nhận ra A hay không.
 - Cách tiếp nối mỗi giấc mơ và quan hệ với những ngày đời thực.
