@@ -17,7 +17,7 @@
   "confirmed_constraints": [
     "first_outdoor_view_is_wide_sunlit_living_forest",
     "faint_trail_appears_only_after_initial_forest_impression",
-    "trail_suggests_people_once_passed_by_but_destination_unknown",
+    "faint_trail_leads_to_Thomas_chopping_wood_at_forest_edge",
     "no_mandatory_house_repairs_or_npc_intro_immediately"
   ],
   "draft_beats": [
@@ -90,12 +90,12 @@
       "set_flags": [
         "ch01_outdoor_intro_complete"
       ],
-      "next_event": "follow_the_trail_tbd"
+      "next_event": "CH01-003"
     }
   },
   "exit": {
-    "next_scene": null,
-    "next_event": "follow_the_trail_tbd",
+    "next_scene": "CH01-003",
+    "next_event": "CH01-003",
     "set_flags": [
       "ch01_outdoor_intro_complete"
     ]
@@ -121,8 +121,7 @@
   "unresolved": [
     "viewpoint_location",
     "trail_coordinates",
-    "first_resident",
-    "path_destination",
-    "gameplay_map_connection"
+    "gameplay_map_connection",
+    "trail_beyond_Thomas"
   ]
 }
