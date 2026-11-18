@@ -6,7 +6,8 @@
   "confirmed": [
     "AI layoffs and social pressure appear before job termination email",
     "XXX is a dream",
-    "A retains fragmented real-world memories"
+    "A retains fragmented real-world memories",
+    "PRO-002 termination email is received in the office"
   ],
   "flow": [
     {
@@ -22,7 +23,7 @@
     {
       "id": "PRO-002",
       "mode": "interactive",
-      "setting": "work_screen",
+      "setting": "office_workstation",
       "beat": "ordinary_day_then_termination_email",
       "next": "PRO-003",
       "detail_md": "../scenes/PRO-002.md",
