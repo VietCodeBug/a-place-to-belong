@@ -27,7 +27,8 @@
   },
   "approved_constraints": [
     "show_ai_restructuring_layoffs_and_living_costs_before_pro002",
-    "termination_email_must_not_be_shown_in_pro001"
+    "termination_email_must_not_be_shown_in_pro001",
+    "pro001_ends_at_office_workstation_for_pro002"
   ],
   "beats": [
     {
@@ -82,7 +83,7 @@
         42,
         55
       ],
-      "visual": "ordinary_small_workspace_and_anonymous_protagonist",
+      "visual": "ordinary_office_workstation_anonymous_protagonist",
       "onscreen_text_keys": [],
       "audio_cues": [
         "fan_room",
