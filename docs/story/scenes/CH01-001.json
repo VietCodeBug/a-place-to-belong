@@ -1,0 +1,159 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "CH01-001",
+  "status": "draft",
+  "title": "Buổi sáng ở ngôi nhà xa lạ",
+  "chapter": "chapter-01",
+  "order": 1,
+  "kind": "interactive_exploration",
+  "setting": "house_a_interior_forest",
+  "entry": {
+    "previous_scene": "PRO-004",
+    "event": "pro004_completed",
+    "state_required": [
+      "pro004_completed"
+    ]
+  },
+  "confirmed_constraints": [
+    "A_is_playable_dream_identity",
+    "A_has_fragmented_real_world_memories",
+    "house_is_old_and_needs_care_not_ruined",
+    "reason_house_was_neglected_is_unknown",
+    "house_feels_as_if_waiting_for_someone_metaphorical_not_literal",
+    "house_feels_unfamiliar_yet_vaguely_familiar_to_A",
+    "first_objective_observe_house_then_step_outside",
+    "no_mandatory_repair_before_exit"
+  ],
+  "draft_beats": [
+    {
+      "id": "CH01001-B01",
+      "mode": "cinematic_short",
+      "visual": "wake_at_old_wooden_ceiling_soft_light",
+      "audio": [
+        "forest_birds_carryover",
+        "leaves",
+        "light_wind"
+      ],
+      "next": "CH01001-B02"
+    },
+    {
+      "id": "CH01001-B02",
+      "mode": "interactive",
+      "visual": "livable_worn_room",
+      "optional_interactions": [
+        "inspect_bed",
+        "inspect_table",
+        "inspect_window"
+      ],
+      "next": "CH01001-B04"
+    },
+    {
+      "id": "CH01001-B03",
+      "mode": "optional_event",
+      "visual": "subtle_familiarity_at_window",
+      "mandatory": false,
+      "does_not_reveal": [
+        "A_history",
+        "house_previous_occupants"
+      ]
+    },
+    {
+      "id": "CH01001-B04",
+      "mode": "interactive",
+      "primary_action": "open_front_door",
+      "requirements": [
+        "player_control_enabled"
+      ],
+      "optional_interactions": [
+        "inspect_bed",
+        "inspect_table",
+        "inspect_window"
+      ],
+      "next": "CH01001-B05"
+    },
+    {
+      "id": "CH01001-B05",
+      "mode": "transition_to_exploration",
+      "visual": "house_threshold_to_forest",
+      "on_complete": [
+        "ch01_first_exit_complete"
+      ]
+    }
+  ],
+  "objectives": [
+    {
+      "id": "CH01001_OBJ_01",
+      "description_key": "CH01001_OBJECTIVE_EXPLORE_AND_EXIT",
+      "mandatory": true,
+      "completion_action": "open_front_door",
+      "note": "Optional observation is never a prerequisite"
+    }
+  ],
+  "interactions": {
+    "inspect_bed": {
+      "optional": true,
+      "set_flag": "ch01_bed_seen"
+    },
+    "inspect_table": {
+      "optional": true,
+      "set_flag": "ch01_table_seen"
+    },
+    "inspect_window": {
+      "optional": true,
+      "set_flag": "ch01_window_seen"
+    },
+    "open_front_door": {
+      "optional": false,
+      "requires": [],
+      "set_flags": [
+        "ch01_first_exit_complete"
+      ],
+      "next_event": "forest_exploration_tbd"
+    }
+  },
+  "exit": {
+    "next_scene": null,
+    "next_event": "forest_exploration_tbd",
+    "set_flags": [
+      "ch01_first_exit_complete"
+    ]
+  },
+  "localization_draft": {
+    "vi": {
+      "CH01001_OBJECTIVE_EXPLORE_AND_EXIT": "Quan sát căn nhà rồi bước ra ngoài",
+      "CH01001_INTERACT_BED": "Nhìn chiếc giường",
+      "CH01001_INTERACT_TABLE": "Quan sát chiếc bàn",
+      "CH01001_INTERACT_WINDOW": "Nhìn ra cửa sổ",
+      "CH01001_INTERACT_DOOR": "Bước ra ngoài",
+      "CH01001_THOUGHT_01": "Đây là đâu...?",
+      "CH01001_THOUGHT_02": "Lạ thật. Sao lại có cảm giác như mình đã thấy nơi này?"
+    }
+  },
+  "voiceover": {
+    "status": "undecided",
+    "optional_keys": [
+      "CH01001_THOUGHT_01",
+      "CH01001_THOUGHT_02"
+    ]
+  },
+  "art_proposal": {
+    "environment": "classic_low_poly_3d",
+    "player": "2d_sprite_in_3d",
+    "house_state": "livable_but_worn",
+    "repair_system": "future_not_required_in_scene"
+  },
+  "production": {
+    "assets": "placeholder",
+    "godot_integration": "not_implemented",
+    "note": "Story design data; no Godot scene parser or content guaranteed yet"
+  },
+  "unresolved": [
+    "initial_outdoor_view",
+    "interior_layout",
+    "voiceover",
+    "house_history",
+    "A_preexisting_memories",
+    "first_npc_encounter",
+    "repair_onboarding_timing"
+  ]
+}
