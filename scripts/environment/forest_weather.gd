@@ -270,10 +270,11 @@ func update_light(altitude: float, daylight: float) -> void:
 	var occlusion: float = weather_value.w
 	var colors := colors_at(hours)
 	sun.rotation_degrees = Vector3(-altitude * 60., -52. + (hours - 16.5) * 15., 0)
-	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.32 * (1. - occlusion * .76)
+	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.32 * (1. - smoothstep(.10,.48,occlusion) * .94)
 	var sun_col := Color("FFC987").lerp(Color("FFF2DC"), smoothstep(.16, .78, altitude))
 	sun.light_color = sun_col
-	sun.shadow_enabled = altitude > .025
+	sun.shadow_opacity=1.-smoothstep(.12,.55,occlusion)
+	sun.shadow_enabled = altitude > .025 and occlusion<.58
 
 	moon.rotation_degrees = Vector3(maxf(0.32, -altitude * 0.65) * -46., 128. + (hours - 16.5) * 15., 0)
 	moon.light_energy = (1. - daylight) * .25 * (1. - occlusion * .42)

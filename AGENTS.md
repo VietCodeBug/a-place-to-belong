@@ -98,3 +98,6 @@ same-name tag after verification; keep only latest preview as a branch. No merge
 
 Latest follow-up also authorizes small white/purple flower groups, mushrooms and
 small stones around meadow edges. Keep path/porch/mailbox approaches clear.
+
+## V11 latest menu/backdrop/biodiversity feedback
+Read docs/v11-atmosphere-habitats.md. Continue the user's 3351c01 V10 on current feature/map01-lighting-presets. Preserve approved cafe/grass and gameplay. Current pass adds illustrated mood/weather cards, daylight dial, broader scenic ridges and small authored habitats; no new map/quests/renderer switch. Capture actual Godot images to preview/ver-11-atmosphere-habitats. Preserve earlier preview refs and do not merge. The earlier uncommitted cloud draft was preserved in stash; do not pop it over this code.

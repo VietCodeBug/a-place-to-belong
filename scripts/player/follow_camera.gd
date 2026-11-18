@@ -32,7 +32,7 @@ func scenic_pose() -> Dictionary:
 	var eye := Vector3(13.6 + sway_x, 5.45 + sway_y, 21.2)
 	eye.y = maxf(eye.y, ForestLandscape.height_at(eye.x, eye.z) + 2.2)
 	# Frame cafe slightly to the right so the left-side Title Menu never hides the building
-	var focus := Vector3(-2.6, 2.75, 1.2)
+	var focus := Vector3(-2.6, 3.45, 1.2)
 	return {"eye": eye, "focus": focus, "fov": 42.0}
 
 func set_scenic_mode(enabled: bool, instant := false) -> void:

@@ -41,7 +41,7 @@ func run() -> void:
 	weather.set_time(9.0)
 	weather.set_weather("heavy_rain", true)
 	hub.ui._process(0.1)
-	check("Crisp Morning" in hub.ui.hud_time_label.text and "Downpour" in hub.ui.hud_weather_label.text, "HUD dynamically updates morning + rain status")
+	check("Rainy Morning" in hub.ui.hud_time_label.text and "Downpour" in hub.ui.hud_weather_label.text, "HUD dynamically updates morning + rain status")
 	check(not life.butterfly_node.visible and not life.firefly_node.visible, "heavy rain shelters butterflies and fireflies")
 
 	# 4. Scenic Title Menu & Cozy Pause Menu transitions

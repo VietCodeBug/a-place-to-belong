@@ -41,6 +41,7 @@ var grass_buttons: Dictionary = {}
 var volume_slider: HSlider
 
 var in_title_menu := false
+var mood_tween: Tween
 var in_pause_menu := false
 var ui_clock := 0.0
 var walk_timer := 0.0
@@ -263,12 +264,12 @@ func build_title_menu() -> void:
 
 	var game_title := Label.new()
 	game_title.text = "Forest Post Café"
-	game_title.add_theme_font_size_override("font_size", 28)
+	game_title.add_theme_font_size_override("font_size", 36)
 	game_title.add_theme_color_override("font_color", Color("F8EFE0"))
 	title_col.add_child(game_title)
 
 	var tagline := Label.new()
-	tagline.text = "A quiet low-poly clearing of warm coffee, handwritten letters, and drifting mountain mist."
+	tagline.text = "Warm coffee. Unhurried letters.\nA little forest worth getting lost in."
 	tagline.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tagline.add_theme_font_size_override("font_size", 13)
 	tagline.add_theme_color_override("font_color", Color("C7D6C5"))
@@ -286,7 +287,7 @@ func build_title_menu() -> void:
 
 	# Live Atmosphere Mood preview right on the scenic title screen
 	var mood_lbl := Label.new()
-	mood_lbl.text = "Preview Clearing Atmosphere:"
+	mood_lbl.text = "CHOOSE YOUR MOMENT"
 	mood_lbl.add_theme_font_size_override("font_size", 12)
 	mood_lbl.add_theme_color_override("font_color", Color("D8CBB5"))
 	col.add_child(mood_lbl)
@@ -296,18 +297,12 @@ func build_title_menu() -> void:
 	mood_row.add_theme_constant_override("v_separation", 6)
 	col.add_child(mood_row)
 
-	for preset in [
-		["Morning", 8.0, "clear"],
-		["Midday", 12.5, "partly_cloudy"],
-		["Golden Hour", 16.7, "partly_cloudy"],
-		["Gentle Rain", 15.2, "light_rain"],
-		["Starlit Night", 21.5, "clear"],
-	]:
-		var chip := make_chip_button(preset[0])
-		var h_val: float = preset[1]
-		var w_val: String = preset[2]
-		chip.pressed.connect(func(): apply_mood(h_val, w_val))
-		mood_row.add_child(chip)
+	for preset in [["Honey light",16.7,"partly_cloudy","golden"],["Forest rain",15.2,"heavy_rain","rain"],["Firefly dusk",21.5,"clear","night"]]:
+		var card_button=preload("res://scripts/ui/atmosphere_postcard.gd").new()
+		card_button.title=preset[0];card_button.mood=preset[3]
+		var h_val: float=preset[1];var w_val: String=preset[2]
+		card_button.pressed.connect(func():apply_mood(h_val,w_val))
+		mood_row.add_child(card_button)
 
 	var settings_toggle := make_cozy_button("⚙   Quality & Sound", false)
 	settings_toggle.pressed.connect(func(): settings_box.visible = not settings_box.visible)
@@ -338,13 +333,16 @@ func build_pause_menu() -> void:
 	card.set_anchors_preset(Control.PRESET_CENTER)
 	card.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	card.grow_vertical = Control.GROW_DIRECTION_BOTH
-	card.custom_minimum_size = Vector2(500, 0)
+	card.custom_minimum_size = Vector2(640, 490)
+	card.offset_left=-320;card.offset_top=-310;card.offset_right=320;card.offset_bottom=310
 	card.add_theme_stylebox_override("panel", make_card_style(Color(0.13, 0.21, 0.17, 0.95), Color("C69260"), 18, 3, 28, 24))
 	pause_overlay.add_child(card)
 
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 12)
-	card.add_child(col)
+	var scroll:=ScrollContainer.new();scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;card.add_child(scroll)
+	col.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	scroll.add_child(col)
 
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation", 10)
@@ -360,64 +358,24 @@ func build_pause_menu() -> void:
 	resume_btn.pressed.connect(func(): set_pause_menu(false))
 	col.add_child(resume_btn)
 
-	# Time-of-day slider & weather studio for effortless live visual inspection
-	var time_header := HBoxContainer.new()
-	col.add_child(time_header)
-	var time_lbl := Label.new()
-	time_lbl.text = "Time of Day"
-	time_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	time_lbl.add_theme_font_size_override("font_size", 13)
-	time_lbl.add_theme_color_override("font_color", Color("DFD2BC"))
-	time_header.add_child(time_lbl)
+	var atlas:=HBoxContainer.new();atlas.add_theme_constant_override("separation",16);col.add_child(atlas)
+	var clock_column:=VBoxContainer.new();atlas.add_child(clock_column)
+	pause_time_readout=Label.new();pause_time_readout.hide();clock_column.add_child(pause_time_readout)
+	pause_time_slider=preload("res://scripts/ui/daylight_dial.gd").new()
+	pause_time_slider.min_value=0.;pause_time_slider.max_value=23.95;pause_time_slider.step=.05;pause_time_slider.value=16.5
+	pause_time_slider.value_changed.connect(_on_time_slider_changed);clock_column.add_child(pause_time_slider)
+	var weather_cards:=HFlowContainer.new();weather_cards.custom_minimum_size=Vector2(320,220);atlas.add_child(weather_cards)
+	weather_cards.add_theme_constant_override("h_separation",8);weather_cards.add_theme_constant_override("v_separation",8)
+	for entry in [["Sunshine","clear","golden"],["Drifting","partly_cloudy","golden"],["Cloud veil","overcast","overcast"],["Shower","light_rain","rain"],["Downpour","heavy_rain","rain"]]:
+		var choice=preload("res://scripts/ui/atmosphere_postcard.gd").new();choice.compact=true;choice.title=entry[0];choice.mood=entry[2]
+		var weather_key: String=entry[1]
+		choice.pressed.connect(func():weather.set_weather(weather_key,false))
+		weather_cards.add_child(choice)
 
-	pause_time_readout = Label.new()
-	pause_time_readout.text = "16:30"
-	pause_time_readout.add_theme_font_size_override("font_size", 13)
-	pause_time_readout.add_theme_color_override("font_color", Color("F5C98B"))
-	time_header.add_child(pause_time_readout)
-
-	pause_time_slider = HSlider.new()
-	pause_time_slider.min_value = 0.0
-	pause_time_slider.max_value = 23.95
-	pause_time_slider.step = 0.05
-	pause_time_slider.value = 16.5
-	pause_time_slider.value_changed.connect(_on_time_slider_changed)
-	col.add_child(pause_time_slider)
-
-	var time_chips := HFlowContainer.new()
-	time_chips.add_theme_constant_override("h_separation", 6)
-	time_chips.add_theme_constant_override("v_separation", 6)
-	col.add_child(time_chips)
-	for preset in [["Dawn 06:30", 6.5], ["Morning 09:00", 9.0], ["Midday 12:30", 12.5], ["Sunset 17:15", 17.25], ["Night 22:00", 22.0]]:
-		var b := make_chip_button(preset[0])
-		var target_h: float = preset[1]
-		b.pressed.connect(func():
-			if weather != null:
-				weather.set_time(target_h)
-				pause_time_slider.set_value_no_signal(target_h)
-		)
-		time_chips.add_child(b)
-
-	var w_lbl := Label.new()
-	w_lbl.text = "Weather State"
-	w_lbl.add_theme_font_size_override("font_size", 13)
-	w_lbl.add_theme_color_override("font_color", Color("DFD2BC"))
-	col.add_child(w_lbl)
-
-	var weather_chips := HFlowContainer.new()
-	weather_chips.add_theme_constant_override("h_separation", 6)
-	weather_chips.add_theme_constant_override("v_separation", 6)
-	col.add_child(weather_chips)
-	for w in [["Clear", "clear"], ["Partly Cloudy", "partly_cloudy"], ["Overcast", "overcast"], ["Light Rain", "light_rain"], ["Heavy Rain", "heavy_rain"]]:
-		var wb := make_chip_button(w[0])
-		var w_key: String = w[1]
-		wb.pressed.connect(func():
-			if weather != null:
-				weather.set_weather(w_key, true)
-		)
-		weather_chips.add_child(wb)
-
-	col.add_child(build_shared_settings_box())
+	var extras:=build_shared_settings_box();extras.hide()
+	var options:=make_cozy_button("Sound & display",false)
+	options.pressed.connect(func():extras.visible=not extras.visible)
+	col.add_child(options);col.add_child(extras)
 
 	var bottom_row := HBoxContainer.new()
 	bottom_row.add_theme_constant_override("separation", 10)
@@ -441,7 +399,7 @@ func build_shared_settings_box() -> VBoxContainer:
 	box.add_theme_constant_override("separation", 8)
 
 	var g_lbl := Label.new()
-	g_lbl.text = "Meadow Grass Detail (V09 Presets)"
+	g_lbl.text = "Scenery detail"
 	g_lbl.add_theme_font_size_override("font_size", 12)
 	g_lbl.add_theme_color_override("font_color", Color("D8CBB5"))
 	box.add_child(g_lbl)
@@ -509,6 +467,7 @@ func enter_title_menu(instant := false) -> void:
 	title_screen.show()
 	if player != null:
 		player.blocked = true
+		player.visible=false
 	if camera != null and camera.has_method("set_scenic_mode"):
 		camera.set_scenic_mode(true, instant)
 
@@ -519,6 +478,7 @@ func exit_title_menu(instant := false) -> void:
 	controls_hint_panel.show()
 	controls_hint_panel.modulate.a = 1.0
 	walk_timer = 0.0
+	if player!=null:player.visible=true
 	if player != null and not panel.visible and not in_pause_menu:
 		player.blocked = false
 	if camera != null and camera.has_method("set_scenic_mode"):
@@ -542,8 +502,10 @@ func set_pause_menu(open: bool) -> void:
 
 func apply_mood(h: float, w_name: String) -> void:
 	if weather != null:
-		weather.set_time(h)
-		weather.set_weather(w_name, true)
+		if mood_tween!=null:mood_tween.kill()
+		weather.set_weather(w_name,false)
+		mood_tween=create_tween()
+		mood_tween.tween_method(func(value: float):weather.set_time(value),weather.hours,h,2.).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func apply_grass_quality(quality: String) -> void:
 	current_grass_quality = quality
@@ -598,6 +560,7 @@ func update_hud_status() -> void:
 	hud_weather_label.text = w_label + "   •   [Esc]"
 	if in_pause_menu:
 		pause_time_readout.text = format_clock(h)
+		if not pause_time_slider.dragging:pause_time_slider.set_value_no_signal(h)
 
 	var w_name: String = weather.weather_name
 	var desired_icon := "sun"

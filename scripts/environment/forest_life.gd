@@ -55,6 +55,8 @@ func _ready() -> void:
 	build_falling_leaves()
 	build_fireflies()
 	update_life(0.0)
+	var habitats=preload("res://scripts/environment/forest_habitats.gd").new()
+	habitats.name="AuthoredHabitats";habitats.weather=get_parent().get_node("ForestWeather");add_child(habitats)
 
 func sync_state(p_clock: float, p_daylight: float, p_rain: float, p_wind_dir: Vector2, p_wind_strength: float) -> void:
 	clock = p_clock

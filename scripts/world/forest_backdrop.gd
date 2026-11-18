@@ -7,23 +7,23 @@ const RIDGE_SHADER := preload("res://shaders/distant_ridge.gdshader")
 var layer_materials: Array[ShaderMaterial] = []
 
 func _ready() -> void:
-	build_ring("FoothillRidgeRing", 138.0, 96, -7.5, 22.0, 11.0, 0.26, Color("3A5648"), Color("56735D"), 1.0)
-	build_ring("MidValleyRidgeRing", 205.0, 108, -10.0, 38.0, 18.0, 0.50, Color("446063"), Color("64807E"), 1.7)
-	build_ring("FarMountainCrownRing", 290.0, 120, -14.0, 62.0, 28.0, 0.72, Color("57707D"), Color("7B939D"), 2.9)
+	build_ring("FoothillRidgeRing", 138.0, 96, -7.5, 30.0, 16.0, 0.26, Color("3A5648"), Color("56735D"), 1.0)
+	build_ring("MidValleyRidgeRing", 205.0, 108, -10.0, 64.0, 28.0, 0.50, Color("446063"), Color("64807E"), 1.7)
+	build_ring("FarMountainCrownRing", 290.0, 120, -14.0, 100.0, 36.0, 0.72, Color("57707D"), Color("7B939D"), 2.9)
 
 func build_ring(ring_name: String, radius: float, segments: int, base_y: float, peak_scale: float, mist_height: float, haze: float, base_col: Color, top_col: Color, phase: float) -> void:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	st.set_smooth_group(-1)
-	var inner_r := radius * 0.86
-	var outer_r := radius * 1.16
+	st.set_smooth_group(0)
+	var inner_r := radius * 0.62
+	var outer_r := radius * 1.40
 	for i in range(segments):
 		var a0 := float(i) / float(segments) * TAU
 		var a1 := float(i + 1) / float(segments) * TAU
 		var am := (a0 + a1) * 0.5
 		var h0 := ridge_profile(a0, peak_scale, phase)
 		var h1 := ridge_profile(a1, peak_scale, phase)
-		var hm := maxf(h0, h1) * 0.92 + ridge_detail(am * 7.0 + phase) * peak_scale * 0.12
+		var hm := (h0 + h1) * 0.5 + ridge_detail(am * 3.0 + phase) * peak_scale * 0.008
 
 		var in0 := Vector3(cos(a0) * inner_r, base_y, sin(a0) * inner_r)
 		var in1 := Vector3(cos(a1) * inner_r, base_y, sin(a1) * inner_r)
@@ -53,7 +53,7 @@ func build_ring(ring_name: String, radius: float, segments: int, base_y: float, 
 	mat.set_shader_parameter("crest_color", top_col)
 	mat.set_shader_parameter("haze_amount", haze)
 	mat.set_shader_parameter("foot_fade_height", mist_height)
-	mat.set_shader_parameter("crest_height", peak_scale * 1.25)
+	mat.set_shader_parameter("crest_height", peak_scale * 0.65)
 	mat.set_meta("base_ridge_color", base_col)
 	mat.set_meta("base_crest_color", top_col)
 	mat.set_meta("base_haze", haze)
@@ -70,8 +70,8 @@ func ridge_profile(angle: float, peak_scale: float, phase: float) -> float:
 	var side_hills := (exp(-pow(angle_diff(angle, 0.15), 2.0) / 0.45) + exp(-pow(angle_diff(angle, 2.85), 2.0) / 0.45)) * 0.24
 	var se_saddle := 1.0 - 0.42 * exp(-pow(angle_diff(angle, 0.82), 2.0) / 0.36)
 	var silhouette := 0.26 + north_crown + twin_vistas + side_hills
-	var waves := 0.5 + 0.28 * sin(angle * 5.0 + phase) + 0.15 * cos(angle * 11.0 - phase * 1.4) + 0.09 * sin(angle * 19.0 + phase * 2.1)
-	return maxf(2.2, peak_scale * silhouette * waves * se_saddle)
+	var waves := 0.64 + 0.20 * sin(angle * 3.0 + phase) + 0.10 * cos(angle * 5.0 - phase * .6)
+	return maxf(2.2, peak_scale * silhouette * waves * se_saddle + pow(maxf(0.,sin(angle*3.+phase)),8.)*.20)
 
 func ridge_detail(t: float) -> float:
 	return sin(t) * 0.6 + cos(t * 2.3 + 1.1) * 0.4

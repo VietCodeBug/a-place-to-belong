@@ -25,7 +25,7 @@ void fragment() {
  base*=mix(1.0,.86,verge_darken*.55);
  // Rainwater puddles collect naturally in wheel ruts & shallow hollows
  float hollow=ground_field(p*.48+vec2(3.7,9.1));
- float puddle_mask=smoothstep(.46,.72,hollow*0.68+tracks*0.46)*(1.0-verge_darken*.85)*smoothstep(.12,.62,wetness);
+ float puddle_mask=smoothstep(.46,.72,hollow*0.82+tracks*0.18)*(1.0-verge_darken*.85)*smoothstep(.12,.62,wetness);
  vec3 wet_soil=base*mix(1.0,.68,wetness);
  ALBEDO=mix(wet_soil,mix(wet_soil*.78,puddle_tint.rgb,.46),puddle_mask);
  ROUGHNESS=mix(mix(.98,.52,wetness),.09,puddle_mask);

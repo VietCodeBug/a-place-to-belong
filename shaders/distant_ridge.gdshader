@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode diffuse_lambert, cull_disabled;
+render_mode diffuse_lambert, cull_disabled, fog_disabled;
 
 uniform vec4 ridge_color : source_color = vec4(0.32, 0.45, 0.44, 1.0);
 uniform vec4 crest_color : source_color = vec4(0.46, 0.58, 0.54, 1.0);
@@ -25,7 +25,8 @@ void fragment() {
 	vec3 base = mix(ridge_color.rgb, crest_color.rgb, smoothstep(0.18, 0.88, h));
 	float sun_facing = clamp(dot(normalize(world_pos), -normalize(sun_direction)) * 0.5 + 0.5, 0.0, 1.0);
 	float facet = clamp(world_normal.y * 0.55 + 0.45, 0.0, 1.0);
-	base *= mix(0.88, 1.08, facet);
+	base *= mix(0.82, 1.12, facet);
+ base=mix(base,vec3(.76,.79,.74),smoothstep(.70,.92,h)*smoothstep(.25,.65,world_normal.y)*.60);
 	base = mix(base, haze_color.rgb, sun_facing * sun_warmth * 0.22 * smoothstep(0.35, 0.95, h));
 	float valley_mist = 1.0 - smoothstep(-3.0, foot_fade_height, world_y);
 	float atmospheric = clamp(haze_amount + valley_mist * 0.48, 0.0, 0.94);
