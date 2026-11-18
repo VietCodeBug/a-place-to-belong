@@ -32,10 +32,13 @@
     },
     {
       "id": "PRO-003",
-      "mode": "interactive",
+      "mode": "hybrid_interactive_montage",
       "setting": "rented_apartment",
-      "beat": "days_pass_bills_applications_exhaustion",
-      "next": "PRO-004"
+      "beat": "three_apartment_moments_alarm_job_search_silence",
+      "next": "PRO-004",
+      "detail_md": "../scenes/PRO-003.md",
+      "detail_json": "../scenes/PRO-003.json",
+      "status": "draft"
     },
     {
       "id": "PRO-004",
