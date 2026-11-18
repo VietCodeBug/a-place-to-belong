@@ -23,6 +23,7 @@ var close_button: Button
 # New UI elements
 var root_ui: Control
 var hud_badge: PanelContainer
+var postal_clock: Control
 var hud_icon: CozyIcon
 var hud_time_label: Label
 var hud_weather_label: Label
@@ -43,6 +44,7 @@ var mood_tween: Tween
 var storybook
 var letter_tween: Tween
 var notice: Label
+var notice_seal: Control
 var notice_tween: Tween
 var envelope: Control
 var envelope_tween: Tween
@@ -71,8 +73,9 @@ func _ready() -> void:
 	build_pause_menu()
 	build_title_menu()
 	notice=preload("res://scripts/ui/storybook_theme.gd").label("",15,Color("F6E8D0"))
-	notice.position=Vector2(24,88)
+	notice.position=Vector2(72,164)
 	root_ui.add_child(notice)
+	notice_seal=preload("res://scripts/ui/postal_motif.gd").new();notice_seal.seal=true;notice_seal.position=Vector2(22,152);notice_seal.scale=Vector2(.5,.5);notice_seal.hide();root_ui.add_child(notice_seal)
 
 	for item in get_tree().get_nodes_in_group("interactables"):
 		if not item.activated.is_connected(show_message):
@@ -90,8 +93,8 @@ func build_hud() -> void:
 	hud_badge = PanelContainer.new()
 	hud_badge.name = "HudStatusBadge"
 	hud_badge.position = Vector2(18, 16)
-	hud_badge.custom_minimum_size = Vector2(246, 56)
-	hud_badge.add_theme_stylebox_override("panel", make_card_style(Color(0.13, 0.21, 0.17, 0.88), Color("B88254"), 14, 2, 14, 10))
+	hud_badge.custom_minimum_size = Vector2(310, 132)
+	hud_badge.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	hud_badge.mouse_filter = Control.MOUSE_FILTER_STOP
 	hud_badge.gui_input.connect(_on_hud_badge_clicked)
 
@@ -99,17 +102,20 @@ func build_hud() -> void:
 	row.add_theme_constant_override("separation", 12)
 	hud_badge.add_child(row)
 
-	hud_icon = CozyIcon.new("partly_cloudy", Vector2(34, 34))
-	row.add_child(hud_icon)
+	postal_clock=preload("res://scripts/ui/postal_clock.gd").new()
+	row.add_child(postal_clock)
+	hud_icon=postal_clock.icon
 
 	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 1)
+	col.add_theme_constant_override("separation", 5)
+	col.alignment=BoxContainer.ALIGNMENT_CENTER
 	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(col)
 
 	hud_time_label = Label.new()
 	hud_time_label.text = "16:30  •  Golden Hour"
-	hud_time_label.add_theme_font_size_override("font_size", 15)
+	hud_time_label.add_theme_font_override("font",preload("res://scripts/ui/storybook_theme.gd").HAND)
+	hud_time_label.add_theme_font_size_override("font_size", 24)
 	hud_time_label.add_theme_color_override("font_color", Color("F7EEDB"))
 	col.add_child(hud_time_label)
 
@@ -119,7 +125,11 @@ func build_hud() -> void:
 	hud_weather_label.add_theme_color_override("font_color", Color("B5CBB4"))
 	col.add_child(hud_weather_label)
 
+	for text_label in [hud_time_label,hud_weather_label]:
+		text_label.add_theme_color_override("font_outline_color",Color("253D32"))
+		text_label.add_theme_constant_override("outline_size",4)
 	root_ui.add_child(hud_badge)
+	hud_icon=postal_clock.icon
 
 	# Subtle bottom-right controls micro-bar that gently fades once player explores
 	controls_hint_panel = PanelContainer.new()
@@ -153,9 +163,12 @@ func build_interaction_prompt() -> void:
 	prompt_card.add_child(row)
 
 	var key_badge := PanelContainer.new()
-	key_badge.add_theme_stylebox_override("panel", make_card_style(Color("B88254"), Color("F6E8D0"), 7, 1, 8, 2))
+	key_badge.custom_minimum_size=Vector2(38,38)
+	key_badge.add_theme_stylebox_override("panel", make_card_style(Color("B88254"), Color("F6E8D0"), 19, 1, 4, 4))
 	var key_lbl := Label.new()
 	key_lbl.text = "E"
+	key_lbl.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	key_lbl.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
 	key_lbl.add_theme_font_size_override("font_size", 14)
 	key_lbl.add_theme_color_override("font_color", Color("FFF8EB"))
 	key_badge.add_child(key_lbl)
@@ -233,7 +246,10 @@ func build_letter_modal() -> void:
 	footer.alignment = BoxContainer.ALIGNMENT_END
 	column.add_child(footer)
 
-	close_button = storybook.button(footer,"Put away  [Esc]",close)
+	close_button=preload("res://scripts/ui/wax_close_button.gd").new()
+	close_button.text="Put away"
+	close_button.pressed.connect(close)
+	footer.add_child(close_button)
 
 	var stationery=preload("res://scripts/ui/letter_stationery.gd").new()
 	panel.add_child(stationery);panel.move_child(stationery,0)
@@ -323,10 +339,14 @@ func _on_hud_badge_clicked(event: InputEvent) -> void:
 			set_pause_menu(not in_pause_menu)
 
 func _process(delta: float) -> void:
+	if notice_seal!=null:
+		notice.visible=not in_title_menu
+		notice_seal.visible=not in_title_menu and not notice.text.is_empty() and notice.modulate.a>.01
+		notice_seal.modulate.a=notice.modulate.a
 	ui_clock += delta
 	update_hud_status()
 
-	if player != null and player.state == "walking" and not in_title_menu:
+	if player != null and not in_title_menu:
 		walk_timer += delta
 		if walk_timer > 7.5:
 			controls_hint_panel.modulate.a = move_toward(controls_hint_panel.modulate.a, 0.0, delta * 0.45)
@@ -354,8 +374,10 @@ func update_hud_status() -> void:
 	var h: float = weather.hours
 	var period: String = weather.time_period_label() if weather.has_method("time_period_label") else "Golden Hour"
 	var w_label: String = weather.weather_display_label() if weather.has_method("weather_display_label") else "Calm Air"
-	hud_time_label.text = format_clock(h) + "  •  " + period
-	hud_weather_label.text = w_label + "   •   [Esc]"
+	hud_time_label.text = period
+	postal_clock.hours=h
+	postal_clock.queue_redraw()
+	hud_weather_label.text = w_label
 	if in_pause_menu:
 		pause_time_readout.text = format_clock(h)
 		if not pause_time_slider.dragging:pause_time_slider.set_value_no_signal(h)
@@ -444,6 +466,7 @@ func show_message(title: String, message: String, source_item: Node = null) -> v
 	close_button.grab_focus()
 
 func close() -> void:
+	var was_open:=panel.visible
 	if envelope_tween!=null:envelope_tween.kill()
 	if envelope!=null:envelope.hide()
 	if panel.visible and notice!=null:
@@ -455,6 +478,12 @@ func close() -> void:
 		notice_tween.tween_property(notice,"modulate:a",0.,.5)
 	panel.hide()
 	modal_backdrop.hide()
+	if was_open and not storybook.reduce_motion and DisplayServer.get_name()!="headless":
+		envelope.progress=1.;envelope.modulate.a=1.;envelope.show()
+		envelope_tween=create_tween()
+		envelope_tween.tween_property(envelope,"progress",0.,.20)
+		envelope_tween.tween_property(envelope,"modulate:a",0.,.12)
+		envelope_tween.tween_callback(envelope.hide)
 	if player != null and not in_pause_menu and not in_title_menu:
 		player.blocked = false
 

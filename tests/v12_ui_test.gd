@@ -10,6 +10,10 @@ func run():
 	var ui=hub.ui;var book=ui.storybook
 	var type=preload("res://scripts/ui/storybook_theme.gd")
 	check(type.SANS.has_char("Đ".unicode_at(0)) and type.SANS.has_char("ễ".unicode_at(0)) and type.HAND.fallbacks.has(type.SANS),"handwritten font has bundled Vietnamese fallback")
+	check(ui.postal_clock!=null and ui.hud_badge.get_theme_stylebox("panel") is StyleBoxEmpty,"circular HUD has no rectangular backing")
+	hub.get_node("ForestWeather").set_time(22.);ui.update_hud_status()
+	check(absf(ui.postal_clock.hours-22.)<.001,"clock reads real environment time")
+	hub.get_node("ForestWeather").set_time(16.5)
 	ui.enter_title_menu(true)
 	check(root.gui_get_focus_owner()==ui.title_screen.find_child("BeginDay",true,false),"title opens with Begin focus")
 	var tab:=InputEventKey.new();tab.keycode=KEY_TAB;tab.pressed=true;root.push_input(tab);await process_frame
