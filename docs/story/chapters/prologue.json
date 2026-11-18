@@ -1,0 +1,56 @@
+{
+  "schema": "apb.story.v0",
+  "status": "draft",
+  "chapter": "prologue",
+  "title": "Trước khi giấc mơ bắt đầu",
+  "confirmed": [
+    "AI layoffs and social pressure appear before job termination email",
+    "XXX is a dream",
+    "A retains fragmented real-world memories"
+  ],
+  "flow": [
+    {
+      "id": "PRO-001",
+      "mode": "cinematic",
+      "setting": "real_world_montage",
+      "beat": "ai_disruption_layoffs_living_costs",
+      "next": "PRO-002"
+    },
+    {
+      "id": "PRO-002",
+      "mode": "interactive",
+      "setting": "work_screen",
+      "beat": "ordinary_day_then_termination_email",
+      "next": "PRO-003"
+    },
+    {
+      "id": "PRO-003",
+      "mode": "interactive",
+      "setting": "rented_apartment",
+      "beat": "days_pass_bills_applications_exhaustion",
+      "next": "PRO-004"
+    },
+    {
+      "id": "PRO-004",
+      "mode": "cinematic",
+      "setting": "apartment_night",
+      "beat": "fall_asleep",
+      "next": "CH01-001"
+    },
+    {
+      "id": "CH01-001",
+      "mode": "interactive",
+      "setting": "house_a_forest",
+      "beat": "wake_as_a_with_fragmented_memories",
+      "next": null
+    }
+  ],
+  "unresolved": [
+    "official_dialogues",
+    "timings",
+    "dream_continuity",
+    "A_backstory",
+    "NPC_relationships"
+  ],
+  "engine_note": "Narrative outline; not wired to Godot."
+}
