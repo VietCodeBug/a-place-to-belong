@@ -1,0 +1,79 @@
+{
+  "schema": "apb.character.v0",
+  "id": "THOMAS",
+  "display_name": "Thomas",
+  "name_language": "en",
+  "status": "identity_confirmed_personality_draft",
+  "first_appearance": "CH01-003",
+  "confirmed": {
+    "gender": "male",
+    "first_meeting_location": "forest_edge_on_faint_trail",
+    "first_meeting_activity": "chopping_wood",
+    "relationship_to_A": "first_npc_encounter_only_no_prior_connection_confirmed",
+    "dialogue_version": "CH01-003:accepted_v1"
+  },
+  "proposed_personality": {
+    "traits": [
+      "calm",
+      "practical",
+      "kind_but_reserved",
+      "light_dry_humor"
+    ],
+    "speech": [
+      "brief",
+      "conversational",
+      "minimal_exposition"
+    ],
+    "behavior": [
+      "has_independent_activities",
+      "does_not_wait_for_player",
+      "returns_to_work_after_talk"
+    ]
+  },
+  "identity_open": [
+    "exact_age",
+    "appearance",
+    "surname",
+    "permanent_job",
+    "home",
+    "family",
+    "relationships",
+    "daily_schedule",
+    "accent",
+    "character_arc"
+  ],
+  "knowledge_bounds": {
+    "knows_as_personal_claim": [
+      "old_house_exists",
+      "other_people_in_area",
+      "some_trail_direction"
+    ],
+    "must_not_assume": [
+      "A_real_world_identity",
+      "A_dream_origin",
+      "house_legal_owner",
+      "house_history_truth",
+      "memory_rules_of_XXX"
+    ]
+  },
+  "reappearance_plan": {
+    "status": "draft",
+    "first_meeting_dialogue_group": "THOMAS_INTRO",
+    "later_interaction_mode": "state_dependent_repeat",
+    "no_replay_first_introduction": true,
+    "proposed_topics": [
+      "daily_activity",
+      "house_changes_if_known",
+      "local_weather"
+    ],
+    "do_not_lock_story_or_quests": true
+  },
+  "voice_and_text": {
+    "script_language": "vi",
+    "character_name_language": "en",
+    "a_name_is_placeholder": true
+  },
+  "linked_scenes": [
+    "CH01-003"
+  ]
+}
