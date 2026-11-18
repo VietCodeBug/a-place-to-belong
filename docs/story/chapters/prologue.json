@@ -7,7 +7,8 @@
     "AI layoffs and social pressure appear before job termination email",
     "XXX is a dream",
     "A retains fragmented real-world memories",
-    "PRO-002 termination email is received in the office"
+    "PRO-002 termination email is received in the office",
+    "CH01-001 house old and needs care; neglect cause unknown; A feels vaguely familiar; observe then go outside"
   ],
   "flow": [
     {
@@ -54,8 +55,11 @@
       "id": "CH01-001",
       "mode": "interactive",
       "setting": "house_a_forest",
-      "beat": "wake_as_a_with_fragmented_memories",
-      "next": null
+      "beat": "wake_in_worn_forest_house_feel_vaguely_familiar_observe_then_exit",
+      "next": null,
+      "detail_md": "../scenes/CH01-001.md",
+      "detail_json": "../scenes/CH01-001.json",
+      "status": "draft"
     }
   ],
   "unresolved": [
