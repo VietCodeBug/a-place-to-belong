@@ -14,6 +14,7 @@ func run():
 		var settings_tabs=hub.ui.storybook.pages["Settings"].find_children("*","TabContainer",true,false)[0]
 		settings_tabs.current_tab=1;await save("04b-graphics.png")
 		settings_tabs.current_tab=2;await save("04c-controls-settings.png")
+		if "--tabs-only" in OS.get_cmdline_user_args():hub.queue_free();await process_frame;quit();return
 		hub.ui.storybook.back();hub.ui.exit_title_menu(true);hub.ui.set_pause_menu(true)
 		hub.ui.storybook.open_page("Atmosphere Studio");await save("07-atmosphere-studio.png")
 		hub.ui.storybook.back();hub.ui.set_pause_menu(false)
