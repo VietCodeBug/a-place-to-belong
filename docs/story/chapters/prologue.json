@@ -24,7 +24,10 @@
       "mode": "interactive",
       "setting": "work_screen",
       "beat": "ordinary_day_then_termination_email",
-      "next": "PRO-003"
+      "next": "PRO-003",
+      "detail_md": "../scenes/PRO-002.md",
+      "detail_json": "../scenes/PRO-002.json",
+      "status": "draft"
     },
     {
       "id": "PRO-003",
