@@ -44,8 +44,11 @@
       "id": "PRO-004",
       "mode": "cinematic",
       "setting": "apartment_night",
-      "beat": "fall_asleep",
-      "next": "CH01-001"
+      "beat": "natural_fall_asleep_city_audio_fade_forest_bird_ambience",
+      "next": "CH01-001",
+      "detail_md": "../scenes/PRO-004.md",
+      "detail_json": "../scenes/PRO-004.json",
+      "status": "draft"
     },
     {
       "id": "CH01-001",
