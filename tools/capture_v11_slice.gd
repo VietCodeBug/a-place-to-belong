@@ -7,6 +7,8 @@ func run():
 	var w=hub.get_node("ForestWeather");w.paused=true
 	hub.ui.enter_title_menu(true);await save("menu.png")
 	hub.ui.exit_title_menu(true);hub.ui.set_pause_menu(true);await save("weather-atlas.png");hub.ui.set_pause_menu(false)
+	if "--ui-only" in OS.get_cmdline_user_args():
+		hub.queue_free();await process_frame;quit();return
 	var cam: Camera3D=root.get_camera_3d();cam.set_process(false)
 	cam.aim=cam.focus_position();cam.position=cam.desired_position();cam.look_at(cam.aim);await save("gameplay.png")
 	w.set_weather("heavy_rain",true);w.update_environment(0.);await save("downpour.png")

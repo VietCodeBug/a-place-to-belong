@@ -334,7 +334,7 @@ func build_pause_menu() -> void:
 	card.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	card.grow_vertical = Control.GROW_DIRECTION_BOTH
 	card.custom_minimum_size = Vector2(640, 490)
-	card.offset_left=-320;card.offset_top=-310;card.offset_right=320;card.offset_bottom=310
+	card.offset_left=-320;card.offset_top=-245;card.offset_right=320;card.offset_bottom=245
 	card.add_theme_stylebox_override("panel", make_card_style(Color(0.13, 0.21, 0.17, 0.95), Color("C69260"), 18, 3, 28, 24))
 	pause_overlay.add_child(card)
 
