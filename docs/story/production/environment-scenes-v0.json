@@ -10,7 +10,8 @@
     "PRO-004",
     "CH01-001",
     "CH01-002",
-    "CH01-003"
+    "CH01-003",
+    "CH01-004"
   ],
   "purpose": "narrative_environment_brief_for_separate_3d_artist_not_engine_or_asset_spec",
   "characters": {
@@ -266,6 +267,38 @@
         "quests_to_collect_wood",
         "Thomas_knows_A_past"
       ]
+    },
+    {
+      "id": "ENV-DREAM-04",
+      "name_vi": "Chỗ nghỉ bên lối mòn sau Thomas",
+      "scenes": [
+        "CH01-004"
+      ],
+      "status": "new_story_proposal_not_canon_not_approved_for_3d",
+      "confirmed_continuity": [
+        "A_can_continue_past_Thomas_without_talking",
+        "players_can_return_home",
+        "do_not_force_quests"
+      ],
+      "spatial_proposal": [
+        "path_continues_beyond_Thomas_chopping_area",
+        "small_level_resting_clearing_under_trees",
+        "weathered_wooden_bench_with_one_newer_plank",
+        "foot_worn_ground",
+        "trail_continues_without_fixed_destination"
+      ],
+      "story_purpose_vi": "Cho người chơi tự nhìn thấy dấu vết đời sống và sự chăm sóc mà không cần người khác kể.",
+      "optional_interactions": [
+        "inspect_repaired_plank",
+        "sit_on_bench"
+      ],
+      "do_not_infer": [
+        "Thomas_is_bench_repairer",
+        "community_location",
+        "new_NPC",
+        "lore_item",
+        "required_repair_quest"
+      ]
     }
   ],
   "continuity_rules": [
@@ -278,7 +311,7 @@
     "no_extra_NPC_or_locations_as_canon",
     "dimensions_and_architecture_all_pending_creator_review"
   ],
-  "layout_approval": "pending",
+  "layout_approval": "all_proposed_positions_pending_creator_review; ENV-DREAM-04 entirely new draft",
   "runtime_integration": "not_implemented",
   "notes": "Descriptive narrative spaces to guide separate artist/3D production; not technical modeling instructions."
 }
