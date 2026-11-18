@@ -27,6 +27,8 @@
 - [scenes/PRO-002.json](scenes/PRO-002.json): dữ liệu PRO-002 (nháp, chưa tích hợp).
 - [scenes/PRO-003.md](scenes/PRO-003.md): những ngày sau mất việc qua ba khoảnh khắc trong căn hộ (nháp).
 - [scenes/PRO-003.json](scenes/PRO-003.json): dữ liệu tương tác xen montage của PRO-003 (nháp, chưa tích hợp).
+- [scenes/PRO-004.md](scenes/PRO-004.md): giấc ngủ đầu và chuyển âm thanh từ thành phố sang rừng (nháp).
+- [scenes/PRO-004.json](scenes/PRO-004.json): dữ liệu chuyển cảnh PRO-004 (nháp, chưa tích hợp).
 
 ## Quy trình
 
