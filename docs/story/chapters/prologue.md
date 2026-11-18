@@ -4,6 +4,8 @@
 > Trục đã thống nhất: giới thiệu xã hội thời AI / layoff **trước**, email mất việc **sau**; vào XXX hóa thân thành A với **ký ức đời thực mơ hồ**.
 > Những chi tiết hình ảnh, lời dẫn, thời lượng và cách điều khiển dưới đây là **đề xuất để cùng duyệt**, chưa là canon.
 
+**Hình thức thể hiện bản thử:** Prologue đề xuất dựng dạng **truyện tranh nhiều khung** (motion comic 2D), nối trực tiếp đến gameplay 3D trong Chapter 01. [Comic production brief](../production/intro-comic-v0.md) · [JSON storyboard](../production/intro-comic-v0.json). Dựng comic không làm thay đổi canon sự kiện.
+
 ## Mục đích
 Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải thích dài; từ một đời sống bị đo bằng năng suất chuyển sang cảm giác lạ lẫm của cuộc đời thứ hai.
 
