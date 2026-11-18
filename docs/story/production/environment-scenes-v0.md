@@ -2,7 +2,7 @@
 
 > **Tài liệu BIÊN KỊCH cho bản dựng thử 3D**, không phải yêu cầu vẽ/model/code. Các chi tiết được đánh dấu **[ĐÃ CHỐT]** xuất phát từ những lựa chọn đã xác nhận. **[ĐỀ XUẤT DỰNG THỬ]** là cách tổ chức không gian để các cảnh nối nhau có logic; người sáng tạo chưa duyệt bố cục cuối, kích thước, phong cách kiến trúc chi tiết.
 >
-> **Phạm vi:** PRO-001 → PRO-004 → CH01-001 → CH01-002 → CH01-003. **Tên nhân vật dùng tiếng Anh:** Thomas đã chốt; A là ký hiệu tạm. Không tự đặt tên công ty, thành phố, địa danh, chủ nhà, cư dân mới, họ của Thomas hoặc quá khứ của A.
+> **Phạm vi:** PRO-001 → PRO-004 → CH01-001 → CH01-002 → CH01-003; bổ sung **CH01-004 (đề xuất mới, chưa duyệt)**. **Tên nhân vật dùng tiếng Anh:** Thomas đã chốt; A là ký hiệu tạm. Không tự đặt tên công ty, thành phố, địa danh, chủ nhà, cư dân mới, họ của Thomas hoặc quá khứ của A.
 >
 > **Mục đích của tài liệu:** cho người dựng 3D hiểu **ở đâu, có những gì, vật nào cần xuất hiện trong khung nhìn, người nào đang làm gì, và không gian thay đổi thế nào qua câu chuyện**. Không đặt các yêu cầu về polygon, kích cỡ chính xác, texture, phối màu kỹ thuật, camera engine hoặc nhiệm vụ chưa được phê duyệt. Phần Prologue có thể thể hiện bằng truyện tranh; đây vẫn là **cùng một không gian trong truyện**, không phải yêu cầu dựng mọi cảnh 3D.
 
@@ -22,6 +22,8 @@ CH01-001: CĂN NHÀ GỖ CŨ TRONG RỪNG — bên trong → cửa chính
 CH01-002: NGAY NGOÀI CỬA — rừng ngập nắng → khoảng sáng → lối mòn mờ
                  ↓
 CH01-003: THEO LỐI MÒN — bìa rừng có Thomas đang đốn củi
+                 ↓  (CH01-004 là bản nháp mới)
+CH01-004: CHỖ NGHỈ BÊN ĐƯỜNG — dấu vết được chăm sóc, có thể quay về
 ```
 
 - **Bốn khu vực có thể nhận diện:** (1) văn phòng, (2) căn hộ thuê, (3) nhà cũ và phần rừng trước nhà, (4) bìa rừng nơi Thomas làm việc. Rừng và bìa rừng là **những không gian liền mạch**, không mặc định là hai map khác nhau.
@@ -199,3 +201,19 @@ Tuổi chính xác/ngoại hình Thomas, đây có phải nghề chính của ô
 - Layout cuối cùng của văn phòng (bao nhiêu dãy bàn, cửa ra vào bên nào); phòng trọ (cửa sổ và bếp nằm đâu); nhà A (có mấy phòng).
 - Các dấu hiệu đặc biệt nào nên xuất hiện xuyên nhiều lần (để người chơi tự hiểu qua môi trường), ngoài báo thức và căn nhà.
 - Cấu trúc tuyến đường sau Thomas, cư dân tiếp theo và nơi Thomas sinh sống.
+
+---
+
+## ENV-DREAM-04 — Chỗ nghỉ sau bìa rừng (CH01-004; **đề xuất CHƯA DUYỆT**)
+
+**Quan hệ với không gian trước:** tiếp tục theo lối mòn **sau** khoảng Thomas đang đốn củi; không yêu cầu A đã nói chuyện với Thomas. Tiếng rìu thưa dần sau lưng; không đổi sang một bản đồ hoàn toàn khác.
+
+**Không gian đề xuất:** một khoảng đất bằng vừa đủ dưới tán cây, có ghế gỗ giản dị đã cũ, **một thanh ván có dấu hiệu được thay mới hơn**, nền đất mòn vì người đi lại, lối mòn tiếp tục khuất qua cây. Ngôi nhà A có thể quay lại theo chính đường cũ; **không** thấy ngay làng xóm, nhà Thomas hay thêm NPC.
+
+**Mục đích trong truyện:** cho người chơi tự nhận ra có con người thường sinh hoạt và quan tâm tới nơi này, **không có đoạn giải thích bằng hội thoại**. Không mặc định Thomas hoặc ai khác đã sửa ghế.
+
+**Đạo cụ tùy chọn, chưa duyệt:** ghế gỗ cũ, thanh ván mới, nền đất có vết chân qua, lá rơi. Không có vật phẩm nhặt, tấm thư, kho báu hay nhiệm vụ bắt buộc.
+
+**Trạng thái tương tác:** người chơi có thể quan sát, ngồi lại một lát hoặc bỏ qua; đi tiếp hoặc quay về bất cứ lúc nào. Không đòi sửa ghế để mở đường.
+
+**Chưa chốt:** ghế/chỗ nghỉ có giữ lại trong câu chuyện hay thay dấu vết khác; diện mạo và vị trí; đoạn đường dẫn đi đâu. Xem [CH01-004](../scenes/CH01-004.md) để duyệt trước khi triển khai 3D.
