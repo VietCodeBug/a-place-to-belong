@@ -23,4 +23,4 @@ func _draw() -> void:
 	var sun:=center+Vector2.from_angle(value/24.*TAU-PI/2)*radius
 	draw_circle(sun,7,Color("F2D398"))
 	draw_string(ThemeDB.fallback_font,center+Vector2(-45,4),"%02d:%02d"%[int(value),int(fmod(value,1.)*60.)],HORIZONTAL_ALIGNMENT_CENTER,90,22,Color("F2E6C9"))
-	draw_string(ThemeDB.fallback_font,Vector2(center.x-70,151),"Follow the daylight",HORIZONTAL_ALIGNMENT_CENTER,140,12,Color("B6C4AA"))
+	draw_string(ThemeDB.fallback_font,Vector2(center.x-70,151),"Follow the daylight",HORIZONTAL_ALIGNMENT_CENTER,140,12,Color("496B59"))

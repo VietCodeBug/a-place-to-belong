@@ -33,15 +33,18 @@ var modal_backdrop: ColorRect
 var category_label: Label
 
 var title_screen: Control
-var settings_box: VBoxContainer
 var pause_overlay: Control
 var pause_time_slider: HSlider
 var pause_time_readout: Label
-var grass_buttons: Dictionary = {}
-var volume_slider: HSlider
 
 var in_title_menu := false
 var mood_tween: Tween
+var storybook
+var letter_tween: Tween
+var notice: Label
+var notice_tween: Tween
+var envelope: Control
+var envelope_tween: Tween
 var in_pause_menu := false
 var ui_clock := 0.0
 var walk_timer := 0.0
@@ -58,11 +61,16 @@ func _ready() -> void:
 	root_ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root_ui)
 
+	root_ui.theme=preload("res://scripts/ui/storybook_theme.gd").theme()
+	storybook=preload("res://scripts/ui/storybook_screens.gd").new(self)
 	build_hud()
 	build_interaction_prompt()
 	build_letter_modal()
 	build_pause_menu()
 	build_title_menu()
+	notice=preload("res://scripts/ui/storybook_theme.gd").label("",15,Color("F6E8D0"))
+	notice.position=Vector2(24,88)
+	root_ui.add_child(notice)
 
 	for item in get_tree().get_nodes_in_group("interactables"):
 		if not item.activated.is_connected(show_message):
@@ -176,9 +184,11 @@ func build_letter_modal() -> void:
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	panel.custom_minimum_size = Vector2(540, 250)
-	panel.add_theme_stylebox_override("panel", make_card_style(Color("F6ECD8"), Color("8F623D"), 16, 4, 30, 24))
+	panel.custom_minimum_size = Vector2(620, 330)
+	panel.offset_left=-310;panel.offset_top=-165;panel.offset_right=310;panel.offset_bottom=165
+	panel.add_theme_stylebox_override("panel",preload("res://scripts/ui/storybook_theme.gd").paper())
 
+	panel.add_child(preload("res://scripts/ui/letter_stationery.gd").new())
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 14)
 	panel.add_child(column)
@@ -187,18 +197,20 @@ func build_letter_modal() -> void:
 	header_row.add_theme_constant_override("separation", 10)
 	column.add_child(header_row)
 
-	var seal := CozyIcon.new("envelope", Vector2(28, 28))
+	var seal := preload("res://scripts/ui/postal_motif.gd").new()
+	seal.seal=true
 	seal.name = "ModalIcon"
 	header_row.add_child(seal)
 
 	category_label = Label.new()
-	category_label.text = "POSTAL DISPATCH"
+	category_label.text = "FOREST POST  /  A LETTER FOR YOU"
 	category_label.add_theme_font_size_override("font_size", 12)
 	category_label.add_theme_color_override("font_color", Color("A8584C"))
 	header_row.add_child(category_label)
 
 	heading = Label.new()
-	heading.add_theme_font_size_override("font_size", 24)
+	heading.add_theme_font_override("font",preload("res://assets/ui/fonts/StorySerif.ttf"))
+	heading.add_theme_font_size_override("font_size", 27)
 	heading.add_theme_color_override("font_color", Color("2B241D"))
 	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(heading)
@@ -212,7 +224,7 @@ func build_letter_modal() -> void:
 	body.add_theme_font_size_override("font_size", 16)
 	body.add_theme_color_override("font_color", Color("3E342A"))
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.custom_minimum_size = Vector2(460, 64)
+	body.custom_minimum_size = Vector2(540, 90)
 	column.add_child(body)
 
 	var footer := HBoxContainer.new()
@@ -223,239 +235,21 @@ func build_letter_modal() -> void:
 	close_button.pressed.connect(close)
 	footer.add_child(close_button)
 
+	var stationery=preload("res://scripts/ui/letter_stationery.gd").new()
+	panel.add_child(stationery);panel.move_child(stationery,0)
 	root_ui.add_child(panel)
 	panel.hide()
+	envelope=preload("res://scripts/ui/envelope_reveal.gd").new()
+	envelope.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);envelope.hide();root_ui.add_child(envelope)
 
 func build_title_menu() -> void:
-	title_screen = Control.new()
-	title_screen.name = "ScenicTitleScreen"
-	title_screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	title_screen.mouse_filter = Control.MOUSE_FILTER_STOP
-	root_ui.add_child(title_screen)
-
-	# Left cozy timber & parchment menu plaque leaving the 3D cafe open on the right
-	var card := PanelContainer.new()
-	card.set_anchors_preset(Control.PRESET_CENTER_LEFT)
-	card.grow_vertical = Control.GROW_DIRECTION_BOTH
-	card.offset_left = 42
-	card.custom_minimum_size = Vector2(396, 0)
-	card.add_theme_stylebox_override("panel", make_card_style(Color(0.13, 0.21, 0.17, 0.92), Color("C69260"), 18, 3, 26, 24))
-	title_screen.add_child(card)
-
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 13)
-	card.add_child(col)
-
-	var brand_row := HBoxContainer.new()
-	brand_row.add_theme_constant_override("separation", 12)
-	col.add_child(brand_row)
-
-	brand_row.add_child(CozyIcon.new("coffee_post", Vector2(44, 44)))
-
-	var title_col := VBoxContainer.new()
-	title_col.add_theme_constant_override("separation", 1)
-	brand_row.add_child(title_col)
-
-	var eyebrow := Label.new()
-	eyebrow.text = "WOODLAND POST & MORNING ROAST"
-	eyebrow.add_theme_font_size_override("font_size", 11)
-	eyebrow.add_theme_color_override("font_color", Color("D7A976"))
-	title_col.add_child(eyebrow)
-
-	var game_title := Label.new()
-	game_title.text = "Forest Post Café"
-	game_title.add_theme_font_size_override("font_size", 36)
-	game_title.add_theme_color_override("font_color", Color("F8EFE0"))
-	title_col.add_child(game_title)
-
-	var tagline := Label.new()
-	tagline.text = "Warm coffee. Unhurried letters.\nA little forest worth getting lost in."
-	tagline.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	tagline.add_theme_font_size_override("font_size", 13)
-	tagline.add_theme_color_override("font_color", Color("C7D6C5"))
-	col.add_child(tagline)
-
-	var sep := ColorRect.new()
-	sep.custom_minimum_size = Vector2(0, 1)
-	sep.color = Color(0.78, 0.58, 0.38, 0.35)
-	col.add_child(sep)
-
-	var start_btn := make_cozy_button("▶   Enter the Clearing", true)
-	start_btn.custom_minimum_size.y = 44
-	start_btn.pressed.connect(func(): exit_title_menu(false))
-	col.add_child(start_btn)
-
-	# Live Atmosphere Mood preview right on the scenic title screen
-	var mood_lbl := Label.new()
-	mood_lbl.text = "CHOOSE YOUR MOMENT"
-	mood_lbl.add_theme_font_size_override("font_size", 12)
-	mood_lbl.add_theme_color_override("font_color", Color("D8CBB5"))
-	col.add_child(mood_lbl)
-
-	var mood_row := HFlowContainer.new()
-	mood_row.add_theme_constant_override("h_separation", 6)
-	mood_row.add_theme_constant_override("v_separation", 6)
-	col.add_child(mood_row)
-
-	for preset in [["Honey light",16.7,"partly_cloudy","golden"],["Forest rain",15.2,"heavy_rain","rain"],["Firefly dusk",21.5,"clear","night"]]:
-		var card_button=preload("res://scripts/ui/atmosphere_postcard.gd").new()
-		card_button.title=preset[0];card_button.mood=preset[3]
-		var h_val: float=preset[1];var w_val: String=preset[2]
-		card_button.pressed.connect(func():apply_mood(h_val,w_val))
-		mood_row.add_child(card_button)
-
-	var settings_toggle := make_cozy_button("⚙   Quality & Sound", false)
-	settings_toggle.pressed.connect(func(): settings_box.visible = not settings_box.visible)
-	col.add_child(settings_toggle)
-
-	settings_box = build_shared_settings_box()
-	settings_box.hide()
-	col.add_child(settings_box)
-
-	var quit_btn := make_cozy_button("Leave Forest", false)
-	quit_btn.pressed.connect(func(): get_tree().quit())
-	col.add_child(quit_btn)
+	storybook.build_title()
 
 func build_pause_menu() -> void:
-	pause_overlay = Control.new()
-	pause_overlay.name = "CozyPauseMenu"
-	pause_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	pause_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	pause_overlay.hide()
-	root_ui.add_child(pause_overlay)
-
-	var dim := ColorRect.new()
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dim.color = Color(0.06, 0.10, 0.08, 0.50)
-	pause_overlay.add_child(dim)
-
-	var card := PanelContainer.new()
-	card.set_anchors_preset(Control.PRESET_CENTER)
-	card.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	card.grow_vertical = Control.GROW_DIRECTION_BOTH
-	card.custom_minimum_size = Vector2(640, 490)
-	card.offset_left=-320;card.offset_top=-245;card.offset_right=320;card.offset_bottom=245
-	card.add_theme_stylebox_override("panel", make_card_style(Color(0.13, 0.21, 0.17, 0.95), Color("C69260"), 18, 3, 28, 24))
-	pause_overlay.add_child(card)
-
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 12)
-	var scroll:=ScrollContainer.new();scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;card.add_child(scroll)
-	col.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	scroll.add_child(col)
-
-	var head := HBoxContainer.new()
-	head.add_theme_constant_override("separation", 10)
-	col.add_child(head)
-	head.add_child(CozyIcon.new("coffee_post", Vector2(32, 32)))
-	var title := Label.new()
-	title.text = "Café Break & Atmosphere"
-	title.add_theme_font_size_override("font_size", 22)
-	title.add_theme_color_override("font_color", Color("F8EFE0"))
-	head.add_child(title)
-
-	var resume_btn := make_cozy_button("Resume Shift   [Esc]", true)
-	resume_btn.pressed.connect(func(): set_pause_menu(false))
-	col.add_child(resume_btn)
-
-	var atlas:=HBoxContainer.new();atlas.add_theme_constant_override("separation",16);col.add_child(atlas)
-	var clock_column:=VBoxContainer.new();atlas.add_child(clock_column)
-	pause_time_readout=Label.new();pause_time_readout.hide();clock_column.add_child(pause_time_readout)
-	pause_time_slider=preload("res://scripts/ui/daylight_dial.gd").new()
-	pause_time_slider.min_value=0.;pause_time_slider.max_value=23.95;pause_time_slider.step=.05;pause_time_slider.value=16.5
-	pause_time_slider.value_changed.connect(_on_time_slider_changed);clock_column.add_child(pause_time_slider)
-	var weather_cards:=HFlowContainer.new();weather_cards.custom_minimum_size=Vector2(320,220);atlas.add_child(weather_cards)
-	weather_cards.add_theme_constant_override("h_separation",8);weather_cards.add_theme_constant_override("v_separation",8)
-	for entry in [["Sunshine","clear","golden"],["Drifting","partly_cloudy","golden"],["Cloud veil","overcast","overcast"],["Shower","light_rain","rain"],["Downpour","heavy_rain","rain"]]:
-		var choice=preload("res://scripts/ui/atmosphere_postcard.gd").new();choice.compact=true;choice.title=entry[0];choice.mood=entry[2]
-		var weather_key: String=entry[1]
-		choice.pressed.connect(func():weather.set_weather(weather_key,false))
-		weather_cards.add_child(choice)
-
-	var extras:=build_shared_settings_box();extras.hide()
-	var options:=make_cozy_button("Sound & display",false)
-	options.pressed.connect(func():extras.visible=not extras.visible)
-	col.add_child(options);col.add_child(extras)
-
-	var bottom_row := HBoxContainer.new()
-	bottom_row.add_theme_constant_override("separation", 10)
-	col.add_child(bottom_row)
-
-	var title_btn := make_cozy_button("Scenic Title View", false)
-	title_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title_btn.pressed.connect(func():
-		set_pause_menu(false)
-		enter_title_menu(false)
-	)
-	bottom_row.add_child(title_btn)
-
-	var quit_btn := make_cozy_button("Quit Game", false)
-	quit_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	quit_btn.pressed.connect(func(): get_tree().quit())
-	bottom_row.add_child(quit_btn)
-
-func build_shared_settings_box() -> VBoxContainer:
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-
-	var g_lbl := Label.new()
-	g_lbl.text = "Scenery detail"
-	g_lbl.add_theme_font_size_override("font_size", 12)
-	g_lbl.add_theme_color_override("font_color", Color("D8CBB5"))
-	box.add_child(g_lbl)
-
-	var q_row := HBoxContainer.new()
-	q_row.add_theme_constant_override("separation", 6)
-	box.add_child(q_row)
-	for q in ["low", "medium", "high", "ultra"]:
-		var qb := make_chip_button(q.capitalize())
-		qb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var q_name: String = q
-		qb.pressed.connect(func(): apply_grass_quality(q_name))
-		q_row.add_child(qb)
-
-	var v_row := HBoxContainer.new()
-	v_row.add_theme_constant_override("separation", 10)
-	box.add_child(v_row)
-	var v_lbl := Label.new()
-	v_lbl.text = "Forest Ambience"
-	v_lbl.add_theme_font_size_override("font_size", 12)
-	v_lbl.add_theme_color_override("font_color", Color("D8CBB5"))
-	v_row.add_child(v_lbl)
-
-	var sld := HSlider.new()
-	sld.min_value = 0.0
-	sld.max_value = 1.0
-	sld.step = 0.05
-	sld.value = 0.85
-	sld.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	sld.value_changed.connect(func(val: float):
-		if weather != null and weather.get("ambience") != null and weather.ambience != null:
-			weather.ambience.master_volume = val
-	)
-	v_row.add_child(sld)
-
-	var opt_row := HBoxContainer.new()
-	opt_row.add_theme_constant_override("separation", 8)
-	box.add_child(opt_row)
-
-	var pause_clock_btn := make_chip_button("Freeze Sun Clock")
-	pause_clock_btn.toggle_mode = true
-	pause_clock_btn.toggled.connect(func(on: bool):
-		if weather != null:
-			weather.paused = on
-	)
-	opt_row.add_child(pause_clock_btn)
-
-	var fs_btn := make_chip_button("Toggle Fullscreen")
-	fs_btn.pressed.connect(func():
-		var mode := DisplayServer.window_get_mode()
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if mode == DisplayServer.WINDOW_MODE_FULLSCREEN else DisplayServer.WINDOW_MODE_FULLSCREEN)
-	)
-	opt_row.add_child(fs_btn)
-	return box
+	storybook.build_pause()
 
 func enter_title_menu(instant := false) -> void:
+	storybook.shade.hide()
 	in_title_menu = true
 	in_pause_menu = false
 	pause_overlay.hide()
@@ -465,6 +259,7 @@ func enter_title_menu(instant := false) -> void:
 	hud_badge.hide()
 	controls_hint_panel.hide()
 	title_screen.show()
+	title_screen.find_child("BeginDay",true,false).grab_focus()
 	if player != null:
 		player.blocked = true
 		player.visible=false
@@ -487,9 +282,12 @@ func exit_title_menu(instant := false) -> void:
 func set_pause_menu(open: bool) -> void:
 	if in_title_menu:
 		return
+	storybook.shade.hide()
 	in_pause_menu = open
 	pause_overlay.visible = open
 	if open:
+		var buttons=pause_overlay.find_children("*","Button",true,false)
+		if not buttons.is_empty():buttons[0].grab_focus()
 		prompt_card.hide()
 		if weather != null:
 			pause_time_slider.set_value_no_signal(weather.hours)
@@ -548,7 +346,7 @@ func _process(delta: float) -> void:
 	if show_prompt:
 		prompt.text = active.interaction_name
 		prompt_icon.icon_kind = icon_for_item(active)
-		prompt_card.offset_bottom = -34.0 + sin(ui_clock * 3.4) * 2.5
+		prompt_card.offset_bottom = -34.0 if storybook.reduce_motion else -34.0 + sin(ui_clock * 3.4) * 2.5
 
 func update_hud_status() -> void:
 	if weather == null:
@@ -593,7 +391,9 @@ func icon_for_item(item: Node) -> String:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		if panel.visible:
+		if storybook.shade.visible:
+			storybook.back()
+		elif panel.visible:
 			close()
 		elif in_pause_menu:
 			set_pause_menu(false)
@@ -622,11 +422,37 @@ func show_message(title: String, message: String, source_item: Node = null) -> v
 		category_label.text = "POSTAL DISPATCH"
 	modal_backdrop.show()
 	panel.show()
+	if envelope_tween!=null:envelope_tween.kill()
+	envelope.hide()
+	if not storybook.reduce_motion and (source_item==null or icon_for_item(source_item)=="envelope"):
+		root_ui.move_child(envelope,-1);envelope.progress=0.;envelope.modulate.a=1.;envelope.show()
+		envelope_tween=create_tween()
+		envelope_tween.tween_property(envelope,"progress",1.,.32)
+		envelope_tween.tween_property(envelope,"modulate:a",0.,.20)
+		envelope_tween.tween_callback(envelope.hide)
+
+	if letter_tween!=null:letter_tween.kill()
+	body.visible_ratio=0.0 if not storybook.reduce_motion else 1.0
+	panel.pivot_offset=panel.size*.5
+	panel.scale=Vector2.ONE if storybook.reduce_motion else Vector2(.95,.95)
+	letter_tween=create_tween().set_parallel(true)
+	letter_tween.tween_property(panel,"scale",Vector2.ONE,.25)
+	letter_tween.tween_property(body,"visible_ratio",1.0,0.8 if not storybook.reduce_motion else 0.0)
+
 	if player != null:
 		player.blocked = true
 	close_button.grab_focus()
 
 func close() -> void:
+	if envelope_tween!=null:envelope_tween.kill()
+	if envelope!=null:envelope.hide()
+	if panel.visible and notice!=null:
+		notice.text="Correspondence put away  ·  Have a gentle day."
+		notice.modulate.a=1.
+		if notice_tween!=null:notice_tween.kill()
+		notice_tween=create_tween()
+		notice_tween.tween_interval(2.0)
+		notice_tween.tween_property(notice,"modulate:a",0.,.5)
 	panel.hide()
 	modal_backdrop.hide()
 	if player != null and not in_pause_menu and not in_title_menu:
@@ -662,16 +488,4 @@ func make_cozy_button(label_text: String, primary: bool) -> Button:
 	b.add_theme_stylebox_override("hover", make_card_style(hover_bg, Color("F6E8D0"), 10, 2, 16, 9))
 	b.add_theme_stylebox_override("pressed", make_card_style(normal_bg.darkened(0.12), Color("F6E8D0"), 10, 2, 16, 9))
 	b.add_theme_stylebox_override("focus", make_card_style(hover_bg, Color("F6E8D0"), 10, 2, 16, 9))
-	return b
-
-func make_chip_button(label_text: String) -> Button:
-	var b := Button.new()
-	b.text = label_text
-	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	b.add_theme_font_size_override("font_size", 12)
-	b.add_theme_color_override("font_color", Color("EDE2CE"))
-	b.add_theme_color_override("font_hover_color", Color("FFF9EE"))
-	b.add_theme_stylebox_override("normal", make_card_style(Color(0.20, 0.31, 0.26, 0.92), Color(0.72, 0.54, 0.37, 0.65), 8, 1, 10, 5))
-	b.add_theme_stylebox_override("hover", make_card_style(Color("9D6F47"), Color("F6E8D0"), 8, 1, 10, 5))
-	b.add_theme_stylebox_override("pressed", make_card_style(Color("B88254"), Color("F6E8D0"), 8, 1, 10, 5))
 	return b

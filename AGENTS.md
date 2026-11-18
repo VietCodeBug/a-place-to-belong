@@ -101,3 +101,6 @@ small stones around meadow edges. Keep path/porch/mailbox approaches clear.
 
 ## V11 latest menu/backdrop/biodiversity feedback
 Read docs/v11-atmosphere-habitats.md. Continue the user's 3351c01 V10 on current feature/map01-lighting-presets. Preserve approved cafe/grass and gameplay. Current pass adds illustrated mood/weather cards, daylight dial, broader scenic ridges and small authored habitats; no new map/quests/renderer switch. Capture actual Godot images to preview/ver-11-atmosphere-habitats. Preserve earlier preview refs and do not merge. The earlier uncommitted cloud draft was preserved in stash; do not pop it over this code.
+
+## V12 Storybook UI identity supersedes menu-only tweaks
+Read docs/v12-ui-identity.md and docs/ui-design-system.md. Current pass rebuilds title/pause/settings/letter presentation, separates Atmosphere Studio, retains genuine interaction content and adds no fake Save/Quest. Shared theme and original drawn postal components live in scripts/ui. Preserve café, approved grass, world/weather simulation and gameplay. Run tests/v12_ui_test.gd plus regressions; capture tools/capture_v12_ui.gd at 720p and 1080p. Publish preview/ver-12-storybook-ui, preserve previous refs and do not merge.

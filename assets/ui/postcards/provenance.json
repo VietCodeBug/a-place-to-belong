@@ -1,0 +1,28 @@
+{
+  "provider": "Host-native ImageGen",
+  "date": "2026-11-18",
+  "authorship": "AI-generated imagery in a hand-drawn visual style; not claimed to be human-drawn.",
+  "rights": "Generated for this project under the image service terms; not labelled CC0 or third-party commercial stock.",
+  "processing": "Source PNG bytes copied unmodified; Godot scales textures for UI use.",
+  "selection": "Detailed fantasy paintings and botanical crest trials were rejected after user requested a simpler hand-drawn look. Only these three final sketches are integrated.",
+  "sources": [
+    {
+      "file": "honey-sketch.png",
+      "prompt": "Redraw the attached woodland café illustration as a SMALL, SIMPLE hand-drawn travel sketch on warm cream paper for a collectible postcard. Very visibly human-feeling irregular dark green fineliner contours, loose pencil construction marks, restrained cross-hatching, and 5 flat matte gouache spot colors only: sage, forest green, ochre, coral, cream. Bold simplified shapes, quiet empty paper areas, broad brush strokes that stop short of the ink edges, slightly misregistered print, NOT a lush detailed fantasy painting. Keep a small timber café with moss green gable roof, coral bicycle, red mailbox and curving path, but remove the invented anthropomorphic animals/people entirely. Simplify everything dramatically: 4-6 trees, 2 flower tufts, no carpets of tiny flowers, no individual roof shingles, no realistic atmospheric gradients, no glow, no lens lighting, no polished digital rendering, no photorealism, no 3D, no ornate decoration. Like an illustrator's pen-and-gouache field notebook scanned from paper, charming imperfect lines, flat graphic composition readable at 180 pixels. No text or lettering, no watermark. Landscape 3:2. It should look like a quick carefully composed handmade drawing, not an AI fantasy illustration.",
+      "source": "/workspace/generated_images/exec-6e37bcea-2f02-45e8-b6b3-47d2eac445b6.png",
+      "sha256": "01e53cd4a60f958ea8d30dabf9c3953a5977b7a1d1c54d6edff8dec611e271f2"
+    },
+    {
+      "file": "rain-sketch.png",
+      "prompt": "Use this reference ONLY for its exact illustration technique and paper palette: irregular dark-green pen contours, loose pencil marks, flat matte gouache spot-color shapes, rough brush edges, cream paper negative space, charming simple hand-drawn travel notebook print. Make a new matching postcard scene, landscape 3:2, no text/letters/logos/people/animals. Keep it simple and clearly graphic. No realistic light, no glow, no lush digitally rendered fantasy details, no smooth gradients. Change composition completely to a close café windowsill: a single steaming cream coffee cup with a sage rim and a coral wax-sealed envelope in foreground; simple oak window frame; through the window a few rough sage tree shapes and diagonal hand-drawn rain marks. Cozy, quiet rainy day. Restrained dark green, sage, cream, ochre and a tiny coral accent. Same rough cream paper around edges.",
+      "source": "/workspace/generated_images/exec-b1710d9b-a61b-44ce-92b7-47d3e71d373a.png",
+      "sha256": "efda0addc49c91d464fb2cb71a166b85608ea41a76b4822f991353970c300f17"
+    },
+    {
+      "file": "night-sketch.png",
+      "prompt": "Use this reference ONLY for its exact illustration technique and paper palette: irregular dark-green pen contours, loose pencil marks, flat matte gouache spot-color shapes, rough brush edges, cream paper negative space, charming simple hand-drawn travel notebook print. Make a new matching postcard scene, landscape 3:2, no text/letters/logos/people/animals. Keep it simple and clearly graphic. No realistic light, no glow, no lush digitally rendered fantasy details, no smooth gradients. Change composition to a tiny timber post café with two small ochre windows at lower right, a large simple crescent moon and four ink stars in abundant cream-paper sky, three dark green pine silhouettes at left, a loosely drawn winding path and a few sage fern leaves. Night is suggested by deep green flat ink shapes and sparse ochre spots, not a realistic dark blue gradient. Same pen/gouache print style, same rough cream paper edges.",
+      "source": "/workspace/generated_images/exec-8018ad51-41eb-403c-8c3a-d26e7fb9ac02.png",
+      "sha256": "087fc3f5f6b295ca9fbecdd7f03647ae804d2866b110f155a5b9e9f8895e6d9e"
+    }
+  ]
+}
