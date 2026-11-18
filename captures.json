@@ -1,0 +1,122 @@
+{
+  "source_commit": "7bb3c3a583c2823a79bcaf8a79a55485f4b6ea8a",
+  "engine": "Godot 4.6.3",
+  "renderer": "Compatibility",
+  "host": "Linux Xorg Mesa llvmpipe",
+  "capture": "Real Godot viewport PNGs; time/weather frozen only for reproducible capture; actual letter tweens advanced to completion for reading shot.",
+  "before": "V12 reference images, not pixel-locked A/B.",
+  "images": [
+    {
+      "file": "after/720p/01-day-hud.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "61f5e999b93a16ae6ae1fc850a83b098a360e286ba40d5a50fdf6001817522a4"
+    },
+    {
+      "file": "after/720p/02-night-hud.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "8bb52f6808de012e6645cab8779c673a8a2e7709fe84f764f09e0fc59d435cf7"
+    },
+    {
+      "file": "after/720p/03-envelope.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "6aaa5ff29c7af3cd8c545852841b5ee4c8c55989292e19e22f6c60a75007d8e1"
+    },
+    {
+      "file": "after/720p/04-letter-wax-seal.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "516eb11ff8e9dd1deb37fe51af959cb5f5000a91aad7efa0111d40c65cc554d5"
+    },
+    {
+      "file": "after/720p/05-closing-envelope.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "b4577838f4e91f02ccc91f82a932f5ba5a91fa2f8c1abecc31d51f0646c69587"
+    },
+    {
+      "file": "after/720p/06-title.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "85d7e974c6c896fc3c64001a6bad05e31097b7ee7fe4524081e34f5c672488f5"
+    },
+    {
+      "file": "after/720p/07-pause.png",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "sha256": "d59825f7ed9fc789d48210474971e144a90c019676214a31e53ef1d0a21e683a"
+    },
+    {
+      "file": "after/1080p/01-day-hud.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "3ad2575db617ae5b0921be7008ec5c8f7af47184cdc05cb3821ff62552beae2c"
+    },
+    {
+      "file": "after/1080p/02-night-hud.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "64513dc1f5d8c98a1cf2c204f0c7cf5928f0c102a14c658eece78737fe2ac8d4"
+    },
+    {
+      "file": "after/1080p/03-envelope.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "0352f1b7ee97c0baba060728ae8fcf118d00331592975c6ebb48324e5a515c6c"
+    },
+    {
+      "file": "after/1080p/04-letter-wax-seal.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "fdf29dba747b46ef15666cc0d83add7a898e73a190e2224182660177ab5db936"
+    },
+    {
+      "file": "after/1080p/05-closing-envelope.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "16402e3e5f86547e9a82d731a5e125a448b50a5a27791d22f4624457d5bd51ca"
+    },
+    {
+      "file": "after/1080p/06-title.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "59a1a459750b105f95c6a18b766288873a733775b38a46ab8372c89d550c9315"
+    },
+    {
+      "file": "after/1080p/07-pause.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "sha256": "a9ebc504549fa31a1739349583398dc20d6f109ee6f62b4689d76afd2c8867af"
+    }
+  ]
+}
