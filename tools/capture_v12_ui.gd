@@ -22,6 +22,9 @@ func run():
 		hub.ui.close();hub.get_node("Eggeght/EggeghtChat").interact();finish_reading_animation(hub.ui);await save("10-dialogue.png")
 		hub.ui.close();await save("11-notification.png")
 		hub.queue_free();await process_frame;quit();return
+	if "--studio-only" in OS.get_cmdline_user_args():
+		hub.ui.exit_title_menu(true);hub.ui.set_pause_menu(true);hub.ui.storybook.open_page("Atmosphere Studio");await save("07-atmosphere-studio.png")
+		hub.queue_free();await process_frame;quit();return
 	hub.ui.enter_title_menu(true);await save("01-main-menu.png")
 	var card=hub.ui.storybook.postcards[1]
 	var hover:=InputEventMouseMotion.new();hover.position=card.get_global_rect().get_center();root.push_input(hover);await process_frame

@@ -26,6 +26,20 @@ func _draw() -> void:
 	draw_style_box(box,Rect2(Vector2(0,-lift*5),size))
 	var rect:=Rect2(7,7-lift*5,size.x-14,size.y-40)
 	draw_texture_rect(art,rect,false)
+	if compact:
+		# An ink weather stamp distinguishes the five Studio states from the three collected scenes.
+		var origin:=Vector2(11,11-lift*5)
+		draw_rect(Rect2(origin,Vector2(32,25)),T.CREAM)
+		var center:=origin+Vector2(16,11)
+		if title=="Sunshine" or title=="Drifting":
+			draw_circle(center-Vector2(4,2),5,T.OAK)
+			for i in range(8):
+				var d:=Vector2.from_angle(i*TAU/8.)
+				draw_line(center-Vector2(4,2)+d*7,center-Vector2(4,2)+d*9,T.OAK,1.)
+		if title!="Sunshine":
+			for p in [Vector2(-6,0),Vector2(0,-3),Vector2(6,1)]:draw_circle(center+p,5,T.SAGE)
+		if title in ["Shower","Downpour"]:
+			for i in range(4 if title=="Downpour" else 2):draw_line(center+Vector2(-8+i*5,7),center+Vector2(-10+i*5,12),T.FOREST,1.5)
 	var font_size:=11 if compact else 13
 	draw_string(T.SANS,Vector2(8,size.y-17-lift*5),title,HORIZONTAL_ALIGNMENT_CENTER,size.x-16,font_size,T.FOREST)
 	if selected:
