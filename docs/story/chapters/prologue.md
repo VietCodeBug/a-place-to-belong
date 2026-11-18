@@ -11,11 +11,11 @@ Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải th�
 |---|---|---|---|---|
 | [PRO-001](../scenes/PRO-001.md) | Thế giới tăng tốc | Montage ngắn: tin tức AI phát triển, tự động hóa ở văn phòng, thông báo cắt giảm nhân sự, cạnh tranh tuyển dụng; xen tin giá thuê nhà, khoản phải trả. Không dùng tên công ty/tin tức có thật khi chưa nghiên cứu. | Cinematic ngắn, âm thanh thông báo dày lên | draft |
 | [PRO-002](../scenes/PRO-002.md) | Một ngày bình thường | Chuyển từ tin tức sang bàn làm việc tại văn phòng. Nhịp sinh hoạt vẫn quen thuộc, đồng nghiệp vẫn làm việc. Email chấm dứt công việc đến, lạnh lùng và ngắn gọn; tránh diễn xuất ồn ào. | Người chơi quan sát/đọc email | draft |
-| PRO-003 | Những ngày không tên | Chuỗi thời gian trong căn hộ thuê: hồ sơ xin việc, hóa đơn, bữa ăn nguội, ngày và đêm lặp lại. Nhân vật dần mất phương hướng. | Tương tác đồ vật chọn lọc; không ép người chơi làm việc lặp lại | draft |
+| [PRO-003](../scenes/PRO-003.md) | Những ngày không tên | Ba khoảnh khắc trong căn hộ thuê: báo thức đi làm còn reo; tìm việc giữa hóa đơn; cuối cùng báo thức không còn được bật. Nhân vật dần mất nhịp sống. | Tương tác khám phá căn hộ xen montage chuyển ngày; không phạt khi bỏ qua đồ vật | draft |
 | PRO-004 | Thiếp đi | Một đêm kiệt sức, nhân vật ngủ. Âm thanh thành phố và tiếng thông báo lùi dần vào im lặng. | Chuyển cảnh không giải thích quy luật giấc mơ | draft |
 | CH01-001 | Sáng ở nơi xa lạ | Nhân vật thức dậy là **A** trong căn nhà giữa rừng. Ký ức đời thực chỉ còn những mảnh cảm giác mơ hồ. Cho người chơi quan sát và bước ra ngoài; **không** mặc định A đã có bạn bè hay nghề nghiệp. | Trao quyền khám phá, mở Chapter 01 | draft |
 
-> Phân cảnh chi tiết: **PRO-001** ([MD](../scenes/PRO-001.md) · [JSON](../scenes/PRO-001.json)) và **PRO-002** ([MD](../scenes/PRO-002.md) · [JSON](../scenes/PRO-002.json)); cả hai **vẫn là DRAFT**.
+> Phân cảnh chi tiết: **PRO-001** ([MD](../scenes/PRO-001.md) · [JSON](../scenes/PRO-001.json)), **PRO-002** ([MD](../scenes/PRO-002.md) · [JSON](../scenes/PRO-002.json)), **PRO-003** ([MD](../scenes/PRO-003.md) · [JSON](../scenes/PRO-003.json)); tất cả **vẫn là DRAFT**.
 
 ## Lưu ý kể chuyện
 - **AI, layoff và áp lực kinh tế phải hiện rõ ngay ở PRO-001**; không mở ngay bằng email.
