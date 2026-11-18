@@ -21,6 +21,7 @@
 - [02-idea-bank.md](02-idea-bank.md): phương án để trao đổi; **không phải canon**.
 - [chapters/prologue.md](chapters/prologue.md): bản nháp mở đầu cho người viết.
 - [chapters/prologue.json](chapters/prologue.json): cấu trúc phân cảnh trung tính, chưa có parser Godot.
+- [chapters/chapter-01.md](chapters/chapter-01.md): nền tảng Chương 1 và các điều chưa chốt.
 - [scenes/PRO-001.md](scenes/PRO-001.md): mở đầu thời AI, dựng cảnh và lời dẫn (nháp).
 - [scenes/PRO-001.json](scenes/PRO-001.json): nhịp hình/âm/chữ của PRO-001 (nháp, chưa tích hợp).
 - [scenes/PRO-002.md](scenes/PRO-002.md): ngày nhận email mất việc, tương tác và cảm xúc (nháp).
@@ -29,6 +30,8 @@
 - [scenes/PRO-003.json](scenes/PRO-003.json): dữ liệu tương tác xen montage của PRO-003 (nháp, chưa tích hợp).
 - [scenes/PRO-004.md](scenes/PRO-004.md): giấc ngủ đầu và chuyển âm thanh từ thành phố sang rừng (nháp).
 - [scenes/PRO-004.json](scenes/PRO-004.json): dữ liệu chuyển cảnh PRO-004 (nháp, chưa tích hợp).
+- [scenes/CH01-001.md](scenes/CH01-001.md): A tỉnh dậy trong ngôi nhà cũ và bước ra ngoài (nháp).
+- [scenes/CH01-001.json](scenes/CH01-001.json): dữ liệu tương tác/cờ tiến trình cho CH01-001 (nháp, chưa tích hợp).
 
 ## Quy trình
 
