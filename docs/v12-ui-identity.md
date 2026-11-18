@@ -1,29 +1,35 @@
-# V12 — Forest Post UI Identity
+# V12 — Menu ký họa, thời tiết tự động
 
-18/11/2026. Baseline: V11 bfae2f9; PR #10, chưa merge.
+18/11/2026. Kế thừa V11 bfae2f9 trên PR #10; chưa merge.
 
-## Đã đổi
+## Chốt theo góp ý mới nhất
 
-Main menu bỏ bảng xanh lớn; tên game Serif, dấu bưu điện cà phê/phong thư và nút bắt đầu nằm trực tiếp trên lớp chuyển sắc nền 3D. Settings/Leave là nút phụ gọn. Ba bưu thiếp chuyển xuống góc dưới, mỗi thẻ có cảnh riêng, trạng thái chọn lưu rõ bằng dấu coral, hover/focus nghiêng nhẹ. Không có Continue vì game chưa có save.
+Thời tiết vẫn tự động. Không có postcard đổi giờ/mưa trong main menu, không có Atmosphere Studio trong menu nghỉ thông thường. Công cụ test giờ/thời tiết chỉ mở qua cờ `--atmosphere-debug`; không phải tính năng menu chính thức. Không viết lại mô phỏng thời tiết.
 
-Pause chỉ còn hành động chính; đồng hồ và thời tiết nằm ở Atmosphere Studio riêng. Settings chia Audio, Graphics, Controls, Accessibility, có phản hồi thay đổi và chế độ Quiet UI. Cài đặt áp dụng trong phiên, chưa lưu ra đĩa. Studio điều khiển hệ thời tiết hiện có, không bổ sung mô phỏng khí hậu.
+Main menu là bưu thiếp ký họa toàn màn hình: nét mực, mảng gouache phẳng, giấy kem, chữ Caveat viết tay và nút viền mực hơi lệch. Background này là tranh UI, **không phải ảnh của Map 01 3D**. Vào chơi vẫn là map 3D hiện có. Không thay nhà café hoặc cỏ để làm đẹp menu.
 
-Hòm thư mở bằng phong bì có dấu coral/hoạt cảnh nắp, sau đó là giấy viền airmail và dấu hủy tem. Nội dung thật giữ nguyên, chữ hiện dần. Hội thoại NPC dùng cùng font/giấy; chưa có portrait hoặc cây lựa chọn vì gameplay hiện tại chưa cung cấp. Khi đóng có thông báo ngắn. Nút/hover có âm UI tổng hợp nhẹ, Quiet UI tắt được.
+Menu nghỉ chỉ có Resume, Settings, Controls, Return to title và Quit. Settings chia Audio, Graphics, Controls, Accessibility; cài đặt áp dụng trong phiên, không giả vờ có lưu file. Quiet UI tắt âm UI, rung/nhún prompt và các hoạt cảnh mở thư/chữ.
 
-Theme, typography và các thành phần đã tách khỏi interaction_controller thành storybook_theme, storybook_screens, postal_motif, letter_stationery và envelope_reveal. Xem ui-design-system.md. Dấu bưu điện/phong bì được vẽ bằng Godot; ba tranh postcard cuối dùng ImageGen theo phong cách nét mực + gouache phẳng, sau khi người dùng loại hướng tranh fantasy chi tiết vì quá AI. Không nhận là họa sĩ vẽ tay thật; prompt/nguồn/SHA-256 nằm ở assets/ui/postcards/provenance.json. Các thử nghiệm tranh chi tiết và crest cũ không được đưa vào game. Hai font DejaVu có license kèm theo trong assets/ui/fonts.
+Thư có phong bì mở nắp, dấu coral, giấy viền airmail, dấu bưu điện và chữ hiện dần. Hội thoại giữ nội dung có sẵn và dùng cùng typography; không thêm portrait hay lựa chọn giả. Thông báo ngắn xuất hiện khi cất thư/đóng trao đổi. Nút dùng nét viền tự vẽ, font viết tay và phản hồi hover/focus.
+
+## Thành phần và nguồn
+
+Theme/components: storybook_theme, storybook_screens, sketch_button, postal_motif, letter_stationery, envelope_reveal. Xem ui-design-system.md.
+
+Tranh sketch được tạo bằng ImageGen theo phong cách vẽ tay, không nhận là họa sĩ vẽ tay thật. Prompt, nguồn và SHA-256 nằm ở assets/ui/postcards/provenance.json. Hướng fantasy chi tiết bị người dùng loại bỏ, không được tích hợp. Dấu bưu điện/phong bì/viền/nút là code Godot. Caveat (SIL OFL) dùng cho chữ viết tay; DejaVu Sans có license kèm dùng cho phần đọc dài. CLI game-dev không có; PNG được kiểm tra decode/hash/import và xem trong Godot, không nhận có CLI package verification.
 
 ## Giữ nguyên
 
-Không sửa nhà café, cỏ đã duyệt, terrain, cây/động vật, road/collision, player, thông số camera và renderer Compatibility. Không mở map hoặc thêm save/inventory/quest. Validator tài nguyên V10 kiểm tra các tài nguyên khóa, cùng git diff để kiểm tra phạm vi.
+Café, cỏ đã duyệt, terrain, cây/động vật, đường, collision, nhân vật, camera gameplay, vùng chơi và Compatibility renderer. Không thêm save/inventory/quest. Hệ ngày–đêm/thời tiết tự động và âm rừng tiếp tục hoạt động trong game.
 
-## Kiểm chứng
+## Kiểm chứng và ảnh
 
-Editor import và sáu bộ test (89 assertion pass): smoke, map01_scope, weather_cycle, v10_visual_overhaul, v11_atmosphere, v12_ui. Test UI đưa sự kiện Tab/Enter vào GUI thật, kiểm tra focus, postcard selection, thứ tự lớp Settings trên Title, Esc trở về menu, Studio chỉnh giờ, khóa/mở player khi đọc thư và bố cục nút ở 1280×720/1920×1080. Headless GUI tests không thay thế việc xem ảnh.
+Editor import, smoke, map01_scope, weather_cycle, v10_visual_overhaul, v11_atmosphere và v12_ui. UI test đưa Tab/Enter vào GUI thật; kiểm tra Esc/focus, không có điều khiển thời tiết trên title/pause chính thức, chặn truy cập Studio nếu thiếu cờ test, chỉnh giờ debug, khóa/mở di chuyển khi đọc thư và nút trong màn hình ở 720p/1080p. Validator khóa tài nguyên V10 và diff checks.
 
-`tools/capture_v12_ui.gd` chụp ảnh Godot Compatibility thật ở 720p và 1080p: main, focus/hover, selected postcard, settings, accessibility, pause, Studio, controls, envelope, thư, hội thoại, notification. Clock được giữ cố định; ở ảnh đọc thư hoàn tất, script tiến tween UI thật đến cuối để chụp đủ chữ, không thay nội dung. Ảnh dùng renderer Mesa llvmpipe Linux; không là ảnh AI và không là benchmark Windows GPU.
+`tools/capture_v12_ui.gd`: main, hover/focus, Settings/Graphics/Accessibility, pause, Controls, phong bì, thư, hội thoại, notification ở 720p và 1080p. Ảnh chụp từ Godot thật; riêng tranh nền menu là asset minh họa nêu trên. Capture giữ clock đứng để so sánh; runtime bình thường không giữ. Tween đọc thư được tiến tới cuối để chụp đủ chữ. Nền map khi vào gameplay không đổi.
 
-## Còn hạn chế
+## Giới hạn
 
-Bối cảnh 3D núi/mây V11 không thay đổi trong lượt UI này. Minh họa postcard còn đơn giản; logo hiện là typography + vector postal mark, chưa phải bộ nhận diện minh họa hoàn chỉnh. Hội thoại chưa có chân dung hoặc lựa chọn mới; chưa có journal/load/quest vì chưa có dữ liệu gameplay. Quiet UI chỉ tác động UI. Hai texture leak lúc thoát Godot vẫn còn từ baseline; không tuyên bố renderer sạch hoặc đạt 60 FPS. Cần người dùng duyệt hình ảnh, không suy ra chất lượng mỹ thuật từ test pass.
+Cần duyệt mỹ thuật trực tiếp, không suy ra mức wow từ test pass. Tranh nền menu không khớp từng chi tiết với mô hình café; nó là bưu thiếp minh họa. Settings chưa lưu qua lần mở game, chưa có journal/portrait/dialogue tree. Chưa benchmark Windows GPU. Hai texture leak lúc thoát Godot vẫn có từ baseline.
 
 Preview: https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-12-storybook-ui

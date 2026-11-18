@@ -40,4 +40,4 @@ V10: [Map 01 complete visual overhaul & scenic menu](https://github.com/VietCode
 
 V11: [Atmosphere & habitats](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-11-atmosphere-habitats), illustrated menus, interactive daylight dial, scenic ridge revisions and small wildlife/undergrowth habitats. Actual Linux Godot 4.6.3 Compatibility captures, no Windows performance claim. [Vietnamese report](v11-atmosphere-habitats.md). Earlier previews preserved.
 
-V12: [Illustrated Storybook UI](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-12-storybook-ui), title, postcards, pause, grouped settings, separate Atmosphere Studio, letter/envelope, dialogue and notifications at 720p/1080p. [Vietnamese report](v12-ui-identity.md); [design system](ui-design-system.md).
+V12: [Illustrated Storybook UI](https://github.com/VietCodeBug/forest-post-cafe/tree/preview/ver-12-storybook-ui), hand-drawn-style illustrated title, pause, grouped settings, letter/envelope, dialogue and notifications; automatic weather, no public Studio at 720p/1080p. [Vietnamese report](v12-ui-identity.md); [design system](ui-design-system.md).

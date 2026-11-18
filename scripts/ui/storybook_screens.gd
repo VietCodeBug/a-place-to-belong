@@ -13,7 +13,7 @@ var feedback: Label
 var typing_tween: Tween
 func _init(owner_ui):ui=owner_ui
 func button(parent: Node,text: String,action: Callable) -> Button:
-	var b:=Button.new();b.text=text;b.custom_minimum_size.y=46;b.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
+	var b:=preload("res://scripts/ui/sketch_button.gd").new();b.text=text;b.custom_minimum_size.y=46;b.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
 	b.pressed.connect(action);parent.add_child(b)
 	b.mouse_entered.connect(func():tick(650.))
 	b.pressed.connect(func():tick(880.))
@@ -28,34 +28,28 @@ func column(parent: Node,gap: int=12) -> VBoxContainer:
 	var v:=VBoxContainer.new();v.add_theme_constant_override("separation",gap);parent.add_child(v);return v
 func build_title() -> void:
 	ui.title_screen=Control.new();ui.title_screen.name="ScenicTitleScreen";ui.title_screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);ui.root_ui.add_child(ui.title_screen)
-	# A soft left gradient provides contrast without enclosing the menu in a plaque.
-	var wash:=TextureRect.new();var gradient:=Gradient.new();gradient.colors=PackedColorArray([Color(.045,.10,.075,.90),Color(.05,.10,.07,.0)])
+	# The official title is an illustrated postcard. The playable 3D map is unchanged.
+	var illustration:=TextureRect.new();illustration.texture=preload("res://assets/ui/postcards/honey-sketch.png")
+	illustration.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);illustration.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;illustration.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;illustration.flip_h=true;illustration.mouse_filter=Control.MOUSE_FILTER_IGNORE;ui.title_screen.add_child(illustration)
+	var wash:=TextureRect.new();var gradient:=Gradient.new();gradient.colors=PackedColorArray([Color(.96,.91,.81,1.),Color(.96,.91,.81,.97),Color(.96,.91,.81,0.)]);gradient.offsets=PackedFloat32Array([0.,.30,.64])
 	var tex:=GradientTexture2D.new();tex.gradient=gradient;tex.fill_from=Vector2.ZERO;tex.fill_to=Vector2.RIGHT;wash.texture=tex
 	wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);wash.mouse_filter=Control.MOUSE_FILTER_IGNORE;ui.title_screen.add_child(wash)
 	var left:=VBoxContainer.new();left.position=Vector2(62,42);left.custom_minimum_size=Vector2(385,0);left.add_theme_constant_override("separation",12);ui.title_screen.add_child(left)
-	var mast:=HBoxContainer.new();left.add_child(mast);mast.add_child(Mark.new())
-	var words:=column(mast,4);words.add_child(T.label("LETTERS FROM THE WOODLAND",11,T.CREAM));words.add_child(T.label("POST OFFICE  /  COFFEE HOUSE",11,Color("DCB98B")))
-	left.add_child(T.label("Forest Post",48,T.CREAM,true));left.add_child(T.label("Café",62,T.CREAM,true))
-	left.add_child(T.label("A warm cup. A letter. A slower day.",15,T.CREAM))
-	var first:=button(left,"Begin your day   →",func():ui.exit_title_menu(false));first.name="BeginDay";first.add_theme_font_size_override("font_size",19)
-	var primary_focus:=T.paper(T.OAK);primary_focus.border_color=T.CORAL;primary_focus.set_border_width_all(3);first.add_theme_stylebox_override("focus",primary_focus)
+	var mast:=HBoxContainer.new();left.add_child(mast);var mark:=Mark.new();mark.seal=true;mast.add_child(mark)
+	var words:=column(mast,4);words.add_child(T.label("LETTERS FROM THE WOODLAND",11,T.FOREST));words.add_child(T.label("POST OFFICE  /  COFFEE HOUSE",11,T.SAGE))
+	left.add_child(T.label("Forest Post",72,T.FOREST,true));left.add_child(T.label("Café",82,T.FOREST,true))
+	left.add_child(T.label("A warm cup. A letter. A slower day.",15,T.FOREST))
+	var first:=button(left,"Begin your day   →",func():ui.exit_title_menu(false));first.primary=true;first.name="BeginDay";first.add_theme_font_size_override("font_size",19)
 	var settings:=button(left,"Settings",func():open_page("Settings"))
 	var leave:=button(left,"Leave the forest",func():ui.get_tree().quit())
 	for secondary in [settings,leave]:
+		secondary.flat_ink=true
 		secondary.alignment=HORIZONTAL_ALIGNMENT_LEFT;secondary.custom_minimum_size.y=34
 		for state in ["normal","hover","pressed","focus"]:
 			var ghost:=StyleBoxFlat.new();ghost.bg_color=Color(0,0,0,0);ghost.content_margin_left=8;ghost.content_margin_top=5;ghost.content_margin_bottom=5
 			if state=="focus" or state=="hover":ghost.border_color=T.CREAM;ghost.border_width_bottom=1
 			secondary.add_theme_stylebox_override(state,ghost)
-	var deck:=HBoxContainer.new();deck.name="PostcardCollection";deck.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT);deck.grow_horizontal=Control.GROW_DIRECTION_BEGIN;deck.grow_vertical=Control.GROW_DIRECTION_BEGIN;deck.offset_right=-34;deck.offset_bottom=-25;deck.add_theme_constant_override("separation",14);ui.title_screen.add_child(deck)
-	for e in [["Honey & letters","golden",16.7,"partly_cloudy"],["Rain at the window","rain",15.2,"heavy_rain"],["After the last cup","night",21.5,"clear"]]:
-		var card=Postcard.new();card.title=e[0];card.mood=e[1];card.selected=e[1]=="golden";deck.add_child(card);postcards.append(card)
-		var hour: float=e[2];var weather: String=e[3]
-		card.pressed.connect(func():
-			for other in postcards:other.selected=other==card
-			ui.apply_mood(hour,weather)
-		)
-	var signature:=T.label("FOREST POST  ·  LITTLE MOMENTS, DELIVERED",10,T.CREAM);signature.set_anchors_preset(Control.PRESET_BOTTOM_LEFT);signature.position=Vector2(62,-28);ui.title_screen.add_child(signature)
+	var signature:=T.label("FOREST POST  ·  LITTLE MOMENTS, DELIVERED",10,T.SAGE);signature.set_anchors_preset(Control.PRESET_BOTTOM_LEFT);signature.position=Vector2(62,-28);ui.title_screen.add_child(signature)
 func make_page(name: String,subtitle: String) -> VBoxContainer:
 	var center:=CenterContainer.new();center.name=name.replace(" ","");center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);center.hide();shade.add_child(center);pages[name]=center
 	var paper:=PanelContainer.new();paper.custom_minimum_size=Vector2(660,0);paper.add_theme_stylebox_override("panel",T.paper());center.add_child(paper)
@@ -70,7 +64,7 @@ func build_pause() -> void:
 	button(col,"Resume your day   →",func():ui.set_pause_menu(false))
 	button(col,"Settings",func():open_page("Settings"))
 	button(col,"Controls",func():open_page("Controls"))
-	button(col,"Atmosphere Studio",func():open_page("Atmosphere Studio"))
+	if ui.debug_tools:button(col,"Atmosphere Studio [test]",func():open_page("Atmosphere Studio"))
 	button(col,"Return to title",func():ui.set_pause_menu(false);ui.enter_title_menu(false))
 	button(col,"Quit game",func():ui.get_tree().quit())
 	shade=Control.new();shade.name="StorybookPages";shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);shade.hide();ui.root_ui.add_child(shade)
@@ -80,6 +74,7 @@ func build_pause() -> void:
 	controls.add_child(T.label("W A S D     Walk\nShift            Jog\nMouse wheel  Camera distance\nE                   Read / talk / interact\nEsc                Close / pause\nTab / arrows  Navigate menus\nEnter / Space Activate a focused button",17,T.FOREST))
 	button(controls,"Return   ←",back)
 func open_page(name: String) -> void:
+	if name=="Atmosphere Studio" and not ui.debug_tools:return
 	for p in pages.values():p.hide()
 	page_name=name;ui.root_ui.move_child(shade,-1);shade.show();pages[name].show()
 	if name=="Atmosphere Studio":

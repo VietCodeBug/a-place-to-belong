@@ -37,6 +37,7 @@ var pause_overlay: Control
 var pause_time_slider: HSlider
 var pause_time_readout: Label
 
+var debug_tools:=false
 var in_title_menu := false
 var mood_tween: Tween
 var storybook
@@ -51,6 +52,7 @@ var walk_timer := 0.0
 var current_grass_quality := "high"
 
 func _ready() -> void:
+	debug_tools=OS.get_cmdline_user_args().has("--atmosphere-debug")
 	var hub := get_parent()
 	camera = hub.get_node_or_null("GameplayCamera") as Camera3D
 	weather = hub.get_node_or_null("ForestWeather")
@@ -209,7 +211,7 @@ func build_letter_modal() -> void:
 	header_row.add_child(category_label)
 
 	heading = Label.new()
-	heading.add_theme_font_override("font",preload("res://assets/ui/fonts/StorySerif.ttf"))
+	heading.add_theme_font_override("font",preload("res://scripts/ui/storybook_theme.gd").HAND)
 	heading.add_theme_font_size_override("font_size", 27)
 	heading.add_theme_color_override("font_color", Color("2B241D"))
 	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -231,9 +233,7 @@ func build_letter_modal() -> void:
 	footer.alignment = BoxContainer.ALIGNMENT_END
 	column.add_child(footer)
 
-	close_button = make_cozy_button("Put Away  [Esc]", true)
-	close_button.pressed.connect(close)
-	footer.add_child(close_button)
+	close_button = storybook.button(footer,"Put away  [Esc]",close)
 
 	var stationery=preload("res://scripts/ui/letter_stationery.gd").new()
 	panel.add_child(stationery);panel.move_child(stationery,0)

@@ -5,8 +5,11 @@ const SAGE=Color("496B59")
 const CREAM=Color("F6E8D0")
 const OAK=Color("B88254")
 const CORAL=Color("C85E55")
-const SERIF=preload("res://assets/ui/fonts/StorySerif.ttf")
+const HAND_SOURCE=preload("res://assets/ui/fonts/Handwritten.ttf")
 const SANS=preload("res://assets/ui/fonts/ReadingSans.ttf")
+static var HAND: Font=handwriting()
+static func handwriting() -> Font:
+	var font:=FontVariation.new();font.base_font=HAND_SOURCE;font.fallbacks=[SANS];return font
 static func paper(bg: Color=CREAM) -> StyleBoxFlat:
 	var s:=StyleBoxFlat.new();s.bg_color=bg;s.border_color=Color("D5BC95");s.set_border_width_all(1);s.set_corner_radius_all(4)
 	s.content_margin_left=28;s.content_margin_right=28;s.content_margin_top=22;s.content_margin_bottom=22
@@ -36,5 +39,5 @@ static func theme() -> Theme:
 	return t
 static func label(text: String, size: int=16, color: Color=FOREST, serif: bool=false) -> Label:
 	var l:=Label.new();l.text=text;l.add_theme_font_size_override("font_size",size);l.add_theme_color_override("font_color",color)
-	if serif:l.add_theme_font_override("font",SERIF)
+	if serif:l.add_theme_font_override("font",HAND)
 	return l

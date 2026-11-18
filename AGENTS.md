@@ -104,3 +104,5 @@ Read docs/v11-atmosphere-habitats.md. Continue the user's 3351c01 V10 on current
 
 ## V12 Storybook UI identity supersedes menu-only tweaks
 Read docs/v12-ui-identity.md and docs/ui-design-system.md. Current pass rebuilds title/pause/settings/letter presentation, separates Atmosphere Studio, retains genuine interaction content and adds no fake Save/Quest. Shared theme and original drawn postal components live in scripts/ui. Preserve café, approved grass, world/weather simulation and gameplay. Run tests/v12_ui_test.gd plus regressions; capture tools/capture_v12_ui.gd at 720p and 1080p. Publish preview/ver-12-storybook-ui, preserve previous refs and do not merge.
+
+Latest V12 correction: weather is AUTOMATIC. Remove public weather/time pickers; Atmosphere Studio is test-only behind --atmosphere-debug. Official title is an illustrated pen/gouache postcard with Caveat handwriting and irregular ink buttons, not a scenic 3D menu or a data dashboard. Preserve the real 3D world. See rewritten docs/v12-ui-identity.md; earlier V12 postcard-picker screenshots are superseded.

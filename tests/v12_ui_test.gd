@@ -8,7 +8,8 @@ func run():
 	var hub=load("res://scenes/world/forest_hub.tscn").instantiate();root.add_child(hub)
 	for i in range(5):await process_frame
 	var ui=hub.ui;var book=ui.storybook
-	check(preload("res://assets/ui/fonts/ReadingSans.ttf").has_char("Đ".unicode_at(0)) and preload("res://assets/ui/fonts/StorySerif.ttf").has_char("ễ".unicode_at(0)),"bundled fonts contain Vietnamese glyphs")
+	var type=preload("res://scripts/ui/storybook_theme.gd")
+	check(type.SANS.has_char("Đ".unicode_at(0)) and type.SANS.has_char("ễ".unicode_at(0)) and type.HAND.fallbacks.has(type.SANS),"handwritten font has bundled Vietnamese fallback")
 	ui.enter_title_menu(true)
 	check(root.gui_get_focus_owner()==ui.title_screen.find_child("BeginDay",true,false),"title opens with Begin focus")
 	var tab:=InputEventKey.new();tab.keycode=KEY_TAB;tab.pressed=true;root.push_input(tab);await process_frame
@@ -17,9 +18,7 @@ func run():
 	accept.pressed=false;root.push_input(accept);await process_frame
 	check(book.shade.visible,"Enter activates focused Settings button")
 	book.back()
-	check(book.postcards.size()==3 and book.postcards[0].selected,"postcards have persistent initial selection")
-	book.postcards[1].pressed.emit()
-	check(book.postcards[1].selected and not book.postcards[0].selected,"selection moves to clicked postcard")
+	check(book.postcards.is_empty(),"official title contains no weather controls")
 	book.open_page("Settings");await process_frame
 	check(book.shade.visible and ui.root_ui.get_child(-1)==book.shade,"settings displayed above title and consumes input")
 	check(root.gui_get_focus_owner()!=null and book.pages["Settings"].is_ancestor_of(root.gui_get_focus_owner()),"settings receives keyboard focus")
@@ -29,6 +28,9 @@ func run():
 	check(ui.in_pause_menu and hub.player.blocked and not book.shade.visible,"pause opens essential actions and blocks movement")
 	check(not ui.pause_time_slider.is_visible_in_tree(),"time dial absent from ordinary pause menu")
 	book.open_page("Atmosphere Studio");await process_frame
+	check(not book.shade.visible,"official build cannot open weather debug page")
+	check(not "Atmosphere" in " ".join(ui.pause_overlay.find_children("*","Button",true,false).map(func(b):return b.text)),"official pause has no weather tools")
+	ui.debug_tools=true;book.open_page("Atmosphere Studio");await process_frame
 	check(ui.pause_time_slider.is_visible_in_tree(),"time/weather controls live in separate Studio")
 	ui.pause_time_slider.value=19.25
 	check(absf(hub.get_node("ForestWeather").hours-19.25)<.1,"Studio dial actually changes clock")

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dmtuh4e3rtqsm"
-path="res://.godot/imported/StorySerif.ttf-d2db805ed19382e4225b2d5f06ff8ac3.fontdata"
+uid="uid://bms5r4xorm2y0"
+path="res://.godot/imported/Handwritten.ttf-32a016e14e3712812afb4fec100c307a.fontdata"
 
 [deps]
 
-source_file="res://assets/ui/fonts/StorySerif.ttf"
-dest_files=["res://.godot/imported/StorySerif.ttf-d2db805ed19382e4225b2d5f06ff8ac3.fontdata"]
+source_file="res://assets/ui/fonts/Handwritten.ttf"
+dest_files=["res://.godot/imported/Handwritten.ttf-32a016e14e3712812afb4fec100c307a.fontdata"]
 
 [params]
 
