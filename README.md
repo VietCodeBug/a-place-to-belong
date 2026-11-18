@@ -1,129 +1,45 @@
-# Forest Post Café
+# A Place to Belong
 
-**Small letters. Long rides. A forest worth coming home to.**
+**A second life, somewhere between dreams and reality.**
 
-*A cozy, story-driven journey through a woodland community—one delivery and one cup of coffee at a time.*
+An open-world, slice-of-life game focused on healing and exploration, currently in early development. This is the new brand for the project previously called **Forest Post Café**.
 
-**Project status:** Early Development / Concept Stage · **Target:** Windows PC · **Genre:** Cozy Simulation / Exploration / Story-driven Adventure
+## Direction and narrative status
 
----
+The protagonist is an office worker laid off in the AI era. During a difficult period, they dream of a world provisionally called **XXX**, where they become **A** and begin a second life in a home in the forest.
 
-## A little place at the end of the trail
+The story is still being developed. XXX and A remain placeholders; this introduction does not establish additional lore, quests or story outcomes. The new direction describes the intended game, not a claim that an open world or complete narrative has already been implemented.
 
-You inherit an old woodland post office with a tiny café attached. Its windows still catch the morning light, but the routes have grown quiet, old friends have drifted apart, and there are letters that never reached their destination.
+The creator's narrative documents remain on the preserved [story/forest-post-cafe-narrative branch](https://github.com/VietCodeBug/a-place-to-belong/tree/story/forest-post-cafe-narrative/docs/story). This rename does not edit or replace them. Older concept/art documents retain their historical names and are not automatically the current narrative canon.
 
-Each day begins at your counter: brew something warm, sort the incoming post, and decide where to ride. Beyond your doorstep lie pine trails, lakeside homes, and stories that unfold in small conversations. A delivered letter might reconnect two neighbors. A repaired sign might bring a forgotten path back to life.
+## Current prototype
 
-**Forest Post Café** is being designed as a gentle game about the joy of showing up for others. There is no combat, no stressful countdown, and no harsh punishment for taking the scenic route.
+The playable work is on [feature/map01-lighting-presets / PR #10](https://github.com/VietCodeBug/a-place-to-belong/pull/10), which remains unmerged. The default branch still contains the earlier concept baseline until changes are reviewed.
 
-> Not every journey needs to be far away to change someone's world.
+- Godot **4.6.3**, GDScript, 3D, Compatibility renderer; target: Windows PC.
+- One existing 48 × 48 m forest hub with the café/post-office location, character movement, camera and reading/talking interactions.
+- Handwritten-style menus, circular postal HUD and letter presentation.
+- The current prototype does not yet implement a complete open world, delivery quest loop, inventory or save system.
 
-## The experience
+The café and postal assets remain part of the prototype. Renaming the game does not redesign the location or alter gameplay.
 
-| At the café | On the road | Around the forest |
-| :-- | :-- | :-- |
-| Prepare drinks and welcome visitors. | Plan a route and make bicycle deliveries. | Discover cabins, villages, and quiet places. |
-| Sort letters and packages. | Follow winding trails and find hidden corners. | Meet neighbors and hear their stories. |
-| Decorate your little home. | Collect postcards and small keepsakes. | Watch a community gradually come back to life. |
+## Run the development prototype
 
-*Everything in this table is a design intention, not an implemented feature.*
-
-## The rhythm of a day
-
-```text
-Open the café
-      ↓
-Receive and sort letters
-      ↓
-Prepare drinks, parcels, and a delivery route
-      ↓
-Ride your bicycle through the forest
-      ↓
-Deliver, meet neighbors, and uncover stories
-      ↓
-Help restore connections across the community
-      ↓
-Return to the café, unwind, and make it yours
+```bash
+git clone --branch feature/map01-lighting-presets https://github.com/VietCodeBug/a-place-to-belong.git
+cd a-place-to-belong
+godot --editor --path .
 ```
 
-Days should feel lived in, not optimized. The player can linger in a place, take a detour, and enjoy the weather without racing a clock.
+Install Godot 4.6.3 or use `tools/setup_godot.sh`. Press F6/F5 as appropriate in the editor, or run `godot --path .`. Controls: WASD move, Shift jog, mouse wheel camera distance, E interact, Esc menu/close. Weather test controls remain outside the normal menus (`--atmosphere-debug`).
 
-## Concept art — a world taking shape
+## Development references
 
-The art direction is established, but the six original concept images have **not yet been produced**. Rather than display placeholder or unrelated pictures, the gallery will be populated when approved in-game-style artwork exists.
+- [Prototype status and controls](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/phase-01.md)
+- [Circular postal UI report](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/circular-postal-ui.md)
+- [UI design system](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/ui-design-system.md)
+- [Versioned previews](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/previews.md)
+- [Rename record and preservation checks](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/docs/project-rename.md)
+- [Asset sources and licensing](https://github.com/VietCodeBug/a-place-to-belong/blob/feature/map01-lighting-presets/assets/vendor/kenney/README.md)
 
-| Planned scene | A glimpse of the mood |
-| :-- | :-- |
-| **[Forest Post Café — morning banner](docs/art-prompts.md#01-forest-post-cafe-bannerpng)** | Sunlit timber café, postbox, flowers, and a parked red bicycle. |
-| **[Café exterior](docs/art-prompts.md#02-forest-cafe-exteriorpng)** | Welcoming porch, outdoor tables, and woodland garden. |
-| **[Café interior](docs/art-prompts.md#03-forest-cafe-interiorpng)** | Coffee counter, letters, warm light, and a sleeping cat. |
-| **[Bicycle delivery](docs/art-prompts.md#04-bicycle-deliverypng)** | A quiet ride through angular pines and wildflower meadows. |
-| **[Lakeside Village](docs/art-prompts.md#05-lakeside-villagepng)** | Little cottages gathered around still water and mountain air. |
-| **[Forest evening](docs/art-prompts.md#06-forest-eveningpng)** | Rain, glowing windows, and the comfort of returning home. |
-
-All future artwork will live in `assets/concept-art/`. The [art direction guide](docs/art-direction.md) and [production-ready artwork briefs](docs/art-prompts.md) define the visual rules shared by every scene.
-
-## Planned features
-
-- **Gentle bicycle exploration** — scenic trails, destinations worth discovering, and no combat.
-- **Meaningful postal deliveries** — letters and parcels as a natural way into personal stories.
-- **A tiny café to call your own** — prepare drinks, care for the space, and customize its look.
-- **A forest of familiar faces** — friendships and episodic encounters with village residents.
-- **A living sense of progress** — visible environmental changes as the community reconnects.
-- **Collectible postcards** — memories of special places, moments, and conversations.
-- **Cozy ambience** — soft natural light, gentle weather, and unhurried transitions between day and evening.
-
-*These are planned ideas. Scope, mechanics, content, and release details may change during prototyping.*
-
-## Art direction
-
-**Classic Low Poly · Flat-Shaded Stylized 3D**
-
-The intended look is crafted from readable polygonal silhouettes: geometric fir trees, small timber cottages, rounded human proportions, matte materials, and a palette of mossy greens, honey-colored wood, terracotta, warm cream, and lakeside blue. Lighting is soft and atmospheric, never glossy or photorealistic.
-
-The same cottage architecture, bicycle, character proportions, and palette will carry across all locations and times of day.
-
-[Read the visual identity guide](docs/art-direction.md)
-
-## Places we hope you'll visit
-
-| Location | What makes it special |
-| :-- | :-- |
-| **Forest Café** | Your post office, coffee counter, and the heart of the journey. |
-| **Pine Trail** | The familiar route beneath the tall green canopy. |
-| **Lakeside Village** | Little homes and neighbors around a quiet lake. |
-| **Flower Hill** | Open skies, wildflowers, and room to slow down. |
-| **Old Postal Route** | A forgotten path with stories still waiting to be found. |
-
-These are proposed world regions, not playable areas yet.
-
-## Development roadmap
-
-| Phase | Focus | Status |
-| :-- | :-- | :-- |
-| 01 · Concept | Vision, world, visual identity, and documentation | **In progress** |
-| 02 · Gameplay prototype | Test the bicycle, mail, café, and day structure | Planned |
-| 03 · Vertical slice | One complete delivery journey with meaningful story progression | Planned |
-| 04 · Content production | Expand routes, locations, characters, and customization | Planned |
-| 05 · Testing & polish | Accessibility, balancing, performance, and atmosphere | Planned |
-| 06 · Release | Prepare a Windows PC release when the game is ready | Planned |
-
-No playable build, release date, or engine selection is announced.
-
-## Project notes
-
-This repository currently hosts the project's **concept and visual documentation only**. It is not yet a downloadable game. The intent is to give artists, designers, future contributors, and curious players a shared reference before implementation begins.
-
-- [Game concept and design pillars](docs/game-concept.md)
-- [Art direction and visual consistency rules](docs/art-direction.md)
-- [Six standalone concept-art briefs](docs/art-prompts.md)
-
-## A letter to the future
-
-We want Forest Post Café to be the sort of place you visit after a long day: somewhere the coffee is warm, the road is beautiful, and even the smallest kindness matters.
-
-The forest is waiting. We hope you'll enjoy finding your way through it.
-
----
-
-<sub>Forest Post Café — an indie game concept in early development. All gameplay descriptions are aspirational until implemented and validated.</sub>
+Only three branch heads remain: main, feature/map01-lighting-presets (development), and story/forest-post-cafe-narrative. Historical previews and retired branches are preserved as same-name tags; source assets and Git history remain intact. No existing PR is merged as part of this branding change. Linux cloud checks are not a Windows GPU benchmark.
