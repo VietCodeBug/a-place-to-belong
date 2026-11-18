@@ -9,6 +9,7 @@
 - Nhân vật chính là một nhân viên văn phòng trong thời đại AI, sống với áp lực công việc, làn sóng layoff, tín dụng, thuế, tiền thuê nhà và tương lai bất định.
 - Nhân vật bị layoff, mất cảm giác về định nghĩa cuộc sống, trải qua giai đoạn suy sụp, trầm cảm và cô đơn trong căn hộ thuê.
 - **Thứ tự mở đầu:** một phần giới thiệu ngắn cho thấy AI thay đổi xã hội, layoff và áp lực sống; sau đó mới đến ngày bình thường của nhân vật và email chấm dứt công việc.
+- **PRO-002 diễn ra tại văn phòng:** nhân vật nhận email sa thải tại bàn làm việc, không có màn kịch ồn ào. Cách dàn cảnh, lời thoại chưa chốt.
 - Trong lúc ngủ, nhân vật mơ thấy một thế giới tạm gọi **XXX**. Chuyện đời thực nằm ở **Prologue**; lần đầu thức dậy thành A là điểm vào **Chapter 01** (cách chia chương đề xuất).
 
 ### Bản chất thế giới XXX
