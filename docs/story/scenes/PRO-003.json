@@ -1,0 +1,162 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "PRO-003",
+  "status": "draft",
+  "title": "Những ngày không tên",
+  "chapter": "prologue",
+  "order": 3,
+  "kind": "hybrid_interactive_montage",
+  "setting": "rented_apartment",
+  "duration_target_sec": {
+    "min": 180,
+    "max": 360,
+    "approved": false
+  },
+  "entry": {
+    "previous_scene": "PRO-002",
+    "event": "previous_scene_complete",
+    "state_required": [
+      "pro002_completed"
+    ]
+  },
+  "exit": {
+    "next_scene": "PRO-004",
+    "set_flags": [
+      "pro003_completed"
+    ]
+  },
+  "approved_constraints": [
+    "layoff_happened_in_office_in_PRO-002",
+    "dream_has_not_started",
+    "apartment_setting"
+  ],
+  "proposed_direction": "three_short_interactive_apartment_moments_linked_by_time_montages",
+  "phases": [
+    {
+      "id": "PRO003-S01",
+      "title": "Buổi sáng đầu tiên",
+      "ambience": "morning_city_traffic",
+      "lighting": "muted_morning",
+      "alarm": "ringing",
+      "main_action": "stop_alarm",
+      "optional_interactions": [
+        "examine_work_clothes",
+        "look_at_calendar",
+        "check_phone"
+      ],
+      "advance_action": "continue_day",
+      "next_transition": "PRO003-M01"
+    },
+    {
+      "id": "PRO003-M01",
+      "type": "montage",
+      "visual": "sunlight_crosses_apartment_floor",
+      "next": "PRO003-S02"
+    },
+    {
+      "id": "PRO003-S02",
+      "title": "Những lần gửi đi",
+      "ambience": "daytime_room_tone",
+      "lighting": "day_to_afternoon",
+      "alarm": "scheduled",
+      "optional_interactions": [
+        "inspect_application",
+        "inspect_bills",
+        "close_laptop"
+      ],
+      "advance_action": "continue_day",
+      "next_transition": "PRO003-M02"
+    },
+    {
+      "id": "PRO003-M02",
+      "type": "montage",
+      "visual": "brief_repeated_light_changes_and_paper_accumulation",
+      "next": "PRO003-S03"
+    },
+    {
+      "id": "PRO003-S03",
+      "title": "Chiếc báo thức im lặng",
+      "ambience": "quiet_city_evening",
+      "lighting": "muted_evening",
+      "alarm": "disabled",
+      "optional_interactions": [
+        "inspect_alarm",
+        "inspect_unopened_laptop",
+        "look_out_window"
+      ],
+      "advance_action": "finish_day",
+      "next_scene": "PRO-004"
+    }
+  ],
+  "interaction_rules": {
+    "mandatory_for_progress": [
+      "stop_alarm",
+      "continue_day:S01",
+      "continue_day:S02",
+      "finish_day"
+    ],
+    "optional_never_blocks_progress": true,
+    "no_fail_states": true,
+    "no_mental_health_score": true
+  },
+  "persistent_flags": [
+    "pro003_phase",
+    "pro003_completed"
+  ],
+  "optional_observation_flags": [
+    "work_clothes_seen",
+    "calendar_seen",
+    "phone_seen",
+    "application_seen",
+    "bills_seen",
+    "laptop_seen",
+    "alarm_disabled_seen",
+    "window_seen"
+  ],
+  "environment_state": {
+    "alarm": {
+      "S01": "ringing",
+      "S02": "scheduled",
+      "S03": "disabled"
+    },
+    "calendar": {
+      "S01": "workday_marked",
+      "S02": "job_application_notes",
+      "S03": "blank_spaces"
+    },
+    "laptop": {
+      "S01": "work_documents",
+      "S02": "job_applications",
+      "S03": "asleep"
+    }
+  },
+  "localization_draft": {
+    "vi": {
+      "PRO003_THOUGHT_01": "Hôm nay... mình không cần vội.",
+      "PRO003_APPLICATION_REPLY": "Cảm ơn bạn đã ứng tuyển. Chúng tôi sẽ liên hệ nếu hồ sơ phù hợp.",
+      "PRO003_INTERACT_STOP_ALARM": "Tắt báo thức",
+      "PRO003_INTERACT_CONTINUE": "Để ngày trôi qua",
+      "PRO003_INTERACT_FINISH": "Ngồi xuống giường"
+    }
+  },
+  "voiceover": {
+    "enabled": "undecided",
+    "optional_keys": [
+      "PRO003_THOUGHT_01"
+    ]
+  },
+  "production": {
+    "recommended_implementation": "one_apartment_scene_three_phase_states_plus_2d_montages",
+    "godot_integration": "not_implemented",
+    "assets": "placeholder"
+  },
+  "unresolved": [
+    "exact_timeline",
+    "voiceover",
+    "apartment_art",
+    "weather",
+    "number_of_interactable_objects",
+    "skip_behaviour",
+    "pro004_transition"
+  ]
+}
