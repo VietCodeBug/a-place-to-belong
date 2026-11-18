@@ -9,11 +9,13 @@ Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải th�
 
 | ID | Cảnh | Diễn biến / trình bày đề xuất | Trải nghiệm | Trạng thái |
 |---|---|---|---|---|
-| PRO-001 | Thế giới tăng tốc | Montage ngắn: tin tức AI phát triển, tự động hóa ở văn phòng, thông báo cắt giảm nhân sự, cạnh tranh tuyển dụng; xen tin giá thuê nhà, khoản phải trả. Không dùng tên công ty/tin tức có thật khi chưa nghiên cứu. | Cinematic ngắn, âm thanh thông báo dày lên | draft |
+| [PRO-001](../scenes/PRO-001.md) | Thế giới tăng tốc | Montage ngắn: tin tức AI phát triển, tự động hóa ở văn phòng, thông báo cắt giảm nhân sự, cạnh tranh tuyển dụng; xen tin giá thuê nhà, khoản phải trả. Không dùng tên công ty/tin tức có thật khi chưa nghiên cứu. | Cinematic ngắn, âm thanh thông báo dày lên | draft |
 | PRO-002 | Một ngày bình thường | Chuyển từ tin tức sang màn hình làm việc của nhân vật. Nhịp sinh hoạt vốn quen thuộc. Email chấm dứt công việc đến, lạnh lùng và ngắn gọn; tránh diễn xuất ồn ào. | Người chơi quan sát/đọc email | draft |
 | PRO-003 | Những ngày không tên | Chuỗi thời gian trong căn hộ thuê: hồ sơ xin việc, hóa đơn, bữa ăn nguội, ngày và đêm lặp lại. Nhân vật dần mất phương hướng. | Tương tác đồ vật chọn lọc; không ép người chơi làm việc lặp lại | draft |
 | PRO-004 | Thiếp đi | Một đêm kiệt sức, nhân vật ngủ. Âm thanh thành phố và tiếng thông báo lùi dần vào im lặng. | Chuyển cảnh không giải thích quy luật giấc mơ | draft |
 | CH01-001 | Sáng ở nơi xa lạ | Nhân vật thức dậy là **A** trong căn nhà giữa rừng. Ký ức đời thực chỉ còn những mảnh cảm giác mơ hồ. Cho người chơi quan sát và bước ra ngoài; **không** mặc định A đã có bạn bè hay nghề nghiệp. | Trao quyền khám phá, mở Chapter 01 | draft |
+
+> Phân cảnh chi tiết cho **PRO-001** đã được viết ở [Markdown](../scenes/PRO-001.md) + [JSON](../scenes/PRO-001.json), **vẫn là DRAFT**.
 
 ## Lưu ý kể chuyện
 - **AI, layoff và áp lực kinh tế phải hiện rõ ngay ở PRO-001**; không mở ngay bằng email.
