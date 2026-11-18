@@ -16,6 +16,9 @@
 - **XXX chỉ là giấc mơ**; không chốt là thế giới song song tồn tại độc lập.
 - Khi tới XXX, nhân vật chính hóa thân thành **A**.
 - A có **một ngôi nhà trong rừng**.
+- **CH01-001 đã chọn:** ngôi nhà **cũ kỹ, có thể sống được nhưng cần chăm sóc và sửa sang**; **chưa rõ lý do** căn nhà trong tình trạng ấy. Cảm giác như nơi này **đang chờ ai đó quay lại** là tông cảm xúc, **không phải khẳng định một người cụ thể đang đợi**.
+- Với A, căn nhà **xa lạ nhưng có cảm giác quen mơ hồ**; chưa xác định A có quá khứ riêng ở đây hay không.
+- **Mục tiêu đầu tiên:** quan sát căn nhà rồi bước ra ngoài. Không bắt sửa nhà hay gặp NPC trước khi được ra sân.
 - Khi hóa thân thành A, **ký ức về đời thực mơ hồ**, chưa quên hoàn toàn và không nhớ rõ tất cả.
 - Hướng trải nghiệm được chọn: **Một cuộc đời thứ hai** — slice of life / healing / belonging, thế giới gần với đời thực nhưng không lấy năng suất làm thước đo trung tâm.
 - Mục tiêu cảm xúc: tìm lại cảm giác được sống và tìm nơi thuộc về; đây là hướng xây dựng, không phải kết thúc đã chốt.
