@@ -41,6 +41,8 @@
 - [dialogue/README.md](dialogue/README.md): quy ước phân biệt giới thiệu, hỏi tùy chọn, gợi hướng khám phá, lời gặp lại.
 - [production/intro-comic-v0.md](production/intro-comic-v0.md): kịch bản dựng thử mở đầu dạng truyện tranh, 14 mốc storyboard/handoff.
 - [production/intro-comic-v0.json](production/intro-comic-v0.json): 12 panel truyện tranh dạng dữ liệu, handoff sang gameplay (nháp).
+- [production/environment-scenes-v0.md](production/environment-scenes-v0.md): hồ sơ **bối cảnh không gian chi tiết** của văn phòng, căn hộ thuê, nhà A, khu rừng và bìa rừng Thomas, để người dựng 3D dựa vào.
+- [production/environment-scenes-v0.json](production/environment-scenes-v0.json): dữ liệu bối cảnh và quan hệ giữa các scene; chỉ là mô tả biên kịch, chưa tích hợp.
 
 ## Quy trình
 
