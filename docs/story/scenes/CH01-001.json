@@ -77,7 +77,8 @@
       "visual": "house_threshold_to_forest",
       "on_complete": [
         "ch01_first_exit_complete"
-      ]
+      ],
+      "next_scene": "CH01-002"
     }
   ],
   "objectives": [
@@ -108,11 +109,11 @@
       "set_flags": [
         "ch01_first_exit_complete"
       ],
-      "next_event": "forest_exploration_tbd"
+      "next_event": "CH01-002"
     }
   },
   "exit": {
-    "next_scene": null,
+    "next_scene": "CH01-002",
     "next_event": "forest_exploration_tbd",
     "set_flags": [
       "ch01_first_exit_complete"
