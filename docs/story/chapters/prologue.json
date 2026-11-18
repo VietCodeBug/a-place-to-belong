@@ -69,5 +69,11 @@
     "A_backstory",
     "NPC_relationships"
   ],
-  "engine_note": "Narrative outline; not wired to Godot."
+  "engine_note": "Narrative outline; not wired to Godot.",
+  "presentation_proposal": {
+    "format": "motion_comic_panels",
+    "storyboard_md": "../production/intro-comic-v0.md",
+    "storyboard_json": "../production/intro-comic-v0.json",
+    "runtime_status": "not_implemented"
+  }
 }
