@@ -17,6 +17,7 @@ func run():
 		if "--tabs-only" in OS.get_cmdline_user_args():hub.queue_free();await process_frame;quit();return
 		hub.ui.storybook.back();hub.ui.exit_title_menu(true);hub.ui.set_pause_menu(true)
 		hub.ui.storybook.open_page("Atmosphere Studio");await save("07-atmosphere-studio.png")
+		if "--menus-only" in OS.get_cmdline_user_args():hub.queue_free();await process_frame;quit();return
 		hub.ui.storybook.back();hub.ui.set_pause_menu(false)
 		hub.mailbox.interact();await save("09-envelope-opening.png");finish_reading_animation(hub.ui);await save("09-letter.png")
 		hub.ui.close();hub.get_node("Eggeght/EggeghtChat").interact();finish_reading_animation(hub.ui);await save("10-dialogue.png")
