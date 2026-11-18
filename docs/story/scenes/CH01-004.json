@@ -1,0 +1,158 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "CH01-004",
+  "status": "draft_pending_creator_review",
+  "title": "Chỗ nghỉ bên đường mòn",
+  "chapter": "chapter-01",
+  "order": 4,
+  "kind": "free_exploration_environmental_story",
+  "entry": {
+    "previous_scene": "CH01-003",
+    "event": "leave_Thomas_area_and_continue_trail",
+    "state_required": [
+      "ch01_first_exit_complete"
+    ],
+    "not_required": [
+      "thomas_met",
+      "thomas_intro_heard",
+      "thomas_guidance_heard"
+    ]
+  },
+  "characters_present": [
+    "A"
+  ],
+  "confirmed_continuity": [
+    "Thomas_is_chopping_wood_at_forest_edge_in_CH01-003",
+    "Thomas_encounter_and_dialogue_optional",
+    "A_house_remains_return_point",
+    "no_forced_quest_or_lore_dump",
+    "only_Thomas_name_confirmed"
+  ],
+  "draft_additions": [
+    "small_resting_spot_beside_path",
+    "old_wooden_bench_with_one_newer_plank",
+    "worn_ground_implying_regular_passage",
+    "trails_continues_beyond_without_named_destination"
+  ],
+  "beats": [
+    {
+      "id": "CH01004-B01",
+      "type": "environmental_story",
+      "content_vi": "A rời khoảng đất Thomas đang đốn củi; tiếng rìu nhỏ dần sau lưng. Nếu chưa nói chuyện với Thomas, không phát thoại."
+    },
+    {
+      "id": "CH01004-B02",
+      "type": "environmental_story",
+      "content_vi": "Đất trên lối mòn có những chỗ nén và dấu người thường qua. Không thêm câu chuyện về người đi qua."
+    },
+    {
+      "id": "CH01004-B03",
+      "type": "discovery",
+      "content_vi": "A nhận ra một khoảng nghỉ và ghế gỗ cũ có thanh ván mới hơn, như đã được ai đó chăm sóc.",
+      "set_flags": [
+        "ch01_rest_spot_discovered"
+      ]
+    },
+    {
+      "id": "CH01004-B04",
+      "type": "optional_interaction",
+      "content_vi": "Người chơi có thể xem ván ghế hoặc ngồi nghỉ, không bắt buộc.",
+      "interactions": [
+        "inspect_repaired_plank",
+        "sit_on_bench"
+      ]
+    },
+    {
+      "id": "CH01004-B05",
+      "type": "free_exploration",
+      "content_vi": "Lối mòn vẫn đi tiếp. Người chơi có thể tiến sâu hơn, quay lại Thomas hoặc về căn nhà. Không tạo objective mới."
+    }
+  ],
+  "optional_interactions": [
+    {
+      "id": "inspect_repaired_plank",
+      "type": "optional_observation",
+      "text_key": "CH01004-OBS-01",
+      "set_flags": [
+        "ch01_rest_spot_inspected"
+      ]
+    },
+    {
+      "id": "sit_on_bench",
+      "type": "optional_rest",
+      "text_key": "CH01004-THOUGHT-01",
+      "set_flags": [
+        "ch01_rest_spot_used"
+      ]
+    }
+  ],
+  "localization_draft": {
+    "vi": {
+      "CH01004-OBS-01": "Một thanh ván mới hơn những thanh còn lại. Có lẽ ai đó đã sửa chiếc ghế này.",
+      "CH01004-THOUGHT-01": "Ở đây cũng có người thường đi qua."
+    }
+  },
+  "dialogue_policy": {
+    "mandatory_lines": 0,
+    "npc_talk_on_entry": false,
+    "protagonist_internal_line_optional": true,
+    "lore_reveal": false
+  },
+  "flags": {
+    "discovery": "ch01_rest_spot_discovered",
+    "optional": [
+      "ch01_rest_spot_inspected",
+      "ch01_rest_spot_used"
+    ],
+    "require_to_advance": []
+  },
+  "branches": {
+    "return_home": {
+      "destination": "A_house",
+      "forced": false
+    },
+    "return_to_Thomas": {
+      "destination": "CH01-003_area",
+      "forced": false
+    },
+    "continue_trail": {
+      "destination": "CH01-005_TBD",
+      "forced": false
+    }
+  },
+  "exit": {
+    "next_scene": null,
+    "free_roam": true,
+    "mandatory_quest": false
+  },
+  "setting_draft": {
+    "id": "ENV-DREAM-04",
+    "relation_to_existing": "beyond_Thomas_chopping_spot_along_existing_faint_trail",
+    "details": [
+      "small_flat_ground_under_trees",
+      "weathered_bench_with_replaced_plank",
+      "worn_footpath_continuing_into_trees"
+    ],
+    "not_assumed": [
+      "owner_of_bench",
+      "repairer_identity",
+      "settlement",
+      "bridge",
+      "river",
+      "Thomas_home"
+    ]
+  },
+  "production": {
+    "narrative_only": true,
+    "engine_integration": "not_implemented",
+    "assets": "draft_not_approved",
+    "note": "Do not begin building novel details until the creator approves the draft."
+  },
+  "unresolved": [
+    "bench_approved_or_replaced_with_other_evidence",
+    "next_destination_after_rest_spot",
+    "A_first_house_care_action",
+    "visual_layout",
+    "who_uses_rest_spot"
+  ]
+}
