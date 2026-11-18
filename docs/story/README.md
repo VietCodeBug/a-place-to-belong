@@ -1,8 +1,8 @@
-# Không gian xây dựng cốt truyện — tên dự án đang xét lại
+# A Place to Belong — Không gian xây dựng cốt truyện
 
-> **Trạng thái:** đang đồng sáng tạo; chưa khóa kịch bản, tên game hay hệ thống nhiệm vụ.
+> **Trạng thái:** tên game đã chọn; cốt truyện, nhân vật, nhiệm vụ vẫn đang đồng sáng tạo.
 >
-> Repo game hiện dùng tên `Forest Post Café` để định vị mã nguồn. Đây **chưa phải tên chính thức** cho hướng truyện mới. Tên thế giới giấc mơ tạm gọi `XXX`.
+> **Game:** A Place to Belong · *A second life, somewhere between dreams and reality.* · Thế giới giấc mơ tạm gọi `XXX`.
 
 ## Nguyên tắc làm việc
 
@@ -19,6 +19,8 @@
 - [00-foundation.md](00-foundation.md): các dữ kiện đã cùng chọn và những điểm cố ý để mở.
 - [01-open-questions.md](01-open-questions.md): các câu hỏi thiết kế chưa chốt.
 - [02-idea-bank.md](02-idea-bank.md): phương án để trao đổi; **không phải canon**.
+- [chapters/prologue.md](chapters/prologue.md): bản nháp mở đầu cho người viết.
+- [chapters/prologue.json](chapters/prologue.json): cấu trúc phân cảnh trung tính, chưa có parser Godot.
 
 ## Quy trình
 
