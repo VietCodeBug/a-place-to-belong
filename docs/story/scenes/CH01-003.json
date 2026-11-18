@@ -1,0 +1,471 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "CH01-003",
+  "title": "Lối mòn và tiếng rìu",
+  "chapter": "chapter-01",
+  "order": 3,
+  "status": "scene_draft_dialogue_v1_accepted",
+  "setting": "forest_edge_faint_trail",
+  "entry": {
+    "previous_scene": "CH01-002",
+    "event": "player_follows_faint_trail",
+    "state_required": [
+      "ch01_first_exit_complete"
+    ]
+  },
+  "confirmed_constraints": [
+    "Thomas_is_first_NPC_encounter_in_Chapter_01",
+    "Thomas_male_named_Thomas_chopping_wood_at_forest_edge",
+    "A_discovers_Thomas_by_following_faint_trail",
+    "no_lore_dump_or_forced_chopping_quest",
+    "player_can_explore_and_leave_without_finishing_topics"
+  ],
+  "beats": [
+    {
+      "id": "CH01003-B01",
+      "type": "environmental_story",
+      "description_vi": "Dấu lối mòn và tiếng bổ củi dẫn A tới bìa rừng.",
+      "dialogue_group": null
+    },
+    {
+      "id": "CH01003-B02",
+      "type": "npc_daily_life",
+      "description_vi": "Thomas đang đốn củi, chỉ dừng khi A đến gần và muốn nói chuyện.",
+      "dialogue_group": null
+    },
+    {
+      "id": "CH01003-B03",
+      "type": "intro_dialogue",
+      "description_vi": "Người chơi chủ động bắt chuyện với Thomas.",
+      "dialogue_group": "THOMAS_INTRO"
+    },
+    {
+      "id": "CH01003-B04",
+      "type": "optional_dialogue",
+      "description_vi": "Người chơi có thể hỏi nhà / người sống quanh vùng.",
+      "dialogue_groups": [
+        "THOMAS_SMALL_TALK",
+        "THOMAS_ABOUT_HOUSE",
+        "THOMAS_ABOUT_PEOPLE"
+      ]
+    },
+    {
+      "id": "CH01003-B05",
+      "type": "player_guidance",
+      "description_vi": "Có thể hỏi Thomas về hướng đi; chỉ nhận gợi ý mềm.",
+      "dialogue_group": "THOMAS_DIRECTIONS"
+    },
+    {
+      "id": "CH01003-B06",
+      "type": "free_exploration",
+      "description_vi": "Tiếp tục theo đường hoặc quay lại nhà, không ép chọn.",
+      "dialogue_group": null
+    }
+  ],
+  "characters": [
+    "A",
+    "THOMAS"
+  ],
+  "transcript_v1": {
+    "status": "accepted_by_creator",
+    "language": "vi",
+    "speaker_ids_are_english": true,
+    "notes": "Original accepted dialogue preserved. A is placeholder. Split into optional topic groups for play.",
+    "lines": [
+      {
+        "id": "CH01003-L01",
+        "speaker": "THOMAS",
+        "text_vi": "Ồ...",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L02",
+        "speaker": "THOMAS",
+        "text_vi": "Có người từ căn nhà trên kia xuống à.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L03",
+        "speaker": "A",
+        "text_vi": "Xin lỗi... tôi không chắc mình đang ở đâu.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L04",
+        "speaker": "THOMAS",
+        "text_vi": "Nhìn là biết.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L05",
+        "speaker": "THOMAS",
+        "text_vi": "Cậu trông như người vừa thức dậy mà bị quăng thẳng vào rừng vậy.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L06",
+        "speaker": "A",
+        "text_vi": "... Có lẽ đúng là như thế.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L07",
+        "speaker": "THOMAS",
+        "text_vi": "Thomas.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L08",
+        "speaker": "THOMAS",
+        "text_vi": "Còn cậu?",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L09",
+        "speaker": "A",
+        "text_vi": "A...",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L10",
+        "speaker": "A",
+        "text_vi": "Ít nhất, tôi nghĩ vậy.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "intro"
+      },
+      {
+        "id": "CH01003-L11",
+        "speaker": "THOMAS",
+        "text_vi": "‘Ít nhất, tôi nghĩ vậy’ hả.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "optional_comment"
+      },
+      {
+        "id": "CH01003-L12",
+        "speaker": "THOMAS",
+        "text_vi": "Ừ, ở đây đôi khi người ta cũng phải mất một lúc mới nhớ ra vài thứ.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "optional_comment"
+      },
+      {
+        "id": "CH01003-L13",
+        "speaker": "A",
+        "text_vi": "Ông biết căn nhà đó sao?",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L14",
+        "speaker": "THOMAS",
+        "text_vi": "Biết.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L15",
+        "speaker": "THOMAS",
+        "text_vi": "Nó đã ở đó từ lâu rồi.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L16",
+        "speaker": "THOMAS",
+        "text_vi": "Lâu đủ để gỗ cũ đi, cỏ mọc cao lên, mà vẫn chưa chịu đổ.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L17",
+        "speaker": "A",
+        "text_vi": "Tôi cảm thấy... kỳ lạ.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L18",
+        "speaker": "A",
+        "text_vi": "Như thể nơi đó rất lạ, nhưng lại không hoàn toàn xa lạ.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L19",
+        "speaker": "THOMAS",
+        "text_vi": "Vậy thì chắc cậu nên ở lại thêm một chút.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L20",
+        "speaker": "THOMAS",
+        "text_vi": "Có những nơi phải sống cùng nó một thời gian, mới hiểu được mình đang cảm thấy gì.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "house_topic"
+      },
+      {
+        "id": "CH01003-L21",
+        "speaker": "A",
+        "text_vi": "Ở đây còn ai khác không?",
+        "status": "accepted_dialogue_v1",
+        "delivery": "people_topic"
+      },
+      {
+        "id": "CH01003-L22",
+        "speaker": "THOMAS",
+        "text_vi": "Có chứ.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "people_topic"
+      },
+      {
+        "id": "CH01003-L23",
+        "speaker": "THOMAS",
+        "text_vi": "Không đông, nhưng cũng chẳng ít đến mức chỉ còn mình tôi với đống củi này.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "people_topic"
+      },
+      {
+        "id": "CH01003-L24",
+        "speaker": "THOMAS",
+        "text_vi": "Nếu cậu định ở căn nhà đó, sớm muộn gì cậu cũng sẽ gặp mọi người thôi.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "people_topic"
+      },
+      {
+        "id": "CH01003-L25",
+        "speaker": "THOMAS",
+        "text_vi": "Nếu cậu đi tiếp con đường này, sẽ thấy thêm vài dấu hiệu của người sống.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "guidance_topic"
+      },
+      {
+        "id": "CH01003-L26",
+        "speaker": "THOMAS",
+        "text_vi": "Nhưng trước hết...",
+        "status": "accepted_dialogue_v1",
+        "delivery": "guidance_topic"
+      },
+      {
+        "id": "CH01003-L27",
+        "speaker": "STAGE",
+        "text_vi": "Thomas nhìn về phía căn nhà trên đồi.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "guidance_topic"
+      },
+      {
+        "id": "CH01003-L28",
+        "speaker": "THOMAS",
+        "text_vi": "Có lẽ cậu nên bắt đầu từ chỗ đó.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "guidance_topic"
+      },
+      {
+        "id": "CH01003-L29",
+        "speaker": "THOMAS",
+        "text_vi": "Dù sao, một mái nhà cũng nên được thắp sáng trước khi chủ của nó đi lang thang quá xa.",
+        "status": "accepted_dialogue_v1",
+        "delivery": "guidance_topic"
+      }
+    ]
+  },
+  "dialogue_groups": [
+    {
+      "id": "THOMAS_INTRO",
+      "type": "intro_dialogue",
+      "condition": {
+        "all": [
+          "not:thomas_intro_heard",
+          "player_initiated_talk"
+        ]
+      },
+      "once": true,
+      "lines": [
+        "CH01003-L01",
+        "CH01003-L02",
+        "CH01003-L03",
+        "CH01003-L04",
+        "CH01003-L05",
+        "CH01003-L06",
+        "CH01003-L07",
+        "CH01003-L08",
+        "CH01003-L09",
+        "CH01003-L10"
+      ],
+      "set_flags": [
+        "thomas_met",
+        "thomas_intro_heard"
+      ],
+      "can_exit": true
+    },
+    {
+      "id": "THOMAS_SMALL_TALK",
+      "type": "optional_dialogue",
+      "condition": {
+        "all": [
+          "thomas_intro_heard"
+        ]
+      },
+      "topic_choice": "thomas_small_talk",
+      "once": true,
+      "lines": [
+        "CH01003-L11",
+        "CH01003-L12"
+      ],
+      "set_flags": [
+        "thomas_small_talk_heard"
+      ],
+      "can_exit": true
+    },
+    {
+      "id": "THOMAS_ABOUT_HOUSE",
+      "type": "optional_dialogue",
+      "condition": {
+        "all": [
+          "thomas_intro_heard"
+        ]
+      },
+      "topic_choice": "ask_about_house",
+      "once": true,
+      "lines": [
+        "CH01003-L13",
+        "CH01003-L14",
+        "CH01003-L15",
+        "CH01003-L16",
+        "CH01003-L17",
+        "CH01003-L18",
+        "CH01003-L19",
+        "CH01003-L20"
+      ],
+      "set_flags": [
+        "thomas_house_topic_heard"
+      ],
+      "can_exit": true,
+      "claim_policy": "Thomas statement is not confirmed house history"
+    },
+    {
+      "id": "THOMAS_ABOUT_PEOPLE",
+      "type": "optional_dialogue",
+      "condition": {
+        "all": [
+          "thomas_intro_heard"
+        ]
+      },
+      "topic_choice": "ask_about_people",
+      "once": true,
+      "lines": [
+        "CH01003-L21",
+        "CH01003-L22",
+        "CH01003-L23",
+        "CH01003-L24"
+      ],
+      "set_flags": [
+        "thomas_people_topic_heard"
+      ],
+      "can_exit": true
+    },
+    {
+      "id": "THOMAS_DIRECTIONS",
+      "type": "player_guidance",
+      "condition": {
+        "all": [
+          "thomas_intro_heard"
+        ]
+      },
+      "topic_choice": "ask_for_direction",
+      "once": true,
+      "lines": [
+        "CH01003-L25",
+        "CH01003-L26",
+        "CH01003-L27",
+        "CH01003-L28",
+        "CH01003-L29"
+      ],
+      "set_flags": [
+        "thomas_guidance_heard"
+      ],
+      "guidance_only": true,
+      "creates_quest": false,
+      "can_exit": true
+    },
+    {
+      "id": "THOMAS_REPEAT",
+      "type": "ambient_repeat",
+      "status": "draft_no_approved_lines",
+      "condition": {
+        "all": [
+          "thomas_intro_heard",
+          "player_initiated_talk"
+        ]
+      },
+      "once": false,
+      "lines": [],
+      "can_exit": true,
+      "note": "Write new greeting with user approval; never replay first introduction"
+    }
+  ],
+  "player_topics_draft": [
+    {
+      "id": "ask_about_house",
+      "label_vi": "Hỏi về căn nhà",
+      "group_id": "THOMAS_ABOUT_HOUSE"
+    },
+    {
+      "id": "ask_about_people",
+      "label_vi": "Ở đây còn ai khác không?",
+      "group_id": "THOMAS_ABOUT_PEOPLE"
+    },
+    {
+      "id": "ask_for_direction",
+      "label_vi": "Hỏi đường",
+      "group_id": "THOMAS_DIRECTIONS"
+    },
+    {
+      "id": "leave_talk",
+      "label_vi": "Tạm biệt",
+      "group_id": null
+    }
+  ],
+  "flags": [
+    "thomas_met",
+    "thomas_intro_heard",
+    "thomas_small_talk_heard",
+    "thomas_house_topic_heard",
+    "thomas_people_topic_heard",
+    "thomas_guidance_heard"
+  ],
+  "exit": {
+    "free_roam": true,
+    "next_scene": null,
+    "possible_next_events": [
+      "follow_trail_further_tbd",
+      "return_home"
+    ],
+    "no_mandatory_quest": true
+  },
+  "character_profile": {
+    "id": "THOMAS",
+    "md": "../characters/thomas.md",
+    "json": "../characters/thomas.json"
+  },
+  "production": {
+    "engine_integration": "not_implemented",
+    "data_only": true,
+    "dialogue_contract": "../dialogue/README.md"
+  },
+  "unresolved": [
+    "Thomas_daily_schedule",
+    "Thomas_age_and_visual_identity",
+    "lore_review_for_THOMAS_small_talk",
+    "trail_destination",
+    "follow_up_scene"
+  ]
+}
