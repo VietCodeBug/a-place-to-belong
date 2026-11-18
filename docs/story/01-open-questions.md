@@ -2,10 +2,15 @@
 
 > Trạng thái mặc định của toàn bộ câu hỏi: **MỞ**. Không đưa câu trả lời tự suy ra vào canon.
 
+## Đã chọn cho CH01-001 (để không hỏi lại)
+- Nhà cũ kỹ, cần sửa sang, **lý do chưa rõ**.
+- A thấy nhà xa lạ nhưng quen mơ hồ.
+- Quan sát nhà rồi bước ra ngoài là mục tiêu đầu; không bắt sửa chữa.
+
 ## Tầng 1 — Nhân vật và giấc mơ
 1. Khi hóa thân thành A, nhân vật có nhớ mình là ai ở đời thực?
 2. A là một con người mới với ký ức trống, hay có sẵn quá khứ, mối quan hệ, thói quen và sự nghiệp?
-3. Ngôi nhà trong rừng thuộc về A từ trước, hay là nơi nhân vật vừa nhận được?
+3. **Chưa rõ nguồn gốc/người từng sống** ở căn nhà. Đã chốt nhà cũ, cần chăm sóc, lý do xuống cấp chưa rõ; cảm giác như đang chờ ai quay lại **chỉ là sắc thái**, không tự gán bí mật.
 4. Khi tỉnh giấc, nhân vật nhớ XXX đến mức nào? Có mong được ngủ để quay lại không?
 5. Giấc mơ có tiếp nối trạng thái từ đêm trước, hay có thay đổi kỳ lạ theo tâm trạng/tiến trình ở đời thực?
 
