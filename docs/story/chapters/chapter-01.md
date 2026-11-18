@@ -10,6 +10,7 @@
 | [CH01-001 — Buổi sáng ở ngôi nhà xa lạ](../scenes/CH01-001.md) ([JSON](../scenes/CH01-001.json)) | Nhận quyền điều khiển, cảm căn nhà cũ, tương tác tùy chọn rồi bước ra ngoài | `ch01_first_exit_complete`; mở CH01-002 | draft |
 | [CH01-002 — Bước ra ánh sáng](../scenes/CH01-002.md) ([JSON](../scenes/CH01-002.json)) | Thấy **rừng rộng, ngập nắng** trước; rồi khám phá quanh nhà và nhận ra **lối mòn mờ** gợi người từng đi qua | `ch01_outdoor_intro_complete`, mở hướng đi theo lối mòn | draft |
 | [CH01-003 — Lối mòn và tiếng rìu](../scenes/CH01-003.md) ([JSON](../scenes/CH01-003.json)) | A theo lối mòn và gặp **Thomas** đang đốn củi ở bìa rừng; lời chào ngắn và các chủ đề hỏi tùy chọn | `thomas_intro_heard` nếu trò chuyện; không ép quest, tự đi tiếp hoặc về nhà | Thoại v1 đã đồng ý; dàn cảnh draft |
+| [CH01-004 — Chỗ nghỉ bên đường mòn](../scenes/CH01-004.md) ([JSON](../scenes/CH01-004.json)) | Sau nơi Thomas đốn củi, A có thể tự phát hiện một chỗ nghỉ với chiếc ghế cũ được sửa một phần; không gặp thêm NPC, không nhận nhiệm vụ bắt buộc | Đi tiếp, quay lại Thomas hoặc trở về nhà; các quan sát là tùy chọn | **Đề xuất mới, chưa duyệt** |
 
 ## Ranh giới
 - **Không bắt dọn/sửa ngay trong scene đầu**. Gameplay chăm nhà sẽ được thiết kế sau, không khẳng định đã tồn tại.
@@ -23,8 +24,8 @@
 - Hoạt động sửa nhà chỉ được bàn/triển khai sau, không ép ở các scene này.
 
 ## Các vấn đề tiếp theo để cùng chốt
-1. Sau cuộc gặp Thomas, người chơi sẽ tìm thấy gì khi tiếp tục đi xa hơn? **Chưa chốt.**
-2. Thomas có tuyến sinh hoạt riêng và cách xây dựng mối quan hệ lâu dài như thế nào?
-3. Bao giờ mở cơ chế chăm nhà mà không biến game thành chuỗi công việc?
+1. **CH01-004 đang đề xuất** chỗ nghỉ bên đường với chiếc ghế cũ được sửa; người sáng tạo chưa duyệt. Giữ hay thay bằng dấu vết đời sống khác?
+2. Sau chỗ nghỉ người chơi sẽ **đi xa hơn** tới dấu vết cộng đồng hay **quay về nhà** tự chăm một góc nhỏ? Chưa bắt buộc chọn.
+3. Thomas có tuyến sinh hoạt riêng và cách xây dựng mối quan hệ lâu dài như thế nào? Khi nào mở chăm nhà mà không thành chuỗi việc?
 
 **Liên kết:** [Nền tảng đã thống nhất](../00-foundation.md) · [Prologue](prologue.md)
