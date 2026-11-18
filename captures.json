@@ -1,0 +1,185 @@
+{
+  "final_code": "b9d63d4929f8076e35398b647a49c04e6ad6d6f0",
+  "baseline": "bfae2f9d75386f0499808c184d614d97e924dd80",
+  "capture": "Godot 4.6.3, Compatibility, Linux Xorg Mesa llvmpipe",
+  "capture_note": "Actual V12 working-tree renders. Final code additionally includes bundled Vietnamese fallback in handwriting font and license/documentation cleanup; English screen layout is unchanged. Main background is an AI-generated pen/gouache-style UI illustration, not the playable 3D cafe.",
+  "weather": "Automatic in normal gameplay; frozen only for capture. No public time/weather controls. Debug tools require --atmosphere-debug.",
+  "images": [
+    {
+      "file": "after/720p/01-main-menu.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "0bb0b2b4c0d0b0a319a3a5006996e50a80948adc3666add05a7fd977956e6cca"
+    },
+    {
+      "file": "after/720p/02-main-focus-hover.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "0bb0b2b4c0d0b0a319a3a5006996e50a80948adc3666add05a7fd977956e6cca"
+    },
+    {
+      "file": "after/720p/03-settings-audio.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "872d478d61b0dde04ce93035c4f7b10ea725392d07c17a72bf3a407c29604b16"
+    },
+    {
+      "file": "after/720p/04-settings-graphics.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "203caec46d18cbfd6da4a6e37fdd5fc487ec612108d9dea35f5b5312e6cb3b07"
+    },
+    {
+      "file": "after/720p/05-accessibility.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "a07bceadb2db1081adffdbfebfd8dc7e2306573af2a9ae84d41fc375880769d7"
+    },
+    {
+      "file": "after/720p/06-pause.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "0102846e5f9529381946e12b3e05376a59d5b875c4833b86dbb5c5a9cb7db3a6"
+    },
+    {
+      "file": "after/720p/07-controls.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "d510a1234998e67d3bc964d67edd691bbe5c02376351eac67b248ef657d2410e"
+    },
+    {
+      "file": "after/720p/08-envelope-opening.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "dcec2991bc68a0a67798ca30e7f765cb3732e1f341b2f1bc03e1b7ae2cc49f87"
+    },
+    {
+      "file": "after/720p/09-letter.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "ff3b119fe978443fd70b21fedcf035497fdf5ee8644dc18d2eb13bb537583cfd"
+    },
+    {
+      "file": "after/720p/10-dialogue.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "5a007415a38d9ffda5f0f7c4e9dc8df38ac16239ce4cbcc18611012e1f753bbc"
+    },
+    {
+      "file": "after/720p/11-notification.png",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "7e3638b8a556113b9c5e97508ff30d672ec2ef6f80bb17d94ac67b35649d7562"
+    },
+    {
+      "file": "after/1080p/01-main-menu.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "2dd1ecb3e978e1c67c6f7e47822c76316c213e9f46bd75b96c48a280e95a7248"
+    },
+    {
+      "file": "after/1080p/02-main-focus-hover.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "2dd1ecb3e978e1c67c6f7e47822c76316c213e9f46bd75b96c48a280e95a7248"
+    },
+    {
+      "file": "after/1080p/03-settings-audio.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "d3ea82bc3de73f45adcd613320c8907363016902326ae90fb011ab8252acea30"
+    },
+    {
+      "file": "after/1080p/04-settings-graphics.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "56e64110ee740c482a4772bdb2ff47771e351c80d636dc6718e20b751fef5a38"
+    },
+    {
+      "file": "after/1080p/05-accessibility.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "a91c43a820e6e61ddb3ea13a76a48ab8e217cb66b3ac63b832c2bbad8ad28fba"
+    },
+    {
+      "file": "after/1080p/06-pause.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "2954e6c1c198a7f9019acd85c0fab88a387fec7fcb544643b3c39a82db8edb46"
+    },
+    {
+      "file": "after/1080p/07-controls.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "a94c7faf5ef756b57bfe0e64f0b9678783a9896d67c2e25e043f34aacd7a7e3b"
+    },
+    {
+      "file": "after/1080p/08-envelope-opening.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "673e01a344ccbeb9cd7c4365f36b12d5ed83e726b8c3455f4a27312ce113c61f"
+    },
+    {
+      "file": "after/1080p/09-letter.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "c45209f24f41aaae27494327bf9b1ac7b557a170614cea2ee493e4e89bcdc81b"
+    },
+    {
+      "file": "after/1080p/10-dialogue.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "b7f3bfa11e4732df3c6f53c5b238224ab1efa977edb8837b1ebdaaec29875342"
+    },
+    {
+      "file": "after/1080p/11-notification.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "sha256": "dc683ca37b8d66bb466fea193c543541edd6693dc5e597c4045e96e6c882ef99"
+    }
+  ]
+}

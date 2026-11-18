@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 21845, "grass_main": 1871, "grass_accent": 12, "flowers_white": 39, "flowers_purple": 11 } generation_ms=628
+Forest floor instances: { "grass_carpet": 21845, "grass_main": 1871, "grass_accent": 12, "flowers_white": 39, "flowers_purple": 11, "fern_rosette": 75, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=24 pebbles=12
+ERROR: Texture with GL ID of 42: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 43: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
