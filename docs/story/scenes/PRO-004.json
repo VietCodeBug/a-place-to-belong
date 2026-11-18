@@ -1,0 +1,141 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "PRO-004",
+  "status": "draft",
+  "title": "Giấc ngủ đầu tiên",
+  "chapter": "prologue",
+  "order": 4,
+  "kind": "cinematic",
+  "setting": "rented_apartment_night",
+  "duration_target_sec": {
+    "min": 35,
+    "max": 55,
+    "approved": false
+  },
+  "entry": {
+    "previous_scene": "PRO-003",
+    "event": "finish_day",
+    "state_required": [
+      "pro003_completed"
+    ]
+  },
+  "exit": {
+    "next_scene": "CH01-001",
+    "set_flags": [
+      "pro004_completed"
+    ],
+    "do_not_set": [
+      "A_backstory_known",
+      "dream_mechanics_known"
+    ]
+  },
+  "approved_constraints": [
+    "XXX_is_only_a_dream",
+    "A_has_fragmented_real_world_memories",
+    "no_magic_portal_or_supernatural_explanation_in_transition"
+  ],
+  "beats": [
+    {
+      "id": "PRO004-B01",
+      "window_sec": [
+        0,
+        10
+      ],
+      "visual": "protagonist_sits_on_bed_in_rented_apartment",
+      "audio_cues": [
+        "room_fan",
+        "distant_city"
+      ],
+      "camera": "static_room_view"
+    },
+    {
+      "id": "PRO004-B02",
+      "window_sec": [
+        10,
+        22
+      ],
+      "visual": "protagonist_lies_down_camera_fades_to_dark",
+      "audio_cues": [
+        "city_ambience_fade_out"
+      ],
+      "camera": "ceiling_or_window_view"
+    },
+    {
+      "id": "PRO004-B03",
+      "window_sec": [
+        22,
+        32
+      ],
+      "visual": "short_black_interval",
+      "audio_cues": [
+        "brief_quiet"
+      ],
+      "camera": "black"
+    },
+    {
+      "id": "PRO004-B04",
+      "window_sec": [
+        32,
+        48
+      ],
+      "visual": "mostly_dark_optional_soft_warm_light_no_forest_reveal",
+      "audio_cues": [
+        "single_distant_bird",
+        "light_wind",
+        "leaves"
+      ],
+      "camera": "no_location_reveal"
+    },
+    {
+      "id": "PRO004-B05",
+      "window_sec": [
+        48,
+        55
+      ],
+      "visual": "handoff_to_chapter01_waking_scene",
+      "audio_cues": [
+        "forest_ambience_continue"
+      ],
+      "camera": "chapter01_owns_reveal"
+    }
+  ],
+  "interactions": {
+    "entry_action": "PRO003-S03:finish_day",
+    "during_scene": "cinematic_input_locked",
+    "skip": {
+      "status": "proposal",
+      "next_scene": "CH01-001",
+      "set_flags": [
+        "pro004_completed"
+      ]
+    }
+  },
+  "audio": {
+    "world_audio_transition": "city_to_quiet_to_forest",
+    "avoid": [
+      "magic_whoosh",
+      "dramatic_heartbeat",
+      "horror_stinger"
+    ],
+    "carry_to_next_scene": [
+      "forest_ambience"
+    ]
+  },
+  "voiceover": {
+    "enabled": false,
+    "status": "proposed"
+  },
+  "production": {
+    "recommended_implementation": "single_2d_fade_overlay_with_ambient_crossfade",
+    "godot_integration": "not_implemented",
+    "assets": "placeholder",
+    "note": "Scene data is a writing specification, not executable Godot runtime code."
+  },
+  "unresolved": [
+    "night_and_weather",
+    "shot_design",
+    "light_reveal",
+    "skip_policy",
+    "exact_transition_duration"
+  ]
+}
