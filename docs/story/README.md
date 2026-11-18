@@ -21,7 +21,7 @@
 - [02-idea-bank.md](02-idea-bank.md): phương án để trao đổi; **không phải canon**.
 - [chapters/prologue.md](chapters/prologue.md): bản nháp mở đầu cho người viết.
 - [chapters/prologue.json](chapters/prologue.json): cấu trúc phân cảnh trung tính, chưa có parser Godot.
-- [chapters/chapter-01.md](chapters/chapter-01.md): nền tảng Chương 1 và các điều chưa chốt.
+- [chapters/chapter-01.md](chapters/chapter-01.md): nền tảng Chương 1, rừng ngập nắng và lối mòn tiếp theo.
 - [scenes/PRO-001.md](scenes/PRO-001.md): mở đầu thời AI, dựng cảnh và lời dẫn (nháp).
 - [scenes/PRO-001.json](scenes/PRO-001.json): nhịp hình/âm/chữ của PRO-001 (nháp, chưa tích hợp).
 - [scenes/PRO-002.md](scenes/PRO-002.md): ngày nhận email mất việc, tương tác và cảm xúc (nháp).
@@ -32,6 +32,10 @@
 - [scenes/PRO-004.json](scenes/PRO-004.json): dữ liệu chuyển cảnh PRO-004 (nháp, chưa tích hợp).
 - [scenes/CH01-001.md](scenes/CH01-001.md): A tỉnh dậy trong ngôi nhà cũ và bước ra ngoài (nháp).
 - [scenes/CH01-001.json](scenes/CH01-001.json): dữ liệu tương tác/cờ tiến trình cho CH01-001 (nháp, chưa tích hợp).
+- [scenes/CH01-002.md](scenes/CH01-002.md): từ hiên nhà thấy rừng ngập nắng, sau đó tìm thấy lối mòn mờ (nháp).
+- [scenes/CH01-002.json](scenes/CH01-002.json): dữ liệu cảnh CH01-002 (nháp, chưa tích hợp).
+- [production/intro-comic-v0.md](production/intro-comic-v0.md): kịch bản dựng thử mở đầu dạng truyện tranh, 14 mốc storyboard/handoff.
+- [production/intro-comic-v0.json](production/intro-comic-v0.json): 12 panel truyện tranh dạng dữ liệu, handoff sang gameplay (nháp).
 
 ## Quy trình
 
