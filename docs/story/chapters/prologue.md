@@ -13,7 +13,7 @@ Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải th�
 | [PRO-002](../scenes/PRO-002.md) | Một ngày bình thường | Chuyển từ tin tức sang bàn làm việc tại văn phòng. Nhịp sinh hoạt vẫn quen thuộc, đồng nghiệp vẫn làm việc. Email chấm dứt công việc đến, lạnh lùng và ngắn gọn; tránh diễn xuất ồn ào. | Người chơi quan sát/đọc email | draft |
 | [PRO-003](../scenes/PRO-003.md) | Những ngày không tên | Ba khoảnh khắc trong căn hộ thuê: báo thức đi làm còn reo; tìm việc giữa hóa đơn; cuối cùng báo thức không còn được bật. Nhân vật dần mất nhịp sống. | Tương tác khám phá căn hộ xen montage chuyển ngày; không phạt khi bỏ qua đồ vật | draft |
 | [PRO-004](../scenes/PRO-004.md) | Giấc ngủ đầu tiên | Sau những ngày mệt mỏi, nhân vật thiếp đi; âm thành phố tan dần, trước khi tiếng chim rừng xuất hiện qua màn tối. Không có hiệu ứng phép thuật. | Chuyển cảnh thiên về âm thanh; CH01-001 giữ phần tỉnh dậy và khám phá | draft |
-| CH01-001 | Sáng ở nơi xa lạ | Nhân vật thức dậy là **A** trong căn nhà giữa rừng. Ký ức đời thực chỉ còn những mảnh cảm giác mơ hồ. Cho người chơi quan sát và bước ra ngoài; **không** mặc định A đã có bạn bè hay nghề nghiệp. | Trao quyền khám phá, mở Chapter 01 | draft |
+| [CH01-001](../scenes/CH01-001.md) | Sáng ở nơi xa lạ | A tỉnh dậy trong căn nhà cũ cần chăm sóc. Nhà xa lạ nhưng quen mơ hồ; không rõ lý do tình trạng cũ kỹ. Được quan sát rồi bước ra ngoài, **không phải sửa ngay**. | Trao quyền khám phá, bắt đầu Chapter 01 | draft |
 
 > Phân cảnh chi tiết: **PRO-001** ([MD](../scenes/PRO-001.md) · [JSON](../scenes/PRO-001.json)), **PRO-002** ([MD](../scenes/PRO-002.md) · [JSON](../scenes/PRO-002.json)), **PRO-003** ([MD](../scenes/PRO-003.md) · [JSON](../scenes/PRO-003.json)), **PRO-004** ([MD](../scenes/PRO-004.md) · [JSON](../scenes/PRO-004.json)); tất cả **vẫn là DRAFT**.
 
@@ -29,5 +29,7 @@ Cho người chơi **cảm nhận** áp lực xã hội thay vì nghe giải th�
 - Thời gian chơi ở đời thực và khả năng bỏ qua cinematic.
 - Lý do A sở hữu ngôi nhà, việc NPC có nhận ra A hay không.
 - Cách tiếp nối mỗi giấc mơ và quan hệ với những ngày đời thực.
+
+**Chương tiếp theo:** [Chapter 01](chapter-01.md) · [CH01-001.md](../scenes/CH01-001.md) · [CH01-001.json](../scenes/CH01-001.json).
 
 **File dữ liệu:** [prologue.json](prologue.json). Đây là cấu trúc đề xuất để sau này chuyển sang Godot, **chưa phải dữ liệu runtime đã được hỗ trợ**.
