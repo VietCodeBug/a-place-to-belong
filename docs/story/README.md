@@ -36,6 +36,8 @@
 - [scenes/CH01-002.json](scenes/CH01-002.json): dữ liệu cảnh CH01-002 (nháp, chưa tích hợp).
 - [scenes/CH01-003.md](scenes/CH01-003.md): gặp Thomas đốn củi; giữ nguyên thoại v1, chia chủ đề tùy chọn.
 - [scenes/CH01-003.json](scenes/CH01-003.json): dữ liệu lời thoại, flag, hướng dẫn người chơi và tình huống gặp lại.
+- [scenes/CH01-004.md](scenes/CH01-004.md): **bản đề xuất chưa duyệt** về điểm nghỉ bên đường mòn sau Thomas; khám phá tự do, không ép quest.
+- [scenes/CH01-004.json](scenes/CH01-004.json): dữ liệu nhịp môi trường và tương tác tùy chọn của CH01-004, chưa triển khai.
 - [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
 - [characters/thomas.json](characters/thomas.json): nhận dạng/giới hạn thông tin Thomas dạng có cấu trúc.
 - [dialogue/README.md](dialogue/README.md): quy ước phân biệt giới thiệu, hỏi tùy chọn, gợi hướng khám phá, lời gặp lại.
