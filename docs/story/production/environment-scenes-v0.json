@@ -1,0 +1,284 @@
+{
+  "schema": "apb.story_environment.v0",
+  "status": "draft_layout_with_confirmed_story_anchors",
+  "title": "Bối cảnh đợt 1",
+  "language": "vi",
+  "scope": [
+    "PRO-001",
+    "PRO-002",
+    "PRO-003",
+    "PRO-004",
+    "CH01-001",
+    "CH01-002",
+    "CH01-003"
+  ],
+  "purpose": "narrative_environment_brief_for_separate_3d_artist_not_engine_or_asset_spec",
+  "characters": {
+    "confirmed_english_names": [
+      "Thomas"
+    ],
+    "temporary_ids": [
+      "A"
+    ],
+    "unresolved": [
+      "real_world_name",
+      "A_final_name"
+    ]
+  },
+  "locations": [
+    {
+      "id": "ENV-REAL-01",
+      "name_vi": "Văn phòng",
+      "scenes": [
+        "PRO-001",
+        "PRO-002"
+      ],
+      "confirmed": [
+        "termination_email_received_at_office_desk",
+        "other_workers_continue_normally",
+        "ai_layoffs_pressure_precede_email"
+      ],
+      "spatial_proposal": [
+        "entrance_and_common_aisle",
+        "multiple_work_desks_with_colleagues",
+        "protagonist_desk_among_other_desks",
+        "anonymous_city_windows"
+      ],
+      "key_story_props": [
+        "office_chair",
+        "work_computer_email_inbox",
+        "keyboard",
+        "mouse",
+        "unfinished_work",
+        "meeting_calendar",
+        "water_cup",
+        "neighboring_workstations"
+      ],
+      "story_states": [
+        {
+          "scene": "PRO-001",
+          "state": "news_and_office_glimpse_before_email"
+        },
+        {
+          "scene": "PRO-002",
+          "state": "same_office_email_arrives_and_is_read_at_desk"
+        },
+        {
+          "scene": "PRO-002",
+          "state": "after_email_others_keep_working_unaffected"
+        }
+      ],
+      "do_not_infer": [
+        "company_name",
+        "city",
+        "job_title",
+        "colleague_relationships",
+        "all_layoffs_caused_by_ai"
+      ]
+    },
+    {
+      "id": "ENV-REAL-02",
+      "name_vi": "Căn hộ thuê",
+      "scenes": [
+        "PRO-003",
+        "PRO-004"
+      ],
+      "confirmed": [
+        "rented_apartment",
+        "same_room_and_bed_through_PRO003_and_PRO004",
+        "alarm_changes_from_ringing_to_disabled",
+        "protagonist_goes_to_sleep_here"
+      ],
+      "spatial_proposal": [
+        "single_living_sleeping_room",
+        "bed_and_alarm_near_work_clothes",
+        "desk_with_laptop_and_papers",
+        "city_view_window_with_curtain",
+        "small_food_kitchen_corner",
+        "doorway"
+      ],
+      "key_story_props": [
+        "bed",
+        "alarm",
+        "work_clothes",
+        "laptop",
+        "calendar",
+        "bills",
+        "cup",
+        "simple_food",
+        "curtain",
+        "window"
+      ],
+      "story_states": [
+        {
+          "scene": "PRO-003",
+          "phase": "S01",
+          "alarm": "ringing",
+          "laptop": "old_work_documents",
+          "calendar": "workdays"
+        },
+        {
+          "scene": "PRO-003",
+          "phase": "S02",
+          "alarm": "scheduled",
+          "laptop": "job_applications",
+          "calendar": "application_notes"
+        },
+        {
+          "scene": "PRO-003",
+          "phase": "S03",
+          "alarm": "disabled",
+          "laptop": "sleeping",
+          "calendar": "blank_spaces"
+        },
+        {
+          "scene": "PRO-004",
+          "phase": "sleep",
+          "alarm": "silent",
+          "event": "city_sounds_fade_then_forest_sounds"
+        }
+      ],
+      "do_not_infer": [
+        "exact_unemployment_length",
+        "city_name",
+        "clinical_diagnosis_from_clutter",
+        "new_job_offer",
+        "magic_portal"
+      ]
+    },
+    {
+      "id": "ENV-DREAM-01",
+      "name_vi": "Nội thất căn nhà A",
+      "scenes": [
+        "CH01-001"
+      ],
+      "confirmed": [
+        "old_livable_house_needs_care",
+        "cause_of_neglect_unknown",
+        "A_feels_vaguely_familiar",
+        "observe_house_then_exit",
+        "no_mandatory_repair"
+      ],
+      "spatial_proposal": [
+        "sleeping_spot_under_old_wooden_ceiling",
+        "small_table_or_shelf",
+        "window_with_partial_tree_view",
+        "walkable_front_door",
+        "simple_worn_floor"
+      ],
+      "key_story_props": [
+        "bed",
+        "aged_wooden_ceiling",
+        "worn_floor",
+        "table",
+        "chair",
+        "window",
+        "front_door"
+      ],
+      "story_states": [
+        {
+          "scene": "CH01-001",
+          "event": "wake_up_look_around_then_open_front_door"
+        }
+      ],
+      "do_not_infer": [
+        "previous_owners",
+        "inheritance",
+        "magic",
+        "family_photo",
+        "sealed_letter",
+        "house_history_as_fact"
+      ]
+    },
+    {
+      "id": "ENV-DREAM-02",
+      "name_vi": "Rừng ngập nắng và lối mòn",
+      "scenes": [
+        "CH01-002"
+      ],
+      "confirmed": [
+        "first_view_wide_bright_living_forest",
+        "faint_trail_discovered_after_forest_impression",
+        "house_remains_return_point"
+      ],
+      "spatial_proposal": [
+        "door_and_porch_behind_player",
+        "small_foreground_clearing",
+        "layered_sunlit_forest_depth",
+        "optional_nearby_viewpoint",
+        "subtle_trail_at_edge_of_view"
+      ],
+      "key_story_props": [
+        "porch",
+        "trees",
+        "natural_grass",
+        "sunlit_opening",
+        "subtle_dirt_trail"
+      ],
+      "story_states": [
+        {
+          "scene": "CH01-002",
+          "event": "first_forest_reveal_then_discover_faint_trail"
+        }
+      ],
+      "do_not_infer": [
+        "creek",
+        "waterfall",
+        "village_in_first_view",
+        "trail_signboard",
+        "distant_quest_markers"
+      ]
+    },
+    {
+      "id": "ENV-DREAM-03",
+      "name_vi": "Bìa rừng Thomas đang đốn củi",
+      "scenes": [
+        "CH01-003"
+      ],
+      "confirmed": [
+        "Thomas_named_male_first_NPC",
+        "chopping_wood_at_forest_edge",
+        "encounter_after_following_faint_trail",
+        "dialogue_optional_topics_not_lore_dump"
+      ],
+      "spatial_proposal": [
+        "trail_leads_to_small_edge_clearing",
+        "audible_wood_chopping_before_Thomas_visible",
+        "stump_or_chopping_block",
+        "small_stack_of_split_wood",
+        "open_route_back_home_or_further"
+      ],
+      "key_story_props": [
+        "axe",
+        "chopping_block",
+        "wood_logs",
+        "foot_worn_ground"
+      ],
+      "story_states": [
+        {
+          "scene": "CH01-003",
+          "event": "Thomas_continues_chopping_until_player_initiates_talk"
+        }
+      ],
+      "do_not_infer": [
+        "Thomas_permanent_occupation",
+        "Thomas_house_location",
+        "quests_to_collect_wood",
+        "Thomas_knows_A_past"
+      ]
+    }
+  ],
+  "continuity_rules": [
+    "office_email_never_received_at_home",
+    "PRO003_and_PRO004_use_same_apartment",
+    "real_apartment_and_dream_house_distinct",
+    "first_full_forest_reveal_after_CH01001_front_door",
+    "faint_trail_after_initial_sunlit_forest_reveal",
+    "Thomas_encounter_at_forest_edge_not_at_house",
+    "no_extra_NPC_or_locations_as_canon",
+    "dimensions_and_architecture_all_pending_creator_review"
+  ],
+  "layout_approval": "pending",
+  "runtime_integration": "not_implemented",
+  "notes": "Descriptive narrative spaces to guide separate artist/3D production; not technical modeling instructions."
+}
