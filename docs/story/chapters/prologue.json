@@ -14,7 +14,10 @@
       "mode": "cinematic",
       "setting": "real_world_montage",
       "beat": "ai_disruption_layoffs_living_costs",
-      "next": "PRO-002"
+      "next": "PRO-002",
+      "detail_md": "../scenes/PRO-001.md",
+      "detail_json": "../scenes/PRO-001.json",
+      "status": "draft"
     },
     {
       "id": "PRO-002",
