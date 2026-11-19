@@ -25,6 +25,10 @@
 
 **Hướng đã thống nhất:** đây là **game thế giới mở**, không phải chuỗi phim ngắn. Scene ID ở đây là **gói nội dung có thể gặp**, không phải điều kiện hoàn thành theo thứ tự. Khi đến khu dân cư, các hoạt động và hội thoại độc lập mở theo tình huống, mối quan hệ và việc người chơi chủ động làm. [Quy ước thế giới mở](../production/open-world-narrative-v0.md).
 
+## Hoạt động tự do mở rộng từ Làng A
+
+Đã chốt **hướng gameplay**: (1) vận chuyển hàng phải đi **sang làng khác**, không chỉ chuyển quanh Làng A; Ada/Hugo là phân vai dự kiến trong roster. (2) thêm **săn bắn tùy chọn** ở khu rừng, có lựa chọn theo dấu/quan sát và săn theo quy tắc sinh thái cần chốt. Hai hướng **không khóa nhau**, không bắt người chơi phải săn mới giao hàng hoặc nhận việc mới được đến làng khác. Chưa đặt tên làng đích hay loài vật. [Delivery](../activities/inter-village-delivery-v0.md) · [Hunting](../activities/hunting-v0.md).
+
 ## Ranh giới
 - **Không bắt dọn/sửa ngay trong scene đầu**. Gameplay chăm nhà sẽ được thiết kế sau, không khẳng định đã tồn tại.
 - Ngôi nhà **không đổ nát, không ma ám**; cảm giác "chờ ai" là tông cảm xúc, chưa là sự thật lore.
