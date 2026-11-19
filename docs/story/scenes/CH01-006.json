@@ -200,7 +200,7 @@
   },
   "production": {
     "content_only": true,
-    "does_not_authorize_3d_build": false,
+    "does_not_authorize_3d_build": true,
     "engine_integration": "not_implemented",
     "requires_creator_review": true
   },
