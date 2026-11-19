@@ -1,0 +1,247 @@
+{
+  "schema": "apb.npc_ambient_talk.v0",
+  "village_id": "VILLAGE_A",
+  "status": "draft_pending_approval",
+  "conversations": [
+    {
+      "id": "VLA-OVH-01",
+      "actors": [
+        "VLA-01",
+        "VLA-04"
+      ],
+      "context_vi": "Góc vườn, Hazel nhắc đến bình tưới có quai hơi lỏng; Owen đang bận sửa đồ. Chỉ là lời trao đổi đời thường, không giao nhiệm vụ cho A.",
+      "lines": [
+        {
+          "id": "VLA-OVH-01-L01",
+          "speaker_id": "VLA-01",
+          "text_vi": "Cái quai bình tưới cứ kêu cót két mãi.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-01-L02",
+          "speaker_id": "VLA-04",
+          "text_vi": "Đặt nó sang bên khi nào rảnh tôi xem. Đừng cố giật mạnh.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-01-L03",
+          "speaker_id": "VLA-01",
+          "text_vi": "Ừ. Tôi còn phải xem luống cây trước đã.",
+          "status": "draft"
+        }
+      ],
+      "type": "npc_to_npc_ambient",
+      "status": "draft_not_approved",
+      "conditions": [
+        "both_npcs_present",
+        "not_in_player_dialogue",
+        "ambient_slot_available"
+      ],
+      "player_required": false,
+      "interrupt_player": false,
+      "quest_created": false,
+      "can_play_with_player_absent": true,
+      "play_policy": "low_frequency_non_repeating_in_same_visit"
+    },
+    {
+      "id": "VLA-OVH-02",
+      "actors": [
+        "VLA-06",
+        "VLA-23"
+      ],
+      "context_vi": "Góc chuẩn bị bữa chung, Clara cầu toàn còn Grace thực tế. Không xác nhận họ sống cùng nhà.",
+      "lines": [
+        {
+          "id": "VLA-OVH-02-L01",
+          "speaker_id": "VLA-06",
+          "text_vi": "Tôi cứ thấy cái đĩa này chưa vừa mắt.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-02-L02",
+          "speaker_id": "VLA-23",
+          "text_vi": "Món ăn vẫn còn nóng là tốt rồi. Mang ra trước đi.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-02-L03",
+          "speaker_id": "VLA-06",
+          "text_vi": "Được. Lần này tôi nghe bà.",
+          "status": "draft"
+        }
+      ],
+      "type": "npc_to_npc_ambient",
+      "status": "draft_not_approved",
+      "conditions": [
+        "both_npcs_present",
+        "not_in_player_dialogue",
+        "ambient_slot_available"
+      ],
+      "player_required": false,
+      "interrupt_player": false,
+      "quest_created": false,
+      "can_play_with_player_absent": true,
+      "play_policy": "low_frequency_non_repeating_in_same_visit"
+    },
+    {
+      "id": "VLA-OVH-03",
+      "actors": [
+        "VLA-09",
+        "VLA-26"
+      ],
+      "context_vi": "Hai người xem một đoạn đường chung. Rowan muốn giữ hoa; Theo quan tâm lối đi an toàn.",
+      "lines": [
+        {
+          "id": "VLA-OVH-03-L01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Đoạn này hơi hẹp nếu hai người tránh nhau.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-03-L02",
+          "speaker_id": "VLA-09",
+          "text_vi": "Ta có thể dọn nhánh khô phía kia. Không cần nhổ bụi hoa.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-03-L03",
+          "speaker_id": "VLA-26",
+          "text_vi": "Ừ. Đường đủ đi là được.",
+          "status": "draft"
+        }
+      ],
+      "type": "npc_to_npc_ambient",
+      "status": "draft_not_approved",
+      "conditions": [
+        "both_npcs_present",
+        "not_in_player_dialogue",
+        "ambient_slot_available"
+      ],
+      "player_required": false,
+      "interrupt_player": false,
+      "quest_created": false,
+      "can_play_with_player_absent": true,
+      "play_policy": "low_frequency_non_repeating_in_same_visit"
+    },
+    {
+      "id": "VLA-OVH-04",
+      "actors": [
+        "VLA-13",
+        "VLA-21"
+      ],
+      "context_vi": "Maeve xem một đường chỉ, Nia xem quai giỏ. Hai người trao đổi kinh nghiệm, không xác nhận quan hệ thân tộc.",
+      "lines": [
+        {
+          "id": "VLA-OVH-04-L01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Đẹp đấy, nhưng đường nối đó có chịu được lúc mang nặng không?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-04-L02",
+          "speaker_id": "VLA-13",
+          "text_vi": "Nếu thêm một mũi chỉ ở đây thì được.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-04-L03",
+          "speaker_id": "VLA-21",
+          "text_vi": "Thế thì tôi thử với chiếc quai này.",
+          "status": "draft"
+        }
+      ],
+      "type": "npc_to_npc_ambient",
+      "status": "draft_not_approved",
+      "conditions": [
+        "both_npcs_present",
+        "not_in_player_dialogue",
+        "ambient_slot_available"
+      ],
+      "player_required": false,
+      "interrupt_player": false,
+      "quest_created": false,
+      "can_play_with_player_absent": true,
+      "play_policy": "low_frequency_non_repeating_in_same_visit"
+    },
+    {
+      "id": "VLA-OVH-05",
+      "actors": [
+        "VLA-18",
+        "VLA-19"
+      ],
+      "context_vi": "Ada và Hugo kiểm kiện chuẩn bị chuyến đường xa. Không nêu làng đích hoặc người nhận khi chưa được thiết kế.",
+      "lines": [
+        {
+          "id": "VLA-OVH-05-L01",
+          "speaker_id": "VLA-18",
+          "text_vi": "Kiện này đã buộc chắc chưa?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-05-L02",
+          "speaker_id": "VLA-19",
+          "text_vi": "Chắc hơn lúc cậu mới mang tới. Nhưng nhớ đừng nhét thêm đồ lên trên.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-05-L03",
+          "speaker_id": "VLA-18",
+          "text_vi": "Thế tôi đi kiểm lại danh sách vậy.",
+          "status": "draft"
+        }
+      ],
+      "type": "npc_to_npc_ambient",
+      "status": "draft_not_approved",
+      "conditions": [
+        "both_npcs_present",
+        "not_in_player_dialogue",
+        "ambient_slot_available"
+      ],
+      "player_required": false,
+      "interrupt_player": false,
+      "quest_created": false,
+      "can_play_with_player_absent": true,
+      "play_policy": "low_frequency_non_repeating_in_same_visit"
+    },
+    {
+      "id": "VLA-OVH-06",
+      "actors": [
+        "VLA-15",
+        "VLA-03"
+      ],
+      "context_vi": "Evelyn dạy Finn xem nhãn hũ giống, không có bí mật cổ xưa hoặc người thân được tự xác nhận.",
+      "lines": [
+        {
+          "id": "VLA-OVH-06-L01",
+          "speaker_id": "VLA-03",
+          "text_vi": "Sao hũ này nhìn giống hũ kia thế?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-06-L02",
+          "speaker_id": "VLA-15",
+          "text_vi": "Vì vậy mới phải đọc nhãn trước khi mở.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA-OVH-06-L03",
+          "speaker_id": "VLA-03",
+          "text_vi": "À... thế mà cháu suýt đoán bừa.",
+          "status": "draft"
+        }
+      ],
+      "type": "npc_to_npc_ambient",
+      "status": "draft_not_approved",
+      "conditions": [
+        "both_npcs_present",
+        "not_in_player_dialogue",
+        "ambient_slot_available"
+      ],
+      "player_required": false,
+      "interrupt_player": false,
+      "quest_created": false,
+      "can_play_with_player_absent": true,
+      "play_policy": "low_frequency_non_repeating_in_same_visit"
+    }
+  ]
+}
