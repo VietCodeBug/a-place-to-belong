@@ -1,0 +1,420 @@
+{
+  "schema": "apb.open_world_area.v0",
+  "id": "CH01-007",
+  "title": "Một ngày ở khu dân cư",
+  "status": "draft_pending_creator_review",
+  "area_id": "FOREST_EDGE_HAMLET_DRAFT",
+  "continuity": [
+    "CH01-006_proposed_community_reveal",
+    "Thomas_first_npc_in_intro",
+    "A_is_placeholder"
+  ],
+  "new_characters_draft": [
+    {
+      "id": "GARDENER_01",
+      "name_en": null,
+      "identity_status": "unapproved",
+      "activity": "tending_seedlings",
+      "role_only": true
+    },
+    {
+      "id": "REPAIRER_01",
+      "name_en": null,
+      "identity_status": "unapproved",
+      "activity": "fixing_loose_wooden_latch",
+      "role_only": true
+    }
+  ],
+  "entry": {
+    "trigger": "player_walks_into_community_from_trail",
+    "require": [
+      "ch01_first_exit_complete"
+    ],
+    "not_required": [
+      "thomas_met",
+      "thomas_intro_heard",
+      "ch01_rest_spot_discovered",
+      "ch01_first_care_action_done"
+    ]
+  },
+  "open_world": {
+    "free_roam": true,
+    "mandatory_talks": 0,
+    "mandatory_quests": 0,
+    "activity_order": "unrestricted",
+    "can_leave_at_any_time": true,
+    "reentry_replays_intro": false,
+    "does_not_settle_world_name": true
+  },
+  "activities": [
+    {
+      "id": "HUB07_TALK_GARDENER",
+      "type": "social_talk",
+      "starts_on": "player_initiated",
+      "npc": "GARDENER_01",
+      "actions": [
+        "intro_once",
+        "choose_topic_about_area",
+        "choose_topic_about_garden",
+        "leave"
+      ],
+      "outcomes": {
+        "set_flags": [
+          "gardener_met"
+        ],
+        "automatic_quest": false
+      }
+    },
+    {
+      "id": "HUB07_WATER_GARDEN",
+      "type": "shared_activity",
+      "starts_on": "player_offers_help",
+      "npc": "GARDENER_01",
+      "requires": [
+        "gardener_met"
+      ],
+      "actions": [
+        "accept_optional_help",
+        "take_watering_can",
+        "water_two_draft_patches",
+        "return_watering_can"
+      ],
+      "decline_allowed": true,
+      "abort_allowed": true,
+      "on_completed": {
+        "set_flags": [
+          "gardener_helped"
+        ],
+        "environment_state": "garden_edge_watered",
+        "relationship_memory": "gardener_remembers_help"
+      },
+      "on_declined": {
+        "set_flags": [],
+        "npc_continues_work": true
+      },
+      "repeat_policy": "no_infinite_reward"
+    },
+    {
+      "id": "HUB07_REPAIR_LATCH",
+      "type": "shared_activity",
+      "starts_on": "player_offers_help",
+      "npc": "REPAIRER_01",
+      "requires": [],
+      "actions": [
+        "talk_optional",
+        "offer_to_hold_latch",
+        "hold_wooden_piece",
+        "npc_adjusts_and_tests"
+      ],
+      "decline_allowed": true,
+      "abort_allowed": true,
+      "on_completed": {
+        "set_flags": [
+          "repairer_met",
+          "repairer_helped"
+        ],
+        "environment_state": "wooden_latch_fixed",
+        "relationship_memory": "repairer_remembers_help"
+      },
+      "on_declined": {
+        "set_flags": [],
+        "npc_continues_work": true
+      },
+      "repeat_policy": "no_infinite_reward"
+    },
+    {
+      "id": "HUB07_EXPLORE",
+      "type": "free_exploration",
+      "starts_on": "player_movement",
+      "actions": [
+        "inspect_public_space",
+        "approach_garden",
+        "approach_workbench",
+        "leave_to_trail"
+      ],
+      "outcomes": {
+        "automatic_quest": false
+      }
+    }
+  ],
+  "dialogue_lines": [
+    {
+      "id": "CH01007-G01",
+      "speaker": "GARDENER_01",
+      "text_vi": "Ồ, khách mới à? Tôi không nhận ra cậu.",
+      "type": "intro",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G02",
+      "speaker": "A",
+      "text_vi": "Tôi đi theo lối mòn từ phía rừng.",
+      "type": "intro",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G03",
+      "speaker": "GARDENER_01",
+      "text_vi": "Cứ nhìn quanh thoải mái. Chỉ cẩn thận mấy luống cây mới lên thôi.",
+      "type": "intro",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G04",
+      "speaker": "A",
+      "text_vi": "Ở đây mọi người sống gần nhau à?",
+      "type": "ask_area",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G05",
+      "speaker": "GARDENER_01",
+      "text_vi": "Ừ. Không phải lúc nào cũng rảnh để trò chuyện đâu, nhưng cần thì cứ lên tiếng.",
+      "type": "ask_area",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G06",
+      "speaker": "A",
+      "text_vi": "Cây mới trồng à?",
+      "type": "ask_activity",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G07",
+      "speaker": "GARDENER_01",
+      "text_vi": "Đúng. Đang xem chỗ nào cần thêm nước.",
+      "type": "ask_activity",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G08",
+      "speaker": "A",
+      "text_vi": "Tôi giúp được gì không?",
+      "type": "offer_help",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G09",
+      "speaker": "GARDENER_01",
+      "text_vi": "Nếu muốn thì cậu tưới giúp mấy luống ở mép này. Đừng tưới ngập quá là được.",
+      "type": "offer_help",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G10",
+      "speaker": "GARDENER_01",
+      "text_vi": "Được đấy. Cảm ơn cậu.",
+      "type": "help_completed",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G11",
+      "speaker": "GARDENER_01",
+      "text_vi": "À, lại là cậu. Mấy luống lúc nãy ổn rồi.",
+      "type": "repeat_after_help",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-G12",
+      "speaker": "GARDENER_01",
+      "text_vi": "Cậu còn muốn hỏi gì à?",
+      "type": "repeat_no_help",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-R01",
+      "speaker": "REPAIRER_01",
+      "text_vi": "Cẩn thận. Cái chốt này cứ trượt khỏi tay tôi.",
+      "type": "intro",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-R02",
+      "speaker": "A",
+      "text_vi": "Có cần tôi giữ giúp không?",
+      "type": "offer_help",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-R03",
+      "speaker": "REPAIRER_01",
+      "text_vi": "Ừ, giữ giúp một lát. Tôi thử lại lần nữa.",
+      "type": "offer_help",
+      "status": "draft_not_approved"
+    },
+    {
+      "id": "CH01007-R04",
+      "speaker": "REPAIRER_01",
+      "text_vi": "Đó. Cuối cùng cũng chịu đứng yên. Cảm ơn.",
+      "type": "help_completed",
+      "status": "draft_not_approved"
+    }
+  ],
+  "dialogue_groups": [
+    {
+      "id": "GARDENER_INTRO",
+      "type": "intro_dialogue",
+      "condition": {
+        "not": "gardener_met",
+        "player_action": "talk"
+      },
+      "line_ids": [
+        "CH01007-G01",
+        "CH01007-G02",
+        "CH01007-G03"
+      ],
+      "set_flags": [
+        "gardener_met"
+      ],
+      "once": true
+    },
+    {
+      "id": "GARDENER_AREA",
+      "type": "optional_dialogue",
+      "condition": {
+        "flag": "gardener_met",
+        "choice": "ask_area"
+      },
+      "line_ids": [
+        "CH01007-G04",
+        "CH01007-G05"
+      ],
+      "once": false
+    },
+    {
+      "id": "GARDENER_GARDEN",
+      "type": "optional_dialogue",
+      "condition": {
+        "flag": "gardener_met",
+        "choice": "ask_activity"
+      },
+      "line_ids": [
+        "CH01007-G06",
+        "CH01007-G07"
+      ],
+      "once": false
+    },
+    {
+      "id": "GARDENER_OFFER_HELP",
+      "type": "shared_activity_offer",
+      "condition": {
+        "flag": "gardener_met",
+        "choice": "offer_help",
+        "not": "gardener_helped"
+      },
+      "line_ids": [
+        "CH01007-G08",
+        "CH01007-G09"
+      ],
+      "once": false
+    },
+    {
+      "id": "GARDENER_COMPLETED",
+      "type": "activity_feedback",
+      "condition": {
+        "flag": "gardener_helped_just_now"
+      },
+      "line_ids": [
+        "CH01007-G10"
+      ],
+      "once": true
+    },
+    {
+      "id": "GARDENER_REVISIT_HELPED",
+      "type": "ambient_repeat",
+      "condition": {
+        "flag": "gardener_met",
+        "flag2": "gardener_helped",
+        "visit": "subsequent"
+      },
+      "line_ids": [
+        "CH01007-G11"
+      ],
+      "once": false
+    },
+    {
+      "id": "GARDENER_REVISIT_NO_HELP",
+      "type": "ambient_repeat",
+      "condition": {
+        "flag": "gardener_met",
+        "not": "gardener_helped",
+        "visit": "subsequent"
+      },
+      "line_ids": [
+        "CH01007-G12"
+      ],
+      "once": false
+    },
+    {
+      "id": "REPAIRER_INTRO",
+      "type": "intro_dialogue",
+      "condition": {
+        "not": "repairer_met",
+        "player_action": "talk"
+      },
+      "line_ids": [
+        "CH01007-R01"
+      ],
+      "set_flags": [
+        "repairer_met"
+      ],
+      "once": true
+    },
+    {
+      "id": "REPAIRER_OFFER_HELP",
+      "type": "shared_activity_offer",
+      "condition": {
+        "flag": "repairer_met",
+        "choice": "offer_help",
+        "not": "repairer_helped"
+      },
+      "line_ids": [
+        "CH01007-R02",
+        "CH01007-R03"
+      ],
+      "once": false
+    },
+    {
+      "id": "REPAIRER_COMPLETED",
+      "type": "activity_feedback",
+      "condition": {
+        "flag": "repairer_helped_just_now"
+      },
+      "line_ids": [
+        "CH01007-R04"
+      ],
+      "once": true
+    }
+  ],
+  "relationship_stage_draft": [
+    "stranger",
+    "acquaintance",
+    "familiar",
+    "trusted"
+  ],
+  "relationship_rules_proposal": {
+    "acquaintance": "met",
+    "familiar": "meaningful_shared_activity_and_subsequent_meeting",
+    "trusted": "specific_approved_personal_event",
+    "no_talk_spam_unlock": true
+  },
+  "future_story_hooks_draft": [
+    "gardener_personal_request_when_familiar",
+    "repairer_repair_request_when_familiar"
+  ],
+  "production": {
+    "script_only": true,
+    "does_not_authorize_3d_build": true,
+    "engine_integration": "not_implemented"
+  },
+  "unresolved": [
+    "npc_names_en",
+    "npc_character_bibles",
+    "village_name",
+    "NPC_schedule",
+    "setting_approval",
+    "activity_mechanics",
+    "future_personal_quest_details"
+  ]
+}
