@@ -21,6 +21,7 @@
 - **Mục tiêu đầu tiên:** quan sát căn nhà rồi bước ra ngoài. Không bắt sửa nhà hay gặp NPC trước khi được ra sân.
 - **Khung cảnh ngoài nhà CH01-002:** trước mắt A là **khu rừng rộng lớn, ngập nắng, sống động** (hướng B). Sau khi cảm nhận khu rừng, **một lối mòn mờ** gợi dấu vết từng có người đi qua.
 - **CH01-003 đã chọn:** theo lối mòn, A gặp người đàn ông tên tiếng Anh **Thomas** đang **đốn củi ở bìa rừng**, NPC đầu tiên. Đoạn hội thoại v1 đã được người sáng tạo đồng ý ghi lại; chỉ trình bày từng nhóm khi người chơi **tự chọn hỏi**, không thành bài giảng lore hay quest ép buộc. Tính cách chi tiết và hành trình lâu dài của Thomas vẫn cần duyệt riêng.
+- **Quy mô làng đầu tiên:** người sáng tạo chọn **khoảng 30 cư dân** cho khu dân cư đầu tiên. Cách chia 11 nhóm nhà, tên tiếng Anh mới, nghề, gia đình và tính cách đều là **đề xuất chờ duyệt**. Chưa xác nhận Thomas sống trong làng; không gộp vào 30 cư dân của roster v0.
 - **Hướng trình bày Prologue:** ưu tiên dựng thử **truyện tranh nhiều khung (motion comic)** trước khi chuyển sang gameplay 3D. Đây là quyết định định dạng prototype, chưa đồng nghĩa panel art và cutscene code đã tồn tại.
 - Khi hóa thân thành A, **ký ức về đời thực mơ hồ**, chưa quên hoàn toàn và không nhớ rõ tất cả.
 - Hướng trải nghiệm được chọn: **Một cuộc đời thứ hai** — slice of life / healing / belonging, thế giới gần với đời thực nhưng không lấy năng suất làm thước đo trung tâm.
