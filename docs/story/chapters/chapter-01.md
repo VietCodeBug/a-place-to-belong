@@ -10,7 +10,8 @@
 | [CH01-001 — Buổi sáng ở ngôi nhà xa lạ](../scenes/CH01-001.md) ([JSON](../scenes/CH01-001.json)) | Nhận quyền điều khiển, cảm căn nhà cũ, tương tác tùy chọn rồi bước ra ngoài | `ch01_first_exit_complete`; mở CH01-002 | draft |
 | [CH01-002 — Bước ra ánh sáng](../scenes/CH01-002.md) ([JSON](../scenes/CH01-002.json)) | Thấy **rừng rộng, ngập nắng** trước; rồi khám phá quanh nhà và nhận ra **lối mòn mờ** gợi người từng đi qua | `ch01_outdoor_intro_complete`, mở hướng đi theo lối mòn | draft |
 | [CH01-003 — Lối mòn và tiếng rìu](../scenes/CH01-003.md) ([JSON](../scenes/CH01-003.json)) | A theo lối mòn và gặp **Thomas** đang đốn củi ở bìa rừng; lời chào ngắn và các chủ đề hỏi tùy chọn | `thomas_intro_heard` nếu trò chuyện; không ép quest, tự đi tiếp hoặc về nhà | Thoại v1 đã đồng ý; dàn cảnh draft |
-| [CH01-004 — Chỗ nghỉ bên đường mòn](../scenes/CH01-004.md) ([JSON](../scenes/CH01-004.json)) | Sau nơi Thomas đốn củi, A có thể tự phát hiện một chỗ nghỉ với chiếc ghế cũ được sửa một phần; không gặp thêm NPC, không nhận nhiệm vụ bắt buộc | Đi tiếp, quay lại Thomas hoặc trở về nhà; các quan sát là tùy chọn | **Đề xuất mới, chưa duyệt** |
+| [CH01-004 — Chỗ nghỉ bên đường mòn](../scenes/CH01-004.md) ([JSON](../scenes/CH01-004.json)) | Sau nơi Thomas đốn củi, A có thể tự phát hiện một chỗ nghỉ với chiếc ghế cũ được sửa một phần; không gặp thêm NPC, không nhận nhiệm vụ bắt buộc | Đi tiếp, quay lại Thomas hoặc trở về nhà; các quan sát là tùy chọn | **Đề xuất chưa duyệt** |
+| [CH01-005 — Một khoảng nhỏ để bắt đầu](../scenes/CH01-005.md) ([JSON](../scenes/CH01-005.json)) | **Khi tự quay về nhà** sau khi ra ngoài, A có thể gạt lá và nhánh cây khỏi một phần bậc cửa; một thay đổi nhỏ thấy được | Không yêu cầu gặp Thomas, không buộc sửa; vẫn vào nhà hoặc khám phá tiếp | **Đề xuất mới, chưa duyệt** |
 
 ## Ranh giới
 - **Không bắt dọn/sửa ngay trong scene đầu**. Gameplay chăm nhà sẽ được thiết kế sau, không khẳng định đã tồn tại.
@@ -23,9 +24,11 @@
 - Chưa chốt nơi ở, tuổi, nghề nghiệp thường xuyên, các quan hệ và truyện riêng của Thomas. [Hồ sơ nhân vật](../characters/thomas.md).
 - Hoạt động sửa nhà chỉ được bàn/triển khai sau, không ép ở các scene này.
 
+**Lưu ý thứ tự tự do:** CH01-004 là điểm ghé tùy chọn khi đi tiếp; CH01-005 là cảnh quay về nhà tùy chọn, **không** đòi CH01-004/Thomas làm điều kiện. Người chơi không phải chọn vĩnh viễn giữa khám phá cộng đồng và chăm nhà. Các flag đề xuất chỉ mô tả điều thực sự quan sát/làm, chưa phải runtime.
+
 ## Các vấn đề tiếp theo để cùng chốt
 1. **CH01-004 đang đề xuất** chỗ nghỉ bên đường với chiếc ghế cũ được sửa; người sáng tạo chưa duyệt. Giữ hay thay bằng dấu vết đời sống khác?
-2. Sau chỗ nghỉ người chơi sẽ **đi xa hơn** tới dấu vết cộng đồng hay **quay về nhà** tự chăm một góc nhỏ? Chưa bắt buộc chọn.
-3. Thomas có tuyến sinh hoạt riêng và cách xây dựng mối quan hệ lâu dài như thế nào? Khi nào mở chăm nhà mà không thành chuỗi việc?
+2. **CH01-005 đang đề xuất** hành động chăm bậc cửa rất nhỏ khi người chơi tự quay về. M có muốn giữ chi tiết này không, hay chọn hành động nhỏ khác trong nhà?
+3. Cần chọn câu chuyện khi đi sâu hơn lối mòn (CH01-006) và xây tuyến sống lâu dài của Thomas; **chưa chốt địa điểm hay NPC tiếp theo**.
 
 **Liên kết:** [Nền tảng đã thống nhất](../00-foundation.md) · [Prologue](prologue.md)
