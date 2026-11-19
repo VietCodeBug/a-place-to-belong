@@ -106,3 +106,11 @@ Nếu thiếu quá nhiều điểm trên, đó mới chỉ là **ý tưởng phi
 ## Quy mô cộng đồng đã chọn: khoảng 30 cư dân
 
 Xem [hồ sơ Làng A](../locations/village-a.md) và [30 hồ sơ cư dân](../characters/village-a-roster.md). Quy mô ~30 là hướng đã chọn; tên/quan hệ/địa hình đề xuất chưa tự thành canon. **Không tạo 30 nhiệm vụ hoặc 30 dấu chấm than.** Ưu tiên 8 tuyến sâu, 10 tuyến phụ, 12 nhân vật đời sống; các vai có quan hệ và sinh hoạt với nhau, không chỉ xoay quanh A. Thomas chưa xác nhận cư trú trong làng; không tự tính vào danh sách.
+
+## Mở rộng thế giới: vận chuyển liên làng và săn bắn (đã chọn hướng gameplay)
+
+**Giao hàng liên làng:** một chuyến giao hợp lệ phải có người gửi và kiện hàng tại **Làng A**, đường có thể đi, **làng khác** và người nhận ở đó. Chỉ `package_handed_over` mới hoàn thành. Các chuẩn bị với Ada/Hugo ở Làng A không phải đơn hàng đã giao. Tự khám phá đường sang làng khác **không cần nhận nhiệm vụ**. Xem [delivery spec](../activities/inter-village-delivery-v0.md).
+
+**Săn bắn:** hoạt động tự chọn khi đi rừng, gồm lần dấu/quan sát/đi săn tùy điều kiện. Không săn động vật nuôi, con non hoặc loài bị bảo vệ; không ép săn để mở làng, không tự cấp tài nguyên khi chưa có cơ chế. Loài, công cụ và vùng săn **chưa chốt**. Xem [hunting spec](../activities/hunting-v0.md).
+
+**Không thay đổi định hướng:** ưu tiên người chơi tự đi, khám phá, giúp đỡ theo quan hệ, NPC có cuộc sống riêng. Hai hoạt động là **gói nội dung mở**, không phải một chuỗi scene bắt buộc.
