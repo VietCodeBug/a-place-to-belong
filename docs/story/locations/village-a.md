@@ -57,9 +57,9 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 
 **Người liên quan:** Evelyn. **Cơ hội xuất hiện:** `player_observes_seed_jars`, quan hệ `familiar`. **A thực sự làm:** So sánh hũ, gắn nhãn đúng trong lúc Evelyn phụ trách. **Nếu giúp / không giúp:** Kệ được sắp gọn; Evelyn biết A để ý. **Trạng thái:** đề xuất, chưa duyệt.
 
-### VLA-E07 — Đi cùng một đoạn
+### VLA-E07 — Chuyến hàng sang làng khác
 
-**Người liên quan:** Ada. **Cơ hội xuất hiện:** `player_accepts_invitation_when_available`, quan hệ `familiar`. **A thực sự làm:** Đi theo đường quen với Ada, quan sát các mốc đường; có thể dừng giữa chừng. **Nếu giúp / không giúp:** Mở kiến thức về một đoạn đường chứ không bắt giao hàng. **Trạng thái:** đề xuất, chưa duyệt.
+**Người liên quan:** Ada (chuyến đi), Hugo (chuẩn bị). **Phần có thể chơi tại Làng A:** hỏi Ada về những kiện hàng, hỗ trợ Hugo kiểm kiện. **Chuyến giao hàng thật:** chỉ mở khi làng đích, đường liên làng, hàng và người nhận đã được chốt; A **tự nhận hàng rồi vận chuyển sang làng khác để giao tận tay người nhận**, không giao vòng trong Làng A. **Nếu từ chối:** Ada tự thu xếp, người chơi vẫn có thể tự khám phá đường đi. **Quan hệ:** lời nhờ cụ thể có thể cần quen biết, nhưng đường sang làng khác không bị khóa bởi điểm tình bạn. **Trạng thái:** hướng liên làng đã chọn, dữ kiện tuyến/quest là nháp. [Chi tiết](../activities/inter-village-delivery-v0.md).
 
 ### VLA-E08 — Bày bàn rồi cùng ăn
 
@@ -72,6 +72,10 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 ### VLA-E10 — Một góc sinh hoạt cần chăm
 
 **Người liên quan:** Nhiều cư dân. **Cơ hội xuất hiện:** `small_public_area_becomes_worn_without_player_requirement`, quan hệ `familiar`. **A thực sự làm:** Ai có mặt đều có thể cùng làm một chút; A chỉ là một người trong nhóm. **Nếu giúp / không giúp:** Không tham gia: dân làng tự chăm; tham gia: một thay đổi nhỏ được ghi nhận. **Trạng thái:** đề xuất, chưa duyệt.
+
+### VLA-E11 — Theo dấu và săn thú rừng (hoạt động mới)
+
+**Không gian:** khu rừng có động vật, **chưa duyệt loài/vùng**. **Cơ hội xuất hiện:** A tự phát hiện dấu thú; có thể chỉ quan sát hoặc quyết định săn khi có cơ chế phù hợp. **A thực sự làm:** lần dấu, theo dõi tập tính, tự chọn săn nếu có đủ điều kiện, sau đó có thể sử dụng thành quả theo hệ vật phẩm được duyệt. **Nếu không săn:** vẫn có khám phá; không mất thiện cảm. **Hệ quả đề xuất:** chú ý giới hạn săn và sức sống của quần thể thú. **Không tự biến Rowan hay ai khác thành thợ săn.** [Chi tiết](../activities/hunting-v0.md).
 
 ## Những câu chuyện nảy sinh theo quan hệ
 
@@ -91,6 +95,10 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 - Evelyn và Finn: người lớn tuổi có thể chỉ một chuyện về hạt giống; trẻ nhỏ hỏi nhiều, không biến thành tuyến lời tiên tri.
 
 **Quan hệ gia đình cụ thể ở 11 nhà nằm trong [roster](../characters/village-a-roster.md), vẫn để nháp.** Đừng khẳng định những quan hệ này đã xảy ra trong lời thoại cho tới khi m duyệt.
+
+## Lối ra thế giới rộng hơn
+
+Làng A không được biến thành nơi gói hết gameplay. **Đường sang những làng khác phải là không gian có thể khám phá**, không chỉ một nút teleport. Những chuyến hàng của Ada là một động lực xã hội để đi tới làng kế tiếp; ngoài ra người chơi vẫn có thể **tự đi không cần nhận việc**. Hoạt động săn bắn tạo thêm lựa chọn khi khám phá **các vùng rừng thích hợp**, tách biệt với hệ giao hàng. **Chưa đặt tên Làng B** hoặc loài thú mới.
 
 ## Quy tắc cho các cảnh tiếp theo
 - Không viết mỗi cư dân = một nhiệm vụ đánh dấu trên bản đồ. Viết **đời sống trước, lựa chọn người chơi sau**.
