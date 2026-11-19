@@ -85,7 +85,9 @@
       "only_if_npc_at_relevant_activity": true,
       "no_quest_offer_when_busy_or_other_arc_active": true,
       "player_can_wait_without_penalty": true,
-      "not_per_fixed_day": true
+      "not_per_fixed_day": true,
+      "quest_stage_previous_resolved_without_player_can_count": true,
+      "no_quest_chain_autofire_same_encounter": true
     }
   },
   "story_contract": {
@@ -101,7 +103,10 @@
     "after_final_npc_still_active": true,
     "no_village_B_story_content": true,
     "unapproved_village_names_remain_temporary": true,
-    "not_engine_code": true
+    "not_engine_code": true,
+    "autonomous_resolution_can_continue_arc": true,
+    "discusses_actual_prior_actions_only": true,
+    "quest_deferred_without_penalty": true
   },
   "arcs": [
     {
@@ -204,14 +209,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA01-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Sau một khoảng sinh hoạt bình thường, Hazel có hai công việc chăm vườn trùng lúc.",
           "real_player_actions_vi": "Cùng Hazel ghi hai việc cần làm; chọn giúp một việc và để Hazel tự sắp lại việc còn lại hoặc chủ động hỏi một người đang rảnh nếu họ đồng ý.",
@@ -265,7 +274,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA01-QF",
@@ -277,7 +291,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -285,7 +299,11 @@
             ],
             "previous_quest": "VLA01-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Sau khi tin A, Hazel muốn dành một góc luống làm nơi những người thích chăm cây có thể cùng tham gia.",
           "real_player_actions_vi": "Chọn góc trồng không cản lối chung, đặt hai cây non theo vị trí phù hợp và thống nhất cách chăm cùng Hazel.",
@@ -339,7 +357,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -443,14 +465,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA04-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Khi quen hơn, A thấy cánh cửa ở góc làm việc của Owen vẫn bị kẹt vì ông cứ sửa đồ người khác trước.",
           "real_player_actions_vi": "Hỏi Owen có muốn sửa không, kiểm chỗ kẹt, cùng thử chỉnh bản lề và đóng mở lại.",
@@ -504,7 +530,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA04-QF",
@@ -516,7 +547,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -524,7 +555,11 @@
             ],
             "previous_quest": "VLA04-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Owen muốn dành một buổi sửa đồ chung nhưng sợ lại nhận quá nhiều món.",
           "real_player_actions_vi": "Cùng ông kiểm vài món được mang tới, chọn món sửa ngay và món hẹn sau, hỗ trợ chỉnh một món đơn giản.",
@@ -578,7 +613,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -682,14 +721,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA06-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Sau vài lần trò chuyện, Clara muốn thử một cách chuẩn bị món quen với nguyên liệu đang có.",
           "real_player_actions_vi": "Cùng cô xem nguyên liệu, chọn cách chế biến/bày phù hợp, làm một phần công việc bếp đơn giản rồi nếm thử.",
@@ -743,7 +786,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA06-QF",
@@ -755,7 +803,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -763,7 +811,11 @@
             ],
             "previous_quest": "VLA06-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Clara quen đứng phục vụ đến khi người khác ăn xong; cô muốn thay đổi.",
           "real_player_actions_vi": "Giúp chuẩn bị bàn với những ai tự nguyện, phân phần đơn giản, và mời Clara cùng ngồi ăn thay vì chạy đi chỉnh món.",
@@ -817,7 +869,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -921,14 +977,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA09-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Người đi thường tránh một góc ẩm, làm đất cạnh vạt hoa dại bị giẫm.",
           "real_player_actions_vi": "Quan sát hai đoạn đường ở rìa làng, chọn vị trí đi vòng an toàn hoặc đặt dấu hướng đi nhẹ nếu có vật sẵn được cho phép.",
@@ -982,7 +1042,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA09-QF",
@@ -994,7 +1059,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -1002,7 +1067,11 @@
             ],
             "previous_quest": "VLA09-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Rowan muốn để người dân tự chăm con đường thay vì cứ đợi một mình ông.",
           "real_player_actions_vi": "Cùng Rowan xem ba điểm cần chăm, ghi ý định ngắn cho khu chung và tự làm một điểm nhỏ không ảnh hưởng hoa.",
@@ -1056,7 +1125,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -1160,14 +1233,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA13-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Maeve ngại nhờ nên đồ sửa dồn lại ở góc làm việc.",
           "real_player_actions_vi": "Cùng cô phân loại việc gấp và không gấp, chuẩn bị những món được phép sửa, thỏa thuận chừa việc nào sang lần sau.",
@@ -1221,7 +1298,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA13-QF",
@@ -1233,7 +1315,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -1241,7 +1323,11 @@
             ],
             "previous_quest": "VLA13-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Maeve muốn chia một vài cách vá đơn giản với người thích học, nhưng sợ mình dạy không khéo.",
           "real_player_actions_vi": "Giúp sắp chỗ để vải mẫu, hướng dẫn một bước an toàn cùng Maeve, để người học tự chọn mẫu.",
@@ -1295,7 +1381,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -1399,14 +1489,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA15-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Evelyn muốn có một quan sát thực tế mới để đối chiếu với ghi chú mùa vụ thường ngày.",
           "real_player_actions_vi": "Tới một luống cây công cộng được phép quan sát, ghi tình trạng đất/cây rồi mang ghi chép về cho Evelyn.",
@@ -1460,7 +1554,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA15-QF",
@@ -1472,7 +1571,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -1480,7 +1579,11 @@
             ],
             "previous_quest": "VLA15-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Evelyn muốn người mới tới làng cũng có thể hiểu cách giữ và ghi nhãn hạt giống mà không cần lúc nào cũng hỏi bà.",
           "real_player_actions_vi": "Chọn ba lưu ý thực tế đã được quan sát, đặt một tờ hướng dẫn tại kệ hạt chung và cùng Evelyn thử xem người mới có hiểu được không (không cần NPC mới).",
@@ -1534,7 +1637,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -1638,14 +1745,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA18-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Ada và Hugo sắp kiện cho một chuyến đi xa chưa định tuyến chính thức; vài món cần được phân loại và kiểm dây.",
           "real_player_actions_vi": "Cùng Ada và Hugo kiểm hai kiện mẫu, chọn cách để đồ dễ vỡ/đồ thường, ghi một danh sách ngắn đồ cần chuẩn bị.",
@@ -1699,7 +1810,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA18-QF",
@@ -1711,7 +1827,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -1719,7 +1835,11 @@
             ],
             "previous_quest": "VLA18-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Trước khi có tuyến liên làng chính thức, Ada muốn để lại những ghi chú mốc đường quanh Làng A cho người khác khi cần đi rừng.",
           "real_player_actions_vi": "Cùng Ada xem lại các mốc quanh làng đã khám phá, chọn hai chỉ dẫn dễ hiểu và đặt ghi chú tại góc chuẩn bị hành trang.",
@@ -1773,7 +1893,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     },
@@ -1877,14 +2001,18 @@
             "friendship_min": 50,
             "relation_min": "familiar",
             "requires": [
-              "Q1.status==completed",
+              "Q1.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q1>=1",
               "npc.available_context_Q2",
               "player_chooses_accept"
             ],
             "previous_quest": "VLA23-Q1",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Grace muốn một bữa nhỏ ai rảnh giúp một tay, chứ không để mình bà chuẩn bị.",
           "real_player_actions_vi": "Chọn một phần việc vừa sức, sắp vị trí thức ăn/đồ dùng cho người tự nguyện phụ và để Grace quyết định việc còn lại.",
@@ -1938,7 +2066,12 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC can reference A's real participation",
+            "when_prev_resolved_without_player": "NPC mentions they managed alone or with others; NEVER credits A for help they did not give",
+            "when_prev_declined": "No immediate next quest; allow later new context/reoffer or NPC self-resolution"
+          }
         },
         {
           "quest_id": "VLA23-QF",
@@ -1950,7 +2083,7 @@
             "friendship_min": 80,
             "relation_min": "trusted",
             "requires": [
-              "Q2.status==completed",
+              "Q2.status in [completed,resolved_without_player]",
               "npc.nonquest_meetups_after_Q2>=2",
               "npc.personal_bond_event_seen==true",
               "npc.available_context_QF",
@@ -1958,7 +2091,11 @@
             ],
             "previous_quest": "VLA23-Q2",
             "context_required": true,
-            "player_must_choose_accept": true
+            "player_must_choose_accept": true,
+            "previous_quest_status": [
+              "completed",
+              "resolved_without_player"
+            ]
           },
           "story_situation_vi": "Grace muốn tổ chức một bữa ăn nhỏ mà bản thân cũng ngồi trò chuyện từ đầu, thay vì phục vụ xong mới ăn.",
           "real_player_actions_vi": "Cùng Grace chuẩn bị phần cần thiết, mời mọi người có mặt tự lấy phần, đặt chỗ ngồi cho bà và chính A nếu muốn; cho phép A rời đi trước khi bữa ăn kết thúc.",
@@ -2012,7 +2149,11 @@
             "npc_completion_event_processed"
           ],
           "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
-          "future_relations_remain_open": true
+          "future_relations_remain_open": true,
+          "prior_outcome_adaptation": {
+            "when_prev_completed": "NPC remembers A's participation in stage 2",
+            "when_prev_resolved_without_player": "NPC remembers having handled stage 2 independently, not A helping"
+          }
         }
       ]
     }
