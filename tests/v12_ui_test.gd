@@ -6,6 +6,7 @@ func check(value: bool,message: String):
 	if not value:failures+=1
 func run():
 	var hub=load("res://scenes/world/forest_hub.tscn").instantiate();root.add_child(hub)
+	current_scene = hub
 	for i in range(5):await process_frame
 	var ui=hub.ui;var book=ui.storybook
 	var type=preload("res://scripts/ui/storybook_theme.gd")
@@ -17,18 +18,25 @@ func run():
 	ui.enter_title_menu(true)
 	check(root.gui_get_focus_owner()==ui.title_screen.find_child("BeginDay",true,false),"title opens with Begin focus")
 	var tab:=InputEventKey.new();tab.keycode=KEY_TAB;tab.pressed=true;root.push_input(tab);await process_frame
-	check(root.gui_get_focus_owner()!=ui.title_screen.find_child("BeginDay",true,false),"Tab moves actual GUI focus")
+	check(root.gui_get_focus_owner() == ui.title_screen.find_child("ExploreForest", true, false), "Tab selects Map 02 after Map 01")
+	tab.pressed = false; root.push_input(tab)
+	tab.pressed = true; root.push_input(tab); await process_frame
+	tab.pressed = false; root.push_input(tab)
+	check(root.gui_get_focus_owner() == ui.title_screen.find_child("TitleSettings", true, false), "Settings follows the two maps")
 	var accept:=InputEventKey.new();accept.keycode=KEY_ENTER;accept.pressed=true;root.push_input(accept);await process_frame
 	accept.pressed=false;root.push_input(accept);await process_frame
 	check(book.shade.visible,"Enter activates focused Settings button")
 	book.back()
+	check(root.gui_get_focus_owner() == ui.title_screen.find_child("TitleSettings", true, false), "Settings returns focus to its main menu button")
 	check(book.postcards.is_empty(),"official title contains no weather controls")
 	book.open_page("Settings");await process_frame
 	check(book.shade.visible and ui.root_ui.get_child(-1)==book.shade,"settings displayed above title and consumes input")
 	check(root.gui_get_focus_owner()!=null and book.pages["Settings"].is_ancestor_of(root.gui_get_focus_owner()),"settings receives keyboard focus")
 	var esc:=InputEventKey.new();esc.keycode=KEY_ESCAPE;esc.pressed=true;ui._unhandled_input(esc)
 	check(not book.shade.visible and ui.in_title_menu,"Esc returns from settings to title")
-	ui.exit_title_menu(true);ui.set_pause_menu(true)
+	ui.title_screen.find_child("ExploreForest", true, false).pressed.emit()
+	check(not ui.in_title_menu and not hub.player.blocked and hub.player.visible, "Map 02 opens playable Forest directly")
+	ui.set_pause_menu(true)
 	check(ui.in_pause_menu and hub.player.blocked and not book.shade.visible,"pause opens essential actions and blocks movement")
 	check(not ui.pause_time_slider.is_visible_in_tree(),"time dial absent from ordinary pause menu")
 	book.open_page("Atmosphere Studio");await process_frame
@@ -51,7 +59,18 @@ func run():
 		book.open_page("Settings");await process_frame;await process_frame
 		check(buttons_inside(book.pages["Settings"],Vector2(viewport)),"settings buttons stay on-screen at "+str(viewport))
 		book.back();ui.exit_title_menu(true)
-	print("V12 UI COMPLETE; failures=",failures);hub.queue_free();await process_frame;quit(1 if failures else 0)
+	ui.enter_title_menu(true)
+	ui.title_screen.find_child("BeginDay", true, false).pressed.emit()
+	await scene_changed
+	var office := current_scene
+	check(office.scene_file_path == "res://scenes/story/real_office.tscn", "Map 01 starts in the office")
+	office.finish_intro()
+	office.set_pause_menu(true)
+	office.enter_title_menu(false)
+	await scene_changed
+	check(current_scene.ui.in_title_menu and current_scene.player.blocked, "Office pause returns to the main menu")
+	print("V12 UI COMPLETE; failures=",failures)
+	quit(1 if failures else 0)
 func buttons_inside(node: Node,viewport: Vector2) -> bool:
 	for child in node.find_children("*","Button",true,false):
 		if child.is_visible_in_tree():

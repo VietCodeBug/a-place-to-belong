@@ -1,11 +1,15 @@
 extends Node3D
 ## ENV-REAL-01. The same desk is used during the opening, playback and email interaction.
-const TITLE := "res://scenes/world/forest_hub.tscn"
-const SEATED_COLLEAGUE = preload("res://assets/story/office_models/desk_colleague.glb")
-const COLLEAGUE_VISUAL = preload("res://assets/characters/samatha/samatha.glb")
+const MAPS = preload("res://scripts/story/map_flow.gd")
+const THEME = preload("res://scripts/ui/storybook_theme.gd")
+const STORYBOOK = preload("res://scripts/ui/storybook_screens.gd")
+const COWORKER_MODELS := [
+	preload("res://assets/story/office_models/colleague_npc_01.glb"),
+	preload("res://assets/story/office_models/colleague_npc_02.glb"),
+]
+const COWORKER_HIP_DROPS := [0.42, 0.43]
 const MONITOR = preload("res://assets/story/office_models/desk_monitor.glb")
 const MOUSE = preload("res://assets/story/office_models/desk_mouse.glb")
-const AISLE_COLLEAGUE = preload("res://assets/story/office_models/aisle_colleague.glb")
 const WALNUT_DESK = preload("res://assets/story/office_models/walnut_workstation.glb")
 const TASK_CHAIR = preload("res://assets/story/office_models/work_chair.glb")
 const DESK_LAMP = preload("res://assets/story/office_models/desk_lamp.glb")
@@ -20,57 +24,74 @@ const PENDANT = preload("res://assets/story/office_models/office_pendant.glb")
 const MEETING_TABLE = preload("res://assets/story/office_models/meeting_table.glb")
 const COPY = preload("res://assets/story/office.json")
 const ACTOR = preload("res://scenes/story/opening_actor.tscn")
+const BOSS = preload("res://scenes/story/office_boss.tscn")
 const EYE_CAMERA = preload("res://scripts/story/opening_view.gd")
 const OFFICE_STORM = preload("res://scripts/story/office_storm.gd")
+const OFFICE_PAPERWORK = preload("res://scripts/story/office_paperwork.gd")
+const OFFICE_WORKDAY = preload("res://scripts/story/office_workday.gd")
+const MAIL = preload("res://scripts/ui/office_mail.gd")
 const WORK_DESK := Vector3(-5.34, 0.0, 0.96)
+const EAST_BANK := Vector3(1.64, 0.0, 0.48)
 const DESK_SEAT := WORK_DESK + Vector3(0.0, 0.02, 0.83)
 const DESK_STAND := WORK_DESK + Vector3(0.0, 0.02, 1.17)
 const DESK_SPACING := 1.99
 const BENCH_SCALE := 0.84
-const STAFF_PALETTES := [
-	[Color("536d78"), Color("60443a"), Color("b98265")],
-	[Color("a27756"), Color("38312f"), Color("d6a486")],
-	[Color("77708a"), Color("4f3932"), Color("9c6656")],
-	[Color("526b60"), Color("685044"), Color("e1b38e")],
-	[Color("805451"), Color("302e2d"), Color("c18864")],
-	[Color("656f83"), Color("826854"), Color("d4a088")],
-]
-const INTRO_LENGTH := 7.4
+const STAFF_CHAIR_INSET := 0.18
+const INTRO_LENGTH := 8.2
+const MAIL_DURING_INTRO := 6.64
 var player: CharacterBody3D
 var actor: Node3D
 var camera: EYE_CAMERA
 var storm: OFFICE_STORM
+var paperwork := OFFICE_PAPERWORK.new()
+var workday: OFFICE_WORKDAY
 var status: Label
-var dialog: AcceptDialog
-var terminal: Label3D
+var root_ui: Control
+var pause_overlay: Control
+var storybook: STORYBOOK
+var in_title_menu := false
+var in_pause_menu := false
+var mail: MAIL
+var terminal: MeshInstance3D
+var email_display: Tween
 var mail_indicator: MeshInstance3D
 var notification_time := 0.0
 var locale: Dictionary
 var arrived := false
 var read_mail := false
 var complete := false
-var colleague_heads: Array[Node3D] = []
-var colleague_materials := {}
+var seated_coworkers: Array[Node3D] = []
+var standing_coworkers: Array[Node3D] = []
 var textile_materials := {}
+var block_meshes: Dictionary = {}
 var desk_finish: ShaderMaterial
 var lens_finish: StandardMaterial3D
 var typing_colleague: Node3D
+var male_colleague: Node3D
+var boss: CharacterBody3D
 var office_time := 0.0
 var intro_time := 0.0
 var intro_active := true
 var seat_requested := false
 var seat_from := DESK_STAND
 var desk_chair: Node3D
+var player_keyboard: Node3D
+var player_mouse: Node3D
+var meeting_listener: Node3D
 var phone_requested := false
 var interaction_gesture := 0.0
+var mouse_clicked := false
+var coworker_at_archives: Node3D
+var archive_home := Vector3.ZERO
 
 func _ready() -> void:
-	locale = COPY.data["vi" if TranslationServer.get_locale().begins_with("vi") else "en"]
+	locale = COPY.data["vi" if MAPS.is_vietnamese() else "en"]
 	register_controls()
 	build_office()
 	player = CharacterBody3D.new()
 	add_child(player)
 	player.position = DESK_SEAT
+	player.set_collision_mask_value(2, true)
 	var shape := CollisionShape3D.new()
 	var capsule := CapsuleShape3D.new()
 	capsule.radius = 0.25
@@ -82,14 +103,24 @@ func _ready() -> void:
 	player.add_child(actor)
 	actor.rotation.y = PI
 	actor.seated = 1.0
+	actor.bind_keyboard(player_keyboard)
+	actor.mouse_prop = player_mouse
 	actor.set_expression("Tired", 0.60)
 	camera = EYE_CAMERA.new()
 	player.add_child(camera)
 	actor.use_first_person()
 	camera.make_current()
+	camera.focus = terminal
+	camera.sensitivity = get_tree().get_meta(MAPS.LOOK_SENSITIVITY, 1.0)
+	camera.head_bob = get_tree().get_meta(MAPS.HEAD_BOB, true)
+	boss = BOSS.instantiate()
+	boss.player = player
+	boss.position = Vector3(2.58, 0.001, -2.40)
+	add_child(boss)
 	build_overlay()
 	recapture()
 	update_intro(0.0)
+	actor.resync(0.0, Vector3.ZERO)
 
 func register_controls() -> void:
 	var bindings := {
@@ -109,29 +140,56 @@ func build_overlay() -> void:
 	var layout := MarginContainer.new()
 	hud.add_child(layout)
 	layout.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	layout.offset_left = 24
+	layout.offset_right = -24
 	layout.offset_top = -68
 	layout.offset_bottom = -24
 	status = Label.new()
-	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	status.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	status.add_theme_font_size_override("font_size", 16)
 	status.add_theme_color_override("font_color", Color("f3e8d3"))
 	status.add_theme_color_override("font_outline_color", Color("26342f"))
 	status.add_theme_constant_override("outline_size", 6)
 	layout.add_child(status)
-	dialog = AcceptDialog.new()
-	dialog.title = locale.subject
-	dialog.ok_button_text = locale.close
-	dialog.min_size = Vector2i(590, 260)
-	dialog.confirmed.connect(recapture)
-	dialog.canceled.connect(recapture)
-	hud.add_child(dialog)
+	root_ui = Control.new()
+	root_ui.theme = THEME.theme()
+	root_ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud.add_child(root_ui)
+	root_ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	mail = MAIL.new()
+	root_ui.add_child(mail)
+	mail.build(locale)
+	mail.attach_screen(terminal)
+	mail.dismissed.connect(close_email)
+	storybook = STORYBOOK.new(self, MAPS.OFFICE)
+	storybook.build_pause()
+
+func set_pause_menu(open: bool) -> void:
+	if complete or mail.visible:
+		return
+	in_pause_menu = open
+	storybook.close_page()
+	pause_overlay.visible = open
+	status.visible = not open
+	if open:
+		player.velocity = Vector3.ZERO
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		pause_overlay.find_children("*", "Button", true, false)[0].grab_focus()
+	else:
+		recapture()
+
+func enter_title_menu(_instant := false) -> void:
+	MAPS.enter_forest.call_deferred(get_tree(), true)
 
 func deliver_email() -> void:
+	if arrived:
+		return
 	arrived = true
-	terminal.text = locale.unread
-	mail_indicator.visible = true
+	mail.update_inbox(true, false)
+	mail_indicator.show()
 	notification_time = office_time
+	workday.play_mail_cue()
 	actor.set_expression("Surprised", 0.4)
 
 func recapture() -> void:
@@ -143,23 +201,60 @@ func _exit_tree() -> void:
 
 func _process(delta: float) -> void:
 	office_time += delta
+	workday.local_typing = actor.keyboard_weight
+	workday.reading_mail = mail.visible
+	storm.reading_mail = mail.visible
+	storm.flashes_enabled = not storybook.reduce_motion
 	if mail_indicator.visible:
 		mail_indicator.scale = Vector3.ONE * lerpf(1.0, 1.25, maxf(0.0, 1.0 - (office_time - notification_time) * 1.8))
-	if typing_colleague:
-		typing_colleague.resync(delta, Vector3.ZERO)
-	for index in range(colleague_heads.size()):
-		var head := colleague_heads[index]
-		var phase := float(index) * 1.9
-		head.rotation.y = sin(office_time * (0.41 + (index % 4) * 0.08) + phase) * 0.13
-		head.rotation.x = sin(office_time * 0.68 + phase) * 0.042
+	for index in range(seated_coworkers.size()):
+		update_seated_colleague(seated_coworkers[index], index, delta)
+	var phase := fposmod(office_time + 0.42, 6.8)
+	var printer_first := speaking_turn(phase, 0.0, 2.86)
+	var printer_second := speaking_turn(phase, 3.13, 6.18)
+	standing_coworkers[0].pose_standing_coworker(delta, printer_first, printer_second)
+	standing_coworkers[1].pose_standing_coworker(delta, printer_second, printer_first)
+	var meeting_turn := speaking_turn(fposmod(office_time + 1.42, 6.8), 0.0, 3.34)
+	standing_coworkers[2].pose_standing_coworker(delta, meeting_turn, 1.0 - meeting_turn)
+	meeting_listener.looking_out = move_toward(meeting_listener.looking_out, meeting_turn * 0.85, delta * 1.6)
+
+func update_seated_colleague(coworker: Node3D, index: int, delta: float) -> void:
+	var duration := 17.0 + float(index % 4) * 1.8
+	var beat := fposmod(office_time + index * 3.91, duration)
+	var travel := Vector3.ZERO
+	if coworker == coworker_at_archives:
+		var cycle := fposmod(office_time + 2.9, 36.0)
+		var rise := smoothstep(17.3, 18.0, cycle) * (1.0 - smoothstep(26.0, 26.8, cycle))
+		var depart := smoothstep(18.0, 19.5, cycle) * (1.0 - smoothstep(24.3, 26.0, cycle))
+		var old: Vector3 = coworker.position
+		coworker.position = archive_home + Vector3(0.16, 0.0, 0.84) * depart
+		coworker.seated = 1.0 - rise
+		coworker.rotation.y = lerp_angle(PI + 0.12, 0.44, smoothstep(17.75, 18.30, cycle) * (1.0 - smoothstep(24.0, 24.65, cycle)))
+		travel = (coworker.position - old) / maxf(delta, 0.0001)
+	if coworker.drink_prop != null:
+		coworker.drink_amount = smoothstep(5.4, 6.22, beat) * (1.0 - smoothstep(7.10, 7.92, beat))
+	if coworker.mouse_prop != null:
+		var use_mouse := smoothstep(7.0, 7.65, beat) * (1.0 - smoothstep(9.05, 9.80, beat))
+		var read := smoothstep(12.1, 12.85, beat) * (1.0 - smoothstep(14.4, 15.15, beat))
+		coworker.mouse_use = use_mouse
+		coworker.desk_rest = read * 0.82
+		coworker.typing = 0.84 * (1.0 - read)
+		coworker.looking_out = sin(beat * 0.33) * 0.32 * read
+		coworker.set_expression("Thinking" if read > 0.5 else "Neutral", read * 0.38)
+	coworker.resync(delta, travel)
+
+func speaking_turn(phase: float, begins: float, ends: float) -> float:
+	return smoothstep(begins, begins + 0.39, phase) * (1.0 - smoothstep(ends - 0.42, ends, phase))
 
 func _physics_process(delta: float) -> void:
+	if in_pause_menu or complete:
+		return
 	if intro_active:
 		update_intro(delta)
 		actor.resync(delta, Vector3.ZERO)
 		return
 	var wants_move := Vector2.ZERO
-	if not dialog.visible and not complete and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or DisplayServer.get_name() == "headless"):
+	if not mail.visible and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or DisplayServer.get_name() == "headless"):
 		wants_move = Input.get_vector("office_left", "office_right", "office_forward", "office_back")
 	if wants_move.length_squared() > 0.0:
 		seat_requested = false
@@ -182,15 +277,23 @@ func _physics_process(delta: float) -> void:
 	var actual := player.get_real_velocity()
 	actual.y = 0.0
 	if actor.seated == 0.0:
-		actor.rotation.y = PI + camera.yaw
+		actor.rotation.y = lerp_angle(actor.rotation.y, PI + camera.yaw, 1.0 - exp(-16.0 * delta))
 	interaction_gesture = move_toward(interaction_gesture, 0.0, delta * 1.8)
 	actor.reach = interaction_gesture * 0.65
-	actor.typing = move_toward(actor.typing, actor.seated if not dialog.visible else 0.0, delta * 3.0)
+	var editing: bool = actor.seated > 0.98 and not mail.visible and not phone_requested
+	var mouse_pass := fposmod(office_time, 12.0)
+	var mouse_use := smoothstep(6.7, 7.2, mouse_pass) * (1.0 - smoothstep(8.45, 9.1, mouse_pass))
+	var clicked := editing and mouse_pass >= 7.63 and mouse_pass < 8.35
+	if clicked and not mouse_clicked:
+		workday.play_mouse()
+	mouse_clicked = clicked
+	actor.mouse_use = move_toward(actor.mouse_use, mouse_use if editing else 0.0, delta * 4.0)
+	actor.typing = move_toward(actor.typing, actor.seated if editing else 0.0, delta * 3.0)
 	actor.looking_out = move_toward(actor.looking_out, 0.0, delta * 1.6)
 	actor.sigh = move_toward(actor.sigh, 0.0, delta * 2.0)
 	actor.phone_amount = move_toward(actor.phone_amount, 1.0 if phone_requested else 0.0, delta * 2.8)
-	actor.thinking = move_toward(actor.thinking, 0.65 if dialog.visible else 0.0, delta * 2.4)
-	if dialog.visible:
+	actor.thinking = move_toward(actor.thinking, 0.65 if mail.visible else 0.0, delta * 2.4)
+	if mail.visible:
 		actor.set_expression("Thinking", 0.6)
 	elif read_mail:
 		actor.set_expression("Sad", 0.42)
@@ -205,21 +308,27 @@ func position_chair(sitting: float) -> void:
 	desk_chair.rotation.y = PI + 0.29 * (1.0 - sitting)
 
 func update_intro(delta: float) -> void:
+	if intro_time < 7.13 and intro_time + delta >= 7.13:
+		workday.play_chair()
 	intro_time += delta
-	var typing_lift := 1.0 - smoothstep(3.55, 4.05, intro_time)
-	actor.typing = typing_lift
-	actor.desk_rest = smoothstep(3.60, 4.24, intro_time)
-	actor.sigh = sin(smoothstep(4.24, 5.28, intro_time) * PI)
-	var rising := smoothstep(5.87, 7.03, intro_time)
+	var quiet := storybook.reduce_motion
+	var glance := smoothstep(2.1, 3.24, intro_time) * (1.0 - smoothstep(3.44, 4.35, intro_time))
+	var phone_peek := smoothstep(4.14, 4.82, intro_time) * (1.0 - smoothstep(5.19, 5.92, intro_time))
+	var rising := smoothstep(6.98, 8.05, intro_time)
+	actor.typing = 1.0 - smoothstep(2.36, 3.06, intro_time)
+	actor.desk_rest = smoothstep(2.5, 3.37, intro_time)
+	actor.phone_amount = phone_peek if not quiet else 0.0
+	actor.sigh = sin(smoothstep(5.61, 6.68, intro_time) * PI) * 0.67
 	actor.seated = 1.0 - rising
+	actor.looking_out = -glance
 	player.position = DESK_SEAT.lerp(DESK_STAND, rising)
 	position_chair(actor.seated)
-	# Look across the shared workstations before getting up into the staff aisle.
-	var glance := smoothstep(3.05, 4.7, intro_time) * (1.0 - smoothstep(5.08, 6.74, intro_time))
-	actor.looking_out = -glance
-	camera.yaw = -0.97 * glance
-	camera.pitch = lerpf(-0.315, -0.096, glance) + 0.185 * rising
-	camera.follow_eyes(delta, actor.seated, 0.0)
+
+	camera.yaw = (-1.00 * glance - 0.30 * phone_peek) if not quiet else 0.0
+	camera.pitch = lerpf(-0.381, -0.052, glance) - 0.37 * phone_peek + 0.236 * rising
+	camera.follow_eyes(delta, actor.seated, 0.0, true)
+	if intro_time >= MAIL_DURING_INTRO:
+		deliver_email()
 	status.text = locale.skip
 	if intro_time >= INTRO_LENGTH:
 		finish_intro()
@@ -228,18 +337,22 @@ func finish_intro() -> void:
 	if not intro_active:
 		return
 	intro_active = false
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	player.position = DESK_STAND
 	actor.seated = 0.0
 	actor.typing = 0.0
 	actor.desk_rest = 0.0
 	actor.looking_out = 0.0
 	actor.sigh = 0.0
+	actor.phone_amount = 0.0
 	actor.reset_steps()
 	position_chair(0.0)
 	camera.yaw = 0.0
 	camera.pitch = -0.13
 	camera.follow_eyes(0.0, 0.0, 0.0)
 	update_status()
+	if arrived:
+		return
 	var delivery := Timer.new()
 	delivery.one_shot = true
 	add_child(delivery)
@@ -248,14 +361,15 @@ func finish_intro() -> void:
 	delivery.start(3.0)
 
 func update_status() -> void:
-	if complete:
-		status.text = locale.done
-	elif dialog.visible:
+	if mail.visible:
 		status.text = ""
 	elif read_mail and near_exit():
 		status.text = locale.leave
 	elif near_desk():
-		status.text = locale.open if arrived else (locale.seat if can_sit() else "")
+		if arrived:
+			status.text = locale.reread if read_mail else locale.open
+		else:
+			status.text = locale.seat if can_sit() else ""
 	elif intro_time < INTRO_LENGTH + 3.0 and office_time < INTRO_LENGTH + 7.0:
 		status.text = locale.controls
 	else:
@@ -273,22 +387,32 @@ func near_exit() -> bool:
 	return absf(player.position.x) < 1.45 and player.position.z > 4.5
 
 func _unhandled_input(event: InputEvent) -> void:
+	if complete:
+		return
+	if mail.visible:
+		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_E):
+			mail.close_message()
+			get_viewport().set_input_as_handled()
+		return
 	if intro_active:
 		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("ui_accept"):
 			finish_intro()
 			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("ui_cancel"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		if storybook.shade.visible:
+			storybook.back()
 		else:
-			get_tree().change_scene_to_file(TITLE)
+			set_pause_menu(not in_pause_menu)
 		get_viewport().set_input_as_handled()
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		return
+	if in_pause_menu:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		recapture()
 	elif event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		camera.look_with_mouse(event.relative, actor.seated)
-	elif event is InputEventKey and event.pressed and not event.echo and not dialog.visible:
+	elif event is InputEventKey and event.pressed and not event.echo and not mail.visible:
 		match event.physical_keycode:
 			KEY_E:
 				interact()
@@ -297,33 +421,70 @@ func _unhandled_input(event: InputEvent) -> void:
 					if actor.seated == 0.0:
 						seat_from = player.position
 					seat_requested = not seat_requested
+					workday.play_chair()
 			KEY_Q:
 				phone_requested = not phone_requested
 
 func interact() -> void:
-	if intro_active or dialog.visible or complete:
+	if intro_active or in_pause_menu or mail.visible or complete:
 		return
 	if arrived and near_desk():
-		read_mail = true
-		interaction_gesture = 1.0
-		terminal.text = locale.inbox
-		mail_indicator.hide()
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		dialog.dialog_text = locale.email
-		dialog.popup_centered()
+		open_email()
 	elif read_mail and near_exit():
-		complete = true
+		leave_office()
+
+func open_email() -> void:
+	read_mail = true
+	interaction_gesture = 1.0
+	phone_requested = false
+	mail.update_inbox(true, true)
+	mail_indicator.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	player.velocity = Vector3.ZERO
+	camera.focus_target = 1.0 if not storybook.reduce_motion else 0.0
+	mail.open_message()
+	if not storybook.reduce_motion:
+		if email_display != null:
+			email_display.kill()
+		mail.modulate.a = 0.0
+		email_display = create_tween()
+		email_display.tween_property(mail, "modulate:a", 1.0, 0.24)
+	else:
+		mail.modulate.a = 1.0
+
+func close_email() -> void:
+	camera.focus_target = 0.0
+	recapture()
+	update_status()
+
+func leave_office() -> void:
+	complete = true
+	status.hide()
+	if storybook.reduce_motion:
+		get_tree().change_scene_to_file.call_deferred(MAPS.APARTMENT_SCENE)
+		return
+	var fade := ColorRect.new()
+	fade.color = Color(0.034, 0.052, 0.050, 0.0)
+	root_ui.add_child(fade)
+	fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var transition := create_tween()
+	transition.tween_property(fade, "color:a", 1.0, 0.53)
+	transition.tween_callback(get_tree().change_scene_to_file.bind(MAPS.APARTMENT_SCENE))
 
 func box(position: Vector3, size: Vector3, color: Color, solid := false, glow := false) -> MeshInstance3D:
-	var mesh := BoxMesh.new()
-	mesh.size = size
-	var material := StandardMaterial3D.new()
-	material.albedo_color = color
-	material.roughness = 0.83
-	material.emission_enabled = glow
-	material.emission = color
-	material.emission_energy_multiplier = 0.65
-	mesh.material = material
+	var key := [size, color, glow]
+	var mesh: BoxMesh = block_meshes.get(key)
+	if mesh == null:
+		mesh = BoxMesh.new()
+		mesh.size = size
+		var material := StandardMaterial3D.new()
+		material.albedo_color = color
+		material.roughness = 0.83
+		material.emission_enabled = glow
+		material.emission = color
+		material.emission_energy_multiplier = 0.65
+		mesh.material = material
+		block_meshes[key] = mesh
 	var instance := MeshInstance3D.new()
 	instance.mesh = mesh
 	instance.position = position
@@ -339,29 +500,6 @@ func place_model(model: PackedScene, at: Vector3, yaw := 0.0, size := 1.0) -> No
 	item.scale = Vector3.ONE * size
 	add_child(item)
 	return item
-
-func desk_papers() -> void:
-	var sheets := Node3D.new()
-	sheets.position = Vector3(-0.69, 0.816, 0.177)
-	sheets.rotation.y = 0.19
-	var mark := get_child_count()
-	box(Vector3(0, 0.006, 0), Vector3(0.364, 0.012, 0.266), Color("9b785a"))
-	box(Vector3(0.011, 0.015, -0.013), Vector3(0.324, 0.010, 0.227), Color("eae1c8"))
-	box(Vector3(-0.058, 0.021, -0.085), Vector3(0.14, 0.002, 0.019), Color("7b8b77"))
-	for date_column in range(5):
-		var x := -0.11 + date_column * 0.056
-		for week in range(3):
-			var z := -0.043 + week * 0.045
-			var note := Color("d1c6ac")
-			if (date_column == 1 and week == 1) or (date_column == 3 and week == 0):
-				note = Color("aca16f")
-			box(Vector3(x, 0.021, z), Vector3(0.041, 0.002, 0.032), note)
-	box(Vector3(0.116, 0.023, 0.064), Vector3(0.10, 0.005, 0.082), Color("ddbb78")).rotation.y = -0.21
-	box(Vector3(-0.137, 0.025, 0.042), Vector3(0.009, 0.008, 0.145), Color("5c7669")).rotation.y = -0.16
-	var parts := get_children().slice(mark)
-	add_child(sheets)
-	for part in parts:
-		part.reparent(sheets, false)
 
 func fabric_panel(at: Vector3, size: Vector3, tone: Color, solid := false) -> MeshInstance3D:
 	if not textile_materials.has(tone):
@@ -400,21 +538,15 @@ func workstation_monitor(x: float, own: bool, layout: int) -> void:
 	add_child(display)
 	if not own:
 		return
-	terminal = Label3D.new()
-	terminal.text = locale.inbox
-	terminal.font = preload("res://assets/ui/fonts/ReadingSans.ttf")
-	terminal.font_size = 32
-	terminal.modulate = Color("253c3c")
-	terminal.outline_size = 0
-	terminal.pixel_size = 0.00115
-	terminal.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	terminal.position = screen_origin + Vector3(-0.229, 1.283, -0.240) * SIZE
-	add_child(terminal)
+	terminal = display
 	mail_indicator = box(screen_origin + Vector3(0.33, 1.258, -0.236) * SIZE,
 		Vector3(0.026, 0.025, 0.006) * SIZE, Color("c37555"), false, true)
 	mail_indicator.hide()
 
-func desk(at: Vector3, own := false, yaw := 0.0, occupied := false, bench := false) -> void:
+func key_cap(column: int, row: int) -> Vector3:
+	return Vector3(-0.204 + column * 0.037, 0.845, 0.138 + row * 0.043)
+
+func desk(at: Vector3, own := false, yaw := 0.0, occupied := false, bench := false, chair_inset := 0.0) -> Node3D:
 	var mark := get_child_count()
 	var tabletop := place_model(WALNUT_DESK, Vector3.ZERO)
 	finish_meshes(tabletop, "Quarter-sawn walnut", desk_finish)
@@ -422,35 +554,47 @@ func desk(at: Vector3, own := false, yaw := 0.0, occupied := false, bench := fal
 	var screen_x := 0.10 if own else (-0.40 if occupied else 0.11)
 	var layout := 0 if own else (1 + posmod(roundi(at.x * 2 + at.z), 2))
 	workstation_monitor(screen_x, own, layout)
-	box(Vector3(0, 0.829, 0.19), Vector3(0.47, 0.024, 0.16), Color("444b47"))
+	var keyboard_inset := 0.181 if own else 0.074
+	box(Vector3(0, 0.829, 0.19 + keyboard_inset), Vector3(0.47, 0.024, 0.16), Color("444b47"))
 	if own:
-		fabric_panel(Vector3(0.01, 0.819, 0.168), Vector3(1.03, 0.006, 0.48), Color("495e60"))
+		fabric_panel(Vector3(0.01, 0.819, 0.196), Vector3(1.03, 0.006, 0.52), Color("495e60"))
+	if own or chair_inset > 0.0:
+		var keyboard := Node3D.new()
+		keyboard.name = "KeyboardCaps"
+		add_child(keyboard)
 		for column in range(12):
 			for row in range(3):
-				box(Vector3(-0.204 + column * 0.037, 0.845, 0.138 + row * 0.043), Vector3(0.03, 0.008, 0.028), Color("b7b1a3") if (column + row * 5) % 8 != 0 else Color("958d7a"))
-		box(Vector3(0.67, 0.833, 0.18), Vector3(0.31, 0.025, 0.20), Color("965e48")).rotation.y = -0.16
-		box(Vector3(0.67, 0.833, 0.281), Vector3(0.29, 0.017, 0.01), Color("e1d0ae")).rotation.y = -0.16
+				var key := box(key_cap(column, row) + Vector3.BACK * keyboard_inset,
+					Vector3(0.03, 0.008, 0.028), Color("b7b1a3") if (column + row * 5) % 8 != 0 else Color("958d7a"))
+				key.reparent(keyboard, false)
+		if own:
+			player_keyboard = keyboard
+	if own:
 		var plant := place_model(PLANT, Vector3(-0.87, 0.818, -0.32), 0.4, 0.45)
 		plant.scale.x = 1.12
-		desk_papers()
-	place_model(MOUSE, Vector3(0.365, 0.822, 0.217), -0.12)
-	if own or occupied or layout == 1:
-		place_model(MUG, Vector3(0.70, 0.818, -0.065), 0.35 if own else -0.65)
+	var mouse := place_model(MOUSE, Vector3(0.365, 0.822, 0.217 + keyboard_inset * 0.74), -0.12)
+	mouse.name = "WorkMouse"
+	if own:
+		player_mouse = mouse
+	if own:
+		place_model(MUG, Vector3(0.41, 0.818, -0.095), 0.35)
+	elif occupied or layout == 1:
+		place_model(MUG, Vector3(0.61, 0.818, -0.08), -0.65)
 	else:
 		box(Vector3(-0.54, 0.826, 0.20), Vector3(0.26, 0.015, 0.20), Color("9a856a")).rotation.y = 0.15
 		box(Vector3(-0.54, 0.836, 0.20), Vector3(0.23, 0.009, 0.18), Color("c9bd9e")).rotation.y = 0.15
-	if own:
-		place_model(DESK_LAMP, Vector3(0.91, 0.818, -0.31), -0.08, 0.73)
+	if own or (layout == 2 and not occupied):
+		place_model(DESK_LAMP, Vector3(0.97, 0.818, -0.35), -0.08, 0.73)
 		var practical := OmniLight3D.new()
 		practical.position = Vector3(0.86, 1.05, -0.17)
-		practical.light_color = Color("ffd09c")
-		practical.light_energy = 0.32
+		practical.light_color = Color("ffe0b8")
+		practical.light_energy = 0.26
 		practical.omni_range = 1.35
 		add_child(practical)
 	if own:
 		desk_chair = place_model(TASK_CHAIR, Vector3(0, 0, 0.90), PI)
 	else:
-		var chair := place_model(TASK_CHAIR, Vector3(0, 0, 0.91), PI + (0.16 if not occupied else 0.0))
+		var chair := place_model(TASK_CHAIR, Vector3(0, 0, 0.91 - chair_inset), PI + (0.16 if not occupied else 0.0))
 		var obstacle := StaticBody3D.new()
 		var shape := CollisionShape3D.new()
 		var extents := BoxShape3D.new()
@@ -459,6 +603,13 @@ func desk(at: Vector3, own := false, yaw := 0.0, occupied := false, bench := fal
 		shape.position.y = 0.46
 		chair.add_child(obstacle)
 		obstacle.add_child(shape)
+	var decor := posmod(roundi(at.x * 13.0 + at.z * 7.0), 6)
+	if decor == 1 or decor == 3:
+		var notebook := box(Vector3(0.73, 0.833, 0.235), Vector3(0.188, 0.023, 0.246), Color("836f68") if decor == 1 else Color("6a7d6b"))
+		notebook.rotation.y = -0.16 if decor == 1 else 0.23
+		box(notebook.position + Vector3(0, 0.003, 0.005), Vector3(0.177, 0.013, 0.242), Color("c5b99e")).rotation.y = notebook.rotation.y
+	var cable := box(Vector3(screen_x + 0.084, 0.820, -0.344), Vector3(0.011, 0.009, 0.222), Color("4a4841"))
+	cable.rotation.y = 0.25
 	var components := get_children().slice(mark)
 	var station := Node3D.new()
 	station.name = "PlayerWorkstation" if own else "Workstation"
@@ -469,6 +620,8 @@ func desk(at: Vector3, own := false, yaw := 0.0, occupied := false, bench := fal
 	station.rotation.y = yaw
 	if bench:
 		station.scale.x = BENCH_SCALE
+	paperwork.workstation(station, own, roundi(at.x * 3.0 + at.z * 5.0))
+	return station
 
 func build_staff_bench(origin: Vector3, includes_player: bool) -> void:
 	const BANK_DEPTH := 1.06
@@ -477,8 +630,8 @@ func build_staff_bench(origin: Vector3, includes_player: bool) -> void:
 		var front := origin + Vector3(slot * DESK_SPACING, 0.0, 0.0)
 		var back := front - Vector3(0.0, 0.0, BANK_DEPTH)
 		var own := includes_player and slot == 0
-		desk(front, own, 0.0, not own and slot == 1, true)
-		desk(back, false, PI, false, true)
+		var station := desk(front, own, 0.0, not own, true, 0.0 if own else STAFF_CHAIR_INSET)
+		var rear_station := desk(back, false, PI, true, true, STAFF_CHAIR_INSET)
 		var acoustic := Color("586d6e") if includes_player else Color("537777")
 		fabric_panel(Vector3(front.x, 0.949, spine_z), Vector3(1.91, 0.263, 0.066), acoustic, true)
 		box(Vector3(front.x, 1.085, spine_z), Vector3(1.92, 0.019, 0.069), Color("87735d"))
@@ -493,35 +646,53 @@ func build_staff_bench(origin: Vector3, includes_player: bool) -> void:
 			fabric_panel(Vector3(seam, 0.913, origin.z - 0.10), Vector3(0.05, 0.218, 0.63), acoustic, true)
 			box(Vector3(seam, 1.024, origin.z - 0.10), Vector3(0.058, 0.019, 0.64), Color("a6977f"))
 		if includes_player and slot == 1:
-			typing_colleague = ACTOR.instantiate()
-			typing_colleague.model = COLLEAGUE_VISUAL
-			typing_colleague.position = DESK_SEAT + Vector3(DESK_SPACING, 0.0, 0.0)
-			typing_colleague.rotation.y = PI
-			typing_colleague.seated = 1.0
-			typing_colleague.typing = 0.83
-			typing_colleague.add_to_group("office_colleagues")
-			add_child(typing_colleague)
+			typing_colleague = add_typing_colleague(station, 0, "ColleagueNPC01")
+		elif includes_player and slot == 2:
+			male_colleague = add_typing_colleague(station, 1, "ColleagueNPC02")
 		elif not own:
-			colleague(SEATED_COLLEAGUE, front + Vector3(0, 0, 0.87), PI - 0.08 * slot,
-				1.29 + 0.04 * slot, (slot + 2) % STAFF_PALETTES.size(), false)
-		colleague(SEATED_COLLEAGUE, back - Vector3(0, 0, 0.88), 0.08 - 0.095 * slot,
-			1.31 + 0.025 * slot, (slot + (0 if includes_player else 3)) % STAFF_PALETTES.size(), false)
+			add_typing_colleague(station, slot % 2)
+		add_typing_colleague(rear_station, (slot + int(includes_player)) % 2)
 	box(Vector3(origin.x + DESK_SPACING, 0.726, spine_z), Vector3(5.86, 0.087, 0.15), Color("62685c"))
+
+func add_coworker(model_index: int, at: Vector3, yaw: float, is_seated: bool, actor_name := "OfficeColleague") -> Node3D:
+	var coworker = ACTOR.instantiate()
+	coworker.name = actor_name
+	coworker.model = COWORKER_MODELS[model_index]
+	coworker.seated_hip_drop = COWORKER_HIP_DROPS[model_index]
+	coworker.position = at
+	coworker.rotation.y = yaw
+	coworker.seated = 1.0 if is_seated else 0.0
+	coworker.clock = float(seated_coworkers.size() + standing_coworkers.size()) * 0.39
+	coworker.add_to_group("office_colleagues")
+	add_child(coworker)
+	return coworker
+
+func add_typing_colleague(station: Node3D, model_index: int, actor_name := "OfficeColleague") -> Node3D:
+	var at := to_local(station.to_global(Vector3(0.0, 0.02, 0.83 - STAFF_CHAIR_INSET)))
+	var coworker := add_coworker(model_index, at, station.rotation.y + PI, true, actor_name)
+	coworker.typing = 0.83
+	coworker.keystroke_seconds = 0.35 + 0.028 * (seated_coworkers.size() % 5)
+	coworker.bind_keyboard(station.get_node("KeyboardCaps"))
+	coworker.mouse_prop = station.get_node("WorkMouse")
+	seated_coworkers.append(coworker)
+	coworker.resync(0.0, Vector3.ZERO)
+	return coworker
 
 func build_staff() -> void:
 	build_staff_bench(WORK_DESK, true)
-	build_staff_bench(Vector3(1.64, 0.0, 0.48), false)
+	build_staff_bench(EAST_BANK, false)
 	for index in range(2):
 		var at := Vector3(-5.18 + index * 2.08, 0, -4.35 + index * 0.08)
-		var yaw := 0.12
-		desk(at, false, yaw, index == 0, true)
-		var seat := at + Vector3(0, 0, 0.90).rotated(Vector3.UP, yaw)
-		colleague(SEATED_COLLEAGUE, seat, yaw + PI - 0.11, 1.31 + 0.017 * index, index, false)
+		var station := desk(at, false, 0.12, true, true, STAFF_CHAIR_INSET)
+		var coworker := add_typing_colleague(station, index)
+		if index == 0:
+			coworker_at_archives = coworker
+			archive_home = coworker.position
 	build_meeting_area()
 	# A small group by the printer. The cross aisle stays open in front of them.
-	colleague(AISLE_COLLEAGUE, Vector3(-1.37, 0, -3.98), 1.53, 1.66, 4)
-	colleague(AISLE_COLLEAGUE, Vector3(-0.50, 0, -3.90), -1.34, 1.74, 1)
-	colleague(AISLE_COLLEAGUE, Vector3(3.33, 0, -3.63), 1.27, 1.58, 2)
+	add_standing_colleague(Vector3(-1.37, 0, -3.98), 1.38, 0)
+	add_standing_colleague(Vector3(-0.50, 0, -3.90), -1.63, 1)
+	add_standing_colleague(Vector3(3.33, 0, -3.63), 1.27, 1)
 
 func build_meeting_area() -> void:
 	var at := Vector3(5.03, 0, -3.76)
@@ -530,70 +701,44 @@ func build_meeting_area() -> void:
 	finish_meshes(table, "Quarter-sawn walnut", desk_finish)
 	box(at + Vector3(0, 0.783, 0), Vector3(2.36, 0.083, 1.15), Color.WHITE, true).hide()
 	place_model(PLANT, at + Vector3(0.79, 0.83, 0.08), -0.31, 0.29)
-	place_model(MUG, at + Vector3(-0.73, 0.83, 0.30), 0.81)
+	var meeting_mug := place_model(MUG, at + Vector3(-0.73, 0.83, 0.37), 0.81, 0.84)
 	place_model(MUG, at + Vector3(0.38, 0.83, -0.22), -0.50)
-	for page in range(3):
-		var document := box(at + Vector3(-0.21 + page * 0.088, 0.834 + page * 0.006, -0.13 + page * 0.042),
-			Vector3(0.24, 0.006, 0.32), Color("ded1b8") if page != 0 else Color("8e7772"))
-		document.rotation.y = -0.38 + page * 0.28
-	place_model(TASK_CHAIR, at + Vector3(-0.48, 0, 0.91), PI - 0.21)
-	place_model(TASK_CHAIR, at + Vector3(0.37, 0, -0.90), 0.24)
-	colleague(SEATED_COLLEAGUE, at + Vector3(-0.48, 0, 0.89), PI - 0.21, 1.31, 3)
-	colleague(SEATED_COLLEAGUE, at + Vector3(0.37, 0, -0.88), 0.24, 1.36, 5)
+	paperwork.packet(self, at + Vector3(-0.24, 0.826, 0.03), -0.36, "8e7772", true)
+	paperwork.page(self, at + Vector3(0.37, 0.827, -0.14), 2.79, 0)
+	meeting_listener = add_meeting_colleague(at + Vector3(-0.48, 0, 0.86), PI - 0.21, 1)
+	meeting_listener.drink_prop = meeting_mug
+	meeting_listener.drink_rest = meeting_mug.global_transform
+	add_meeting_colleague(at + Vector3(0.37, 0, -0.86), -0.24, 0)
 
-func staff_color(style: int, material_name: String) -> Color:
-	var palette: Array = STAFF_PALETTES[style]
-	match material_name:
-		"Knit": return palette[0]
-		"Knit trim": return palette[0].darkened(0.24)
-		"Hair": return palette[1]
-		"Skin": return palette[2]
-	return Color.TRANSPARENT
+func add_meeting_colleague(at: Vector3, yaw: float, model_index: int) -> Node3D:
+	place_model(TASK_CHAIR, at, yaw)
+	var coworker := add_coworker(model_index, at + Vector3.UP * 0.02, yaw, true)
+	coworker.keyboard_targets.assign([
+		coworker.to_global(Vector3(0.14, 0.822, 0.45)),
+		coworker.to_global(Vector3(-0.14, 0.822, 0.42)),
+	])
+	seated_coworkers.append(coworker)
+	coworker.resync(0.0, Vector3.ZERO)
+	add_colleague_obstacle(coworker, 1.30)
+	return coworker
 
-func dress_colleague(model: Node3D, style: int) -> void:
-	for child in model.find_children("*", "MeshInstance3D", true, false):
-		var visual := child as MeshInstance3D
-		for surface in range(visual.mesh.get_surface_count()):
-			var base := visual.mesh.surface_get_material(surface) as StandardMaterial3D
-			if base == null:
-				continue
-			var tint := staff_color(style, base.resource_name)
-			if tint.a == 0.0:
-				continue
-			var key := "%d:%d" % [base.get_instance_id(), style]
-			if not colleague_materials.has(key):
-				var cloth := base.duplicate() as StandardMaterial3D
-				cloth.albedo_color = tint
-				colleague_materials[key] = cloth
-			visual.set_surface_override_material(surface, colleague_materials[key])
+func add_standing_colleague(at: Vector3, yaw: float, model_index: int) -> void:
+	var coworker := add_coworker(model_index, at, yaw, false)
+	coworker.gesture_side = "R" if model_index == 0 or yaw > 0.0 else "L"
+	coworker.pose_standing_coworker(0.0)
+	standing_coworkers.append(coworker)
+	add_colleague_obstacle(coworker, 1.72)
 
-func colleague(model: PackedScene, at: Vector3, yaw: float, height: float, style: int, solid := true) -> void:
-	var visual := model.instantiate() as Node3D
-	var bounds := FieldAssets.bounds(visual)
-	var scale_factor := height / bounds.size.y
-	var anchor := Node3D.new()
-	anchor.name = "OfficeColleague"
-	anchor.add_to_group("office_colleagues")
-	anchor.position = at
-	anchor.rotation.y = yaw
-	add_child(anchor)
-	anchor.add_child(visual)
-	visual.scale *= scale_factor
-	visual.position.y -= bounds.position.y * scale_factor
-	dress_colleague(visual, style)
-	var head := visual.find_child("IdleHead", true, false) as Node3D
-	if head != null:
-		colleague_heads.append(head)
-	if solid:
-		var obstacle := StaticBody3D.new()
-		var collision := CollisionShape3D.new()
-		var capsule := CapsuleShape3D.new()
-		capsule.radius = 0.20
-		capsule.height = height
-		collision.shape = capsule
-		collision.position.y = height * 0.5
-		anchor.add_child(obstacle)
-		obstacle.add_child(collision)
+func add_colleague_obstacle(coworker: Node3D, height: float) -> void:
+	var obstacle := StaticBody3D.new()
+	var collision := CollisionShape3D.new()
+	var capsule := CapsuleShape3D.new()
+	capsule.radius = 0.20
+	capsule.height = height
+	collision.shape = capsule
+	collision.position.y = height * 0.5
+	coworker.add_child(obstacle)
+	obstacle.add_child(collision)
 
 func archive_bay(x: float, z: float, width: float) -> void:
 	# Warm timber edges wrap a dark backing, with shelving and varied folders.
@@ -664,7 +809,8 @@ func city_block(at: Vector3, width: float, height: float, tone: Color, foregroun
 	var top := base + height
 	var front := width * 0.38
 	var main := box(Vector3(0, base + height * 0.5, 0), Vector3(width, height, front * 2), tone)
-	var stone := main.mesh.material as StandardMaterial3D
+	var stone := main.mesh.material.duplicate() as StandardMaterial3D
+	main.material_override = stone
 	stone.emission_enabled = true
 	stone.emission = Color("7995a7").lerp(tone, 0.28)
 	stone.emission_energy_multiplier = 0.12 if foreground else 0.30
@@ -681,6 +827,8 @@ func city_block(at: Vector3, width: float, height: float, tone: Color, foregroun
 			box(Vector3(0, top - 0.21, 0), Vector3(width * 1.06, 0.46, front * 2 + 0.13), tone.lightened(0.11))
 			box(Vector3(width * 0.19, top + 0.35, -front * 0.31), Vector3(width * 0.33, 0.57, front * 0.69), tone.darkened(0.08))
 	if foreground:
+		var dark_windows: Array = []
+		var lit_windows: Array = []
 		var glass_tint := tone.darkened(0.29)
 		var columns := 4 if style == 1 else 3
 		var pitch := 0.77 if style == 1 else 0.99
@@ -699,8 +847,14 @@ func city_block(at: Vector3, width: float, height: float, tone: Color, foregroun
 				if occupied:
 					window_color = Color("c8a77c") if variation == 0 else Color("9d9382")
 				var ratio := 0.58 if style != 2 else 0.67
-				box(Vector3(x, y, front + 0.026), Vector3(width / columns * ratio,
-					0.40 if style == 1 else 0.50, 0.014), window_color, false, occupied)
+				var size := Vector3(width / columns * ratio, 0.40 if style == 1 else 0.50, 0.014)
+				var pane := [Transform3D(Basis.from_scale(size), Vector3(x, y, front + 0.026)), window_color]
+				if occupied:
+					lit_windows.append(pane)
+				else:
+					dark_windows.append(pane)
+		city_windows(dark_windows, false)
+		city_windows(lit_windows, true)
 		if style == 1:
 			for column in range(5):
 				var x := (column - 2) * width * 0.20
@@ -714,6 +868,31 @@ func city_block(at: Vector3, width: float, height: float, tone: Color, foregroun
 		part.reparent(building, false)
 	building.position = at
 	building.rotation.y = yaw
+
+func city_windows(panes: Array, lit: bool) -> void:
+	if panes.is_empty():
+		return
+	var facade := StandardMaterial3D.new()
+	facade.vertex_color_use_as_albedo = true
+	facade.roughness = 0.92
+	facade.emission_enabled = lit
+	facade.emission = Color("b7ae96")
+	facade.emission_energy_multiplier = 0.24
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3.ONE
+	mesh.material = facade
+	var batch := MultiMesh.new()
+	batch.transform_format = MultiMesh.TRANSFORM_3D
+	batch.use_colors = true
+	batch.mesh = mesh
+	batch.instance_count = panes.size()
+	for index in range(panes.size()):
+		batch.set_instance_transform(index, panes[index][0])
+		batch.set_instance_color(index, panes[index][1])
+	var windows := MultiMeshInstance3D.new()
+	windows.multimesh = batch
+	windows.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(windows)
 
 func build_city() -> void:
 	const BLOCKS := [
@@ -732,7 +911,7 @@ func build_city() -> void:
 		city_block(Vector3(near_block.z + 2, 0, -near_block.x), 3.0 + (row % 2) * 1.2, near_block.y, tone, true, PI / 2, (row + 2) % 3)
 
 func shared_storage() -> void:
-	# The warm copy station anchors the end of the centre aisle.
+	# The copy station anchors the end of the centre aisle.
 	var at := Vector3(0.22, 0.0, -5.36)
 	var back := box(at + Vector3(0, 1.57, -0.15), Vector3(3.20, 2.45, 0.12), Color("825743"), true)
 	var tile := ShaderMaterial.new()
@@ -741,19 +920,26 @@ func shared_storage() -> void:
 	var cabinetry := place_model(COPY_ALCOVE, at)
 	finish_meshes(cabinetry, "Ivory shade lining", lens_finish)
 	box(at + Vector3(0, 0.417, 0.14), Vector3(3.00, 0.82, 0.70), Color.WHITE, true).hide()
-	# A corkboard, stacked supply trays and a small planter break up the counter.
 	var notice := at + Vector3(0.47, 1.91, -0.064)
 	box(notice, Vector3(1.20, 0.66, 0.043), Color("554b3b"))
 	fabric_panel(notice + Vector3(0, 0, 0.030), Vector3(1.12, 0.58, 0.020), Color("9e896c"))
-	for sheet in range(4):
-		var page := box(notice + Vector3(-0.42 + sheet * 0.24, 0.065 - (sheet % 2) * 0.13, 0.045),
-			Vector3(0.18, 0.23, 0.005), Color("e1d1ac") if sheet != 2 else Color("9bb1a4"))
-		page.rotation.z = sin(sheet * 5.2) * 0.13
+	for sheet in range(5):
+		var x := -0.438 + sheet * 0.218
+		var y := 0.085 - (sheet % 2) * 0.16
+		var page := paperwork.page(self, notice + Vector3(x, y, 0.048 + (sheet % 2) * 0.006), 0.0, sheet % 2)
+		page.basis = Basis(Vector3.BACK, sin(sheet * 5.2) * 0.14) * Basis(Vector3.RIGHT, PI * 0.5)
+		box(notice + Vector3(x, y + 0.112, 0.060), Vector3(0.010, 0.012, 0.012), Color("8b5b48"))
 	place_model(PLANT, at + Vector3(1.15, 0.83, 0.25), 0.92, 0.50)
-	for tray in range(3):
-		box(at + Vector3(0.38, 0.85 + tray * 0.077, 0.16), Vector3(0.30, 0.033, 0.23), Color("525c54"))
-		box(at + Vector3(0.39, 0.871 + tray * 0.077, 0.185), Vector3(0.255, 0.013, 0.17), Color("bcaf91"))
-	var wash := local_light(at + Vector3(0.0, 2.55, 0.24), at + Vector3(0.0, 0.87, 0.05), Color("ffd199"), 0.94, 3.1)
+	paperwork.tray(cabinetry, Vector3(0.39, 0.826, 0.23), 0.01)
+	paperwork.packet(cabinetry, Vector3(-0.08, 0.826, 0.31), -0.21, "717b71")
+	paperwork.wastebasket(self, at + Vector3(1.71, 0.002, 0.21))
+	var output := paperwork.page(cabinetry, OFFICE_WORKDAY.FEED_ORIGIN, 0.0, 1)
+	output.scale = Vector3(1.04, 0.22, 0.54)
+	workday = OFFICE_WORKDAY.new()
+	workday.name = "OfficeWorkday"
+	add_child(workday)
+	workday.configure(WORK_DESK, EAST_BANK, at, output)
+	var wash := local_light(at + Vector3(0.0, 2.55, 0.24), at + Vector3(0.0, 0.87, 0.05), Color("dddee0"), 0.82, 3.1)
 	wash.spot_angle = 58.0
 
 func local_light(at: Vector3, target: Vector3, tint: Color, energy: float, reach: float, shadows := false) -> SpotLight3D:
@@ -789,18 +975,18 @@ func office_lighting() -> void:
 		for x in [-2.93, 2.93]:
 			box(zone + Vector3(x, 0.010, 0), Vector3(0.084, 0.124, 2.62), frame)
 
-	pendant(Vector3(-4.76, 2.68, 1.10), Vector3(-4.84, 0.86, 0.91), Color("ffe8cd"), 0.67, 0.0, true)
-	pendant(Vector3(-1.94, 2.72, 0.18), Vector3(-1.92, 0.78, -0.05), Color("f1e2cf"), 1.12)
-	pendant(Vector3(2.92, 2.73, -0.38), Vector3(2.70, 0.82, -0.56), Color("f3e3cb"), 1.22)
-	pendant(Vector3(5.25, 2.73, 0.68), Vector3(5.12, 0.84, 0.55), Color("f1dec3"), 1.06)
-	pendant(Vector3(4.98, 2.73, -3.67), Vector3(5.04, 0.79, -3.68), Color("ffe0af"), 1.10, -0.10, true)
-	pendant(Vector3(-4.08, 2.73, -3.89), Vector3(-4.19, 0.80, -4.36), Color("ebe7d8"), 1.04)
+	pendant(Vector3(-4.76, 2.68, 1.10), Vector3(-4.84, 0.86, 0.91), Color("f6e5cf"), 0.76, 0.0, true)
+	pendant(Vector3(-1.94, 2.72, 0.18), Vector3(-1.92, 0.78, -0.05), Color("e0e7e1"), 1.05)
+	pendant(Vector3(2.92, 2.73, -0.38), Vector3(2.70, 0.82, -0.56), Color("e0e9e6"), 1.17)
+	pendant(Vector3(5.25, 2.73, 0.68), Vector3(5.12, 0.84, 0.55), Color("e5e6da"), 1.02)
+	pendant(Vector3(4.98, 2.73, -3.67), Vector3(5.04, 0.79, -3.68), Color("f1dfc6"), 1.15, -0.10, true)
+	pendant(Vector3(-4.08, 2.73, -3.89), Vector3(-4.19, 0.80, -4.36), Color("e0e7e2"), 0.99)
 	# Wall washers leave the aisle readable when the player turns away from the windows.
 	local_light(Vector3(0.27, 2.93, 4.97), Vector3(0, 1.04, 5.65), Color("ffdfa8"), 1.01, 3.57)
 	local_light(Vector3(6.28, 2.94, 2.98), Vector3(7.75, 1.40, 2.32), Color("d8d9d1"), 0.43, 3.66)
 	var bounce := OmniLight3D.new()
 	bounce.position = Vector3(-3.5, 1.8, 2.38)
-	bounce.light_energy = 0.15
+	bounce.light_energy = 0.26
 	bounce.light_color = Color("f0cda5")
 	bounce.omni_range = 5.0
 	add_child(bounce)
@@ -902,6 +1088,12 @@ func build_office() -> void:
 	sun.shadow_enabled = true
 	add_child(sun)
 	storm.configure(atmosphere, sun)
+	atmosphere.fog_enabled = true
+	atmosphere.fog_mode = Environment.FOG_MODE_DEPTH
+	atmosphere.fog_depth_begin = 15.0
+	atmosphere.fog_depth_end = 62.0
+	atmosphere.fog_density = 0.56
+	atmosphere.fog_light_color = Color("8f9fad")
 	var cooler := Vector3(6.75, 0.0, 3.74)
 	box(cooler + Vector3(0, 0.51, 0), Vector3(0.79, 1.02, 0.54), Color("6c7973"), true)
 	box(cooler + Vector3(0, 1.032, 0), Vector3(0.81, 0.08, 0.56), Color("a69d86"))

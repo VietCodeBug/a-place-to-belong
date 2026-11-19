@@ -4,10 +4,10 @@ const RAIN = preload("res://scripts/story/office_rain.gdshader")
 const GLASS = preload("res://scripts/story/office_wet_glass.gdshader")
 const CLOUDS = preload("res://scripts/story/office_clouds.gdshader")
 const BOLT = preload("res://scripts/story/office_lightning.gdshader")
-const FIRST_STRIKE := 3.55
+const FIRST_STRIKE := 14.0
 const FLASH_DURATION := 0.27
-const DAYLIGHT := 0.085
-const AMBIENT := 0.46
+const DAYLIGHT := 0.068
+const AMBIENT := 0.45
 
 var atmosphere: Environment
 var daylight: DirectionalLight3D
@@ -20,10 +20,13 @@ var thunder: AudioStreamPlayer3D
 var rng := RandomNumberGenerator.new()
 var elapsed := 0.0
 var next_strike := FIRST_STRIKE
+var next_cloud_update := 0.0
 var flash_at := -1.0
 var thunder_at := -1.0
 var west := true
 var flash := 0.0
+var reading_mail := false
+var flashes_enabled := true
 
 func configure(environment: Environment, light: DirectionalLight3D) -> void:
 	atmosphere = environment
@@ -32,11 +35,13 @@ func configure(environment: Environment, light: DirectionalLight3D) -> void:
 	cloud_material = ShaderMaterial.new()
 	cloud_material.shader = CLOUDS
 	var sky := Sky.new()
+	sky.radiance_size = Sky.RADIANCE_SIZE_32
+	sky.process_mode = Sky.PROCESS_MODE_INCREMENTAL
 	sky.sky_material = cloud_material
 	atmosphere.sky = sky
 	atmosphere.background_mode = Environment.BG_SKY
 	atmosphere.ambient_light_energy = AMBIENT
-	atmosphere.ambient_light_color = Color("becfdf")
+	atmosphere.ambient_light_color = Color("bacbdc")
 	daylight.light_energy = DAYLIGHT
 	daylight.light_color = Color("cfdef1")
 
@@ -54,7 +59,7 @@ func configure(environment: Environment, light: DirectionalLight3D) -> void:
 	rain_audio = AudioStreamPlayer.new()
 	rain_audio.name = "RainThroughGlass"
 	rain_audio.stream = preload("res://assets/audio/rain_loop.wav")
-	rain_audio.volume_db = -24.0
+	rain_audio.volume_db = -20.5
 	add_child(rain_audio)
 	if DisplayServer.get_name() != "headless":
 		rain_audio.play()
@@ -109,14 +114,22 @@ func rain_sheet(lower: Vector3, span: Vector3, count: int) -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
+	if elapsed >= next_cloud_update:
+		cloud_material.set_shader_parameter("drift", elapsed)
+		next_cloud_update = elapsed + 0.50
 	if elapsed >= next_strike:
-		strike()
-		next_strike = elapsed + rng.randf_range(11.8, 19.3)
+		if reading_mail:
+			next_strike = elapsed + 7.0
+		else:
+			strike()
+			next_strike = elapsed + rng.randf_range(27.0, 46.0)
 	if thunder_at >= 0.0 and elapsed >= thunder_at:
 		thunder.play()
 		thunder_at = -1.0
 	var age := elapsed - flash_at
 	var amount := (1.0 - smoothstep(0.035, FLASH_DURATION, age)) if flash_at >= 0.0 else 0.0
+	if not flashes_enabled:
+		amount = 0.0
 	if not is_equal_approx(amount, flash):
 		apply_flash(amount)
 
@@ -158,7 +171,7 @@ func draw_branch(points: Array[Vector3], horizontal: Vector3, width: float) -> v
 
 func apply_flash(amount: float) -> void:
 	flash = amount
-	daylight.light_energy = DAYLIGHT + amount * 0.56
+	daylight.light_energy = DAYLIGHT + amount * 0.40
 	atmosphere.ambient_light_energy = AMBIENT + amount * 0.08
 	cloud_material.set_shader_parameter("flash", amount)
 	bolt_material.set_shader_parameter("flash", amount)

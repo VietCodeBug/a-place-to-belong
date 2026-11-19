@@ -17,8 +17,10 @@ The creator's narrative documents remain on the preserved [story/forest-post-caf
 The playable work is on [feature/map01-lighting-presets / PR #10](https://github.com/VietCodeBug/a-place-to-belong/pull/10), which remains unmerged. The default branch still contains the earlier concept baseline until changes are reviewed.
 
 - Godot **4.6.3**, GDScript, 3D, Compatibility renderer; target: Windows PC.
-- One existing 48 × 48 m forest hub with the café/post-office location, character movement, camera and reading/talking interactions.
-- Handwritten-style menus, circular postal HUD and letter presentation.
+- **Map 01 · Office** opens in first person. Open and reread the HR email at your workstation, then use the exit to enter the rented apartment in PRO-003.
+- **Map 02 · Forest** is the existing 48 × 48 m clearing with the café, mailbox and woodland paths. It can also be opened directly from the main menu.
+- The apartment plays three moments in the same rented room. It is part of the real-world prologue.
+- Both maps share handwritten-style pause menus and session settings. The main menu looks out over the forest clearing.
 - The current prototype does not yet implement a complete open world, delivery quest loop, inventory or save system.
 
 The café and postal assets remain part of the prototype. Renaming the game does not redesign the location or alter gameplay.
@@ -31,7 +33,7 @@ cd a-place-to-belong
 godot --editor --path .
 ```
 
-Install Godot 4.6.3 or use `tools/setup_godot.sh`. Press F6/F5 as appropriate in the editor, or run `godot --path .`. Controls: WASD move, Shift jog, mouse wheel camera distance, E interact, Esc menu/close. Weather test controls remain outside the normal menus (`--atmosphere-debug`).
+Install Godot 4.6.3 or use `tools/setup_godot.sh`. Press F5 in the editor or run `godot --path .`. Both maps use WASD to move, Shift to jog, E to interact and Esc to pause. In the office, move the mouse to look around, press F to sit or stand, or Q to check the phone. Office Settings → Controls includes mouse sensitivity and a head bob toggle. In the forest, scroll to change the camera distance. The forest weather test controls require `--atmosphere-debug`.
 
 ## Development references
 

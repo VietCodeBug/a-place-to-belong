@@ -4,6 +4,8 @@ Godot **4.6.3 stable**, GDScript, 3D, Compatibility renderer. Original concept a
 art documents are preserved. This prototype implements a bounded outdoor hub,
 not the full game or a café interior.
 
+For the current two-map flow and controls, see [Run the development prototype](../README.md#run-the-development-prototype). The instructions below describe the original forest foundation.
+
 ## Play on Windows
 1. Install the standard (non-.NET) Godot 4.6.3 editor from godotengine.org.
 2. Clone the repository and select feature/phase-01-godot-foundation (or main once

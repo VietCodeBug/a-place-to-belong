@@ -2,6 +2,7 @@ extends Node3D
 const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
 const L = preload("res://scripts/world/landscape.gd")
+const MAPS = preload("res://scripts/story/map_flow.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
 var player: CharacterBody3D
@@ -121,7 +122,7 @@ func landmarks() -> void:
 	sign_info.interaction_radius = 1.95
 	sign_info.category = "TRAIL & CAFÉ GUIDE"
 	sign_info.title = "Forest Post Café — Clearing Directory"
-	sign_info.message = "←  Porch Counter & Espresso Hearth\n↑  Mailbox Dispatch Box (Check before heading out!)\n↘  South Meadow Trailhead (Map 01 Clearing)\n\nToday's Special: Honey-Oak Roast & Warm Berry Tart."
+	sign_info.message = "←  Porch Counter & Espresso Hearth\n↑  Mailbox Dispatch Box (Check before heading out!)\n↘  South Meadow Trailhead (%s)\n\nToday's Special: Honey-Oak Roast & Warm Berry Tart." % MAPS.label(MAPS.FOREST)
 	add_child(sign_info)
 
 	# 4. Vignette B: Organized Postal Sorting & Firewood Side Yard (right of cafe)

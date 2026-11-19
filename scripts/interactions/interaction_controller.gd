@@ -6,6 +6,8 @@ extends CanvasLayer
 ## - Stationery letter & conversation modal card (retains panel/heading/body/active API)
 ## - Cozy Pause, Atmosphere Studio & Quality/Audio Settings menu
 
+const T = preload("res://scripts/ui/storybook_theme.gd")
+const MAPS = preload("res://scripts/story/map_flow.gd")
 const CozyIcon = preload("res://scripts/ui/cozy_ui_icons.gd")
 
 var player: CharacterBody3D
@@ -65,11 +67,14 @@ func _ready() -> void:
 	root_ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root_ui)
 
-	root_ui.theme=preload("res://scripts/ui/storybook_theme.gd").theme()
+	root_ui.theme = T.theme()
 	storybook=preload("res://scripts/ui/storybook_screens.gd").new(self)
 	build_hud()
 	build_interaction_prompt()
 	build_letter_modal()
+	var saved_grass_quality: String = get_tree().get_meta(MAPS.GRASS_QUALITY, current_grass_quality)
+	if saved_grass_quality != current_grass_quality:
+		apply_grass_quality(saved_grass_quality)
 	build_pause_menu()
 	build_title_menu()
 	notice=preload("res://scripts/ui/storybook_theme.gd").label("",15,Color("F6E8D0"))
@@ -83,8 +88,10 @@ func _ready() -> void:
 
 	# Show Scenic Main Menu on interactive game launches; skip automatically in headless/SceneTree test scripts
 	var launched_as_main := (get_tree().current_scene == hub)
-	var skip_title := DisplayServer.get_name() == "headless" or OS.get_cmdline_user_args().has("--no-title") or OS.get_cmdline_user_args().has("--lighting=golden_hour") or OS.get_cmdline_user_args().has("--lighting=blue_hour") or OS.get_cmdline_user_args().has("--lighting=baseline")
-	if launched_as_main and not skip_title:
+	var args := OS.get_cmdline_user_args()
+	var skip_title := DisplayServer.get_name() == "headless" or args.has("--no-title") \
+		or args.has("--lighting=golden_hour") or args.has("--lighting=blue_hour") or args.has("--lighting=baseline")
+	if hub.get_meta(MAPS.SHOW_TITLE, launched_as_main and not skip_title):
 		enter_title_menu(true)
 	else:
 		exit_title_menu(true)
@@ -125,7 +132,10 @@ func build_hud() -> void:
 	hud_weather_label.add_theme_color_override("font_color", Color("B5CBB4"))
 	col.add_child(hud_weather_label)
 
-	for text_label in [hud_time_label,hud_weather_label]:
+	var map_label := T.label(MAPS.label(MAPS.FOREST), 12, Color("F7EEDB"))
+	col.add_child(map_label)
+
+	for text_label in [hud_time_label, hud_weather_label, map_label]:
 		text_label.add_theme_color_override("font_outline_color",Color("253D32"))
 		text_label.add_theme_constant_override("outline_size",4)
 	root_ui.add_child(hud_badge)
@@ -265,7 +275,7 @@ func build_pause_menu() -> void:
 	storybook.build_pause()
 
 func enter_title_menu(instant := false) -> void:
-	storybook.shade.hide()
+	storybook.close_page()
 	in_title_menu = true
 	in_pause_menu = false
 	pause_overlay.hide()
@@ -280,7 +290,7 @@ func enter_title_menu(instant := false) -> void:
 		player.blocked = true
 		player.visible=false
 	if camera != null and camera.has_method("set_scenic_mode"):
-		camera.set_scenic_mode(true, instant)
+		camera.set_scenic_mode(true, instant or storybook.reduce_motion)
 
 func exit_title_menu(instant := false) -> void:
 	in_title_menu = false
@@ -293,12 +303,12 @@ func exit_title_menu(instant := false) -> void:
 	if player != null and not panel.visible and not in_pause_menu:
 		player.blocked = false
 	if camera != null and camera.has_method("set_scenic_mode"):
-		camera.set_scenic_mode(false, instant)
+		camera.set_scenic_mode(false, instant or storybook.reduce_motion)
 
 func set_pause_menu(open: bool) -> void:
 	if in_title_menu:
 		return
-	storybook.shade.hide()
+	storybook.close_page()
 	in_pause_menu = open
 	pause_overlay.visible = open
 	if open:
@@ -323,6 +333,7 @@ func apply_mood(h: float, w_name: String) -> void:
 
 func apply_grass_quality(quality: String) -> void:
 	current_grass_quality = quality
+	get_tree().set_meta(MAPS.GRASS_QUALITY, quality)
 	var meadow := get_parent().get_node_or_null("CuratedGroundCover/DenseMeadow")
 	if meadow != null:
 		meadow.settings = load("res://environment/vegetation/presets/" + quality + ".tres")

@@ -24,5 +24,5 @@ void fragment() {
 	float drop_id = hash11(cell.x * 29.0 + cell.y * 143.0);
 	float drop = (1.0 - smoothstep(0.043, 0.149, length(fract(cell_uv) - 0.5))) * step(0.90, drop_id);
 	ALBEDO = mix(vec3(0.26, 0.36, 0.44), vec3(0.67, 0.78, 0.87), clamp(glint + drop, 0.0, 1.0));
-	ALPHA = 0.035 + glint * 0.27 + drop * 0.22;
+	ALPHA = 0.045 + glint * 0.34 + drop * 0.24;
 }
