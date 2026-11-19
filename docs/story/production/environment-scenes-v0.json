@@ -12,7 +12,8 @@
     "CH01-002",
     "CH01-003",
     "CH01-004",
-    "CH01-005"
+    "CH01-005",
+    "CH01-006"
   ],
   "purpose": "narrative_environment_brief_for_separate_3d_artist_not_engine_or_asset_spec",
   "characters": {
@@ -331,6 +332,45 @@
         "quest_reward",
         "past_house_owner",
         "dream_progress_persistence_across_nights"
+      ]
+    },
+    {
+      "id": "ENV-DREAM-05",
+      "name_vi": "Mép rừng nhìn ra cụm nhà nhỏ",
+      "scenes": [
+        "CH01-006"
+      ],
+      "status": "new_story_proposal_not_canon_not_approved_for_3d",
+      "relative_location": "beyond_Thomas_on_same_trail; CH01-004_optional; CH01-005_parallel_return_home",
+      "confirmed_continuity": [
+        "Thomas_first_npc",
+        "A_can_freely_explore",
+        "A_house_still_returnable",
+        "no_mandatory_quest"
+      ],
+      "spatial_proposal": [
+        "faint_trail_gains_footprints_and_cart_ruts",
+        "roof_appears_through_trees",
+        "small_open_viewpoint_over_unnamed_roofs",
+        "suggested_thin_cooking_smoke",
+        "laundry_and_tended_garden"
+      ],
+      "key_story_props": [
+        "roofs",
+        "cooking_smoke",
+        "laundry",
+        "garden",
+        "dirt_trail"
+      ],
+      "dialogue_policy": "no_mandatory_lines_or_named_npc",
+      "do_not_infer": [
+        "settlement_name",
+        "population",
+        "housing_owners",
+        "local_professions",
+        "shopping_or_post_office",
+        "new_NPC",
+        "dream_lore"
       ]
     }
   ],
