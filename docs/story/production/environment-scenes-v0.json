@@ -11,7 +11,8 @@
     "CH01-001",
     "CH01-002",
     "CH01-003",
-    "CH01-004"
+    "CH01-004",
+    "CH01-005"
   ],
   "purpose": "narrative_environment_brief_for_separate_3d_artist_not_engine_or_asset_spec",
   "characters": {
@@ -298,6 +299,38 @@
         "new_NPC",
         "lore_item",
         "required_repair_quest"
+      ]
+    },
+    {
+      "id": "ENV-DREAM-01-RETURN",
+      "name_vi": "Bậc cửa nhà A khi quay lại (tận dụng khu vực cũ)",
+      "scenes": [
+        "CH01-005"
+      ],
+      "status": "draft_not_approved",
+      "reuses": [
+        "ENV-DREAM-01",
+        "ENV-DREAM-02"
+      ],
+      "confirmed_continuity": [
+        "A_house_old_livable",
+        "A_can_return_freely",
+        "Thomas_not_required_for_reentry",
+        "no_mandatory_house_repair"
+      ],
+      "proposed_story_details": [
+        "fallen_leaves",
+        "small_branch",
+        "optional_clear_front_step",
+        "visible_small_cleared_patch"
+      ],
+      "story_meaning_vi": "Một hành động chăm sóc nhỏ do người chơi tự chọn, thay cho nhiệm vụ dọn nhà bắt buộc.",
+      "do_not_assume": [
+        "full_repair_system",
+        "crafting",
+        "quest_reward",
+        "past_house_owner",
+        "dream_progress_persistence_across_nights"
       ]
     }
   ],
