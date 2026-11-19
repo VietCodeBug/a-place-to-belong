@@ -46,3 +46,12 @@
 Hướng viết về sau: **xem [quy ước thế giới mở](../production/open-world-narrative-v0.md)**. Tách `shared_activity` (người chơi tự tham gia) khỏi `request_offered` (NPC đã có lý do để nhờ), `request_accepted` (người chơi đồng ý), `activity_completed` (đã thao tác thật). Đã quen / đã giúp / gặp lại là **ba sự kiện khác nhau**, không gộp thành điểm thân thiện duy nhất. Không đưa quest vào nhật ký chỉ vì NPC nói một câu gợi ý.
 
 CH01-007 cung cấp bộ thoại/điều kiện **nháp** cho hai NPC chưa có tên chính thức; không coi những câu ấy đã được duyệt như thoại Thomas ở CH01-003.
+
+## Bộ thoại 30 cư dân Làng A (draft v0)
+
+[Hướng dẫn điều kiện](village-a-dialogues-guide-v0.md) · [01–10](village-a-dialogues-01-10.md) · [11–20](village-a-dialogues-11-20.md) · [21–30](village-a-dialogues-21-30.md) · [JSON hợp nhất](village-a-dialogues-v0.json) · [NPC trao đổi với nhau](village-a-overheard-v0.md).
+
+- Chỉ phát `intro` một lần, từ lần sau dùng `revisit`. `familiar` cần hoạt động chung và đã gặp lại, không phải do spam bấm thoại.
+- Hazel / Owen tái sử dụng các line ID gốc CH01-007 ở những nhóm trùng; không tạo hai bản thoại khác nhau cùng lúc.
+- Cư dân là nhân vật có nhịp sống; các hoạt động **độc lập**, có thể từ chối/bỏ qua, trạng thái chỉ đổi khi thực hiện.
+- 6 đoạn trò chuyện cư dân với nhau là ambience, không tự bật cutscene, không tự sinh quest.
