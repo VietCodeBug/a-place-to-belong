@@ -100,7 +100,17 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 
 Làng A không được biến thành nơi gói hết gameplay. **Đường sang những làng khác phải là không gian có thể khám phá**, không chỉ một nút teleport. Những chuyến hàng của Ada là một động lực xã hội để đi tới làng kế tiếp; ngoài ra người chơi vẫn có thể **tự đi không cần nhận việc**. Hoạt động săn bắn tạo thêm lựa chọn khi khám phá **các vùng rừng thích hợp**, tách biệt với hệ giao hàng. **Chưa đặt tên Làng B** hoặc loài thú mới.
 
-## Quy tắc cho các cảnh tiếp theo
+## Quy tắc cho các cảnh tiếp theo## Ngân hàng hội thoại Làng A — đã soạn bản v0, chờ duyệt
+
+Đã viết bộ lời thoại nền cho **đủ 30 cư dân**: [Hướng dẫn](../dialogue/village-a-dialogues-guide-v0.md) · [Cư dân 01–10](../dialogue/village-a-dialogues-01-10.md) · [11–20](../dialogue/village-a-dialogues-11-20.md) · [21–30](../dialogue/village-a-dialogues-21-30.md) · [Dữ liệu hợp nhất](../dialogue/village-a-dialogues-v0.json).
+
+Mỗi người có nhịp nói riêng và điều kiện rõ cho lúc gặp đầu, hỏi việc, đề nghị tham gia, từ chối, gặp lại hoặc quen thân. Một việc chỉ được coi là làm xong **sau khi A thật sự thao tác**, không phải vì chọn lời thoại. Các bản intro/hoạt động Hazel và Owen trong CH01-007 **được giữ nguyên và tham chiếu lại**, không viết đè.
+
+Thêm 6 đoạn [NPC nói chuyện với nhau](../dialogue/village-a-overheard-v0.md), xảy ra khi hai cư dân có mặt và không có hội thoại của người chơi. Làng vẫn có việc riêng dù A không ghé; không tự mở quest từ câu chuyện nghe lỏm.
+
+**Tình trạng:** bản nháp lời thoại theo 30 tên English đã đề xuất; **chưa chốt những tên đó**, câu thoại chưa duyệt cá nhân, chưa triển khai Godot. Thomas không nằm trong 30 người. Tập trung tiếp vào mối quan hệ nội làng trước, chưa viết nội dung Làng B.
+
+
 - Không viết mỗi cư dân = một nhiệm vụ đánh dấu trên bản đồ. Viết **đời sống trước, lựa chọn người chơi sau**.
 - Không có NPC mới tiết lộ nguồn gốc A hoặc bản chất giấc mơ vì “chỉ số thân thiện đủ cao”.
 - Không chốt tất cả nghề, nhà, lịch ngày đêm hay quan hệ từ bản nháp.
