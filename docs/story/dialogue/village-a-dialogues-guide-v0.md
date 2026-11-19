@@ -14,7 +14,9 @@
 
 Các tài liệu nguồn: [hồ sơ tính cách 30 cư dân](../characters/village-a-roster.md), [CH01-007](../scenes/CH01-007.md), [quy ước kể chuyện thế giới mở](../production/open-world-narrative-v0.md).
 
-## Hướng dẫn AI lập trình đọc — không phát thành một bộ phim
+## Hướng dẫn AI lập trình đọc — không phát thành một bộ phim**Hội thoại NPC ↔ NPC:** [6 đoạn ngắn nghe thoáng qua](village-a-overheard-v0.md), [JSON](village-a-overheard-v0.json). Chỉ chạy khi đủ hai NPC, không chồng lên lời thoại với người chơi; không yêu cầu A có mặt.
+
+
 
 **Một cuộc trò chuyện không phải phát toàn bộ 10 câu.** Nếu chưa gặp, người chơi chủ động nói thì phát `intro` một lần; sau đó hiển thị các **chủ đề có điều kiện** như “Hỏi công việc”, “Đề nghị giúp”, “Tạm biệt”. Câu NPC khi bận là riêng. Thoại `revisit` chỉ tới từ lần gặp lại; `familiar` cần đã **cùng làm hoạt động + gặp lại + quan hệ thực sự quen** và người chơi chọn hỏi chuyện riêng.
 
