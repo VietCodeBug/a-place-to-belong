@@ -217,3 +217,15 @@ Tuổi chính xác/ngoại hình Thomas, đây có phải nghề chính của ô
 **Trạng thái tương tác:** người chơi có thể quan sát, ngồi lại một lát hoặc bỏ qua; đi tiếp hoặc quay về bất cứ lúc nào. Không đòi sửa ghế để mở đường.
 
 **Chưa chốt:** ghế/chỗ nghỉ có giữ lại trong câu chuyện hay thay dấu vết khác; diện mạo và vị trí; đoạn đường dẫn đi đâu. Xem [CH01-004](../scenes/CH01-004.md) để duyệt trước khi triển khai 3D.
+
+---
+
+## ENV-DREAM-01/02 — Bậc cửa khi A tự quay về (CH01-005, **đề xuất chưa duyệt**)
+
+**Không mở địa điểm mới:** dùng **chính ngoại thất căn nhà của A** trong CH01-001/CH01-002. Sau khi đã ra ngoài, nếu người chơi tự đi về, nhân vật nhận thấy lá khô và nhánh cây nhỏ sát bậc cửa. Người chơi có thể gạt chúng sang một bên, chỉ đủ để hiện ra một khoảng bước lên sạch hơn. **Nhà vẫn cũ và cần chăm sóc**; không sửa nguyên hiên, xây phòng mới, làm vườn hay nhặt tài nguyên.
+
+**Continuity:** người chơi có thể đi thẳng vào nhà, đi theo lối mòn, hoặc chỉ dừng nhìn; không cần từng nói chuyện Thomas hoặc ghé ghế CH01-004. Không ai gọi A quay lại và không có thoại bắt buộc. Trạng thái có/không dọn chỉ cần nhất quán **trong phân đoạn hiện tại**, chưa đặt ra luật tồn tại qua những giấc mơ sau.
+
+**Đạo cụ có thể xuất hiện khi duyệt:** một bậc cửa, lá rơi, nhánh cây nhỏ, khoảng đất/cỏ quanh hiên. Không thêm vật có tên chủ cũ, thư, dấu phép thuật, bàn crafting. Đây là **đề xuất kịch bản** để cân nhắc với người dựng, không phải sự thay đổi được phê duyệt của 3D.
+
+**Nguồn:** [CH01-005](../scenes/CH01-005.md) · [CH01-005.json](../scenes/CH01-005.json).
