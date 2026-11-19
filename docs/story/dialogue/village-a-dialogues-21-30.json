@@ -1,0 +1,878 @@
+{
+  "schema": "apb.village_dialogues.v0",
+  "village_id": "VILLAGE_A",
+  "status": "draft_pending_approval",
+  "group": "21-30",
+  "people": [
+    {
+      "id": "VLA-21",
+      "name_en_draft": "Nia",
+      "roster_priority": "supporting",
+      "traits_vi": "dịu dàng, cương quyết",
+      "activity": {
+        "id": "VLA21-ACT",
+        "description_vi": "Thử một bước đan giỏ đơn giản",
+        "visible_change_vi": "Mẫu đan thử hoàn tất; không tự mở vật phẩm",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA21-I01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Cậu nhìn cái quai này đi. Nhỏ vậy thôi mà phải chắc.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-Q01",
+          "speaker_id": "A",
+          "text_vi": "Chị chọn sợi đan thế nào?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-A01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Tôi ưu tiên loại bền. Đẹp mà mang đồ vài lần đã đứt thì phí.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi thử đan một đoạn được không?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-Y01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Được, cứ theo vòng ngoài. Hỏng thì tháo ra làm lại.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-C01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Được rồi. Chưa đẹp lắm nhưng chắc tay đấy.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-D01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Không vội. Muốn thử thì quay lại.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-R01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Tôi đang thử kiểu quai khác.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-F01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Có người thích giỏ đẹp, tôi thích giỏ bền. Có lẽ làm được cả hai.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA21-B01",
+          "speaker_id": "VLA-21",
+          "text_vi": "Tôi đang kéo căng sợi, chờ một chút.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-22",
+      "name_en_draft": "Ben",
+      "roster_priority": "ambient",
+      "traits_vi": "hiếu động, dễ bối rối",
+      "activity": {
+        "id": "VLA22-ACT",
+        "description_vi": "Thử cùng Ben một hoạt động thủ công đơn giản, an toàn",
+        "visible_change_vi": "Ben học thêm cách làm; không ép chọn nghề",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA22-I01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Chào! Cậu biết làm mấy việc này không? Tôi thử hoài chưa biết thích cái nào.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-Q01",
+          "speaker_id": "A",
+          "text_vi": "Sao cậu đổi việc liên tục thế?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-A01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Vì có việc nhìn thì dễ, làm mới biết không hợp. Tôi vẫn muốn thử.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi thử xếp mẫu này cùng cậu nhé?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-Y01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Ừ, để xem ai xếp được gọn hơn. Không cần thi đâu.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-C01",
+          "speaker_id": "VLA-22",
+          "text_vi": "À, cách đó đỡ rối hơn. Để tôi thử lại.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-D01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Không sao, tôi tìm cách khác.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-R01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Hôm nay tôi lại đang thử một việc mới.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-F01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Tôi không muốn vội nói mình sẽ làm nghề gì mãi mãi.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA22-B01",
+          "speaker_id": "VLA-22",
+          "text_vi": "Khoan, tôi đang thử làm cho xong đã.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-23",
+      "name_en_draft": "Grace",
+      "roster_priority": "core",
+      "traits_vi": "hiền hậu, có chính kiến",
+      "activity": {
+        "id": "VLA23-ACT",
+        "description_vi": "Phụ Grace bày bàn ăn nhỏ",
+        "visible_change_vi": "Bàn được bày, bữa ăn không cần A mới diễn ra",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA23-I01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Chào cậu. Ở đây ai rảnh thì phụ một tay, ai mệt thì ngồi nghỉ.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-Q01",
+          "speaker_id": "A",
+          "text_vi": "Bà thường nấu cho nhiều người sao?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-A01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Có dịp thì tôi nấu chung. Ăn một mình hay cùng nhau đều phải có bữa tử tế.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi giúp bày bàn được chứ?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-Y01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Được, để bát ngay ngắn là đủ, không cần cầu kỳ.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-C01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Cảm ơn cậu. Giờ đến lượt tôi ngồi xuống một chút.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-D01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Không sao, cậu cứ ngồi nghỉ nếu muốn.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-R01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Tôi đang nghĩ xem bữa này cần thêm gì.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-F01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Tôi hay nhớ mọi người thích ăn gì. Đôi khi lại quên hỏi chính mình muốn gì.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA23-B01",
+          "speaker_id": "VLA-23",
+          "text_vi": "Để tôi bê nồi xuống rồi trò chuyện nhé.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-24",
+      "name_en_draft": "Miles",
+      "roster_priority": "ambient",
+      "traits_vi": "thật thà, hài hước nhẹ",
+      "activity": {
+        "id": "VLA24-ACT",
+        "description_vi": "Giúp Miles xếp giỏ và kiểm số lượng",
+        "visible_change_vi": "Giỏ được xếp đúng; không tự tạo giao hàng xa",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA24-I01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Chào cậu! Cái giỏ này mà biết đi chắc tôi thất nghiệp mất.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-Q01",
+          "speaker_id": "A",
+          "text_vi": "Anh mang hết mấy giỏ này à?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-A01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Tùy hôm. Tôi thích giao đúng chỗ hơn là khoe mình đi nhanh.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi xếp giúp một chồng giỏ nhé?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-Y01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Được, cái nặng ở dưới, cái nhẹ ở trên. Đừng làm như tôi bữa trước.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-C01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Ổn rồi! Lần này không có giỏ nào lăn mất.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-D01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Không sao. Tôi cũng đâu định ôm cả chồng một lúc.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-R01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Tôi đang tìm cái giỏ hay biến mất khỏi kệ.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-F01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Tôi muốn giữ lời hứa giao đồ đúng hẹn mà không phải chạy như bị ai đuổi.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA24-B01",
+          "speaker_id": "VLA-24",
+          "text_vi": "Khoan, chồng này đang nghiêng về phía cậu đấy.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-25",
+      "name_en_draft": "Sophie",
+      "roster_priority": "ambient",
+      "traits_vi": "rụt rè, sáng tạo",
+      "activity": {
+        "id": "VLA25-ACT",
+        "description_vi": "Góp ý cách bày món ăn hoặc hoa",
+        "visible_change_vi": "Sophie thử một kiểu trình bày mới, không chốt món đặc sản",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA25-I01",
+          "speaker_id": "VLA-25",
+          "text_vi": "À... chào cậu. Tôi đang thử bày món này, nhưng trông hơi lạ.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-Q01",
+          "speaker_id": "A",
+          "text_vi": "Cậu thích nấu ăn hay cắm hoa hơn?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-A01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tôi thích cả hai. Chỉ sợ người khác bảo mình bày vẽ.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi xem cùng rồi góp một ý nhé?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-Y01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Được. Nhưng cứ nói thật, tôi muốn biết nó có dễ nhìn không.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-C01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Cảm ơn. Có người xem cùng làm tôi đỡ ngại thử.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-D01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Không sao. Tôi tự xem lại vậy.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-R01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tôi vẫn đang thử đổi cách bày.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-F01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tôi muốn một hôm tự mang thứ mình làm ra bàn chung mà không phải xin lỗi trước.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA25-B01",
+          "speaker_id": "VLA-25",
+          "text_vi": "Đợi tôi đặt bát xuống đã, tay hơi run.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-26",
+      "name_en_draft": "Theo",
+      "roster_priority": "supporting",
+      "traits_vi": "điềm đạm, nghiêm túc",
+      "activity": {
+        "id": "VLA26-ACT",
+        "description_vi": "Dọn một vật cản trên lối đi chung",
+        "visible_change_vi": "Đường thông; không thành quản lý làng",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA26-I01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Lối này đi chung, nhớ để mọi người còn qua được nhé.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-Q01",
+          "speaker_id": "A",
+          "text_vi": "Ông thường xem khu này sao?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-A01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Ai có mặt thì để mắt một chút. Tôi chỉ hay nhận phần kiểm tra thôi.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi phụ dời thứ chắn đường được không?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-Y01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Được. Mang sang mép sạch, đừng chặn lối khác.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-C01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Tốt. Việc nhỏ nhưng người đi sau đỡ vấp.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-D01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Không sao. Tôi sẽ xử lý trước khi có người cần qua.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-R01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Đang có vài chỗ cần xem lại.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-F01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Giữ trật tự cũng phải chừa chỗ cho người trẻ làm theo cách của họ.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA26-B01",
+          "speaker_id": "VLA-26",
+          "text_vi": "Chờ tôi đo xem lối này còn đủ rộng không.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-27",
+      "name_en_draft": "Lucy",
+      "roster_priority": "ambient",
+      "traits_vi": "cởi mở, tinh tế",
+      "activity": {
+        "id": "VLA27-ACT",
+        "description_vi": "Quan sát một chậu hoa cùng Lucy",
+        "visible_change_vi": "A biết tình trạng chậu; không tự nhận cây giống",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA27-I01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Chào cậu. Đừng ngại ghé xem hoa, chúng chẳng đòi vé đâu.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-Q01",
+          "speaker_id": "A",
+          "text_vi": "Chậu nào cũng do cô chăm à?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-A01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Có chậu tôi tự trồng, có chậu chỉ chăm hộ một thời gian. Nhìn lá là biết nó đang cần gì một chút.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi xem chậu này với cô được không?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-Y01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Được. Thử nhìn đất trước khi nghĩ đến tưới nước.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-C01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Cậu thấy rồi đấy, không phải cây nào cũng cần thêm nước.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-D01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Cứ xem thoải mái. Không cần làm gì cả.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-R01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Hôm nay chậu ở góc kia có lá mới.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-F01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Tôi thích khi người ta chăm một thứ nhỏ rồi nhận ra ngày của mình đã khác.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA27-B01",
+          "speaker_id": "VLA-27",
+          "text_vi": "Tôi tỉa nốt lá khô này rồi nói.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-28",
+      "name_en_draft": "Kit",
+      "roster_priority": "ambient",
+      "traits_vi": "nhiệt tình, hay hỏi",
+      "activity": {
+        "id": "VLA28-ACT",
+        "description_vi": "Giữ bộ phận đồ chơi gỗ cho Kit thử lắp",
+        "visible_change_vi": "Kit tự tìm cách lắp, không sử dụng dụng cụ nguy hiểm",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA28-I01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Ê, xem đồ chơi tôi làm này! Nó còn thiếu một mảnh.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-Q01",
+          "speaker_id": "A",
+          "text_vi": "Cậu định lắp nó thành gì?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-A01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Tôi muốn nó chạy được. Nhưng cứ lắp xong là bánh lại rơi.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi giữ phần này để cậu thử lắp nhé?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-Y01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Ừ! Cầm chắc thôi, đừng làm hộ hết.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-C01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Nó đứng được rồi! Để tôi thử phần còn lại.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-D01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Không sao, tôi thử thêm lần nữa.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-R01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Bánh lại rơi. Nhưng lần này không bay xa!",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-F01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Tôi muốn tự sửa được một món, dù phải làm lại nhiều lần.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA28-B01",
+          "speaker_id": "VLA-28",
+          "text_vi": "Đợi, tôi đang canh cái bánh vào rãnh.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-29",
+      "name_en_draft": "Iris",
+      "roster_priority": "ambient",
+      "traits_vi": "kiên trì, ấm áp",
+      "activity": {
+        "id": "VLA29-ACT",
+        "description_vi": "Dời một chậu cây để lối hiên dễ đi",
+        "visible_change_vi": "Lối hiên rộng hơn; không thay việc cả nhà",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA29-I01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Chào cậu. Đi qua đây nhớ tránh cái chậu cạnh chân nhé.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-Q01",
+          "speaker_id": "A",
+          "text_vi": "Cô tự chăm hết mấy góc sân sao?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-A01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Mỗi người làm một chút. Chỉ có điều lúc ai cũng bận thì sân lại đợi.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi đặt giúp chậu này sang chỗ rộng hơn nhé?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-Y01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Được, đặt sát mép thôi để người khác còn đi.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-C01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Cảm ơn. Lối này đỡ vướng hơn rồi.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-D01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Không sao, tôi dọn sau cũng được.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-R01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Tôi vẫn chưa tìm được chỗ hợp cho cái chậu lớn.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-F01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Tôi không cần cả nhà rảnh cùng lúc. Chỉ muốn thỉnh thoảng có người chịu ngồi bên nhau.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA29-B01",
+          "speaker_id": "VLA-29",
+          "text_vi": "Tôi đang bê chậu, chờ một lúc nhé.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    },
+    {
+      "id": "VLA-30",
+      "name_en_draft": "Caleb",
+      "roster_priority": "ambient",
+      "traits_vi": "chắc chắn, ít nói",
+      "activity": {
+        "id": "VLA30-ACT",
+        "description_vi": "Kiểm món đồ chứa có được giữ khô ráo",
+        "visible_change_vi": "Đồ chứa được xếp đúng chỗ; không sinh kho mới",
+        "optional": true,
+        "requires_real_player_action": true
+      },
+      "lines": [
+        {
+          "id": "VLA30-I01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Chào. Cái thùng này chưa được đậy đâu.",
+          "stage": "intro",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-Q01",
+          "speaker_id": "A",
+          "text_vi": "Sao phải phơi đồ đựng kỹ vậy?",
+          "stage": "question",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-A01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Ẩm một chút thôi là thứ bên trong dễ hỏng. Tôi muốn kiểm trước khi cất.",
+          "stage": "answer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-O01",
+          "speaker_id": "A",
+          "text_vi": "Tôi giúp xem chiếc nào đã khô nhé?",
+          "stage": "offer",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-Y01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Ừ. Cái nào còn ẩm để riêng, đừng cất vội.",
+          "stage": "accept",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-C01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Được rồi. Lần này mọi thứ vào đúng chỗ.",
+          "stage": "complete",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-D01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Không sao. Tôi tự kiểm tiếp.",
+          "stage": "decline",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-R01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Tôi vẫn đang chờ một chiếc khô hẳn.",
+          "stage": "revisit",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-F01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Tôi ít nói thôi, không phải lúc nào cũng không có điều muốn nói.",
+          "stage": "familiar",
+          "status": "draft_pending_approval"
+        },
+        {
+          "id": "VLA30-B01",
+          "speaker_id": "VLA-30",
+          "text_vi": "Đợi tôi cất nốt chiếc này đã.",
+          "stage": "busy",
+          "status": "draft_pending_approval"
+        }
+      ],
+      "can_exit_anytime": true,
+      "not_a_required_quest": true
+    }
+  ]
+}
