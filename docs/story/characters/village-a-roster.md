@@ -32,8 +32,8 @@
 | VLA-15 | **Evelyn** | 68 | core | H06 | Gìn giữ hạt giống và ghi chép mùa vụ thông thường |
 | VLA-16 | **Edmund** | 70 | ambient | H06 | Chăm bàn, ghế và những món đồ dùng lâu năm |
 | VLA-17 | **Peter** | 43 | supporting | H06 | Mang sản phẩm vườn và đồ dùng giữa các nhà |
-| VLA-18 | **Ada** | 24 | core | H07 | Hay đi lại trên các lối mòn và mang đồ trao tay |
-| VLA-19 | **Hugo** | 28 | supporting | H07 | Chăm xe đẩy tay và sắp xếp hàng hóa nhỏ |
+| VLA-18 | **Ada** | 24 | core | H07 | Đầu mối đề xuất vận chuyển **hàng liên làng**, mở tuyến khám phá vùng khác |
+| VLA-19 | **Hugo** | 28 | supporting | Chuẩn bị xe đẩy và kiện hàng cho các chuyến vận chuyển đường xa |
 | VLA-20 | **Liam** | 30 | supporting | H08 | Chăm hàng rào và những mảng gỗ ngoài trời |
 | VLA-21 | **Nia** | 29 | supporting | H08 | Đan giỏ từ vật liệu sẵn có |
 | VLA-22 | **Ben** | 14 | ambient | H08 | Đang học nhiều việc trong làng |
@@ -152,13 +152,13 @@
 
 ### VLA-18 — Ada (core)
 
-**Tính cách:** năng động, tò mò. **Nhịp sống:** Đi thăm lối ra rừng, trao vài món đồ cho người quen. **Lần A có thể tiếp cận:** Có thể rủ A cùng đi một đoạn đường đã biết. **Hạt giống câu chuyện:** Muốn khám phá xa hơn nhưng sợ bỏ lỡ điều đáng quý ngay gần nhà.
+**Tính cách:** năng động, tò mò. **Nhịp sống (đề xuất điều chỉnh):** chuẩn bị những kiện hàng đi **sang làng khác**, hỏi thăm tuyến đường và từng khi lên đường. **Lần A có thể tiếp cận:** bắt chuyện về kiện hàng hoặc giúp kiểm hành trang; khi làng đích và người nhận đã được viết, Ada mới có thể nhờ A **vận chuyển liên làng**. **Hạt giống câu chuyện:** muốn đi xa hơn và kết nối các vùng, nhưng cũng sợ bỏ lỡ những điều đáng quý gần nhà. **Không giao hàng vòng quanh Làng A làm tuyến chính của Ada**.
 
 > Chỉ là đề xuất; không tự xác nhận nghề nghiệp chính thức, tuổi, nhà, quan hệ gia đình hay thông tin giấc mơ.
 
 ### VLA-19 — Hugo (supporting)
 
-**Tính cách:** điềm tĩnh, hay pha trò. **Nhịp sống:** Kiểm bánh xe, dây buộc, rồi dọn góc cất đồ. **Lần A có thể tiếp cận:** Cho A thử cách buộc giỏ đúng để không rơi đồ. **Hạt giống câu chuyện:** Thấy mình ít thú vị hơn những người hay lên đường, dù công việc của mình rất cần.
+**Tính cách:** điềm tĩnh, hay pha trò. **Nhịp sống (đề xuất điều chỉnh):** kiểm xe đẩy, dây buộc và kiện hàng chuẩn bị cho **đường liên làng**. **Lần A có thể tiếp cận:** giúp kiểm kiện hoặc học cách giữ hàng an toàn trước khi xuất phát. **Hạt giống câu chuyện:** thấy việc ở lại chuẩn bị hàng ít được chú ý hơn những chuyến đi, dù nó giúp cả hai làng kết nối. **Không tự chốt phương tiện bắt buộc**.
 
 > Chỉ là đề xuất; không tự xác nhận nghề nghiệp chính thức, tuổi, nhà, quan hệ gia đình hay thông tin giấc mơ.
 
@@ -321,3 +321,9 @@
 - Một người có thể có quan hệ với **người khác ngoài A**: có lời hỏi, thói quen chung, quan điểm khác nhau; không phải cả làng chỉ sống để xoay quanh A.
 
 **Nguồn đối chiếu:** [Làng A](../locations/village-a.md) · [CH01-007](../scenes/CH01-007.md) · [Quy ước thế giới mở](../production/open-world-narrative-v0.md).
+## Hai nhánh hoạt động mới đã được yêu cầu
+
+- **Vận chuyển liên làng:** [Hồ sơ hoạt động](../activities/inter-village-delivery-v0.md). Ada `VLA-18` dẫn tuyến; Hugo `VLA-19` hỗ trợ chuẩn bị. Peter `VLA-17` vẫn đi trao đồ **nội làng** như đã nháp. **Làng đích, người nhận và tuyến đường chưa thiết kế**; không tự tạo NPC thứ 31 hay tính người nhận vào 30 cư dân Làng A.
+- **Săn bắn:** [Hồ sơ hoạt động](../activities/hunting-v0.md). Đây là hoạt động ngoài rừng theo vùng/loài cần duyệt, **không tự gán ai trong 30 cư dân là thợ săn**. Rowan có thể có quan điểm về thiên nhiên, chưa tự chốt ông quản lý việc săn. Không ép người chơi săn để giao hàng hoặc mở làng khác.
+
+**Cả 30 hồ sơ vẫn là bản đề xuất ngoại trừ quy mô dân số đã chọn.**
