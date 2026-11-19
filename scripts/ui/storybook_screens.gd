@@ -40,7 +40,7 @@ func build_title() -> void:
 	left.add_child(T.label("A Place",72,T.FOREST,true));left.add_child(T.label("to Belong",82,T.FOREST,true))
 	var tagline:=T.label("A second life, somewhere between dreams and reality.",15,T.FOREST)
 	tagline.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;left.add_child(tagline)
-	var first:=button(left,"Begin your day   →",func():ui.exit_title_menu(false));first.primary=true;first.name="BeginDay";first.add_theme_font_size_override("font_size",19)
+	var first:=button(left,"Begin your day   →",begin_day);first.primary=true;first.name="BeginDay";first.add_theme_font_size_override("font_size",19)
 	var settings:=button(left,"Settings",func():open_page("Settings"))
 	var leave:=button(left,"Leave the forest",func():ui.get_tree().quit())
 	for secondary in [settings,leave]:
@@ -133,3 +133,16 @@ func build_studio() -> void:
 		)
 	var freeze:=CheckButton.new();freeze.text="Hold this light";freeze.button_pressed=ui.weather.paused;freeze.toggled.connect(func(on: bool):ui.weather.paused=on);col.add_child(freeze)
 	button(col,"Return   ←",back)
+
+
+func begin_day() -> void:
+	if not OS.get_cmdline_user_args().has("--comic-preview"):
+		ui.get_tree().change_scene_to_file.call_deferred("res://scenes/story/real_office.tscn")
+		return
+	var comic := preload("res://scripts/ui/comic_intro.gd").new()
+	ui.title_screen.hide()
+	ui.root_ui.add_child(comic)
+	comic.finished.connect(func():
+		comic.queue_free()
+		ui.get_tree().change_scene_to_file.call_deferred("res://scenes/story/real_office.tscn")
+	, CONNECT_ONE_SHOT)
