@@ -15,6 +15,12 @@
 | [CH01-006 — Những mái nhà phía sau tán cây](../scenes/CH01-006.md) ([JSON](../scenes/CH01-006.json)) | Nếu tiếp tục theo lối mòn, A có thể thấy **cụm nhà nhỏ** qua rừng; dấu hiệu đời sống bằng khói bếp, phơi đồ và vườn | Không ép NPC/quest; tự tiến gần cộng đồng hoặc quay về | **Đề xuất mới, chưa duyệt** |
 | [CH01-007 — Một ngày ở khu dân cư](../scenes/CH01-007.md) ([JSON](../scenes/CH01-007.json)) | **Gói nội dung thế giới mở**, không phải scene tuyến tính: tự trò chuyện, làm vườn hoặc giúp sửa đồ, ghi nhớ quan hệ | Các hoạt động độc lập; có thể từ chối/đi về; phát sinh chuyện riêng theo quan hệ về sau | **Đề xuất gameplay narrative, chưa duyệt NPC/tên** |
 
+## Quy mô làng đầu tiên
+
+**Đã chốt quy mô:** khu dân cư đầu tiên có **khoảng 30 cư dân**. [Hồ sơ Làng A](../locations/village-a.md) và [danh sách 30 cư dân](../characters/village-a-roster.md) vừa được thêm để xây các tuyến sống khác nhau. **Tên làng vẫn tạm**, 30 tên English mới, nhóm cư trú (11 nhà đề xuất) và tính cách mới đều **chưa duyệt**. Thomas chưa được tính vào dân số làng vì chưa chốt nơi ông sống.
+
+**Vai trò CH01-007:** `GARDENER_01` đang được **đề xuất** là Hazel; `REPAIRER_01` được **đề xuất** là Owen. Chưa đổi mã speaker/thoại, không chỉnh đoạn Thomas đã chốt.
+
 ## Vòng chơi kể chuyện từ khu dân cư
 
 **Hướng đã thống nhất:** đây là **game thế giới mở**, không phải chuỗi phim ngắn. Scene ID ở đây là **gói nội dung có thể gặp**, không phải điều kiện hoàn thành theo thứ tự. Khi đến khu dân cư, các hoạt động và hội thoại độc lập mở theo tình huống, mối quan hệ và việc người chơi chủ động làm. [Quy ước thế giới mở](../production/open-world-narrative-v0.md).
@@ -36,7 +42,8 @@
 1. **CH01-004 đang đề xuất** chỗ nghỉ bên đường với chiếc ghế cũ được sửa; người sáng tạo chưa duyệt. Giữ hay thay bằng dấu vết đời sống khác?
 2. **CH01-005 đang đề xuất** hành động chăm bậc cửa rất nhỏ khi người chơi tự quay về. M có muốn giữ chi tiết này không, hay chọn hành động nhỏ khác trong nhà?
 3. **CH01-006 đang đề xuất** cụm nhà nhỏ thấy qua tán rừng; cần duyệt địa điểm, số lượng mái nhà và có muốn cho dân cư xuất hiện từ xa hay không. Không tự đặt tên làng hay NPC.
-4. **CH01-007 là bản nháp hub**, với hai NPC chỉ có ID vai trò (chăm vườn/sửa đồ), chưa có tên tiếng Anh thật. Cần duyệt hai nhân vật và hoạt động trước khi dựng.
-5. Xây tuyến sống lâu dài của Thomas và các lời nhờ phát sinh qua quan hệ, không biến NPC thành máy giao nhiệm vụ.
+4. **CH01-007 là bản nháp hub**. Trong bản 30 cư dân, đề xuất gắn vai chăm vườn với Hazel và vai sửa đồ với Owen; cần duyệt tên, quan hệ và hoạt động trước khi dựng.
+5. Từ 30 cư dân đề xuất, chốt trước **nhóm 6–8 nhân vật tuyến sâu**, sau đó viết hội thoại/hoạt động theo lần gặp và độ quen; không phát cả 30 nhiệm vụ cùng lúc.
+6. Xác định Thomas có sống trong làng không trước khi gộp ông vào tổng dân số. Xây tuyến sống riêng của Thomas và các lời nhờ phát sinh qua quan hệ.
 
 **Liên kết:** [Nền tảng đã thống nhất](../00-foundation.md) · [Prologue](prologue.md)
