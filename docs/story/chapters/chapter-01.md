@@ -21,7 +21,9 @@
 
 **Vai trò CH01-007:** `GARDENER_01` đang được **đề xuất** là Hazel; `REPAIRER_01` được **đề xuất** là Owen. Chưa đổi mã speaker/thoại, không chỉnh đoạn Thomas đã chốt.
 
-## Vòng chơi kể chuyện từ khu dân cư## Hội thoại Làng A (đang viết theo gameplay, không phải scene tuyến tính)
+## Vòng chơi kể chuyện từ khu dân cư## Hội thoại Làng A (đang viết theo gameplay, không phải scene tuyến tính)**Tuyến nhiệm vụ quan hệ:** [8 tuyến chính, mỗi người 3 chặng Q1/Q2/QF](../quests/village-a-relationship-arcs-v0.md). Giữa các chặng bắt buộc có **cuộc gặp không phải nhiệm vụ**, cùng hoạt động và những thay đổi đời thường. Nội dung 24 nhiệm vụ là nháp để duyệt; không đặt quest liên tục trong một lượt gặp.
+
+
 
 Đã có bản [hội thoại nền 30 cư dân](../dialogue/village-a-dialogues-guide-v0.md) gồm cách gặp, hỏi việc, tham gia hoạt động, từ chối, quay lại và mở câu thân quen. [6 cuộc trao đổi giữa NPC](../dialogue/village-a-overheard-v0.md) hỗ trợ cảm giác làng tự sống khi A vắng mặt. **Đây là bản nháp**, chưa chốt tên, quan hệ, lịch sinh hoạt hoặc tuyến truyện sâu; không ép hoàn tất hội thoại để rời làng.
 
