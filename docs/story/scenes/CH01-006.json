@@ -1,0 +1,214 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "CH01-006",
+  "title": "Những mái nhà phía sau tán cây",
+  "chapter": "chapter-01",
+  "order": 6,
+  "status": "draft_pending_creator_review",
+  "kind": "free_exploration_first_community_reveal",
+  "entry": {
+    "trigger": "player_follows_trail_beyond_Thomas_area",
+    "location": "forest_edge_path_before_unnamed_homes",
+    "requires_story_condition": [
+      "ch01_first_exit_complete"
+    ],
+    "does_not_require": [
+      "thomas_met",
+      "thomas_intro_heard",
+      "ch01_rest_spot_discovered",
+      "ch01_first_care_action_done"
+    ],
+    "previous_nodes": [
+      "CH01-003",
+      "CH01-004_optional",
+      "CH01-005_optional_parallel"
+    ]
+  },
+  "characters_present": [
+    "A"
+  ],
+  "confirmed_continuity": [
+    "Thomas_first_npc_if_encountered",
+    "trail_continues_beyond_Thomas_area",
+    "player_free_to_return_to_A_house",
+    "dream_world_has_no_explained_mechanics",
+    "no_mandatory_quest"
+  ],
+  "proposed_story_details": [
+    "subtle_cart_ruts_on_dirt_path",
+    "distant_house_roofs_through_trees",
+    "small_unnamed_cluster_of_homes",
+    "thin_cooking_smoke",
+    "laundry_drying",
+    "tended_small_garden",
+    "human_activity_ambience_without_dialogue"
+  ],
+  "beats": [
+    {
+      "id": "CH01006-B01",
+      "type": "environmental_story",
+      "description_vi": "Lối mòn rõ hơn, có dấu chân và hai vệt bánh xe mờ. A chủ động đi tiếp.",
+      "mandatory": false
+    },
+    {
+      "id": "CH01006-B02",
+      "type": "ambient_discovery",
+      "description_vi": "Tiếng rìu xa dần, từ phía trước vọng lại âm thanh sinh hoạt rất nhỏ.",
+      "mandatory": false
+    },
+    {
+      "id": "CH01006-B03",
+      "type": "visual_discovery",
+      "description_vi": "Qua tán cây A nhận thấy mái nhà đầu tiên, rồi vài mái nhà khác.",
+      "mandatory": false,
+      "set_flags": [
+        "ch01_first_roof_spotted"
+      ]
+    },
+    {
+      "id": "CH01006-B04",
+      "type": "environmental_reveal",
+      "description_vi": "Một cụm nhà nhỏ ở mép rừng: khói bếp, phơi đồ, vườn chăm. Không có người kể giải thích.",
+      "mandatory": false,
+      "set_flags": [
+        "ch01_community_rooftops_seen"
+      ]
+    },
+    {
+      "id": "CH01006-B05",
+      "type": "optional_observation",
+      "description_vi": "Người chơi tùy chọn chú ý quần áo phơi, luống cây hoặc âm thanh đời sống.",
+      "mandatory": false,
+      "interactions": [
+        "observe_hanging_laundry",
+        "observe_tended_garden",
+        "listen_to_nearby_activity"
+      ]
+    },
+    {
+      "id": "CH01006-B06",
+      "type": "free_exploration",
+      "description_vi": "Đi tới lối ngoài khu nhà hoặc quay về. Chưa xác định NPC, tên nơi hay nhiệm vụ tiếp theo.",
+      "mandatory": false,
+      "action": "reach_community_edge_optional"
+    }
+  ],
+  "interactions": {
+    "observe_hanging_laundry": {
+      "type": "optional_observation",
+      "text_key": "CH01006-OBS-01",
+      "set_flags": [
+        "ch01_laundry_observed"
+      ],
+      "mandatory": false
+    },
+    "observe_tended_garden": {
+      "type": "optional_observation",
+      "text_key": "CH01006-OBS-02",
+      "set_flags": [
+        "ch01_garden_observed"
+      ],
+      "mandatory": false
+    },
+    "listen_to_nearby_activity": {
+      "type": "optional_ambient",
+      "text_key": null,
+      "mandatory": false
+    },
+    "reach_community_edge_optional": {
+      "type": "discovery_not_quest",
+      "set_flags": [
+        "ch01_community_edge_reached"
+      ],
+      "mandatory": false
+    }
+  },
+  "localization_draft": {
+    "vi": {
+      "CH01006-OBS-01": "Quần áo vẫn còn đang phơi.",
+      "CH01006-OBS-02": "Những luống cây được chăm khá cẩn thận."
+    }
+  },
+  "dialogue_policy": {
+    "mandatory_npc_lines": 0,
+    "mandatory_inner_monologue_lines": 0,
+    "optional_observation_lines": 2,
+    "voiceover": false,
+    "do_not_repeat_Thomas_dialogue": true,
+    "do_not_invent_npc_names": true
+  },
+  "narrative_state": {
+    "seen_flags": [
+      "ch01_first_roof_spotted",
+      "ch01_community_rooftops_seen",
+      "ch01_community_edge_reached"
+    ],
+    "optional_flags": [
+      "ch01_laundry_observed",
+      "ch01_garden_observed"
+    ],
+    "required_to_continue": []
+  },
+  "exits": [
+    {
+      "id": "return_to_A_house",
+      "kind": "free_travel",
+      "required_flags": []
+    },
+    {
+      "id": "return_to_Thomas_area",
+      "kind": "free_travel",
+      "required_flags": []
+    },
+    {
+      "id": "explore_community",
+      "kind": "next_story_hook",
+      "next_scene": "CH01-007_TBD",
+      "required_flags": []
+    }
+  ],
+  "setting_proposal": {
+    "id": "ENV-DREAM-05",
+    "name_vi": "Khoảng nhìn ra cụm nhà nhỏ từ bìa rừng",
+    "status": "not_approved",
+    "relative_geography": [
+      "beyond_Thomas_work_clearing",
+      "beyond_CH01-004_rest_spot_if_that_draft_is_approved",
+      "path_widens_slightly",
+      "roof_first_appears_through_canopy",
+      "open_viewpoint_onto_small_community_edge",
+      "same_trail_accessible_back_home"
+    ],
+    "story_props": [
+      "a_few_roofs",
+      "thin_chimney_smoke",
+      "laundry_line",
+      "small_tended_garden",
+      "foot_worn_ground"
+    ],
+    "not_confirmed": [
+      "exact_number_of_houses",
+      "settlement_name",
+      "population",
+      "first_community_npc",
+      "shops",
+      "mail_post",
+      "market",
+      "bridge",
+      "river"
+    ]
+  },
+  "production": {
+    "content_only": true,
+    "does_not_authorize_3d_build": false,
+    "engine_integration": "not_implemented",
+    "requires_creator_review": true
+  },
+  "unresolved": [
+    "existence_of_hamlet_as_canon",
+    "number_of_houses_and_architecture",
+    "background_unnamed_people",
+    "what_A_sees_on_entering",
+    "next_npc_identity"
+  ]
+}
