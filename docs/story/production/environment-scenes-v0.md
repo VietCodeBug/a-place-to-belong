@@ -229,3 +229,19 @@ Tuổi chính xác/ngoại hình Thomas, đây có phải nghề chính của ô
 **Đạo cụ có thể xuất hiện khi duyệt:** một bậc cửa, lá rơi, nhánh cây nhỏ, khoảng đất/cỏ quanh hiên. Không thêm vật có tên chủ cũ, thư, dấu phép thuật, bàn crafting. Đây là **đề xuất kịch bản** để cân nhắc với người dựng, không phải sự thay đổi được phê duyệt của 3D.
 
 **Nguồn:** [CH01-005](../scenes/CH01-005.md) · [CH01-005.json](../scenes/CH01-005.json).
+
+---
+
+## ENV-DREAM-05 — Mái nhà nhìn từ lối mòn (CH01-006, **đề xuất CHƯA DUYỆT**)
+
+**Vị trí tương đối:** theo cùng lối mòn về phía xa **sau** nơi Thomas đốn củi. Nếu giữ CH01-004, chỗ ghế nằm trên tuyến đi qua nhưng không phải điểm bắt buộc. **CH01-005 là nhánh tùy chọn trở lại nhà A**, không phải scene phải hoàn thành trước khi tới đây.
+
+**Bố cục phục vụ câu chuyện:** cây hai bên đường thưa dần; trước tiên chỉ lộ một phần mái nhà qua kẽ lá, rồi thêm vài mái nhà khác. Ở một khoảng nhìn thoáng, người chơi thấy **một cụm nhà khiêm tốn ở mép rừng**, có khói bếp mỏng, vài món đồ phơi và một khu vườn nhỏ được chăm. Đây không phải thành phố hoặc thị trấn đông đúc, và **quy mô, cấu trúc, địa danh chưa được duyệt**.
+
+**Nhịp âm thanh:** tiếng bổ củi lùi lại, tiếng sinh hoạt từ xa xuất hiện rất nhẹ (đồ dùng va vào nhau, chuyển động trong nhà), không đủ để xác định một nhân vật hay nội dung nói chuyện cụ thể. Không có NPC mới đứng đợi A hoặc bảng quest tại lối vào.
+
+**Quyền tự do:** A có thể đến gần khu nhà, đứng nhìn, quay lại Thomas hoặc về nhà A. Không cần hỏi Thomas, không cần ngồi chỗ nghỉ, không cần dọn bậc cửa. Nếu qua ranh giới để đi sâu vào cộng đồng, đó là hook **CH01-007 chưa được viết**, không phải nhiệm vụ bắt buộc.
+
+**Đồ vật kể chuyện nháp:** mái nhà đơn giản, dây phơi, luống cây, khói bếp, lối đi có vệt bước chân/bánh xe. **Không** gán ai là chủ nhà, tên khu dân cư, nghề nghiệp, quan hệ, cửa hàng, bưu điện hay lịch sử nơi này.
+
+**Duyệt trước khi đưa vào dựng:** xác nhận có cụm nhà hay không, số lượng/kiểu nhà, có người dân trong khung nhìn xa không, và cảnh kế tiếp. Xem [CH01-006.md](../scenes/CH01-006.md).
