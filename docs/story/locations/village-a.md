@@ -100,7 +100,15 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 
 Làng A không được biến thành nơi gói hết gameplay. **Đường sang những làng khác phải là không gian có thể khám phá**, không chỉ một nút teleport. Những chuyến hàng của Ada là một động lực xã hội để đi tới làng kế tiếp; ngoài ra người chơi vẫn có thể **tự đi không cần nhận việc**. Hoạt động săn bắn tạo thêm lựa chọn khi khám phá **các vùng rừng thích hợp**, tách biệt với hệ giao hàng. **Chưa đặt tên Làng B** hoặc loài thú mới.
 
-## Quy tắc cho các cảnh tiếp theo## Ngân hàng hội thoại Làng A — đã soạn bản v0, chờ duyệt
+## Quy tắc cho các cảnh tiếp theo## Tuyến nhiệm vụ dài hạn — không gặp một lần rồi hết
+
+Theo yêu cầu đã chọn, mỗi NPC tuyến sâu có **Q1 → hoạt động/lần gặp thường → Q2 → nhiều lần gặp/sự kiện quan hệ → nhiệm vụ cuối (QF)**. **Không** tự mở Q1 khi chào đầu, không mở Q2 ngay khi vừa hoàn tất Q1, không tự xuất hiện nhiệm vụ chỉ vì điểm thân thiết tăng. Cần đúng tình huống, đúng việc NPC đang làm và người chơi chủ động nhận.
+
+Bộ bản nháp [24 nhiệm vụ của 8 cư dân chính](../quests/village-a-relationship-arcs-v0.md) và [dữ liệu JSON](../quests/village-a-relationship-arcs-v0.json) đã có từng chặng: nguyên nhân, hành động thực, lựa chọn, kết quả nếu giúp và cách NPC tự giải quyết nếu A từ chối. Sau QF cư dân **tiếp tục có đời sống**.
+
+**Mốc thân thiết 20 / 50 / 80 trên thang 0–100 mới là đề xuất cân bằng**, không phải công thức đã chốt. Chỉ mới viết sâu cho 8 tuyến `core`; 22 NPC còn lại vẫn có đời sống và hội thoại, chưa bị ép thành 66 nhiệm vụ tiếp theo. Không thêm Làng B.
+
+## Ngân hàng hội thoại Làng A — đã soạn bản v0, chờ duyệt
 
 Đã viết bộ lời thoại nền cho **đủ 30 cư dân**: [Hướng dẫn](../dialogue/village-a-dialogues-guide-v0.md) · [Cư dân 01–10](../dialogue/village-a-dialogues-01-10.md) · [11–20](../dialogue/village-a-dialogues-11-20.md) · [21–30](../dialogue/village-a-dialogues-21-30.md) · [Dữ liệu hợp nhất](../dialogue/village-a-dialogues-v0.json).
 
