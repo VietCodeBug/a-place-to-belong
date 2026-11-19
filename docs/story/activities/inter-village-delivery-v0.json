@@ -1,0 +1,159 @@
+{
+  "schema": "apb.open_world_activity.v0",
+  "id": "VLA-DELIVERY",
+  "title_vi": "Vận chuyển hàng giữa các làng",
+  "status": "core_direction_accepted_details_draft",
+  "mode": "optional_cross_village_activity",
+  "story_source": "docs/story/locations/village-a.md",
+  "start_village": "VILLAGE_A",
+  "destination_village": "VILLAGE_DEST_TBD",
+  "destination_status": "not_designed_not_confirmed",
+  "cast": {
+    "dispatcher_proposal": {
+      "id": "VLA-18",
+      "name_en": "Ada",
+      "name_status": "draft"
+    },
+    "gear_partner_proposal": {
+      "id": "VLA-19",
+      "name_en": "Hugo",
+      "name_status": "draft"
+    },
+    "local_courier_separate": {
+      "id": "VLA-17",
+      "name_en": "Peter"
+    },
+    "recipient": {
+      "id": "RECIPIENT_TBD",
+      "name_en": null,
+      "status": "not_created"
+    }
+  },
+  "tiers": [
+    {
+      "id": "DEL-00",
+      "type": "preparation_shared_activity",
+      "requires_destination": false,
+      "actions": [
+        "ask_about_parcels",
+        "inspect_load",
+        "help_check_straps"
+      ],
+      "mandatory": false,
+      "creates_delivery_contract": false
+    },
+    {
+      "id": "DEL-01",
+      "type": "cross_village_delivery",
+      "availability": {
+        "route_real_and_traversable": true,
+        "destination_village_defined": true,
+        "recipient_defined": true,
+        "cargo_defined": true
+      },
+      "actions": [
+        "request_offered",
+        "request_accepted_or_declined",
+        "pick_up_parcel",
+        "travel_between_villages",
+        "arrive_at_destination",
+        "handover_to_named_recipient",
+        "confirm_handover"
+      ],
+      "completes_only_on": "package_handed_over",
+      "mandatory": false
+    },
+    {
+      "id": "DEL-02",
+      "type": "advanced_trading_network_draft",
+      "requires_relationship_events": true,
+      "requires_route_discovery": true,
+      "mandatory": false
+    }
+  ],
+  "dialogue_draft": [
+    {
+      "id": "DEL-ADA-01",
+      "speaker_id": "VLA-18",
+      "text_vi": "Mấy món này không phải để trong làng đâu. Chúng phải đến tay người ở xa hơn.",
+      "purpose": "optional_conversation",
+      "status": "draft"
+    },
+    {
+      "id": "DEL-A-02",
+      "speaker_id": "A",
+      "text_vi": "Cậu thường đi sang làng khác à?",
+      "purpose": "optional_question",
+      "status": "draft"
+    },
+    {
+      "id": "DEL-ADA-03",
+      "speaker_id": "VLA-18",
+      "text_vi": "Có lúc. Tôi nhớ đường khá tốt, nhưng vẫn có những lối chưa từng thử.",
+      "purpose": "character_response",
+      "status": "draft"
+    },
+    {
+      "id": "DEL-HUGO-01",
+      "speaker_id": "VLA-19",
+      "text_vi": "Đi đường xa thì buộc chắc một chút. Không ai thích tới nơi rồi mới biết thiếu đồ.",
+      "purpose": "preparation",
+      "status": "draft"
+    },
+    {
+      "id": "DEL-ADA-04",
+      "speaker_id": "VLA-18",
+      "text_vi": "Tôi có một kiện cần gửi sang bên kia. Cậu có muốn nhận giúp chuyến này không?",
+      "purpose": "request_offered_if_route_defined",
+      "status": "draft"
+    },
+    {
+      "id": "DEL-ADA-05",
+      "speaker_id": "VLA-18",
+      "text_vi": "Được thôi. Tôi sẽ thu xếp cách khác.",
+      "purpose": "decline",
+      "status": "draft"
+    },
+    {
+      "id": "DEL-RECIPIENT-01",
+      "speaker_id": "RECIPIENT_TBD",
+      "text_vi": "À, đúng món tôi đang đợi. Cảm ơn cậu đã mang tới.",
+      "purpose": "delivery_completion",
+      "status": "draft"
+    }
+  ],
+  "flags": [
+    "route_discovered",
+    "delivery_request_offered",
+    "delivery_request_accepted",
+    "package_picked_up",
+    "destination_reached",
+    "package_handed_over",
+    "delivery_declined",
+    "delivery_unfinished",
+    "recipient_met"
+  ],
+  "rules": {
+    "route_not_quest_gated": true,
+    "delivery_requires_real_destination": true,
+    "acceptance_does_not_complete": true,
+    "arrival_does_not_complete": true,
+    "handover_completes": true,
+    "refusal_not_punished": true,
+    "no_auto_teleport": true,
+    "personality_memory_individual": true
+  },
+  "unresolved": [
+    "destination_village_name",
+    "recipient_identity",
+    "route_topology",
+    "first_cargo",
+    "travel_method",
+    "item_and_reward_economy",
+    "schedule"
+  ],
+  "production": {
+    "narrative_only": true,
+    "engine_integration": "not_implemented"
+  }
+}
