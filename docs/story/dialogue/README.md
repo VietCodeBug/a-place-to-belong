@@ -40,3 +40,9 @@
 - Câu “ở đây đôi khi người ta cũng phải mất một lúc mới nhớ ra vài thứ” được gắn **`character_opinion`**, không được viết thành rule giấc mơ.
 
 **Lưu ý:** các cờ trạng thái là ngôn ngữ biên kịch cho AI lập trình triển khai; chưa có sự kiện nào được nối vào Godot.
+
+## Bổ sung: hội thoại thế giới mở và việc nhờ theo quan hệ
+
+Hướng viết về sau: **xem [quy ước thế giới mở](../production/open-world-narrative-v0.md)**. Tách `shared_activity` (người chơi tự tham gia) khỏi `request_offered` (NPC đã có lý do để nhờ), `request_accepted` (người chơi đồng ý), `activity_completed` (đã thao tác thật). Đã quen / đã giúp / gặp lại là **ba sự kiện khác nhau**, không gộp thành điểm thân thiện duy nhất. Không đưa quest vào nhật ký chỉ vì NPC nói một câu gợi ý.
+
+CH01-007 cung cấp bộ thoại/điều kiện **nháp** cho hai NPC chưa có tên chính thức; không coi những câu ấy đã được duyệt như thoại Thomas ở CH01-003.
