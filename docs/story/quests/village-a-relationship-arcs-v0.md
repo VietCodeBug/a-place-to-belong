@@ -20,7 +20,7 @@
 - `nonquest_meetups_after_Q1` phải là một cuộc gặp thật sau Q1, khi A chỉ trò chuyện hay làm việc thường, không phải mở lại hội thoại nhiều lần trong cùng lượt.
 - `nonquest_meetups_after_Q2` phải có ít nhất hai lần gặp riêng biệt; chưa ấn định số ngày vì chu kỳ giấc mơ/ngày chưa chốt.
 - Mỗi NPC chỉ có **tối đa một lời mời quest mới đang chờ**. NPC bận, vắng, hoặc A không muốn nói thì không phát đề nghị.
-- Từ chối nghĩa là **không nhận**; việc NPC vẫn tiếp tục, có thể có dịp hỏi lại sau. Nếu NPC tự xong trước, lưu kết quả thay thế và mở đoạn quan hệ khác, không khóa vĩnh viễn tình bạn.
+- Từ chối nghĩa là **không nhận**; việc NPC vẫn tiếp tục, có thể có dịp hỏi lại sau. Nếu NPC tự xong trước, lưu `resolved_without_player`; **chặng sau có thể mở nếu đủ thân thiết và các lần gặp thường**, không khóa vĩnh viễn. NPC **không được cảm ơn A vì việc A chưa làm**: đoạn kể khi gặp lại phải phân biệt `completed` và `resolved_without_player`.
 - Nhận lời chưa xong: lưu `accepted/in_progress`; chỉ hoàn thành sau **hành động thực** và phản hồi NPC, không phải nghe câu chuyện.
 - Nhiệm vụ cuối kết thúc **tuyến ba chặng**, không phải cuộc đời nhân vật. Sau đó các hoạt động chung, sinh hoạt mùa và câu chuyện nhẹ vẫn tiếp tục.
 - Mỗi nhiệm vụ có cách hoàn thành, từ chối hoặc NPC tự làm; các lựa chọn thay đổi chi tiết và câu gặp lại, không tạo kịch tính nhân tạo hoặc phần thưởng tiền bắt buộc.
