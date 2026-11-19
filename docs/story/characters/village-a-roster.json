@@ -1,0 +1,825 @@
+{
+  "schema": "apb.character_roster.v0",
+  "id": "VILLAGE_A_ROSTER",
+  "status": "all_names_traits_homes_draft",
+  "residents": [
+    {
+      "id": "VLA-01",
+      "name_en": "Hazel",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 34,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H01",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm vườn và trông các luống rau chung",
+      "traits_vi": "thẳng thắn, kiên nhẫn",
+      "routine_vi": "Sáng xem đất và chăm cây; chiều kiểm tra dụng cụ tưới",
+      "first_interaction_vi": "Khi A chủ động hỏi về cây, cô giải thích cách không làm hỏng mầm non",
+      "story_seed_vi": "Ngại nhờ người khác vì quen tự xoay xở; tuyến học cách chia việc với hàng xóm",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-02",
+      "name_en": "Nora",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 63,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H01",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm những chậu thảo mộc bên hiên",
+      "traits_vi": "nhẹ nhàng, tinh ý",
+      "routine_vi": "Thường kiểm tra thảo mộc và trò chuyện với người qua đường",
+      "first_interaction_vi": "Có thể chỉ cho A mùi lá quen thuộc khi A hỏi",
+      "story_seed_vi": "Nhớ điều người khác thích uống, nhưng không tự kể bí mật",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-03",
+      "name_en": "Finn",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 12,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H01",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Đi học việc nhà và quan sát côn trùng",
+      "traits_vi": "tò mò, hay quên",
+      "routine_vi": "Nhặt lá đẹp, nhìn bọ và chạy về nhà trước bữa tối",
+      "first_interaction_vi": "Chỉ cho A chỗ có những chiếc lá nhiều màu khi được hỏi",
+      "story_seed_vi": "Học tôn trọng cây đang được chăm, không giẫm lên luống",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-04",
+      "name_en": "Owen",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 37,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H02",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Sửa cửa, ghế và dụng cụ gỗ",
+      "traits_vi": "ít lời, cẩn thận",
+      "routine_vi": "Sáng xem đồ cần sửa; chiều hoàn thiện các món đang dang dở",
+      "first_interaction_vi": "A có thể giữ chốt gỗ khi Owen đang chỉnh",
+      "story_seed_vi": "Quen giúp nhà khác trước, còn chiếc cửa nhà mình thì cứ để hỏng",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-05",
+      "name_en": "June",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 35,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H02",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Sắp xếp dụng cụ và ghi nhớ các việc chung",
+      "traits_vi": "nhanh nhẹn, thực tế",
+      "routine_vi": "Kiểm đồ dùng rồi sắp theo những việc cần ưu tiên",
+      "first_interaction_vi": "Nhắc A đừng mượn đồ nếu chưa hỏi chủ",
+      "story_seed_vi": "Muốn Owen biết lúc nào nên nghỉ tay thay vì làm mãi",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-06",
+      "name_en": "Clara",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 31,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H03",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Nấu nướng và làm bánh cho người thân, hàng xóm",
+      "traits_vi": "ấm áp, cầu toàn",
+      "routine_vi": "Sáng chuẩn bị bột; chiều chia đồ ăn và dọn bếp",
+      "first_interaction_vi": "Nếu A tự đề nghị, có thể phụ chuẩn bị một bữa ăn đơn giản",
+      "story_seed_vi": "Khó chấp nhận món ăn không hoàn hảo, dần học vui với bữa ăn có người cùng làm",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-07",
+      "name_en": "Felix",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 33,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H03",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm luống ngũ cốc nhỏ và kiểm nguyên liệu",
+      "traits_vi": "hóm hỉnh, chu đáo",
+      "routine_vi": "Buổi sáng ở vườn; buổi chiều về phụ Clara",
+      "first_interaction_vi": "Có thể nói về nguyên liệu theo mùa khi A hỏi",
+      "story_seed_vi": "Băn khoăn giữa tăng sản lượng và để đất nghỉ",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-08",
+      "name_en": "Olive",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 9,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H03",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Vẽ và phụ việc nhà phù hợp lứa tuổi",
+      "traits_vi": "lém lỉnh, thích màu sắc",
+      "routine_vi": "Vẽ ở hiên, thỉnh thoảng giúp bày khăn ăn",
+      "first_interaction_vi": "Khoe bức vẽ nếu A chủ động nói chuyện",
+      "story_seed_vi": "Thích những góc nhỏ bình thường hơn cảnh thật hoành tráng",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-09",
+      "name_en": "Rowan",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 45,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H04",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm rìa đường rừng và những khoảng cây tự nhiên",
+      "traits_vi": "điềm đạm, nguyên tắc",
+      "routine_vi": "Đi kiểm tra mép đường; chiều ghi những chỗ cần chăm",
+      "first_interaction_vi": "Có thể cùng A nhổ cành khô nhưng giữ lại hoa dại",
+      "story_seed_vi": "Muốn người đi lại thuận tiện mà không phá những thứ đang sống",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-10",
+      "name_en": "Silas",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 39,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H04",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Làm đồ đan đơn giản và giữ lối đi sạch",
+      "traits_vi": "cởi mở, có phần hấp tấp",
+      "routine_vi": "Sáng đan giỏ; chiều mang đồ ra phơi, dọn sân",
+      "first_interaction_vi": "Thích rủ A thử đan một đoạn ngắn",
+      "story_seed_vi": "Khác quan điểm Rowan về việc nên sửa nhanh hay làm từ tốn",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-11",
+      "name_en": "Tessa",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 17,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H04",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Học nghề thủ công và phụ việc chung",
+      "traits_vi": "độc lập, dễ sốt ruột",
+      "routine_vi": "Học những việc khác nhau, lúc ở nhà lúc tới nơi sinh hoạt chung",
+      "first_interaction_vi": "Hỏi A xem bên ngoài rừng có những gì, nhưng không gặng hỏi chuyện riêng",
+      "story_seed_vi": "Muốn tự lựa chọn nghề mình thích thay vì chỉ nối việc người lớn",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-12",
+      "name_en": "Will",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 11,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H04",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Quan sát chim và phụ dọn sân",
+      "traits_vi": "lanh lợi, ít kiên nhẫn",
+      "routine_vi": "Ngắm chim trên đường, vẽ lại tiếng hót bằng ký hiệu riêng",
+      "first_interaction_vi": "Nếu A im lặng đứng nhìn, Will có thể chỉ chỗ chim đậu",
+      "story_seed_vi": "Dần biết ngồi yên đủ lâu để thấy một điều mới",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-13",
+      "name_en": "Maeve",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 27,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H05",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Vá áo, sửa vải, chăm đồ dùng bằng vải",
+      "traits_vi": "tỉ mỉ, kín đáo",
+      "routine_vi": "May vá bên cửa sổ; chiều sửa đồ mang tới",
+      "first_interaction_vi": "A có thể chọn cách vá hoặc màu chỉ cho món đồ không quá quý",
+      "story_seed_vi": "Giỏi giúp người khác nhưng ngại nói mình cũng cần giúp",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-14",
+      "name_en": "Arthur",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 60,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H05",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Bảo quản các món đồ cũ còn dùng được",
+      "traits_vi": "kỹ tính, vui tính khô",
+      "routine_vi": "Sắp kệ, phân loại đồ có thể sửa",
+      "first_interaction_vi": "Kể công dụng của đồ dùng cũ, không kể lore thế giới",
+      "story_seed_vi": "Không muốn vứt đồ nhưng phải học phân biệt giữ gì là đủ",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-15",
+      "name_en": "Evelyn",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 68,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H06",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Gìn giữ hạt giống và ghi chép mùa vụ thông thường",
+      "traits_vi": "chậm rãi, quan sát giỏi",
+      "routine_vi": "Sáng kiểm hũ hạt; chiều viết ghi chú từ vườn",
+      "first_interaction_vi": "Cho A xem cách ghi nhãn và phân loại hạt nếu A xin học",
+      "story_seed_vi": "Muốn truyền kỹ năng thực tế cho người trẻ, không đóng vai người giữ bí mật giấc mơ",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-16",
+      "name_en": "Edmund",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 70,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H06",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm bàn, ghế và những món đồ dùng lâu năm",
+      "traits_vi": "trầm tính, hay mỉm cười",
+      "routine_vi": "Ngồi sửa vật nhỏ hoặc ngắm sân nhà",
+      "first_interaction_vi": "Có thể chỉ A cách nhận ra một vật còn dùng được",
+      "story_seed_vi": "Thích những món đồ có vết sửa hơn món hoàn hảo",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-17",
+      "name_en": "Peter",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 43,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H06",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Mang sản phẩm vườn và đồ dùng giữa các nhà",
+      "traits_vi": "đáng tin, hơi vội",
+      "routine_vi": "Đi một vòng giao đồ đã được người nhận nhờ; về nhà kiểm giỏ",
+      "first_interaction_vi": "Khi A đã quen mặt, Peter có thể nhờ mang một giỏ nhẹ tới đúng nhà",
+      "story_seed_vi": "Học cách không tự nhận quá nhiều việc của hàng xóm",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-18",
+      "name_en": "Ada",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 24,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H07",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Hay đi lại trên các lối mòn và mang đồ trao tay",
+      "traits_vi": "năng động, tò mò",
+      "routine_vi": "Đi thăm lối ra rừng, trao vài món đồ cho người quen",
+      "first_interaction_vi": "Có thể rủ A cùng đi một đoạn đường đã biết",
+      "story_seed_vi": "Muốn khám phá xa hơn nhưng sợ bỏ lỡ điều đáng quý ngay gần nhà",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-19",
+      "name_en": "Hugo",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 28,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H07",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm xe đẩy tay và sắp xếp hàng hóa nhỏ",
+      "traits_vi": "điềm tĩnh, hay pha trò",
+      "routine_vi": "Kiểm bánh xe, dây buộc, rồi dọn góc cất đồ",
+      "first_interaction_vi": "Cho A thử cách buộc giỏ đúng để không rơi đồ",
+      "story_seed_vi": "Thấy mình ít thú vị hơn những người hay lên đường, dù công việc của mình rất cần",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-20",
+      "name_en": "Liam",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 30,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H08",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm hàng rào và những mảng gỗ ngoài trời",
+      "traits_vi": "lặng lẽ, dễ giúp người",
+      "routine_vi": "Kiểm chỗ lỏng quanh sân; chiều thu dọn vật liệu còn dùng được",
+      "first_interaction_vi": "Chỉ cho A phân biệt cành rơi với gỗ có thể tận dụng",
+      "story_seed_vi": "Thường làm thay người khác nên quên hỏi họ có muốn giúp không",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-21",
+      "name_en": "Nia",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 29,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H08",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Đan giỏ từ vật liệu sẵn có",
+      "traits_vi": "dịu dàng, cương quyết",
+      "routine_vi": "Chọn vật liệu, đan và phơi sản phẩm",
+      "first_interaction_vi": "Có thể cho A thử một bước đan đơn giản, không cần phần thưởng",
+      "story_seed_vi": "Muốn đồ dùng bền hơn là đẹp nhưng người làng không phải ai cũng đồng ý",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-22",
+      "name_en": "Ben",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 14,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H08",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Đang học nhiều việc trong làng",
+      "traits_vi": "hiếu động, dễ bối rối",
+      "routine_vi": "Lúc phụ dọn sân, lúc đứng nhìn người khác làm việc",
+      "first_interaction_vi": "Nếu A hỏi, Ben kể mình đang thử nhiều thứ chưa quyết định",
+      "story_seed_vi": "Tự chọn việc thích thay vì vội chứng minh mình giỏi",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-23",
+      "name_en": "Grace",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 49,
+      "age_status": "draft",
+      "narrative_priority": "core",
+      "household_id": "H09",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Nấu món ăn chung trong những dịp quây quần",
+      "traits_vi": "hiền hậu, có chính kiến",
+      "routine_vi": "Chuẩn bị nguyên liệu và nấu cho nhóm nhỏ; chiều dọn bếp",
+      "first_interaction_vi": "Nếu A hỏi, Grace mời phụ bày bàn hoặc chuẩn bị rau",
+      "story_seed_vi": "Quen chăm bữa ăn cho người khác nhưng ít tự cho mình thời gian ngồi ăn",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-24",
+      "name_en": "Miles",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 51,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H09",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chuyển giỏ, xếp hàng hóa và chăm dụng cụ",
+      "traits_vi": "thật thà, hài hước nhẹ",
+      "routine_vi": "Sắp đồ rồi đưa tới nơi đã hẹn",
+      "first_interaction_vi": "Nhớ ai hay làm rơi dụng cụ, chỉ kể chuyện vui vô hại",
+      "story_seed_vi": "Muốn giữ được lời hứa giao đồ đúng hẹn mà không quá vội",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-25",
+      "name_en": "Sophie",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 20,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H10",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Học nấu ăn và thích cắm hoa",
+      "traits_vi": "rụt rè, sáng tạo",
+      "routine_vi": "Giúp việc nhà rồi ngồi thử một món ăn mới",
+      "first_interaction_vi": "Có thể hỏi A món nào dễ ăn thay vì món nào ngon nhất",
+      "story_seed_vi": "Muốn chia sẻ sở thích mà ngại bị người lớn chê vụng",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-26",
+      "name_en": "Theo",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 56,
+      "age_status": "draft",
+      "narrative_priority": "supporting",
+      "household_id": "H10",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Trông coi lối đi và chỗ sinh hoạt chung",
+      "traits_vi": "điềm đạm, nghiêm túc",
+      "routine_vi": "Dọn đường, quan sát vật hư hỏng ở khu chung",
+      "first_interaction_vi": "Nếu A tự hỏi có thể góp sức gì, Theo chỉ việc vừa sức",
+      "story_seed_vi": "Cân bằng việc giữ trật tự và để người trẻ thay đổi thói quen",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-27",
+      "name_en": "Lucy",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 53,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H10",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm hoa bên hiên và chia cây giống",
+      "traits_vi": "cởi mở, tinh tế",
+      "routine_vi": "Tỉa lá, thay chậu và trò chuyện với người qua đường",
+      "first_interaction_vi": "Có thể tặng một mẩu hướng dẫn chăm cây, chưa tự tặng vật phẩm",
+      "story_seed_vi": "Tin rằng chăm một thứ nhỏ là đủ làm ngày có ý nghĩa",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-28",
+      "name_en": "Kit",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 10,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H11",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chơi đồ gỗ và phụ nhặt đồ",
+      "traits_vi": "nhiệt tình, hay hỏi",
+      "routine_vi": "Chơi quanh sân nhà, đôi lúc giúp nhặt đồ rơi",
+      "first_interaction_vi": "Mời A xem món đồ chơi đang tập lắp; không giao nhiệm vụ nguy hiểm",
+      "story_seed_vi": "Muốn tự sửa đồ chơi thay vì luôn nhờ người lớn",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-29",
+      "name_en": "Iris",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 36,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H11",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Chăm việc nhà và những góc sân nhỏ",
+      "traits_vi": "kiên trì, ấm áp",
+      "routine_vi": "Làm việc trong nhà rồi chăm cây ở hiên",
+      "first_interaction_vi": "Nhớ mặt người đã chào lần trước",
+      "story_seed_vi": "Muốn cả nhà có thời gian bên nhau dù ai cũng bận",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    },
+    {
+      "id": "VLA-30",
+      "name_en": "Caleb",
+      "name_status": "draft_pending_creator_review",
+      "age_suggested": 38,
+      "age_status": "draft",
+      "narrative_priority": "ambient",
+      "household_id": "H11",
+      "household_assignment_status": "draft",
+      "everyday_role_vi": "Làm đồ chứa đơn giản và bảo quản vật dụng",
+      "traits_vi": "chắc chắn, ít nói",
+      "routine_vi": "Chăm các đồ đựng và kiểm thứ cần thay mới",
+      "first_interaction_vi": "Có thể giải thích vì sao đồ đựng cần khô ráo",
+      "story_seed_vi": "Cố học cách nói rõ mình muốn gì thay vì im lặng",
+      "lore_status": "not_confirmed",
+      "dialogue_language": "vi",
+      "npc_state_contract": {
+        "met": false,
+        "helped": false,
+        "trust_event_completed": false
+      },
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+    }
+  ],
+  "households": [
+    {
+      "id": "H01",
+      "resident_ids": [
+        "VLA-01",
+        "VLA-02",
+        "VLA-03"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Hazel và Finn sống cùng Nora; đề xuất quan hệ ba thế hệ",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H02",
+      "resident_ids": [
+        "VLA-04",
+        "VLA-05"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Hai người sống chung; quan hệ thân thiết/đôi lứa chỉ là phác thảo",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H03",
+      "resident_ids": [
+        "VLA-06",
+        "VLA-07",
+        "VLA-08"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất gia đình nhỏ cùng nấu ăn và làm vườn",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H04",
+      "resident_ids": [
+        "VLA-09",
+        "VLA-10",
+        "VLA-11",
+        "VLA-12"
+      ],
+      "size": 4,
+      "relationship_draft_vi": "Đề xuất hai anh em trưởng thành ở chung với hai người trẻ trong nhà",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H05",
+      "resident_ids": [
+        "VLA-13",
+        "VLA-14"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Đề xuất hai thế hệ chung nhà",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H06",
+      "resident_ids": [
+        "VLA-15",
+        "VLA-16",
+        "VLA-17"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất gia đình nhiều thế hệ",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H07",
+      "resident_ids": [
+        "VLA-18",
+        "VLA-19"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Hai người chung nhà, chưa xác nhận quan hệ tình cảm",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H08",
+      "resident_ids": [
+        "VLA-20",
+        "VLA-21",
+        "VLA-22"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất nhóm gia đình và một người tuổi thiếu niên",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H09",
+      "resident_ids": [
+        "VLA-23",
+        "VLA-24"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Hai người chia sẻ bếp và việc sinh hoạt",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H10",
+      "resident_ids": [
+        "VLA-25",
+        "VLA-26",
+        "VLA-27"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất hai thế hệ ở cùng nhà",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H11",
+      "resident_ids": [
+        "VLA-28",
+        "VLA-29",
+        "VLA-30"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất gia đình có trẻ nhỏ",
+      "relationships_status": "not_approved"
+    }
+  ],
+  "count": 30,
+  "tiers": {
+    "core": 8,
+    "supporting": 10,
+    "ambient": 12
+  },
+  "Thomas_excluded_due_to_unknown_residency": true,
+  "linked_village": "VILLAGE_A"
+}
