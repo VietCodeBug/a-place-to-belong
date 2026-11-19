@@ -1,0 +1,187 @@
+{
+  "schema": "apb.scene.v0",
+  "id": "CH01-005",
+  "status": "draft_pending_creator_review",
+  "title": "Một khoảng nhỏ để bắt đầu",
+  "chapter": "chapter-01",
+  "order": 5,
+  "kind": "optional_return_home_environmental_story",
+  "entry": {
+    "trigger": "player_returns_to_house_front_after_first_exit",
+    "location": "house_a_front_step",
+    "previous_story_nodes": [
+      "CH01-001",
+      "CH01-002",
+      "CH01-003",
+      "CH01-004"
+    ],
+    "require_flags": [
+      "ch01_first_exit_complete"
+    ],
+    "not_required": [
+      "thomas_met",
+      "thomas_intro_heard",
+      "ch01_rest_spot_discovered",
+      "ch01_rest_spot_used"
+    ],
+    "if_player_explores_elsewhere": "scene_remains_optional_until_return"
+  },
+  "characters": [
+    "A"
+  ],
+  "confirmed_constraints": [
+    "house_is_old_but_livable_and_needs_care",
+    "unknown_house_history_and_A_previous_life_in_dream",
+    "no_mandatory_repair",
+    "Thomas_dialogue_optional_not_quest",
+    "free_exploration_and_player_choice"
+  ],
+  "proposed_new_elements": [
+    "small_branch_on_front_step",
+    "fallen_leaves_near_front_door",
+    "player_can_move_branch_and_clear_small_leaf_patch",
+    "visible_small_difference_after_choice"
+  ],
+  "beats": [
+    {
+      "id": "CH01005-B01",
+      "type": "free_exploration",
+      "summary_vi": "A trở lại căn nhà theo con đường đã đi. Không ai gọi về.",
+      "mandatory": false
+    },
+    {
+      "id": "CH01005-B02",
+      "type": "environmental_story",
+      "summary_vi": "Lá và nhánh cây nằm sát bậc cửa; ngôi nhà vẫn còn ở được.",
+      "mandatory": false
+    },
+    {
+      "id": "CH01005-B03",
+      "type": "optional_care",
+      "summary_vi": "A có thể gạt lá và nhánh cây để làm sạch một góc bậc cửa.",
+      "action": "clear_front_step",
+      "mandatory": false,
+      "set_flags": [
+        "ch01_first_care_action_done"
+      ],
+      "set_state": {
+        "ch01_front_step_state": "small_area_cleared"
+      }
+    },
+    {
+      "id": "CH01005-B04",
+      "type": "ambient_pause",
+      "summary_vi": "Ngắm một khoảng nhỏ đã được chăm; không có lời khen, không cutscene bắt buộc.",
+      "mandatory": false
+    },
+    {
+      "id": "CH01005-B05",
+      "type": "free_exploration",
+      "summary_vi": "A tự vào nhà, quay lại Thomas, hoặc đi sâu theo lối mòn.",
+      "mandatory": false
+    }
+  ],
+  "interactions": {
+    "inspect_front_step": {
+      "type": "optional_observation",
+      "once": false,
+      "text_key": "CH01005-OBS-01",
+      "only_if_state": {
+        "ch01_front_step_state": "untouched"
+      }
+    },
+    "clear_front_step": {
+      "type": "optional_care",
+      "requires": [],
+      "if_state": {
+        "ch01_front_step_state": "untouched"
+      },
+      "set_flags": [
+        "ch01_first_care_action_done"
+      ],
+      "set_state": {
+        "ch01_front_step_state": "small_area_cleared"
+      },
+      "optional": true,
+      "text_after_key": "CH01005-THOUGHT-01"
+    },
+    "enter_house": {
+      "type": "free_navigation",
+      "requires": [],
+      "optional": true
+    },
+    "return_to_trail": {
+      "type": "free_navigation",
+      "requires": [],
+      "optional": true
+    }
+  },
+  "localization_draft": {
+    "vi": {
+      "CH01005-OBS-01": "Lá rụng đã chất lên tận bậc cửa.",
+      "CH01005-THOUGHT-01": "Ít nhất, bước lên cũng dễ hơn rồi."
+    }
+  },
+  "story_states": {
+    "ch01_house_return_seen": "observed_return_not_owner_confirmation",
+    "ch01_front_step_state": {
+      "initial": "untouched",
+      "after_optional_action": "small_area_cleared",
+      "valid_within": "current_scene_segment_only_future_dream_persistence_undecided"
+    }
+  },
+  "dialogue_contract": {
+    "mandatory_lines": 0,
+    "optional_lines": 2,
+    "Thomas_recap": false,
+    "lore_exposition": false
+  },
+  "exploration_paths": [
+    {
+      "id": "inside_house",
+      "accessible_without_care": true
+    },
+    {
+      "id": "follow_faint_trail",
+      "accessible_without_care": true
+    },
+    {
+      "id": "visit_Thomas_area",
+      "accessible_without_care": true
+    }
+  ],
+  "exit": {
+    "next_scene": null,
+    "free_roam": true,
+    "do_not_require_flags": [
+      "ch01_first_care_action_done"
+    ],
+    "next_story_hooks": [
+      "CH01-006_TBD"
+    ]
+  },
+  "setting": {
+    "existing_id": "ENV-DREAM-01",
+    "existing_exterior_id": "ENV-DREAM-02",
+    "additions_status": "draft_not_approved",
+    "narrative_area": "same_front_step_and_porch_of_A_house",
+    "additions": [
+      "fallen_leaves",
+      "small_branch",
+      "small_clearable_patch"
+    ]
+  },
+  "production": {
+    "narrative_only": true,
+    "assets_not_commissioned": true,
+    "engine_integration": "not_implemented",
+    "note": "No code or assets were changed; visual action is optional and not canon until approved."
+  },
+  "unresolved": [
+    "front_step_details_acceptance",
+    "optional_internal_thought_line",
+    "when_care_system_begins",
+    "what_lies_beyond_Thomas",
+    "dream_progress_continuity"
+  ]
+}
