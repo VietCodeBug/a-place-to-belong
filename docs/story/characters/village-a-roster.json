@@ -403,11 +403,11 @@
       "narrative_priority": "core",
       "household_id": "H07",
       "household_assignment_status": "draft",
-      "everyday_role_vi": "Hay đi lại trên các lối mòn và mang đồ trao tay",
+      "everyday_role_vi": "Đầu mối đề xuất vận chuyển hàng giữa Làng A và các làng khác (làng đích chưa chốt)",
       "traits_vi": "năng động, tò mò",
-      "routine_vi": "Đi thăm lối ra rừng, trao vài món đồ cho người quen",
-      "first_interaction_vi": "Có thể rủ A cùng đi một đoạn đường đã biết",
-      "story_seed_vi": "Muốn khám phá xa hơn nhưng sợ bỏ lỡ điều đáng quý ngay gần nhà",
+      "routine_vi": "Chuẩn bị kiện hàng và tìm hiểu lối liên làng; lịch đi chính thức chưa chốt",
+      "first_interaction_vi": "Hỏi về kiện hàng hoặc giúp chuẩn bị; chuyến giao liên làng chỉ mở khi đã có làng đích và người nhận",
+      "story_seed_vi": "Mong kết nối các vùng bằng những chuyến đi, nhưng cũng sợ bỏ lỡ điều đáng quý gần nhà",
       "lore_status": "not_confirmed",
       "dialogue_language": "vi",
       "npc_state_contract": {
@@ -415,7 +415,10 @@
         "helped": false,
         "trust_event_completed": false
       },
-      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest",
+      "activity_links_draft": [
+        "VLA-DELIVERY"
+      ]
     },
     {
       "id": "VLA-19",
@@ -426,11 +429,11 @@
       "narrative_priority": "supporting",
       "household_id": "H07",
       "household_assignment_status": "draft",
-      "everyday_role_vi": "Chăm xe đẩy tay và sắp xếp hàng hóa nhỏ",
+      "everyday_role_vi": "Kiểm xe đẩy, dây buộc và sắp kiện cho hành trình liên làng",
       "traits_vi": "điềm tĩnh, hay pha trò",
-      "routine_vi": "Kiểm bánh xe, dây buộc, rồi dọn góc cất đồ",
-      "first_interaction_vi": "Cho A thử cách buộc giỏ đúng để không rơi đồ",
-      "story_seed_vi": "Thấy mình ít thú vị hơn những người hay lên đường, dù công việc của mình rất cần",
+      "routine_vi": "Chăm xe đẩy, kiểm kiện và chuẩn bị hành trang cho Ada hoặc người nhận giao",
+      "first_interaction_vi": "A chủ động hỏi hoặc tham gia kiểm kiện; không tự giao quest",
+      "story_seed_vi": "Học nhìn nhận giá trị của việc chuẩn bị để người khác có thể đi xa",
       "lore_status": "not_confirmed",
       "dialogue_language": "vi",
       "npc_state_contract": {
@@ -438,7 +441,10 @@
         "helped": false,
         "trust_event_completed": false
       },
-      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest"
+      "quest_policy": "optional_triggered_by_conversation_or_context_no_forced_quest",
+      "activity_links_draft": [
+        "VLA-DELIVERY"
+      ]
     },
     {
       "id": "VLA-20",
@@ -821,5 +827,22 @@
     "ambient": 12
   },
   "Thomas_excluded_due_to_unknown_residency": true,
-  "linked_village": "VILLAGE_A"
+  "linked_village": "VILLAGE_A",
+  "future_activity_links_draft": [
+    {
+      "id": "VLA-DELIVERY",
+      "status": "direction_selected_details_draft",
+      "cast": [
+        "VLA-18",
+        "VLA-19"
+      ],
+      "destination": "VILLAGE_DEST_TBD"
+    },
+    {
+      "id": "WILDLIFE_HUNTING",
+      "status": "direction_selected_details_draft",
+      "cast_confirmed": [],
+      "zone": "WILDLIFE_ZONE_TBD"
+    }
+  ]
 }
