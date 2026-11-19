@@ -49,6 +49,8 @@
 - [characters/village-a-roster.md](characters/village-a-roster.md): 30 cư dân tên tiếng Anh **đề xuất**, mỗi người có sinh hoạt, tính cách, tuyến truyện và nhóm nhà (chưa chốt).
 - [characters/village-a-roster.json](characters/village-a-roster.json): sổ nhận dạng, mã nhân vật ổn định và phân lớp ưu tiên của 30 cư dân.
 - [production/open-world-narrative-v0.md](production/open-world-narrative-v0.md): quy ước biên kịch thế giới mở — vòng chơi, quan hệ thân thiện/tin cậy, phát sinh lời nhờ và quyền từ chối.
+- [activities/inter-village-delivery-v0.md](activities/inter-village-delivery-v0.md) và [JSON](activities/inter-village-delivery-v0.json): **đã chọn hướng vận chuyển hàng sang làng khác**, giới thiệu Ada/Hugo, điều kiện và kết quả giao hàng.
+- [activities/hunting-v0.md](activities/hunting-v0.md) và [JSON](activities/hunting-v0.json): **đã chọn hướng săn bắn tùy chọn**, theo dấu, lựa chọn và tác động đến động vật rừng.
 - [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
 - [characters/thomas.json](characters/thomas.json): nhận dạng/giới hạn thông tin Thomas dạng có cấu trúc.
 - [dialogue/README.md](dialogue/README.md): quy ước phân biệt giới thiệu, hỏi tùy chọn, gợi hướng khám phá, lời gặp lại.
