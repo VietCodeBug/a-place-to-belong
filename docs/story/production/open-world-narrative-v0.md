@@ -114,3 +114,9 @@ Xem [hồ sơ Làng A](../locations/village-a.md) và [30 hồ sơ cư dân](../
 **Săn bắn:** hoạt động tự chọn khi đi rừng, gồm lần dấu/quan sát/đi săn tùy điều kiện. Không săn động vật nuôi, con non hoặc loài bị bảo vệ; không ép săn để mở làng, không tự cấp tài nguyên khi chưa có cơ chế. Loài, công cụ và vùng săn **chưa chốt**. Xem [hunting spec](../activities/hunting-v0.md).
 
 **Không thay đổi định hướng:** ưu tiên người chơi tự đi, khám phá, giúp đỡ theo quan hệ, NPC có cuộc sống riêng. Hai hoạt động là **gói nội dung mở**, không phải một chuỗi scene bắt buộc.
+
+## Tuyến nhân vật nhiều chặng theo độ thân thiết — hướng đã chọn
+
+Kể chuyện thông qua **Q1 → thời gian sinh hoạt → Q2 → thời gian quen thân và sự kiện quan hệ → QF**; không được giao nhiệm vụ mới mỗi lần NPC thấy người chơi hoặc ngay sau nhiệm vụ trước. Dù điểm thân thiết đạt ngưỡng, vẫn cần việc cũ đã diễn ra, NPC đang có lý do nhờ và người chơi chủ động nhận. **Từ chối không cắt đứt tuyến truyện**: NPC có thể tự xử lý, khi gặp lại phải có lời thoại nhận biết việc A đã làm hay không làm.
+
+Mốc điểm 20 / 50 / 80 là **đề xuất biên kịch** chưa được chốt. Xem [8 tuyến Làng A, 24 nhiệm vụ nháp](../quests/village-a-relationship-arcs-v0.md) cùng [dữ liệu](../quests/village-a-relationship-arcs-v0.json). Các cư dân tiếp tục làm việc sau khi xong nhiệm vụ cuối. Không làm phát sinh nội dung Làng B.
