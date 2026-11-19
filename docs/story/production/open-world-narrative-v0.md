@@ -102,3 +102,7 @@ Nếu thiếu quá nhiều điểm trên, đó mới chỉ là **ý tưởng phi
 - Hệ thống café/bưu điện/xe đạp có mở ngay hay không.
 
 **Mục tiêu:** chuyển hoạt động thành các câu chuyện nhỏ có thể diễn ra **bất kỳ thứ tự hợp lý nào**, không làm người chơi có cảm giác phải hoàn thành từng tập phim.
+
+## Quy mô cộng đồng đã chọn: khoảng 30 cư dân
+
+Xem [hồ sơ Làng A](../locations/village-a.md) và [30 hồ sơ cư dân](../characters/village-a-roster.md). Quy mô ~30 là hướng đã chọn; tên/quan hệ/địa hình đề xuất chưa tự thành canon. **Không tạo 30 nhiệm vụ hoặc 30 dấu chấm than.** Ưu tiên 8 tuyến sâu, 10 tuyến phụ, 12 nhân vật đời sống; các vai có quan hệ và sinh hoạt với nhau, không chỉ xoay quanh A. Thomas chưa xác nhận cư trú trong làng; không tự tính vào danh sách.
