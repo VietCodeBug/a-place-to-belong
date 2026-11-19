@@ -22,6 +22,11 @@ func run() -> void:
 	office.mail.close_message()
 	office.camera.yaw = 0.0
 	await move_until(office, "office_back", Vector3.BACK, 3.36)
+	await create_timer(0.55).timeout
+	office.camera.look_with_mouse(Vector2(0.0, 650.0), 0.0)
+	await create_timer(1.25).timeout
+	office.camera.pitch = -0.13
+	await create_timer(0.26).timeout
 	Input.action_press("office_jog")
 	await move_until(office, "office_right", Vector3.RIGHT, -0.20)
 	Input.action_release("office_jog")

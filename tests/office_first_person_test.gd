@@ -97,6 +97,21 @@ func check_mouse_contact(typist: Node3D) -> void:
 	typist.mouse_use = previous
 	typist.resync(0.0, Vector3.ZERO)
 
+func check_stance_after_reposition(office: Node3D) -> void:
+	var actor: Node3D = office.actor
+	var at_desk: Vector3 = office.player.position
+	office.player.position += Vector3(0.41, 0.0, 0.94)
+	actor.resync(0.0, Vector3.ZERO)
+	for i in range(2):
+		var side := "L" if i == 0 else "R"
+		var foot: Transform3D = actor.rest["Foot" + side]
+		var home: Vector3 = actor.skeleton.to_global(foot.origin)
+		check(actor.feet[i].distance_to(home) < 0.02, "A scene reposition should replant both feet under the actor.")
+		var wrist: Transform3D = actor.skeleton.get_bone_global_pose(actor.bones["Hand" + side])
+		check(wrist.origin.y < 0.84 and absf(wrist.origin.x) > 0.19, "Relaxed first-person hands should hang beside the hips.")
+	office.player.position = at_desk
+	actor.resync(0.0, Vector3.ZERO)
+
 func check_conversation_fingers(coworker: Node3D) -> void:
 	var rig: Skeleton3D = coworker.skeleton
 	var fingers_gather := true
@@ -214,6 +229,10 @@ func run() -> void:
 	office.finish_intro()
 	await tick(2)
 	check(view.position.y > 1.5 and office.near_desk(), "Intro handoff must stand at the workstation.")
+	check_stance_after_reposition(office)
+	office.camera.look_with_mouse(Vector2(0.0, 850.0), 0.0)
+	check(is_equal_approx(office.camera.pitch, office.EYE_CAMERA.DOWN_LIMIT), "Looking down stops before the camera aims into the actor's collar.")
+	office.camera.pitch = -0.13
 	office.camera.look_with_mouse(Vector2(-340, 65), 0.0)
 	await tick(9)
 	check(view.rotation.y > 0.6 and view.rotation.x < -0.2, "Mouse input should look right or left and up or down from the eyes.")

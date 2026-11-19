@@ -4,7 +4,7 @@ Map 01 mở tại bàn làm việc của A. Sau khi đọc và đóng email Nhâ
 
 ## P0
 
-- **Camera và cơ thể.** Góc nhìn từ mắt có nới vị trí về trước khi cúi để tránh thấy mặt trong cổ áo. Tùy chọn độ nhạy chuột và nhún đầu nằm trong Cài đặt → Điều khiển. Camera dùng một hình cầu để giới hạn phần dịch chuyển khi gặp vật cản. A dùng model và rig hiện có, với tiếp xúc bàn phím và chuột dựa trên vị trí đạo cụ.
+- **Camera và cơ thể.** Góc nhìn từ mắt có nới vị trí về trước khi cúi để tránh thấy mặt trong cổ áo. Góc cúi giảm nếu cơ thể đang sát vật cản. Khi đổi vị trí đột ngột, rig đặt lại điểm trụ chân và tay nghỉ thấp bên hông khi đứng. Tùy chọn độ nhạy chuột và nhún đầu nằm trong Cài đặt → Điều khiển. Camera dùng một hình cầu để giới hạn phần dịch chuyển khi gặp vật cản. A dùng model và rig hiện có, với tiếp xúc bàn phím và chuột dựa trên vị trí đạo cụ.
 - **Email.** Màn hình bàn làm việc dùng một SubViewport dựng hộp thư và trạng thái thư mới. Khi người chơi nhấn E, camera hướng nhẹ về màn hình và mở bản đọc dễ nhìn. Esc, E và nút đóng trả quyền điều khiển. Có thể mở lại. Nội dung lấy nguyên từ `assets/story/office.json`.
 - **Không gian.** Giữ hai dãy bàn, lối đi, góc in và bàn họp. Cân lại đèn bàn, ánh sáng lạnh ngoài cửa sổ, vân và sắc độ vật liệu, thêm biến thể sổ tay và dây màn hình. Nhóm cửa sổ thành phố thành các MultiMesh theo từng tòa. Những hộp cùng hình và vật liệu dùng chung mesh runtime.
 - **Đồng nghiệp.** Giữ hai rig nhân viên và rig sếp đã có trong bản nháp. Gõ phím, dùng chuột, đọc giấy, uống nước và đứng lên chạy theo các nhịp lệch nhau. Sếp tiếp tục đi tuần. Công việc xung quanh vẫn diễn ra trong lúc người chơi đọc email.

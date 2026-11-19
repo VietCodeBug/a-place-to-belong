@@ -279,7 +279,7 @@ func _physics_process(delta: float) -> void:
 	if actor.seated == 0.0:
 		actor.rotation.y = lerp_angle(actor.rotation.y, PI + camera.yaw, 1.0 - exp(-16.0 * delta))
 	interaction_gesture = move_toward(interaction_gesture, 0.0, delta * 1.8)
-	actor.reach = interaction_gesture * 0.65
+	actor.reach = interaction_gesture * smoothstep(0.15, 0.90, actor.seated) * 0.65
 	var editing: bool = actor.seated > 0.98 and not mail.visible and not phone_requested
 	var mouse_pass := fposmod(office_time, 12.0)
 	var mouse_use := smoothstep(6.7, 7.2, mouse_pass) * (1.0 - smoothstep(8.45, 9.1, mouse_pass))

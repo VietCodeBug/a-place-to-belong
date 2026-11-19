@@ -49,6 +49,7 @@ var key_pressure := PackedFloat32Array([0.0, 0.0])
 var key_travel := PackedFloat32Array([0.0, 0.0])
 var gesture_side := "R"
 var first_person_head: MeshInstance3D
+var first_person_body := false
 var face_meshes: Array[MeshInstance3D] = []
 var face_expression := "Neutral"
 var expression_amount := 0.0
@@ -78,6 +79,7 @@ var swing_duration := PackedFloat32Array([0.0, 0.0])
 var swing_height := PackedFloat32Array([0.0, 0.0])
 var gait_phase := 0.0
 var walking_mix := 0.0
+var previous_root := Vector3.INF
 
 func _ready() -> void:
 	var visual := model.instantiate()
@@ -164,6 +166,7 @@ func find_rig_bone(name: String) -> int:
 	return index if index >= 0 else skeleton.find_bone("mixamorig_" + name)
 
 func use_first_person() -> void:
+	first_person_body = true
 	if first_person_head:
 		first_person_head.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 
@@ -354,6 +357,13 @@ func set_expression(name: String, amount := 1.0) -> void:
 func resync(delta: float, planar_velocity: Vector3) -> void:
 	clock += delta
 	var speed := planar_velocity.length()
+	var root_position := skeleton.global_position
+	# Ground contacts are in world space. A scene cut or teleport invalidates
+	# both contact points, unlike a normal step or turn.
+	if previous_root.is_finite() and previous_root.distance_to(root_position) > maxf(0.44, speed * delta * 2.0):
+		reset_steps()
+		walking_mix = 0.0
+	previous_root = root_position
 	walking_mix = move_toward(walking_mix, minf(speed / 1.1, 1.0), delta * 6.5)
 	var stance := [rest["FootL"].origin, rest["FootR"].origin]
 	if seated > 0.99:
@@ -397,14 +407,16 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 		solve_chain("Thigh" + side, "Shin" + side, "Foot" + side, foot, Vector3.BACK, Basis.IDENTITY)
 
 		var hand := Vector3(sign_x * 0.211, 0.87 + breath, 0.065)
-		hand.z += walking_mix * 0.135 * sin(clock * 7.0 + float(i) * PI)
+		if first_person_body:
+			hand = Vector3(sign_x * 0.231, 0.79 + breath, 0.014)
+		hand.z += walking_mix * (0.094 if first_person_body else 0.135) * sin(clock * 7.0 + float(i) * PI)
 		var at_keyboard := Vector3(sign_x * 0.113, 0.865 + sin(clock * 15.0 + float(i) * 2.0) * 0.009 * typing, 0.46)
 		var rest_at_desk := Vector3(sign_x * 0.17, 0.59, 0.25) if i == 0 else Vector3(sign_x * 0.20, 0.868, 0.42)
 		hand = hand.lerp(at_keyboard.lerp(rest_at_desk, desk_rest), seated)
 		var palm_amount := seated * (1.0 - desk_rest * (0.80 if i == 0 else 0.11))
 		if i == 0:
 			hand = hand.lerp(Vector3(0.18, 1.29 - seated * 0.30, 0.40), phone_amount)
-			hand = hand.lerp(Vector3(0.13, 1.35 - seated * 0.30, 0.18), thinking * 0.72)
+			hand = hand.lerp(Vector3(0.13, 1.35 - seated * 0.30, 0.18), thinking * 0.72 * seated)
 			hand = hand.lerp(Vector3(0.23, 1.02, 0.43), reach)
 			palm_amount = maxf(palm_amount, phone_amount * 0.42)
 		var relaxed: Basis = relaxed_palms[side]
