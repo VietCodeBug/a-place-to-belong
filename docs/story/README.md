@@ -44,6 +44,10 @@
 - [scenes/CH01-006.json](scenes/CH01-006.json): nhịp quan sát, dấu hiệu đời sống, cờ ghi nhận và lối đi không bắt buộc.
 - [scenes/CH01-007.md](scenes/CH01-007.md): **đề xuất hub thế giới mở** — đến khu dân cư, tự hỏi chuyện, giúp chăm vườn/sửa đồ, NPC nhớ người chơi, không nhiệm vụ bắt buộc.
 - [scenes/CH01-007.json](scenes/CH01-007.json): dữ liệu hoạt động độc lập, hội thoại theo trạng thái và cờ quan hệ.
+- [locations/village-a.md](locations/village-a.md): **làng đầu tiên quy mô khoảng 30 cư dân** (đã chọn số lượng), tổ chức cộng đồng, hoạt động và quan hệ (nháp).
+- [locations/village-a.json](locations/village-a.json): dữ liệu làng, các nhóm cư trú và hạt giống sự kiện.
+- [characters/village-a-roster.md](characters/village-a-roster.md): 30 cư dân tên tiếng Anh **đề xuất**, mỗi người có sinh hoạt, tính cách, tuyến truyện và nhóm nhà (chưa chốt).
+- [characters/village-a-roster.json](characters/village-a-roster.json): sổ nhận dạng, mã nhân vật ổn định và phân lớp ưu tiên của 30 cư dân.
 - [production/open-world-narrative-v0.md](production/open-world-narrative-v0.md): quy ước biên kịch thế giới mở — vòng chơi, quan hệ thân thiện/tin cậy, phát sinh lời nhờ và quyền từ chối.
 - [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
 - [characters/thomas.json](characters/thomas.json): nhận dạng/giới hạn thông tin Thomas dạng có cấu trúc.
