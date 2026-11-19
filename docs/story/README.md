@@ -54,6 +54,10 @@
 - [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
 - [characters/thomas.json](characters/thomas.json): nhận dạng/giới hạn thông tin Thomas dạng có cấu trúc.
 - [dialogue/README.md](dialogue/README.md): quy ước phân biệt giới thiệu, hỏi tùy chọn, gợi hướng khám phá, lời gặp lại.
+- [dialogue/village-a-dialogues-guide-v0.md](dialogue/village-a-dialogues-guide-v0.md): **hướng dẫn biên kịch 30 cư dân** — lời chào, hỏi việc, tham gia, từ chối, gặp lại, thân quen.
+- [dialogue/village-a-dialogues-01-10.md](dialogue/village-a-dialogues-01-10.md), [11-20](dialogue/village-a-dialogues-11-20.md), [21-30](dialogue/village-a-dialogues-21-30.md): **lời thoại riêng của đủ 30 cư dân**.
+- [dialogue/village-a-dialogues-v0.json](dialogue/village-a-dialogues-v0.json): bộ dữ liệu lời thoại hợp nhất, ID ổn định, nhóm điều kiện và 30 hoạt động tùy chọn.
+- [dialogue/village-a-overheard-v0.md](dialogue/village-a-overheard-v0.md) và [JSON](dialogue/village-a-overheard-v0.json): 6 cuộc nói chuyện ngắn **giữa các NPC**, không ép người chơi tham gia.
 - [production/intro-comic-v0.md](production/intro-comic-v0.md): kịch bản dựng thử mở đầu dạng truyện tranh, 14 mốc storyboard/handoff.
 - [production/intro-comic-v0.json](production/intro-comic-v0.json): 12 panel truyện tranh dạng dữ liệu, handoff sang gameplay (nháp).
 - [production/environment-scenes-v0.md](production/environment-scenes-v0.md): hồ sơ **bối cảnh không gian chi tiết** của văn phòng, căn hộ thuê, nhà A, khu rừng và bìa rừng Thomas, để người dựng 3D dựa vào.
