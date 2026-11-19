@@ -1,0 +1,133 @@
+{
+  "schema": "apb.open_world_activity.v0",
+  "id": "WILDLIFE_HUNTING",
+  "title_vi": "Săn bắn và đời sống hoang dã",
+  "status": "core_activity_accepted_details_draft",
+  "mode": "optional_activity",
+  "relationship_to_game": "exploration_wildlife_and_resource_choices",
+  "regions": [
+    "WILDLIFE_ZONE_TBD"
+  ],
+  "species_status": "not_defined",
+  "hunting_equipment_status": "not_defined",
+  "protection_rules_status": "draft_pending_review",
+  "activity_nodes": [
+    {
+      "id": "HNT-00",
+      "type": "tracking_and_observation",
+      "requires": [
+        "wildlife_region_exists"
+      ],
+      "steps": [
+        "discover_signs",
+        "follow_tracks",
+        "observe_wildlife_or_leave"
+      ],
+      "no_hunt_required": true
+    },
+    {
+      "id": "HNT-01",
+      "type": "optional_hunt",
+      "requires": [
+        "permitted_hunting_zone_defined",
+        "eligible_species_defined",
+        "player_tool_valid",
+        "player_chooses_hunt"
+      ],
+      "steps": [
+        "locate_wildlife",
+        "choose_hunt_or_observe",
+        "perform_game_hunting_action",
+        "resolve_success_or_failure"
+      ],
+      "no_hunt_required": true
+    },
+    {
+      "id": "HNT-02",
+      "type": "optional_resident_request",
+      "requires": [
+        "specific_character_context_written",
+        "permitted_resources_defined",
+        "player_accepts"
+      ],
+      "can_decline": true,
+      "alternative_handling": "npc_can_source_elsewhere_when_not_helped"
+    },
+    {
+      "id": "HNT-03",
+      "type": "consequence_story",
+      "requires": [
+        "ecology_rules_approved"
+      ],
+      "outcome": "wildlife_presence_or_npc_reactions_can_vary_after_meaningful_events"
+    }
+  ],
+  "proposed_character_links": [
+    {
+      "id": "VLA-09",
+      "name_en": "Rowan",
+      "role_status": "conservation_viewpoint_only_not_hunter",
+      "role_approved": false
+    },
+    {
+      "id": "VLA-06",
+      "name_en": "Clara",
+      "role_status": "possible_cooking_request_only",
+      "role_approved": false
+    }
+  ],
+  "dialogue_draft": [
+    {
+      "id": "HNT-A-01",
+      "speaker_id": "A",
+      "text_vi": "Dấu chân... có vẻ còn mới.",
+      "purpose": "optional_inspection"
+    },
+    {
+      "id": "HNT-ROWAN-01",
+      "speaker_id": "VLA-09",
+      "text_vi": "Rừng cũng có những nơi nên để yên. Không phải cái gì thấy được cũng cần mang về.",
+      "purpose": "optional_forest_topic"
+    },
+    {
+      "id": "HNT-CLARA-01",
+      "speaker_id": "VLA-06",
+      "text_vi": "Có những thứ không phải lúc nào cũng kiếm được. Tôi thường xem hôm nay có gì rồi mới nghĩ tới món ăn.",
+      "purpose": "optional_food_topic"
+    }
+  ],
+  "flags": [
+    "wildlife_sign_found",
+    "wildlife_species_observed",
+    "hunt_prepared",
+    "hunt_attempted",
+    "hunt_success",
+    "hunt_declined",
+    "local_wildlife_pressure"
+  ],
+  "rules": {
+    "optional": true,
+    "no_animal_hunting_in_village": true,
+    "no_hunting_domestic_or_protected_animals": true,
+    "no_hunting_young_animals": true,
+    "no_gore": true,
+    "no_default_relationship_penalty_for_lawful_hunting": true,
+    "no_auto_hunt_completion": true,
+    "ecology_impact_proposal": true,
+    "does_not_gate_intervillage_travel": true
+  },
+  "unresolved": [
+    "animal_species",
+    "habitats",
+    "hunting_methods",
+    "hunting_tools",
+    "item_rewards",
+    "seasonality",
+    "population_recovery",
+    "NPC_quest_gates"
+  ],
+  "production": {
+    "narrative_only": true,
+    "engine_integration": "not_implemented"
+  }
+}
