@@ -348,13 +348,14 @@
     {
       "id": "VLA-E07",
       "npc": "Ada",
-      "title_vi": "Đi cùng một đoạn",
-      "trigger": "player_accepts_invitation_when_available",
-      "player_action_vi": "Đi theo đường quen với Ada, quan sát các mốc đường; có thể dừng giữa chừng",
-      "outcomes_vi": "Mở kiến thức về một đoạn đường chứ không bắt giao hàng",
-      "relationship_gate": "familiar",
+      "title_vi": "Chuyến hàng sang làng khác",
+      "trigger": "route_and_recipient_defined_then_player_accepts_cross_village_request",
+      "player_action_vi": "Nhận kiện tại Làng A, chủ động mang qua tuyến sang làng khác và trao tận tay người nhận; có thể khám phá dọc đường",
+      "outcomes_vi": "Mở quan hệ/xác nhận giao ở làng khác; từ chối không bị phạt; không hoàn thành khi chỉ tới làng đích",
+      "relationship_gate": "optional_familiarity_for_request_but_route_not_locked",
       "legacy_refs": [],
-      "status": "draft"
+      "status": "direction_approved_route_details_draft",
+      "activity_ref": "../activities/inter-village-delivery-v0.json"
     },
     {
       "id": "VLA-E08",
@@ -388,6 +389,17 @@
       "relationship_gate": "familiar",
       "legacy_refs": [],
       "status": "draft"
+    },
+    {
+      "id": "VLA-E11",
+      "npc": null,
+      "title_vi": "Theo dấu và săn thú rừng",
+      "trigger": "player_finds_wildlife_signs_in_approved_region",
+      "player_action_vi": "Theo dấu, quan sát hoặc chủ động săn khi có vùng/loài/công cụ hợp lệ; không ép giết",
+      "outcomes_vi": "Khám phá động vật, thành quả hợp lệ hoặc tác động sinh thái theo cơ chế chốt sau",
+      "relationship_gate": "none",
+      "activity_ref": "../activities/hunting-v0.json",
+      "status": "direction_approved_details_draft"
     }
   ],
   "rules": {
@@ -408,6 +420,26 @@
     "Thomas_village_residency",
     "NPC_schedule",
     "village_layout",
-    "long_term_personal_stories"
-  ]
+    "long_term_personal_stories",
+    "future_intervillage_destination_route_and_recipient",
+    "wildlife_species_hunting_zones_tools_and_rules"
+  ],
+  "activity_expansions": {
+    "inter_village_delivery": {
+      "status": "core_direction_accepted_details_draft",
+      "source": "../activities/inter-village-delivery-v0.json",
+      "destination_village": "VILLAGE_DEST_TBD",
+      "sender_proposal": "VLA-18",
+      "preparation_proposal": "VLA-19",
+      "recipient_id": null
+    },
+    "hunting": {
+      "status": "core_direction_accepted_details_draft",
+      "source": "../activities/hunting-v0.json",
+      "species_defined": false,
+      "hunt_zone_defined": false,
+      "hunter_character_assigned": false
+    },
+    "initial_activity_count": 11
+  }
 }
