@@ -38,6 +38,8 @@
 - [scenes/CH01-003.json](scenes/CH01-003.json): dữ liệu lời thoại, flag, hướng dẫn người chơi và tình huống gặp lại.
 - [scenes/CH01-004.md](scenes/CH01-004.md): **bản đề xuất chưa duyệt** về điểm nghỉ bên đường mòn sau Thomas; khám phá tự do, không ép quest.
 - [scenes/CH01-004.json](scenes/CH01-004.json): dữ liệu nhịp môi trường và tương tác tùy chọn của CH01-004, chưa triển khai.
+- [scenes/CH01-005.md](scenes/CH01-005.md): **đề xuất chưa duyệt** — A tự quay về nhà và có thể chăm một phần bậc cửa, không ép nhiệm vụ.
+- [scenes/CH01-005.json](scenes/CH01-005.json): dữ liệu nội dung và trạng thái quan sát/hành động tùy chọn của CH01-005.
 - [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
 - [characters/thomas.json](characters/thomas.json): nhận dạng/giới hạn thông tin Thomas dạng có cấu trúc.
 - [dialogue/README.md](dialogue/README.md): quy ước phân biệt giới thiệu, hỏi tùy chọn, gợi hướng khám phá, lời gặp lại.
