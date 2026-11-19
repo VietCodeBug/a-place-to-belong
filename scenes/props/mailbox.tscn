@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/interactions/interactable.gd" id="1"]
+[node name="Mailbox" type="Node3D" groups=["interactables"]]
+script = ExtResource("1")

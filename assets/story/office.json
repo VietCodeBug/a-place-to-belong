@@ -1,0 +1,32 @@
+{
+  "vi": {
+    "subject": "Thông báo về vị trí công việc của bạn",
+    "close": "Đóng email",
+    "inbox": "Hộp thư",
+    "unread": "Hộp thư · 1 thư mới",
+    "open": "E · Mở email",
+    "reread": "E · Đọc lại email",
+    "waiting": "Bàn làm việc",
+    "leave": "E · Rời văn phòng",
+    "controls": "WASD · Đi lại   Shift · Chạy nhẹ   Q · Xem điện thoại   Esc · Menu",
+    "exit": "Lối ra",
+    "email": "Bộ phận Nhân sự\n\nChào bạn,\n\nDo điều chỉnh cơ cấu hoạt động, công ty đã quyết định không tiếp tục duy trì vị trí công việc hiện tại của bạn.\n\nThông tin về thời điểm kết thúc công việc và các thủ tục liên quan sẽ được gửi trong một thông báo riêng.\n\nCảm ơn bạn vì những đóng góp trong thời gian qua.\n\nBộ phận Nhân sự",
+    "skip": "Esc · Bỏ qua",
+    "seat": "F · Ngồi / đứng"
+  },
+  "en": {
+    "subject": "Notice regarding your position",
+    "close": "Close email",
+    "inbox": "Inbox",
+    "unread": "Inbox · 1 new message",
+    "open": "E · Open email",
+    "reread": "E · Read email again",
+    "waiting": "Workstation",
+    "leave": "E · Leave office",
+    "controls": "WASD · Move   Shift · Jog   Q · Check phone   Esc · Menu",
+    "exit": "Exit",
+    "email": "Human Resources\n\nHello,\n\nFollowing an operational restructuring, the company has decided to discontinue your current position.\n\nDetails about your final day and related procedures will follow separately.\n\nThank you for your contributions.\n\nHuman Resources",
+    "skip": "Esc · Skip",
+    "seat": "F · Sit / stand"
+  }
+}

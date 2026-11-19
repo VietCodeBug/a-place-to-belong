@@ -1,0 +1,28 @@
+{
+  "vi": {
+    "name": "Tiếng Việt",
+    "back": "Quay lại",
+    "next": "Tiếp",
+    "skip": "Bỏ qua mở đầu",
+    "finish": "Vào bản thử",
+    "captions": [
+      "AI đổi cách thành phố làm việc. Những đợt cắt giảm nối nhau, còn tiền thuê nhà và các khoản phải trả vẫn đến hạn.",
+      "Hôm đó, văn phòng vẫn như mọi ngày. Một email đến: công việc của tôi chấm dứt.",
+      "Trong căn hộ thuê, tôi tìm việc giữa chồng hóa đơn. Rồi có ngày tôi không đặt báo thức nữa.",
+      "Tôi thiếp đi. Tiếng xe xa dần. Trong khoảng lặng, tôi nghe tiếng chim và tiếng gió."
+    ]
+  },
+  "en": {
+    "name": "English",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip intro",
+    "finish": "Enter prototype",
+    "captions": [
+      "AI changed how the city worked. Layoffs came in waves. Rent and bills still came due.",
+      "The office felt like any other day. Then an email arrived: my employment had ended.",
+      "In my rented apartment, I looked for work between piles of bills. One day, I stopped setting the alarm.",
+      "I drifted off. The traffic faded. In the quiet, I heard birds and wind."
+    ]
+  }
+}

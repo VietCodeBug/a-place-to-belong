@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/player/postal_worker.gd" id="1"]
+[sub_resource type="CapsuleShape3D" id="Body"]
+radius = 0.28
+height = 1.65
+[node name="PostalWorker" type="CharacterBody3D"]
+script = ExtResource("1")
+metadata/character_id = "samatha"
+metadata/display_name = "Samatha"
+metadata/role = "player"
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.825, 0)
+shape = SubResource("Body")
+[node name="Model" type="Node3D" parent="."]
