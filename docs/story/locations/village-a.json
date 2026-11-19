@@ -1,0 +1,413 @@
+{
+  "schema": "apb.village.v0",
+  "id": "VILLAGE_A",
+  "display_name_vi": "Làng A",
+  "display_name_en": null,
+  "display_name_status": "temporary_not_final",
+  "status": "population_scope_accepted_npc_details_draft",
+  "population_target_approx": 30,
+  "proposed_roster_count": 30,
+  "Thomas_residency": {
+    "character_id": "THOMAS",
+    "residence": "unknown",
+    "counted_in_village_roster": false,
+    "reason_vi": "Không tự khẳng định nơi ở của Thomas từ cảnh đốn củi ở bìa rừng."
+  },
+  "families_and_homes_status": "all_proposed",
+  "proposed_household_count": 11,
+  "households": [
+    {
+      "id": "H01",
+      "resident_ids": [
+        "VLA-01",
+        "VLA-02",
+        "VLA-03"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Hazel và Finn sống cùng Nora; đề xuất quan hệ ba thế hệ",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H02",
+      "resident_ids": [
+        "VLA-04",
+        "VLA-05"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Hai người sống chung; quan hệ thân thiết/đôi lứa chỉ là phác thảo",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H03",
+      "resident_ids": [
+        "VLA-06",
+        "VLA-07",
+        "VLA-08"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất gia đình nhỏ cùng nấu ăn và làm vườn",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H04",
+      "resident_ids": [
+        "VLA-09",
+        "VLA-10",
+        "VLA-11",
+        "VLA-12"
+      ],
+      "size": 4,
+      "relationship_draft_vi": "Đề xuất hai anh em trưởng thành ở chung với hai người trẻ trong nhà",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H05",
+      "resident_ids": [
+        "VLA-13",
+        "VLA-14"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Đề xuất hai thế hệ chung nhà",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H06",
+      "resident_ids": [
+        "VLA-15",
+        "VLA-16",
+        "VLA-17"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất gia đình nhiều thế hệ",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H07",
+      "resident_ids": [
+        "VLA-18",
+        "VLA-19"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Hai người chung nhà, chưa xác nhận quan hệ tình cảm",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H08",
+      "resident_ids": [
+        "VLA-20",
+        "VLA-21",
+        "VLA-22"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất nhóm gia đình và một người tuổi thiếu niên",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H09",
+      "resident_ids": [
+        "VLA-23",
+        "VLA-24"
+      ],
+      "size": 2,
+      "relationship_draft_vi": "Hai người chia sẻ bếp và việc sinh hoạt",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H10",
+      "resident_ids": [
+        "VLA-25",
+        "VLA-26",
+        "VLA-27"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất hai thế hệ ở cùng nhà",
+      "relationships_status": "not_approved"
+    },
+    {
+      "id": "H11",
+      "resident_ids": [
+        "VLA-28",
+        "VLA-29",
+        "VLA-30"
+      ],
+      "size": 3,
+      "relationship_draft_vi": "Đề xuất gia đình có trẻ nhỏ",
+      "relationships_status": "not_approved"
+    }
+  ],
+  "residents": [
+    "VLA-01",
+    "VLA-02",
+    "VLA-03",
+    "VLA-04",
+    "VLA-05",
+    "VLA-06",
+    "VLA-07",
+    "VLA-08",
+    "VLA-09",
+    "VLA-10",
+    "VLA-11",
+    "VLA-12",
+    "VLA-13",
+    "VLA-14",
+    "VLA-15",
+    "VLA-16",
+    "VLA-17",
+    "VLA-18",
+    "VLA-19",
+    "VLA-20",
+    "VLA-21",
+    "VLA-22",
+    "VLA-23",
+    "VLA-24",
+    "VLA-25",
+    "VLA-26",
+    "VLA-27",
+    "VLA-28",
+    "VLA-29",
+    "VLA-30"
+  ],
+  "priority_distribution": {
+    "core": 8,
+    "supporting": 10,
+    "ambient": 12
+  },
+  "open_world_context": {
+    "first_visible_from": "CH01-006",
+    "first_interactive_hub": "CH01-007",
+    "player_may_enter_without_Thomas_intro": true,
+    "no_forced_quest": true,
+    "no_required_story_order_between_hub_and_house": true
+  },
+  "role_mapping_proposal": {
+    "GARDENER_01": "VLA-01",
+    "REPAIRER_01": "VLA-04"
+  },
+  "role_mapping_status": "draft_keep_CH01007_original_speaker_ids_until_approved",
+  "interaction_density_proposal": {
+    "core": 8,
+    "supporting": 10,
+    "ambient": 12,
+    "concurrent_outdoor_visible": "a_small_subset_only_not_all_30_at_once",
+    "all_residents_must_have_private_life": true,
+    "ambient_residents_not_quest_vending_machines": true
+  },
+  "personal_arcs_proposal": [
+    {
+      "id": "VLA-ARC-HAZEL",
+      "resident_id": "VLA-01",
+      "title_vi": "Người thích tự làm mọi thứ",
+      "intro_vi": "Lần đầu A chủ động tưới cây và không làm ngập luống",
+      "develop_vi": "Sau một hoặc vài lần làm việc chung, Hazel nhờ A trông một luống trong lúc cô sửa góc khác; người chơi có thể từ chối",
+      "resolution_vi": "Nếu giúp, Hazel chủ động mời A tham gia chọn cây trồng sau đó; nếu không, cô tự hoàn thành và vẫn chào bình thường",
+      "avoid_vi": "Không biến cô thành quản lý nhiệm vụ trồng cây",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-OWEN",
+      "resident_id": "VLA-04",
+      "title_vi": "Chiếc cửa của chính mình",
+      "intro_vi": "A giúp giữ một chiếc chốt gỗ trong lần gặp đầu",
+      "develop_vi": "A nhận ra chiếc cửa nhà Owen lại bị kẹt dù ông sửa cho người khác; có thể hỏi có cần phụ thử không",
+      "resolution_vi": "Nếu A giúp, Owen chia sẻ cách sửa cơ bản; nếu không ông vẫn tìm cách khắc phục",
+      "avoid_vi": "Không tặng ngay nhà/công cụ/công thức bắt buộc",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-CLARA",
+      "resident_id": "VLA-06",
+      "title_vi": "Một bữa ăn không hoàn hảo",
+      "intro_vi": "A tự ghé khu nấu ăn và hỏi cách phụ",
+      "develop_vi": "Khi quen hơn, Clara nhờ A chọn một phần nguyên liệu hoặc hỗ trợ sắp bữa ăn nhỏ",
+      "resolution_vi": "Bữa ăn không cần hoàn hảo; Clara nhớ A thích làm gì và lần sau mời phù hợp",
+      "avoid_vi": "Không mặc định sự kiện lễ hội lớn",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-ROWAN",
+      "resident_id": "VLA-09",
+      "title_vi": "Lối đi và hoa dại",
+      "intro_vi": "A nhận ra lối đi có cành ngáng nhưng bên cạnh mọc hoa nhỏ",
+      "develop_vi": "Rowan cho A lựa chọn gọn cành hay đổi hướng đi để giữ đám hoa, không có phương án bị coi ác",
+      "resolution_vi": "Một góc đường đổi nhẹ theo lựa chọn, Rowan nhắc lại chuyện lúc gặp sau",
+      "avoid_vi": "Không tạo xung đột phá rừng nghiêm trọng",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-MAEVE",
+      "resident_id": "VLA-13",
+      "title_vi": "Đường chỉ không ai thấy",
+      "intro_vi": "A thấy cô sửa đồ cho người khác",
+      "develop_vi": "Khi đủ quen, Maeve ngập ngừng hỏi A muốn làm giúp việc chọn màu chỉ hoặc trả món đồ đã vá không",
+      "resolution_vi": "Nếu có người chia sẻ việc nhỏ, Maeve chủ động nói về sở thích mình; nếu không cô tiếp tục làm",
+      "avoid_vi": "Không ép làm quen qua tặng quà liên tục",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-EVELYN",
+      "resident_id": "VLA-15",
+      "title_vi": "Những chiếc nhãn hạt",
+      "intro_vi": "A hỏi tên các hũ hạt thay vì nhận một bài giảng",
+      "develop_vi": "Khi đã quen, Evelyn nhờ A cùng phân loại hai hũ hạt dễ nhầm",
+      "resolution_vi": "Bộ nhãn được sắp lại; Evelyn tin A chú ý chi tiết hơn",
+      "avoid_vi": "Không đưa bí mật thế giới vào hũ hạt",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-ADA",
+      "resident_id": "VLA-18",
+      "title_vi": "Một vòng đường không vội",
+      "intro_vi": "A thấy Ada mang giỏ qua lối nhỏ",
+      "develop_vi": "Khi quen, Ada có thể rủ đi cùng một đoạn ngắn, không phải giao thư chính thức",
+      "resolution_vi": "Người chơi nhận ra thêm đường nối; Ada nhớ lần cùng đi, dù không có phần thưởng",
+      "avoid_vi": "Không biến Ada thành bưu tá khi bưu điện chưa được chốt",
+      "status": "draft"
+    },
+    {
+      "id": "VLA-ARC-GRACE",
+      "resident_id": "VLA-23",
+      "title_vi": "Người nấu cũng cần ngồi xuống",
+      "intro_vi": "A chọn hỏi có thể phụ bày bàn không",
+      "develop_vi": "Vào lần gặp sau, Grace mời A chuẩn bị phần ăn đơn giản và cùng ngồi một lúc",
+      "resolution_vi": "Nếu A ở lại, cuộc trò chuyện thân hơn một chút; nếu không, Grace vẫn ăn và làm việc như thường",
+      "avoid_vi": "Không lấy việc chăm sóc người khác làm nghĩa vụ đối với A",
+      "status": "draft"
+    }
+  ],
+  "activity_seeds_proposal": [
+    {
+      "id": "VLA-E01",
+      "npc": "Hazel",
+      "title_vi": "Tưới luống mới",
+      "trigger": "player_offers_help",
+      "player_action_vi": "Tự cầm bình và tưới vùng cây được chỉ, đặt bình lại",
+      "outcomes_vi": "Giúp: luống đã tưới, Hazel nhớ; bỏ qua: Hazel tự làm sau",
+      "relationship_gate": "none",
+      "legacy_refs": [
+        "CH01-007:GARDENER_01"
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E02",
+      "npc": "Owen",
+      "title_vi": "Giữ chốt cửa",
+      "trigger": "player_offers_help",
+      "player_action_vi": "Giữ một phần gỗ khi Owen chỉnh chốt, thử đóng/mở",
+      "outcomes_vi": "Giúp: chốt chắc, Owen nhớ; bỏ qua: Owen tiếp tục sửa",
+      "relationship_gate": "none",
+      "legacy_refs": [
+        "CH01-007:REPAIRER_01"
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E03",
+      "npc": "Clara",
+      "title_vi": "Sắp một bữa nhỏ",
+      "trigger": "player_talks_about_cooking",
+      "player_action_vi": "Bày vài món lên bàn, chỉnh lại vị trí theo lời mời",
+      "outcomes_vi": "Bữa ăn diễn ra bất kể A có giúp hay không",
+      "relationship_gate": "acquaintance",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E04",
+      "npc": "Rowan",
+      "title_vi": "Giữ hoa bên lối đi",
+      "trigger": "player_notices_branch_on_walkway",
+      "player_action_vi": "Chọn dọn một nhánh cây hoặc đổi vị trí đi để giữ hoa dại",
+      "outcomes_vi": "Đường có thay đổi nhỏ; Rowan có thể nhớ lựa chọn",
+      "relationship_gate": "acquaintance",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E05",
+      "npc": "Maeve",
+      "title_vi": "Chọn một đường chỉ",
+      "trigger": "player_asks_about_work",
+      "player_action_vi": "Chọn trong vài cách vá món đồ bình thường, không lấy đồ từ NPC",
+      "outcomes_vi": "Maeve có một lựa chọn trang trí để dùng; không có thưởng bắt buộc",
+      "relationship_gate": "acquaintance",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E06",
+      "npc": "Evelyn",
+      "title_vi": "Ghi nhãn cho hạt",
+      "trigger": "player_observes_seed_jars",
+      "player_action_vi": "So sánh hũ, gắn nhãn đúng trong lúc Evelyn phụ trách",
+      "outcomes_vi": "Kệ được sắp gọn; Evelyn biết A để ý",
+      "relationship_gate": "familiar",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E07",
+      "npc": "Ada",
+      "title_vi": "Đi cùng một đoạn",
+      "trigger": "player_accepts_invitation_when_available",
+      "player_action_vi": "Đi theo đường quen với Ada, quan sát các mốc đường; có thể dừng giữa chừng",
+      "outcomes_vi": "Mở kiến thức về một đoạn đường chứ không bắt giao hàng",
+      "relationship_gate": "familiar",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E08",
+      "npc": "Grace",
+      "title_vi": "Bày bàn rồi cùng ăn",
+      "trigger": "player_asks_to_help_at_mealtime",
+      "player_action_vi": "Chuẩn bị vài chỗ ngồi và đồ ăn, có thể dùng bữa hoặc rời đi",
+      "outcomes_vi": "Grace nhận ra A không chỉ đến để lấy phần thưởng",
+      "relationship_gate": "acquaintance",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E09",
+      "npc": "Finn, Olive, Will, Kit",
+      "title_vi": "Một trò chơi nhỏ",
+      "trigger": "player_approaches_children_in_public_space",
+      "player_action_vi": "Quan sát hoặc tham gia trò đoán lá/âm chim, không giao việc nguy hiểm cho trẻ",
+      "outcomes_vi": "Các em nhớ A đã cùng chơi, không tự mở bí mật gia đình",
+      "relationship_gate": "none",
+      "legacy_refs": [],
+      "status": "draft"
+    },
+    {
+      "id": "VLA-E10",
+      "npc": "Nhiều cư dân",
+      "title_vi": "Một góc sinh hoạt cần chăm",
+      "trigger": "small_public_area_becomes_worn_without_player_requirement",
+      "player_action_vi": "Ai có mặt đều có thể cùng làm một chút; A chỉ là một người trong nhóm",
+      "outcomes_vi": "Không tham gia: dân làng tự chăm; tham gia: một thay đổi nhỏ được ghi nhận",
+      "relationship_gate": "familiar",
+      "legacy_refs": [],
+      "status": "draft"
+    }
+  ],
+  "rules": {
+    "dialogue_language": "vi",
+    "names_language": "en",
+    "do_not_auto_introduce_all_30": true,
+    "do_not_assign_quests_on_entry": true,
+    "friendliness_distinct_from_trust": true,
+    "relationship_memory_event_based": true,
+    "unapproved_personal_lore_not_canon": true,
+    "refusal_must_have_viable_world_outcome": true
+  },
+  "unresolved": [
+    "official_village_name_en",
+    "all_new_character_names",
+    "11_households_and_family_relations",
+    "ages_and_visual_design",
+    "Thomas_village_residency",
+    "NPC_schedule",
+    "village_layout",
+    "long_term_personal_stories"
+  ]
+}
