@@ -21,7 +21,11 @@
 
 **Vai trò CH01-007:** `GARDENER_01` đang được **đề xuất** là Hazel; `REPAIRER_01` được **đề xuất** là Owen. Chưa đổi mã speaker/thoại, không chỉnh đoạn Thomas đã chốt.
 
-## Vòng chơi kể chuyện từ khu dân cư
+## Vòng chơi kể chuyện từ khu dân cư## Hội thoại Làng A (đang viết theo gameplay, không phải scene tuyến tính)
+
+Đã có bản [hội thoại nền 30 cư dân](../dialogue/village-a-dialogues-guide-v0.md) gồm cách gặp, hỏi việc, tham gia hoạt động, từ chối, quay lại và mở câu thân quen. [6 cuộc trao đổi giữa NPC](../dialogue/village-a-overheard-v0.md) hỗ trợ cảm giác làng tự sống khi A vắng mặt. **Đây là bản nháp**, chưa chốt tên, quan hệ, lịch sinh hoạt hoặc tuyến truyện sâu; không ép hoàn tất hội thoại để rời làng.
+
+
 
 **Hướng đã thống nhất:** đây là **game thế giới mở**, không phải chuỗi phim ngắn. Scene ID ở đây là **gói nội dung có thể gặp**, không phải điều kiện hoàn thành theo thứ tự. Khi đến khu dân cư, các hoạt động và hội thoại độc lập mở theo tình huống, mối quan hệ và việc người chơi chủ động làm. [Quy ước thế giới mở](../production/open-world-narrative-v0.md).
 
