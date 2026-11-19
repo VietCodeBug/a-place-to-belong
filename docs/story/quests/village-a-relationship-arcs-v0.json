@@ -1,0 +1,2020 @@
+{
+  "schema": "apb.relationship_quest_arcs.v0",
+  "id": "VILLAGE_A_CORE_ARCS",
+  "scope": "VILLAGE_A_ONLY",
+  "status": "draft_pending_creator_approval",
+  "narrative_language": "vi",
+  "population": 30,
+  "core_characters": 8,
+  "stages_per_core": 3,
+  "Thomas_excluded": true,
+  "friendship_model": {
+    "model": "proposed_0_to_100_plus_relationship_events",
+    "status": "not_approved_numeric_values_draft",
+    "bands": [
+      {
+        "id": "stranger",
+        "min": 0,
+        "max": 19
+      },
+      {
+        "id": "acquaintance",
+        "min": 20,
+        "max": 49
+      },
+      {
+        "id": "familiar",
+        "min": 50,
+        "max": 79
+      },
+      {
+        "id": "trusted",
+        "min": 80,
+        "max": 100
+      }
+    ],
+    "quest_gates": [
+      {
+        "stage": "Q1",
+        "min_friendship": 20,
+        "min_stage": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "prior_quest": null
+      },
+      {
+        "stage": "Q2",
+        "min_friendship": 50,
+        "min_stage": "familiar",
+        "requires": [
+          "Q1.status==completed",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "prior_quest": "Q1"
+      },
+      {
+        "stage": "QF",
+        "min_friendship": 80,
+        "min_stage": "trusted",
+        "requires": [
+          "Q2.status==completed",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "prior_quest": "Q2"
+      }
+    ],
+    "friendship_scoring_rules": {
+      "repeat_same_topic_no_farming": true,
+      "meaningful_action_only": true,
+      "decline_does_not_delete_relationship": true,
+      "friendship_number_optional_gameplay_adjustable": true,
+      "cap_repeated_informal_chat_per_visit": true
+    },
+    "availability_rules": {
+      "quests_not_auto_from_threshold": true,
+      "only_if_npc_at_relevant_activity": true,
+      "no_quest_offer_when_busy_or_other_arc_active": true,
+      "player_can_wait_without_penalty": true,
+      "not_per_fixed_day": true
+    }
+  },
+  "story_contract": {
+    "no_mandatory_quest": true,
+    "no_first_hello_quest": true,
+    "meet_not_completion": true,
+    "player_must_accept": true,
+    "player_must_act": true,
+    "quests_are_spaced_by_normal_interactions": true,
+    "decline_can_reoffer_later": true,
+    "npc_resolves_without_player_if_ignored": true,
+    "player_is_not_only_solution": true,
+    "after_final_npc_still_active": true,
+    "no_village_B_story_content": true,
+    "unapproved_village_names_remain_temporary": true,
+    "not_engine_code": true
+  },
+  "arcs": [
+    {
+      "character_id": "VLA-01",
+      "english_name_draft": "Hazel",
+      "personality_anchor_vi": "thẳng thắn, kiên nhẫn",
+      "story_seed_anchor_vi": "Ngại nhờ người khác vì quen tự xoay xở; tuyến học cách chia việc với hàng xóm",
+      "theme_vi": "Học cách chia sẻ việc chăm sóc khu vườn",
+      "relationship_bond_event": {
+        "id": "VLA01-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Hazel thú nhận cô khó mở lời nhờ người khác, dù đôi khi cần một bàn tay phụ.",
+        "records_flag": "VLA01.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA01-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Luống rau cần để mắt",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau những lần A tự hỏi và tham gia chăm luống mới, Hazel thấy một góc đất có cây mọc yếu hơn.",
+          "real_player_actions_vi": "Cùng Hazel kiểm hai luống, so đất khô/ẩm, chỉ tưới vùng cần nước và báo lại quan sát.",
+          "choice_vi": "Tưới theo thói quen hoặc hỏi Hazel xem đất đã cần nước chưa; chỉ cách quan sát cẩn thận mới được tính là hỗ trợ tốt.",
+          "world_change_vi": "Hai luống được theo dõi; Hazel nhớ A biết quan sát trước khi hành động.",
+          "npc_independent_outcome_vi": "Hazel tự kiểm và chăm sau khi A rời đi.",
+          "dialog": [
+            {
+              "id": "VLA01-Q1-O1",
+              "speaker_id": "VLA-01",
+              "function": "request_offered",
+              "text_vi": "Có một luống tôi chưa yên tâm. Cậu có muốn xem đất cùng tôi không?"
+            },
+            {
+              "id": "VLA01-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Để tôi xem chỗ nào thật sự cần tưới."
+            },
+            {
+              "id": "VLA01-Q1-C1",
+              "speaker_id": "VLA-01",
+              "function": "completion_after_real_action",
+              "text_vi": "Được rồi. Cậu không vội tưới ngay... tôi thích thế."
+            },
+            {
+              "id": "VLA01-Q1-D1",
+              "speaker_id": "VLA-01",
+              "function": "refusal",
+              "text_vi": "Không sao, lát nữa tôi tự xem lại."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA01-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Không thể tưới hết mọi nơi",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA01-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau một khoảng sinh hoạt bình thường, Hazel có hai công việc chăm vườn trùng lúc.",
+          "real_player_actions_vi": "Cùng Hazel ghi hai việc cần làm; chọn giúp một việc và để Hazel tự sắp lại việc còn lại hoặc chủ động hỏi một người đang rảnh nếu họ đồng ý.",
+          "choice_vi": "Khuyến khích Hazel chia sẻ công việc hay âm thầm làm hết thay cô; cả hai đưa đến cách cô nhìn A khác nhau.",
+          "world_change_vi": "Lịch việc vườn bớt chồng chéo; Hazel thử nói rõ mình cần giúp gì.",
+          "npc_independent_outcome_vi": "Hazel hoãn một việc không khẩn cấp và tự sắp xếp lại.",
+          "dialog": [
+            {
+              "id": "VLA01-Q2-O1",
+              "speaker_id": "VLA-01",
+              "function": "request_offered",
+              "text_vi": "Hôm nay việc dồn vào một lúc. Tôi định cứ tự làm, nhưng... cậu nghĩ nên bắt đầu từ đâu?"
+            },
+            {
+              "id": "VLA01-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Mình chia ra xem việc nào cần làm trước nhé."
+            },
+            {
+              "id": "VLA01-Q2-C1",
+              "speaker_id": "VLA-01",
+              "function": "completion_after_real_action",
+              "text_vi": "Hóa ra nói ra một câu nhờ giúp cũng không khó như tôi tưởng."
+            },
+            {
+              "id": "VLA01-Q2-D1",
+              "speaker_id": "VLA-01",
+              "function": "refusal",
+              "text_vi": "Ừ, tôi sẽ chọn việc quan trọng trước."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA01-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Một góc vườn cho mọi người",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA01-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau khi tin A, Hazel muốn dành một góc luống làm nơi những người thích chăm cây có thể cùng tham gia.",
+          "real_player_actions_vi": "Chọn góc trồng không cản lối chung, đặt hai cây non theo vị trí phù hợp và thống nhất cách chăm cùng Hazel.",
+          "choice_vi": "Chọn góc dễ chăm hoặc góc nhiều nắng hơn; Hazel phản hồi theo điều kiện cây, không có lựa chọn đạo đức đúng/sai.",
+          "world_change_vi": "Góc vườn chung trở thành dấu vết lâu dài; Hazel vẫn tự chăm khi A vắng, và bắt đầu chủ động xin giúp khi cần.",
+          "npc_independent_outcome_vi": "Hazel vẫn trồng với những cư dân sẵn lòng; A có thể tới xem sau.",
+          "dialog": [
+            {
+              "id": "VLA01-QF-O1",
+              "speaker_id": "VLA-01",
+              "function": "request_offered",
+              "text_vi": "Tôi muốn dành một góc nhỏ cho ai thích chăm cây đều có thể ghé. Cậu cùng chọn chỗ nhé?"
+            },
+            {
+              "id": "VLA01-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Chọn nơi mà ai cũng có thể chăm được."
+            },
+            {
+              "id": "VLA01-QF-C1",
+              "speaker_id": "VLA-01",
+              "function": "completion_after_real_action",
+              "text_vi": "Lần đầu tôi không thấy lo khi để người khác cùng chăm một luống cây."
+            },
+            {
+              "id": "VLA01-QF-D1",
+              "speaker_id": "VLA-01",
+              "function": "refusal",
+              "text_vi": "Được thôi. Khi nào rảnh, cậu vẫn có thể đến xem."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-04",
+      "english_name_draft": "Owen",
+      "personality_anchor_vi": "ít lời, cẩn thận",
+      "story_seed_anchor_vi": "Quen giúp nhà khác trước, còn chiếc cửa nhà mình thì cứ để hỏng",
+      "theme_vi": "Người sửa đồ học cách nhận sự giúp đỡ",
+      "relationship_bond_event": {
+        "id": "VLA04-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Owen kể rằng ông luôn ưu tiên sửa đồ của người khác và thấy ngại thừa nhận mình cũng cần giúp.",
+        "records_flag": "VLA04.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA04-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Chiếc ghế không chịu đứng yên",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "A đã phụ chỉnh chốt lần trước; Owen đang xem một chiếc ghế dùng chung bị lỏng.",
+          "real_player_actions_vi": "Chọn chân ghế cần kê, giữ ghế cho Owen chỉnh mối nối và thử độ vững trước khi để người khác dùng.",
+          "choice_vi": "Thử ghế trước hay kiểm kỹ chỗ nối; Owen khen sự cẩn trọng chứ không tặng vật phẩm.",
+          "world_change_vi": "Ghế dùng chung vững hơn, Owen nhớ cách A giúp.",
+          "npc_independent_outcome_vi": "Owen kê chiếc ghế sang một bên và sửa lúc rảnh.",
+          "dialog": [
+            {
+              "id": "VLA04-Q1-O1",
+              "speaker_id": "VLA-04",
+              "function": "request_offered",
+              "text_vi": "Chiếc ghế này cần thêm một đôi tay giữ cho chắc. Cậu giúp tôi thử không?"
+            },
+            {
+              "id": "VLA04-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Kiểm chỗ nối trước đã."
+            },
+            {
+              "id": "VLA04-Q1-C1",
+              "speaker_id": "VLA-04",
+              "function": "completion_after_real_action",
+              "text_vi": "Giờ thì ngồi được. Không phải món nào cũng nên sửa vội."
+            },
+            {
+              "id": "VLA04-Q1-D1",
+              "speaker_id": "VLA-04",
+              "function": "refusal",
+              "text_vi": "Ừ. Để tôi kê nó sang bên đã."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA04-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Cánh cửa để sau",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA04-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Khi quen hơn, A thấy cánh cửa ở góc làm việc của Owen vẫn bị kẹt vì ông cứ sửa đồ người khác trước.",
+          "real_player_actions_vi": "Hỏi Owen có muốn sửa không, kiểm chỗ kẹt, cùng thử chỉnh bản lề và đóng mở lại.",
+          "choice_vi": "A có thể nhắc Owen nghỉ tay hoặc đề nghị xử lý ngay; ông quyết định thời điểm phù hợp.",
+          "world_change_vi": "Cửa hoạt động tốt hơn; Owen bắt đầu chú ý việc của chính mình.",
+          "npc_independent_outcome_vi": "Owen để cửa trong trạng thái sử dụng tạm và tự sửa khi có thời gian.",
+          "dialog": [
+            {
+              "id": "VLA04-Q2-O1",
+              "speaker_id": "VLA-04",
+              "function": "request_offered",
+              "text_vi": "Cái cửa ở chỗ tôi vẫn kẹt. Cậu không cần làm hộ, nhưng... giữ giúp một lúc được không?"
+            },
+            {
+              "id": "VLA04-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Để ông chỉ chỗ cần giữ."
+            },
+            {
+              "id": "VLA04-Q2-C1",
+              "speaker_id": "VLA-04",
+              "function": "completion_after_real_action",
+              "text_vi": "Lạ thật. Hóa ra việc của mình cũng có thể nhờ người khác."
+            },
+            {
+              "id": "VLA04-Q2-D1",
+              "speaker_id": "VLA-04",
+              "function": "refusal",
+              "text_vi": "Được. Tôi sẽ bớt nhận thêm việc và tự sửa nó."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA04-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Một buổi sửa đồ vừa đủ",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA04-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Owen muốn dành một buổi sửa đồ chung nhưng sợ lại nhận quá nhiều món.",
+          "real_player_actions_vi": "Cùng ông kiểm vài món được mang tới, chọn món sửa ngay và món hẹn sau, hỗ trợ chỉnh một món đơn giản.",
+          "choice_vi": "Khuyến khích sửa hết một lượt hay ưu tiên món cần thiết và nghỉ đúng lúc; Owen thể hiện sự trưởng thành khác nhau.",
+          "world_change_vi": "Góc sửa đồ có cách nhận việc rõ ràng; Owen dám nói 'hôm khác' và có thời gian cho mình.",
+          "npc_independent_outcome_vi": "Owen tự giới hạn số đồ nhận và buổi sửa vẫn diễn ra.",
+          "dialog": [
+            {
+              "id": "VLA04-QF-O1",
+              "speaker_id": "VLA-04",
+              "function": "request_offered",
+              "text_vi": "Tôi muốn mở một buổi mọi người mang đồ cần sửa tới. Nhưng lần này phải biết dừng đúng lúc. Cậu giúp tôi sắp thứ tự nhé?"
+            },
+            {
+              "id": "VLA04-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Mình chọn việc quan trọng trước."
+            },
+            {
+              "id": "VLA04-QF-C1",
+              "speaker_id": "VLA-04",
+              "function": "completion_after_real_action",
+              "text_vi": "Cảm ơn. Hôm nay tôi đóng cửa góc sửa đồ đúng lúc."
+            },
+            {
+              "id": "VLA04-QF-D1",
+              "speaker_id": "VLA-04",
+              "function": "refusal",
+              "text_vi": "Không sao. Tôi sẽ tự đặt giới hạn cho mình."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-06",
+      "english_name_draft": "Clara",
+      "personality_anchor_vi": "ấm áp, cầu toàn",
+      "story_seed_anchor_vi": "Khó chấp nhận món ăn không hoàn hảo, dần học vui với bữa ăn có người cùng làm",
+      "theme_vi": "Niềm vui của những bữa ăn chưa hoàn hảo",
+      "relationship_bond_event": {
+        "id": "VLA06-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Clara thú nhận cô thường sợ người khác thất vọng nếu món ăn không đẹp đúng ý.",
+        "records_flag": "VLA06.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA06-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Bữa ăn đủ ngon",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Clara đang chuẩn bị một bữa nhỏ nhưng thiếu thời gian bày biện như mong muốn.",
+          "real_player_actions_vi": "Chọn cách bày đơn giản, xếp bát và cùng Clara mang món ra khi còn nóng.",
+          "choice_vi": "Đặt món ra đúng lúc hay mất thêm thời gian chỉnh từng chi tiết; người ăn có thể đánh giá món khác nhau nhưng không hủy bữa.",
+          "world_change_vi": "Một bữa ăn diễn ra tự nhiên; Clara nhớ A đã ưu tiên người ngồi ăn.",
+          "npc_independent_outcome_vi": "Clara tự bày nhanh và bữa ăn vẫn diễn ra.",
+          "dialog": [
+            {
+              "id": "VLA06-Q1-O1",
+              "speaker_id": "VLA-06",
+              "function": "request_offered",
+              "text_vi": "Tôi cứ sửa cái đĩa này mãi. Cậu giúp tôi bày phần còn lại trước nhé?"
+            },
+            {
+              "id": "VLA06-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Món còn nóng thì mang ra trước đã."
+            },
+            {
+              "id": "VLA06-Q1-C1",
+              "speaker_id": "VLA-06",
+              "function": "completion_after_real_action",
+              "text_vi": "Mọi người ăn ngon thật. Có lẽ tôi lo quá."
+            },
+            {
+              "id": "VLA06-Q1-D1",
+              "speaker_id": "VLA-06",
+              "function": "refusal",
+              "text_vi": "Ừ, để tôi bày nhanh hơn vậy."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA06-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Thử một cách khác",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA06-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau vài lần trò chuyện, Clara muốn thử một cách chuẩn bị món quen với nguyên liệu đang có.",
+          "real_player_actions_vi": "Cùng cô xem nguyên liệu, chọn cách chế biến/bày phù hợp, làm một phần công việc bếp đơn giản rồi nếm thử.",
+          "choice_vi": "Thử biến thể mới hoặc giữ cách cũ; cả hai đều được phản ánh trong câu gặp lại.",
+          "world_change_vi": "Clara dám thử lựa chọn không hoàn hảo mà không vứt món.",
+          "npc_independent_outcome_vi": "Clara thử một mẻ nhỏ vào lúc khác.",
+          "dialog": [
+            {
+              "id": "VLA06-Q2-O1",
+              "speaker_id": "VLA-06",
+              "function": "request_offered",
+              "text_vi": "Tôi định làm khác một chút, nhưng sợ hỏng. Cậu thử cùng tôi một phần nhé?"
+            },
+            {
+              "id": "VLA06-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Thử ít thôi, hợp thì lần sau làm tiếp."
+            },
+            {
+              "id": "VLA06-Q2-C1",
+              "speaker_id": "VLA-06",
+              "function": "completion_after_real_action",
+              "text_vi": "Không giống tôi định ban đầu... mà cũng ngon."
+            },
+            {
+              "id": "VLA06-Q2-D1",
+              "speaker_id": "VLA-06",
+              "function": "refusal",
+              "text_vi": "Tôi sẽ thử một ít trước."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA06-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Ngồi xuống ăn cùng nhau",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA06-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Clara quen đứng phục vụ đến khi người khác ăn xong; cô muốn thay đổi.",
+          "real_player_actions_vi": "Giúp chuẩn bị bàn với những ai tự nguyện, phân phần đơn giản, và mời Clara cùng ngồi ăn thay vì chạy đi chỉnh món.",
+          "choice_vi": "A có thể tự bày một phần hay đề nghị người đang rảnh giúp; không ép người chơi điều khiển dân làng.",
+          "world_change_vi": "Clara tham gia bữa ăn từ đầu; các lần gặp sau cô có thể rủ A ngồi ăn thay vì chỉ nhờ bày bàn.",
+          "npc_independent_outcome_vi": "Clara chủ động mang món ra rồi ngồi với mọi người, dù A không tham gia.",
+          "dialog": [
+            {
+              "id": "VLA06-QF-O1",
+              "speaker_id": "VLA-06",
+              "function": "request_offered",
+              "text_vi": "Bữa này tôi muốn ngồi ăn từ đầu. Cậu giúp tôi để mọi thứ vừa đủ thôi được không?"
+            },
+            {
+              "id": "VLA06-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Ngồi xuống cùng mọi người mới là phần quan trọng."
+            },
+            {
+              "id": "VLA06-QF-C1",
+              "speaker_id": "VLA-06",
+              "function": "completion_after_real_action",
+              "text_vi": "Tôi không phải đứng lên sửa đĩa nào cả. Thật dễ chịu."
+            },
+            {
+              "id": "VLA06-QF-D1",
+              "speaker_id": "VLA-06",
+              "function": "refusal",
+              "text_vi": "Ừ, tôi cũng phải học cách để mọi thứ đơn giản hơn."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-09",
+      "english_name_draft": "Rowan",
+      "personality_anchor_vi": "điềm đạm, nguyên tắc",
+      "story_seed_anchor_vi": "Muốn người đi lại thuận tiện mà không phá những thứ đang sống",
+      "theme_vi": "Giữ đường thông mà không mất sự sống của rừng",
+      "relationship_bond_event": {
+        "id": "VLA09-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Rowan cho biết ông từng quen phát quang quá gọn, đến khi nhận ra những bụi hoa dại cũng là một phần con đường.",
+        "records_flag": "VLA09.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA09-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Lối đi sau vạt cỏ",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau khi đã cùng dọn nhánh cây, Rowan muốn A quan sát một đoạn đường khác khó nhìn mép lối.",
+          "real_player_actions_vi": "Đi dọc đoạn đường cùng Rowan, nhận ra nơi cỏ dày và chỗ người đi bị vướng, chọn vị trí cần dọn tối thiểu.",
+          "choice_vi": "Dọn rộng ngay hay chỉ dọn phần cản bước; Rowan phản hồi về hoa/cỏ còn lại.",
+          "world_change_vi": "Một đoạn lối đi rõ hơn nhưng không trơ đất.",
+          "npc_independent_outcome_vi": "Rowan tự dọn phần vướng nhỏ nhất.",
+          "dialog": [
+            {
+              "id": "VLA09-Q1-O1",
+              "speaker_id": "VLA-09",
+              "function": "request_offered",
+              "text_vi": "Cậu đi cùng tôi xem đoạn này được không? Tôi muốn biết người mới sẽ bước qua chỗ nào."
+            },
+            {
+              "id": "VLA09-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Để xem đường tự nhiên đang dẫn đi đâu."
+            },
+            {
+              "id": "VLA09-Q1-C1",
+              "speaker_id": "VLA-09",
+              "function": "completion_after_real_action",
+              "text_vi": "Đủ chỗ đi rồi. Phần còn lại cứ để cây mọc."
+            },
+            {
+              "id": "VLA09-Q1-D1",
+              "speaker_id": "VLA-09",
+              "function": "refusal",
+              "text_vi": "Được. Tôi xem sau một vòng nữa."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA09-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Một đường vòng nhỏ",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA09-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Người đi thường tránh một góc ẩm, làm đất cạnh vạt hoa dại bị giẫm.",
+          "real_player_actions_vi": "Quan sát hai đoạn đường ở rìa làng, chọn vị trí đi vòng an toàn hoặc đặt dấu hướng đi nhẹ nếu có vật sẵn được cho phép.",
+          "choice_vi": "Ưu tiên đoạn ngắn hơn hay đoạn ít tác động lên hoa; đều hợp lý nếu bảo đảm người đi an toàn.",
+          "world_change_vi": "Dấu lối đi tự nhiên thay đổi nhẹ, không cần phá cây hàng loạt.",
+          "npc_independent_outcome_vi": "Rowan tự hướng người qua đoạn khô và chờ đất hồi phục.",
+          "dialog": [
+            {
+              "id": "VLA09-Q2-O1",
+              "speaker_id": "VLA-09",
+              "function": "request_offered",
+              "text_vi": "Đường tắt làm vạt hoa bị dẫm nhiều quá. Cậu nhìn giúp xem nên đổi lối ở đâu?"
+            },
+            {
+              "id": "VLA09-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Chọn một lối mọi người đi được mà cây cũng sống được."
+            },
+            {
+              "id": "VLA09-Q2-C1",
+              "speaker_id": "VLA-09",
+              "function": "completion_after_real_action",
+              "text_vi": "Một đường vòng nhỏ đôi khi tiết kiệm được nhiều thứ."
+            },
+            {
+              "id": "VLA09-Q2-D1",
+              "speaker_id": "VLA-09",
+              "function": "refusal",
+              "text_vi": "Ừ, tôi sẽ xem lúc không đông người."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA09-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Con đường mọi người cùng giữ",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA09-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Rowan muốn để người dân tự chăm con đường thay vì cứ đợi một mình ông.",
+          "real_player_actions_vi": "Cùng Rowan xem ba điểm cần chăm, ghi ý định ngắn cho khu chung và tự làm một điểm nhỏ không ảnh hưởng hoa.",
+          "choice_vi": "Đánh dấu rõ chỗ cần dọn hoặc để hướng dẫn tối giản; Rowan nhớ cách A cân bằng an toàn và thiên nhiên.",
+          "world_change_vi": "Đường rừng có dấu chăm sóc nhỏ từ cộng đồng; Rowan không còn thấy mình phải làm mọi việc.",
+          "npc_independent_outcome_vi": "Rowan ghi lại các điểm cần chăm, nhờ ai rảnh tự nguyện tham gia.",
+          "dialog": [
+            {
+              "id": "VLA09-QF-O1",
+              "speaker_id": "VLA-09",
+              "function": "request_offered",
+              "text_vi": "Tôi muốn mọi người biết đoạn nào cần chăm mà không phải lúc nào cũng hỏi tôi. Cậu giúp thử một cách đơn giản nhé?"
+            },
+            {
+              "id": "VLA09-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Mình ghi đúng thứ cần làm, đừng dọn cả khu rừng."
+            },
+            {
+              "id": "VLA09-QF-C1",
+              "speaker_id": "VLA-09",
+              "function": "completion_after_real_action",
+              "text_vi": "Được. Con đường này không phải việc của riêng tôi."
+            },
+            {
+              "id": "VLA09-QF-D1",
+              "speaker_id": "VLA-09",
+              "function": "refusal",
+              "text_vi": "Không sao. Tôi sẽ bắt đầu từ một chỗ dễ thấy."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-13",
+      "english_name_draft": "Maeve",
+      "personality_anchor_vi": "tỉ mỉ, kín đáo",
+      "story_seed_anchor_vi": "Giỏi giúp người khác nhưng ngại nói mình cũng cần giúp",
+      "theme_vi": "Người vá đồ biết cách nhờ người khác",
+      "relationship_bond_event": {
+        "id": "VLA13-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Maeve nói cô khuyên mọi người sửa đồ thay vì bỏ đi, nhưng lại rất ngại nhờ người khác góp một ý cho việc của mình.",
+        "records_flag": "VLA13.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA13-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Miếng vá vừa tay",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau lần chọn màu chỉ, Maeve đang cân nhắc hai đường vá cho một món đồ dùng chung được chủ cho phép sửa.",
+          "real_player_actions_vi": "Xem chỗ rách, chọn cách khâu chắc hay giấu đường chỉ, giúp chuẩn bị chỉ rồi Maeve tự vá.",
+          "choice_vi": "Ưu tiên bền hoặc ít lộ; Maeve phản hồi theo công dụng món đồ, không có đáp án đạo đức.",
+          "world_change_vi": "Món đồ được sửa theo lựa chọn; Maeve nhớ ý kiến của A.",
+          "npc_independent_outcome_vi": "Maeve chọn cách vá phù hợp nhất với mục đích dùng.",
+          "dialog": [
+            {
+              "id": "VLA13-Q1-O1",
+              "speaker_id": "VLA-13",
+              "function": "request_offered",
+              "text_vi": "Chỗ rách này có hai cách vá. Cậu xem giúp tôi cách nào hợp hơn nhé?"
+            },
+            {
+              "id": "VLA13-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Mình xem món đồ cần bền tới mức nào đã."
+            },
+            {
+              "id": "VLA13-Q1-C1",
+              "speaker_id": "VLA-13",
+              "function": "completion_after_real_action",
+              "text_vi": "Cậu không chọn chỉ vì nó đẹp. Tôi thích cách cậu nghĩ."
+            },
+            {
+              "id": "VLA13-Q1-D1",
+              "speaker_id": "VLA-13",
+              "function": "refusal",
+              "text_vi": "Ừ, tôi sẽ cân nhắc thêm trước khi khâu."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA13-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Một chồng đồ đang đợi",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA13-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Maeve ngại nhờ nên đồ sửa dồn lại ở góc làm việc.",
+          "real_player_actions_vi": "Cùng cô phân loại việc gấp và không gấp, chuẩn bị những món được phép sửa, thỏa thuận chừa việc nào sang lần sau.",
+          "choice_vi": "Làm ngay hết hay sắp thứ tự và dừng đúng lúc; Maeve không bị ép nhận mọi đồ.",
+          "world_change_vi": "Góc sửa đồ bớt chồng chất; Maeve thử nói rõ việc nào cần được giúp.",
+          "npc_independent_outcome_vi": "Maeve chủ động hẹn lại một số món và tự sắp kệ.",
+          "dialog": [
+            {
+              "id": "VLA13-Q2-O1",
+              "speaker_id": "VLA-13",
+              "function": "request_offered",
+              "text_vi": "Tôi định làm hết hôm nay, nhưng nhìn đống này lại thấy ngợp. Cậu giúp tôi xếp lại thứ tự được không?"
+            },
+            {
+              "id": "VLA13-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Không cần xong hết trong một ngày."
+            },
+            {
+              "id": "VLA13-Q2-C1",
+              "speaker_id": "VLA-13",
+              "function": "completion_after_real_action",
+              "text_vi": "Nói 'để lần sau' cũng không khó như tôi tưởng."
+            },
+            {
+              "id": "VLA13-Q2-D1",
+              "speaker_id": "VLA-13",
+              "function": "refusal",
+              "text_vi": "Không sao. Tôi sẽ tự bắt đầu từ món cần nhất."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA13-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Mũi chỉ có nhiều bàn tay",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA13-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Maeve muốn chia một vài cách vá đơn giản với người thích học, nhưng sợ mình dạy không khéo.",
+          "real_player_actions_vi": "Giúp sắp chỗ để vải mẫu, hướng dẫn một bước an toàn cùng Maeve, để người học tự chọn mẫu.",
+          "choice_vi": "Cho người học thử tự làm hoặc làm mẫu thật chậm; Maeve nhớ cách A tạo không gian để người khác không ngại sai.",
+          "world_change_vi": "Một góc thử vá trở thành hoạt động tự chọn; Maeve dám đề nghị được hỗ trợ lần sau.",
+          "npc_independent_outcome_vi": "Maeve mở góc thử nhỏ khi rảnh, không phải sự kiện bắt buộc.",
+          "dialog": [
+            {
+              "id": "VLA13-QF-O1",
+              "speaker_id": "VLA-13",
+              "function": "request_offered",
+              "text_vi": "Tôi muốn cho ai thích thì thử vá một đường. Nhưng sợ mình chỉ không rõ. Cậu ở cạnh giúp tôi nhé?"
+            },
+            {
+              "id": "VLA13-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Ai cũng có thể thử, hỏng một mũi thì tháo ra làm lại."
+            },
+            {
+              "id": "VLA13-QF-C1",
+              "speaker_id": "VLA-13",
+              "function": "completion_after_real_action",
+              "text_vi": "Họ làm được rồi. Hóa ra không phải việc gì cũng cần đến tay tôi."
+            },
+            {
+              "id": "VLA13-QF-D1",
+              "speaker_id": "VLA-13",
+              "function": "refusal",
+              "text_vi": "Ừ, để tôi bắt đầu với một mẫu dễ thôi."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-15",
+      "english_name_draft": "Evelyn",
+      "personality_anchor_vi": "chậm rãi, quan sát giỏi",
+      "story_seed_anchor_vi": "Muốn truyền kỹ năng thực tế cho người trẻ, không đóng vai người giữ bí mật giấc mơ",
+      "theme_vi": "Truyền kiến thức đời thường bằng sự quan sát",
+      "relationship_bond_event": {
+        "id": "VLA15-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Evelyn chia sẻ rằng những ghi chép của bà có ích nhất khi người khác thực hành rồi tự sửa điều chưa đúng.",
+        "records_flag": "VLA15.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA15-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Nhãn hạt còn thiếu",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "A từng học đọc nhãn; một vài hũ được để riêng vì chưa ghi đủ thông tin.",
+          "real_player_actions_vi": "Quan sát mẫu hạt, đối chiếu nhãn đã có, điền đủ một nhãn mới dưới sự kiểm tra của Evelyn.",
+          "choice_vi": "Đoán bừa hoặc hỏi lại khi không chắc; hỏi lại là lựa chọn có trách nhiệm.",
+          "world_change_vi": "Hũ có nhãn rõ; Evelyn đánh giá A biết không phỏng đoán.",
+          "npc_independent_outcome_vi": "Evelyn ghi lại sau khi tự kiểm.",
+          "dialog": [
+            {
+              "id": "VLA15-Q1-O1",
+              "speaker_id": "VLA-15",
+              "function": "request_offered",
+              "text_vi": "Hũ này thiếu một dòng. Cậu muốn thử xem cần ghi gì không?"
+            },
+            {
+              "id": "VLA15-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Nếu không chắc tôi sẽ hỏi lại."
+            },
+            {
+              "id": "VLA15-Q1-C1",
+              "speaker_id": "VLA-15",
+              "function": "completion_after_real_action",
+              "text_vi": "Được rồi. Ghi một điều biết chắc còn hơn mười điều đoán."
+            },
+            {
+              "id": "VLA15-Q1-D1",
+              "speaker_id": "VLA-15",
+              "function": "refusal",
+              "text_vi": "Không sao. Tôi kiểm lại hũ này sau."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA15-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Trang ghi chép từ vườn",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA15-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Evelyn muốn có một quan sát thực tế mới để đối chiếu với ghi chú mùa vụ thường ngày.",
+          "real_player_actions_vi": "Tới một luống cây công cộng được phép quan sát, ghi tình trạng đất/cây rồi mang ghi chép về cho Evelyn.",
+          "choice_vi": "Ghi những gì mắt thấy hay suy đoán vì sao cây đổi; bà chỉ giữ dữ kiện đã quan sát.",
+          "world_change_vi": "Sổ có một dòng quan sát mới, không xác định quy luật siêu nhiên hay lịch sử làng.",
+          "npc_independent_outcome_vi": "Evelyn tự đi kiểm một luống khi có thời gian.",
+          "dialog": [
+            {
+              "id": "VLA15-Q2-O1",
+              "speaker_id": "VLA-15",
+              "function": "request_offered",
+              "text_vi": "Cuốn sổ của tôi thiếu một ghi chú từ ngoài vườn. Cậu muốn thử quan sát rồi kể lại không?"
+            },
+            {
+              "id": "VLA15-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Tôi sẽ ghi điều nhìn thấy, không đoán thêm."
+            },
+            {
+              "id": "VLA15-Q2-C1",
+              "speaker_id": "VLA-15",
+              "function": "completion_after_real_action",
+              "text_vi": "Rất tốt. Người sau đọc sẽ biết cậu đã thấy gì."
+            },
+            {
+              "id": "VLA15-Q2-D1",
+              "speaker_id": "VLA-15",
+              "function": "refusal",
+              "text_vi": "Ừ. Lần khác tôi tự ra vườn xem."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA15-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Một trang ai cũng có thể học",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA15-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Evelyn muốn người mới tới làng cũng có thể hiểu cách giữ và ghi nhãn hạt giống mà không cần lúc nào cũng hỏi bà.",
+          "real_player_actions_vi": "Chọn ba lưu ý thực tế đã được quan sát, đặt một tờ hướng dẫn tại kệ hạt chung và cùng Evelyn thử xem người mới có hiểu được không (không cần NPC mới).",
+          "choice_vi": "Viết quá chi tiết hay hướng dẫn ngắn theo từng bước; bà thích câu rõ ràng.",
+          "world_change_vi": "Kệ hạt có trang hướng dẫn dễ đọc, Evelyn tự tin trao lại kỹ năng chứ không giữ riêng.",
+          "npc_independent_outcome_vi": "Evelyn vẫn viết bản đơn giản để ở kệ.",
+          "dialog": [
+            {
+              "id": "VLA15-QF-O1",
+              "speaker_id": "VLA-15",
+              "function": "request_offered",
+              "text_vi": "Tôi muốn ai mới tới cũng tự xem được. Cậu giúp tôi viết một trang thật dễ hiểu nhé?"
+            },
+            {
+              "id": "VLA15-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Chỉ ghi những điều có thể làm thử."
+            },
+            {
+              "id": "VLA15-QF-C1",
+              "speaker_id": "VLA-15",
+              "function": "completion_after_real_action",
+              "text_vi": "Giờ ai cần cũng học được. Thế là cuốn sổ có ích rồi."
+            },
+            {
+              "id": "VLA15-QF-D1",
+              "speaker_id": "VLA-15",
+              "function": "refusal",
+              "text_vi": "Được. Tôi sẽ viết trước một bản ngắn."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-18",
+      "english_name_draft": "Ada",
+      "personality_anchor_vi": "năng động, tò mò",
+      "story_seed_anchor_vi": "Mong kết nối các vùng bằng những chuyến đi, nhưng cũng sợ bỏ lỡ điều đáng quý gần nhà",
+      "theme_vi": "Đi xa mà không bỏ quên những người ở lại",
+      "relationship_bond_event": {
+        "id": "VLA18-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Ada thừa nhận cô thích đi xa, nhưng lúc chuẩn bị rời một nơi vẫn muốn biết người ở đó còn ổn không.",
+        "records_flag": "VLA18.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA18-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Những mốc đường đã biết",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau khi A đã giúp kiểm kiện, Ada muốn cùng xem một đoạn lối quen ở rìa Làng A trước những chuyến xa trong tương lai.",
+          "real_player_actions_vi": "Cùng Ada đi một đoạn rừng đã biết, xác nhận hai mốc dễ nhận ra và quay lại theo đường cũ.",
+          "choice_vi": "Chọn mốc dễ thấy hoặc mốc dễ nhớ dù khuất; Ada phản hồi và ghi chép, không mở địa điểm mới.",
+          "world_change_vi": "A hiểu một đoạn đường quanh Làng A; Ada nhớ cậu quan sát cẩn thận.",
+          "npc_independent_outcome_vi": "Ada tự kiểm mốc đường và về làng.",
+          "dialog": [
+            {
+              "id": "VLA18-Q1-O1",
+              "speaker_id": "VLA-18",
+              "function": "request_offered",
+              "text_vi": "Có một đoạn đường tôi muốn kiểm lại trước khi đi xa. Cậu đi cùng một quãng được không?"
+            },
+            {
+              "id": "VLA18-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Đi rồi nhớ đường về nữa nhé."
+            },
+            {
+              "id": "VLA18-Q1-C1",
+              "speaker_id": "VLA-18",
+              "function": "completion_after_real_action",
+              "text_vi": "Tốt. Biết đường quay lại quan trọng không kém đường đi."
+            },
+            {
+              "id": "VLA18-Q1-D1",
+              "speaker_id": "VLA-18",
+              "function": "refusal",
+              "text_vi": "Ừ, tôi tự đi một vòng vậy."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA18-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Kiện hàng chuẩn bị lâu hơn dự định",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA18-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Ada và Hugo sắp kiện cho một chuyến đi xa chưa định tuyến chính thức; vài món cần được phân loại và kiểm dây.",
+          "real_player_actions_vi": "Cùng Ada và Hugo kiểm hai kiện mẫu, chọn cách để đồ dễ vỡ/đồ thường, ghi một danh sách ngắn đồ cần chuẩn bị.",
+          "choice_vi": "Đặt an toàn lên trước hoặc mang gọn trước; hai cách cần tuân thủ điều kiện bảo quản.",
+          "world_change_vi": "Góc chuẩn bị gọn hơn; Ada tin A biết việc đi xa có trách nhiệm.",
+          "npc_independent_outcome_vi": "Ada và Hugo tự kiểm kiện khi rảnh; không có đơn hàng thật tới Làng B.",
+          "dialog": [
+            {
+              "id": "VLA18-Q2-O1",
+              "speaker_id": "VLA-18",
+              "function": "request_offered",
+              "text_vi": "Tôi cứ muốn lên đường ngay. Nhưng Hugo bảo còn phải kiểm kiện. Cậu giúp chúng tôi chọn cách sắp không?"
+            },
+            {
+              "id": "VLA18-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Mang đi được đã, rồi mới nghĩ đi nhanh."
+            },
+            {
+              "id": "VLA18-Q2-C1",
+              "speaker_id": "VLA-18",
+              "function": "completion_after_real_action",
+              "text_vi": "Ừ. Tôi hay nhìn đường phía trước mà quên việc cần chuẩn bị."
+            },
+            {
+              "id": "VLA18-Q2-D1",
+              "speaker_id": "VLA-18",
+              "function": "refusal",
+              "text_vi": "Không sao. Tôi sẽ nghe Hugo thêm một lúc."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA18-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Một tấm ghi chú đường về",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA18-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Trước khi có tuyến liên làng chính thức, Ada muốn để lại những ghi chú mốc đường quanh Làng A cho người khác khi cần đi rừng.",
+          "real_player_actions_vi": "Cùng Ada xem lại các mốc quanh làng đã khám phá, chọn hai chỉ dẫn dễ hiểu và đặt ghi chú tại góc chuẩn bị hành trang.",
+          "choice_vi": "Dùng lời chỉ dẫn cụ thể thay vì vẽ tuyến chưa biết; Ada chọn cách đáng tin nhất.",
+          "world_change_vi": "Góc chuẩn bị có bản ghi mốc quanh Làng A; Ada sẵn sàng nhận giúp đỡ và còn tuyến giao liên làng sẽ mở riêng về sau.",
+          "npc_independent_outcome_vi": "Ada tự ghi mấy lối quen, không tạo đường hay làng mới.",
+          "dialog": [
+            {
+              "id": "VLA18-QF-O1",
+              "speaker_id": "VLA-18",
+              "function": "request_offered",
+              "text_vi": "Tôi muốn ai đi đường này cũng biết cách trở về. Cậu giúp tôi ghi vài mốc quen nhé?"
+            },
+            {
+              "id": "VLA18-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Chỉ ghi đoạn mình thật sự biết."
+            },
+            {
+              "id": "VLA18-QF-C1",
+              "speaker_id": "VLA-18",
+              "function": "completion_after_real_action",
+              "text_vi": "Hay đấy. Đi xa mà vẫn nhớ lối về."
+            },
+            {
+              "id": "VLA18-QF-D1",
+              "speaker_id": "VLA-18",
+              "function": "refusal",
+              "text_vi": "Được thôi. Tôi sẽ ghi những gì mình chắc chắn trước."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    },
+    {
+      "character_id": "VLA-23",
+      "english_name_draft": "Grace",
+      "personality_anchor_vi": "hiền hậu, có chính kiến",
+      "story_seed_anchor_vi": "Quen chăm bữa ăn cho người khác nhưng ít tự cho mình thời gian ngồi ăn",
+      "theme_vi": "Người chăm sóc cũng có quyền nghỉ ngơi",
+      "relationship_bond_event": {
+        "id": "VLA23-BOND",
+        "status": "draft",
+        "available_after": "Q2_completed",
+        "player_initiated": true,
+        "text_vi": "Grace nhận ra cô hay hỏi mọi người có ăn đủ không, nhưng ít khi ngồi hỏi mình có đang mệt không.",
+        "records_flag": "VLA23.personal_bond_event_seen",
+        "counts_as_quest": false
+      },
+      "quests": [
+        {
+          "quest_id": "VLA23-Q1",
+          "stage": "Q1",
+          "stage_label_vi": "Nhiệm vụ 1",
+          "title_vi": "Một chỗ ngồi còn trống",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 20,
+            "relation_min": "acquaintance",
+            "requires": [
+              "npc.met",
+              "npc.shared_activity_completed_at_least_once",
+              "npc.return_visit_count>=1",
+              "npc_available",
+              "player_chooses_listen_or_offer"
+            ],
+            "previous_quest": null,
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Sau khi A từng giúp bày bàn, Grace tiếp tục đứng xem mọi người cần gì dù chỗ ngồi đã sẵn.",
+          "real_player_actions_vi": "Chuẩn bị thêm chỗ ngồi cho Grace và cùng kiểm bát/khăn sao cho cô có thể ăn cùng những người khác.",
+          "choice_vi": "Mời Grace ngồi ngay hoặc đợi bà hoàn tất nốt việc cần thiết; tôn trọng quyết định của bà.",
+          "world_change_vi": "Grace lần đầu ngồi vào bàn sớm hơn, không để A thay hết công việc.",
+          "npc_independent_outcome_vi": "Grace tự sắp bàn và ăn sau khi xong.",
+          "dialog": [
+            {
+              "id": "VLA23-Q1-O1",
+              "speaker_id": "VLA-23",
+              "function": "request_offered",
+              "text_vi": "Tôi định bày thêm một chỗ cho người đến muộn. Nhưng có lẽ cái ghế trống ấy là cho tôi. Cậu giúp tôi xếp lại nhé?"
+            },
+            {
+              "id": "VLA23-Q1-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Có chỗ cho bà nữa mới là đủ bàn."
+            },
+            {
+              "id": "VLA23-Q1-C1",
+              "speaker_id": "VLA-23",
+              "function": "completion_after_real_action",
+              "text_vi": "Ừ. Tôi cứ quên để phần cho chính mình."
+            },
+            {
+              "id": "VLA23-Q1-D1",
+              "speaker_id": "VLA-23",
+              "function": "refusal",
+              "text_vi": "Không sao. Tôi sẽ nhớ tự dành chỗ."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA23-Q2",
+          "stage": "Q2",
+          "stage_label_vi": "Nhiệm vụ 2",
+          "title_vi": "Bữa ăn không cần một người lo hết",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 50,
+            "relation_min": "familiar",
+            "requires": [
+              "Q1.status==completed",
+              "npc.nonquest_meetups_after_Q1>=1",
+              "npc.available_context_Q2",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA23-Q1",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Grace muốn một bữa nhỏ ai rảnh giúp một tay, chứ không để mình bà chuẩn bị.",
+          "real_player_actions_vi": "Chọn một phần việc vừa sức, sắp vị trí thức ăn/đồ dùng cho người tự nguyện phụ và để Grace quyết định việc còn lại.",
+          "choice_vi": "Cố làm hộ hết hay để mọi người cùng chọn phần họ muốn làm; Grace thích có người cùng chia trách nhiệm.",
+          "world_change_vi": "Việc bếp chia đều hơn theo tự nguyện; Grace có thời gian nghỉ giữa buổi.",
+          "npc_independent_outcome_vi": "Grace làm ít món hơn nhưng bữa ăn vẫn diễn ra.",
+          "dialog": [
+            {
+              "id": "VLA23-Q2-O1",
+              "speaker_id": "VLA-23",
+              "function": "request_offered",
+              "text_vi": "Tôi biết mọi người sẽ giúp nếu được hỏi. Chỉ là tôi hay quên hỏi. Cậu bắt đầu với tôi một chút nhé?"
+            },
+            {
+              "id": "VLA23-Q2-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Chia vài việc thôi, ai rảnh thì làm."
+            },
+            {
+              "id": "VLA23-Q2-C1",
+              "speaker_id": "VLA-23",
+              "function": "completion_after_real_action",
+              "text_vi": "Bữa ăn không ít đi. Chỉ có tôi đỡ tất bật hơn."
+            },
+            {
+              "id": "VLA23-Q2-D1",
+              "speaker_id": "VLA-23",
+              "function": "refusal",
+              "text_vi": "Ừ, tôi sẽ giảm bớt một món vậy."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        },
+        {
+          "quest_id": "VLA23-QF",
+          "stage": "QF",
+          "stage_label_vi": "Nhiệm vụ cuối",
+          "title_vi": "Bữa cơm có Grace ở đó",
+          "status": "draft_not_approved",
+          "gating": {
+            "friendship_min": 80,
+            "relation_min": "trusted",
+            "requires": [
+              "Q2.status==completed",
+              "npc.nonquest_meetups_after_Q2>=2",
+              "npc.personal_bond_event_seen==true",
+              "npc.available_context_QF",
+              "player_chooses_accept"
+            ],
+            "previous_quest": "VLA23-Q2",
+            "context_required": true,
+            "player_must_choose_accept": true
+          },
+          "story_situation_vi": "Grace muốn tổ chức một bữa ăn nhỏ mà bản thân cũng ngồi trò chuyện từ đầu, thay vì phục vụ xong mới ăn.",
+          "real_player_actions_vi": "Cùng Grace chuẩn bị phần cần thiết, mời mọi người có mặt tự lấy phần, đặt chỗ ngồi cho bà và chính A nếu muốn; cho phép A rời đi trước khi bữa ăn kết thúc.",
+          "choice_vi": "Ngồi ăn cùng hoặc chỉ góp tay rồi về, đều được Grace ghi nhận.",
+          "world_change_vi": "Grace thay đổi thói quen: từ nay chủ động cùng ăn và nhờ giúp khi cần; bữa ăn vẫn diễn ra nếu A không tham gia.",
+          "npc_independent_outcome_vi": "Grace tự quyết ngồi sớm, không biến tâm trạng bà phụ thuộc vào A.",
+          "dialog": [
+            {
+              "id": "VLA23-QF-O1",
+              "speaker_id": "VLA-23",
+              "function": "request_offered",
+              "text_vi": "Lần này tôi sẽ ngồi xuống cùng mọi người ngay từ đầu. Cậu muốn ăn cùng không?"
+            },
+            {
+              "id": "VLA23-QF-A1",
+              "speaker_id": "A",
+              "function": "player_acceptance",
+              "text_vi": "Tôi ở lại một lát."
+            },
+            {
+              "id": "VLA23-QF-C1",
+              "speaker_id": "VLA-23",
+              "function": "completion_after_real_action",
+              "text_vi": "Ăn cùng nhau thế này mới thấy bữa ăn thật sự trọn vẹn."
+            },
+            {
+              "id": "VLA23-QF-D1",
+              "speaker_id": "VLA-23",
+              "function": "refusal",
+              "text_vi": "Cứ về nghỉ nếu cậu muốn. Tôi sẽ ngồi ăn cùng mọi người."
+            }
+          ],
+          "states": [
+            "locked",
+            "available",
+            "offered",
+            "accepted",
+            "in_progress",
+            "completed",
+            "declined",
+            "resolved_without_player"
+          ],
+          "can_decline": true,
+          "can_postpone": true,
+          "can_come_back": true,
+          "not_mandatory": true,
+          "not_a_first_meeting_quest": true,
+          "completion_requires": [
+            "accepted",
+            "required_gameplay_actions_done",
+            "npc_completion_event_processed"
+          ],
+          "refusal_means": "no quest accepted; npc can resolve independently or reoffer contextually",
+          "future_relations_remain_open": true
+        }
+      ]
+    }
+  ]
+}
