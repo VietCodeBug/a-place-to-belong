@@ -13,6 +13,11 @@
 | [CH01-004 — Chỗ nghỉ bên đường mòn](../scenes/CH01-004.md) ([JSON](../scenes/CH01-004.json)) | Sau nơi Thomas đốn củi, A có thể tự phát hiện một chỗ nghỉ với chiếc ghế cũ được sửa một phần; không gặp thêm NPC, không nhận nhiệm vụ bắt buộc | Đi tiếp, quay lại Thomas hoặc trở về nhà; các quan sát là tùy chọn | **Đề xuất chưa duyệt** |
 | [CH01-005 — Một khoảng nhỏ để bắt đầu](../scenes/CH01-005.md) ([JSON](../scenes/CH01-005.json)) | **Khi tự quay về nhà** sau khi ra ngoài, A có thể gạt lá và nhánh cây khỏi một phần bậc cửa; một thay đổi nhỏ thấy được | Không yêu cầu gặp Thomas, không buộc sửa; vẫn vào nhà hoặc khám phá tiếp | **Đề xuất mới, chưa duyệt** |
 | [CH01-006 — Những mái nhà phía sau tán cây](../scenes/CH01-006.md) ([JSON](../scenes/CH01-006.json)) | Nếu tiếp tục theo lối mòn, A có thể thấy **cụm nhà nhỏ** qua rừng; dấu hiệu đời sống bằng khói bếp, phơi đồ và vườn | Không ép NPC/quest; tự tiến gần cộng đồng hoặc quay về | **Đề xuất mới, chưa duyệt** |
+| [CH01-007 — Một ngày ở khu dân cư](../scenes/CH01-007.md) ([JSON](../scenes/CH01-007.json)) | **Gói nội dung thế giới mở**, không phải scene tuyến tính: tự trò chuyện, làm vườn hoặc giúp sửa đồ, ghi nhớ quan hệ | Các hoạt động độc lập; có thể từ chối/đi về; phát sinh chuyện riêng theo quan hệ về sau | **Đề xuất gameplay narrative, chưa duyệt NPC/tên** |
+
+## Vòng chơi kể chuyện từ khu dân cư
+
+**Hướng đã thống nhất:** đây là **game thế giới mở**, không phải chuỗi phim ngắn. Scene ID ở đây là **gói nội dung có thể gặp**, không phải điều kiện hoàn thành theo thứ tự. Khi đến khu dân cư, các hoạt động và hội thoại độc lập mở theo tình huống, mối quan hệ và việc người chơi chủ động làm. [Quy ước thế giới mở](../production/open-world-narrative-v0.md).
 
 ## Ranh giới
 - **Không bắt dọn/sửa ngay trong scene đầu**. Gameplay chăm nhà sẽ được thiết kế sau, không khẳng định đã tồn tại.
@@ -31,6 +36,7 @@
 1. **CH01-004 đang đề xuất** chỗ nghỉ bên đường với chiếc ghế cũ được sửa; người sáng tạo chưa duyệt. Giữ hay thay bằng dấu vết đời sống khác?
 2. **CH01-005 đang đề xuất** hành động chăm bậc cửa rất nhỏ khi người chơi tự quay về. M có muốn giữ chi tiết này không, hay chọn hành động nhỏ khác trong nhà?
 3. **CH01-006 đang đề xuất** cụm nhà nhỏ thấy qua tán rừng; cần duyệt địa điểm, số lượng mái nhà và có muốn cho dân cư xuất hiện từ xa hay không. Không tự đặt tên làng hay NPC.
-4. Cần chốt cảnh gặp người tiếp theo (CH01-007) và tuyến sống lâu dài của Thomas.
+4. **CH01-007 là bản nháp hub**, với hai NPC chỉ có ID vai trò (chăm vườn/sửa đồ), chưa có tên tiếng Anh thật. Cần duyệt hai nhân vật và hoạt động trước khi dựng.
+5. Xây tuyến sống lâu dài của Thomas và các lời nhờ phát sinh qua quan hệ, không biến NPC thành máy giao nhiệm vụ.
 
 **Liên kết:** [Nền tảng đã thống nhất](../00-foundation.md) · [Prologue](prologue.md)
