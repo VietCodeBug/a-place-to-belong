@@ -14,7 +14,9 @@
 
 Các tài liệu nguồn: [hồ sơ tính cách 30 cư dân](../characters/village-a-roster.md), [CH01-007](../scenes/CH01-007.md), [quy ước kể chuyện thế giới mở](../production/open-world-narrative-v0.md).
 
-## Hướng dẫn AI lập trình đọc — không phát thành một bộ phim**Hội thoại NPC ↔ NPC:** [6 đoạn ngắn nghe thoáng qua](village-a-overheard-v0.md), [JSON](village-a-overheard-v0.json). Chỉ chạy khi đủ hai NPC, không chồng lên lời thoại với người chơi; không yêu cầu A có mặt.
+## Hướng dẫn AI lập trình đọc — không phát thành một bộ phim
+
+**Hội thoại NPC ↔ NPC:** [6 đoạn ngắn nghe thoáng qua](village-a-overheard-v0.md), [JSON](village-a-overheard-v0.json). Chỉ chạy khi đủ hai NPC, không chồng lên lời thoại với người chơi; không yêu cầu A có mặt.
 
 
 
@@ -46,7 +48,13 @@ Các tài liệu nguồn: [hồ sơ tính cách 30 cư dân](../characters/villa
 - Ada/Hugo chỉ kiểm kiện và nói về **đường liên làng**; **không mở giao hàng thực tế** khi chưa có làng đích/người nhận. Peter và Miles chỉ chuyển/sắp đồ trong Làng A. Rowan chăm lối đi, **không tự mặc định** ông là thợ săn.
 - Không có câu thoại nào tự giải thích giấc mơ XXX, quá khứ A, căn nhà hoặc cốt truyện chính.
 
-## Cách phát triển tiếp ở Làng A, sau khi duyệt bộ nền
+## Cách phát triển tiếp ở Làng A, sau khi duyệt bộ nền## Nhiệm vụ nhiều chặng phụ thuộc quan hệ
+
+Đã bổ sung [8 tuyến nhiệm vụ × 3 chặng](../quests/village-a-relationship-arcs-v0.md), [JSON](../quests/village-a-relationship-arcs-v0.json). Lời thoại `intro / ask_activity / offer_help / after_help / revisit / familiar` ở bộ này là **nội dung giao tiếp và hoạt động đời thường**, **không phải nhiệm vụ 1**. Q1 chỉ xuất hiện **sau khi đã quen và có lần gặp lại**; Q2 sau Q1 và lần giao lưu bình thường; QF sau Q2, nhiều lần gặp và chuyện tin cậy riêng.
+
+Một quest tự giải quyết bởi NPC được lưu `resolved_without_player`; lời thoại sau đó **không được tưởng A đã giúp**. Tên cư dân vẫn đang đề xuất; mốc điểm thân thiết là nháp.
+
+
 
 Trước tiên viết thêm **hội thoại NPC với NPC** để cư dân tự nói chuyện; sau đó phát triển câu chuyện quan hệ 8 nhân vật tuyến sâu (Hazel, Owen, Clara, Rowan, Maeve, Evelyn, Ada, Grace) có **sự kiện phát sinh cụ thể, lựa chọn và hệ quả**. Các cư dân khác vẫn có hội thoại đời thường/lần gặp lại. Không cần chuyển sang xây Làng B.
 
