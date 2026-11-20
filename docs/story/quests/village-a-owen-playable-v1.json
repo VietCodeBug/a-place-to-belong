@@ -1,0 +1,701 @@
+{
+  "schema": "apb.playable_character_script.v1",
+  "character_id": "VLA-04",
+  "name_en_draft": "Owen",
+  "status": "draft_pending_creator_review",
+  "language": "vi",
+  "profile_source": "docs/story/characters/village-a-roster.json",
+  "quest_source": "docs/story/quests/village-a-relationship-arcs-v0.json",
+  "base_dialogue_source": "docs/story/dialogue/village-a-dialogues-v0.json",
+  "area_vi": "Góc sửa đồ chung Làng A",
+  "active_npc_behavior_vi": "Sửa đồ, kiểm chốt, sắp vật liệu, nghỉ tay; không đứng chờ nhiệm vụ.",
+  "quest_gate_contract": "20/50/80 thresholds are provisional; shared activity, separated revisits, bond and voluntary choice are required; no automatic quest on high score",
+  "quests": [
+    {
+      "quest_id": "VLA04-Q1",
+      "title_vi": "Chiếc ghế không chịu đứng yên",
+      "location_vi": "Góc sửa đồ chung của làng, một chiếc ghế gỗ được kê sang bên vì chân lỏng",
+      "ambient_cue_vi": "Owen cúi gõ nhẹ vào chân ghế, đặt nó nằm nghiêng thay vì để ai đó ngồi thử.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA04-Q1-O1",
+        "player_acceptance": "VLA04-Q1-A1",
+        "completion_after_real_action": "VLA04-Q1-C1",
+        "refusal": "VLA04-Q1-D1"
+      },
+      "gating": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_status": "draft_not_approved",
+        "never_same_encounter_as_previous_quest": true,
+        "npc_available_context": true,
+        "no_auto_offer_on_score": true
+      },
+      "beats": [
+        {
+          "key": "CHECK",
+          "action": "Quan sát chỗ chân ghế lỏng, chọn xem mối nối hoặc thử lắc nhẹ khi ghế đang được kê chắc, không ngồi thử khi chưa sửa",
+          "result": "A phát hiện mối nối cần cố định. Không có lời khuyên phi thực tế phải dùng búa thật mạnh.",
+          "line": [
+            "O:Đừng ngồi lên vội. Chỗ nối chưa chắc.",
+            "A:Chân này lung lay hơn mấy chân kia.",
+            "O:Ừ. Thế là nhìn đúng chỗ rồi."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-Q1-CHECK-X01",
+              "speaker_id": "VLA-04",
+              "text_vi": "Đừng ngồi lên vội. Chỗ nối chưa chắc.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-CHECK-X02",
+              "speaker_id": "A",
+              "text_vi": "Chân này lung lay hơn mấy chân kia.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-CHECK-X03",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ừ. Thế là nhìn đúng chỗ rồi.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "HOLD",
+          "action": "Giữ ghế ở thế ổn định cho Owen chỉnh mối nối, không tự thao tác dụng cụ nguy hiểm",
+          "result": "Chân ghế được chỉnh; vẫn cần thử độ vững.",
+          "line": [
+            "O:Giữ thế một chút.",
+            "A:Như này được chưa?",
+            "O:Được. Đừng nhấc lúc tôi chưa ra hiệu."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-Q1-HOLD-X01",
+              "speaker_id": "VLA-04",
+              "text_vi": "Giữ thế một chút.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-HOLD-X02",
+              "speaker_id": "A",
+              "text_vi": "Như này được chưa?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-HOLD-X03",
+              "speaker_id": "VLA-04",
+              "text_vi": "Được. Đừng nhấc lúc tôi chưa ra hiệu.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "TEST",
+          "action": "Chọn thử độ vững khi đã được Owen cho phép, kiểm cả bốn chân rồi đặt ghế lại vào khu dùng chung",
+          "result": "Ghế vững và không còn phải kê sang bên; Owen phát câu kết gốc khi việc hoàn tất.",
+          "line": [
+            "A:Giờ thử lại nhé?",
+            "O:Ừ. Lắc nhẹ thôi.",
+            "A:Không còn kêu nữa.",
+            "O:Vậy thì dùng được rồi."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-Q1-TEST-X01",
+              "speaker_id": "A",
+              "text_vi": "Giờ thử lại nhé?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-TEST-X02",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ừ. Lắc nhẹ thôi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-TEST-X03",
+              "speaker_id": "A",
+              "text_vi": "Không còn kêu nữa.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q1-TEST-X04",
+              "speaker_id": "VLA-04",
+              "text_vi": "Vậy thì dùng được rồi.",
+              "approval": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspect_before_test",
+          "label_vi": "Kiểm mối nối trước",
+          "effect": "Được Owen đánh giá cẩn thận; thao tác thuận"
+        },
+        {
+          "id": "ask_for_guidance",
+          "label_vi": "Nhờ Owen chỉ điểm cần giữ",
+          "effect": "Owen giải thích ngắn; không cộng thưởng chỉ vì hỏi"
+        },
+        {
+          "id": "try_chair_early",
+          "label_vi": "Thử ngồi ngay",
+          "effect": "Owen ngăn lại, mời kiểm chân ghế trước; không có animation nguy hiểm hoặc phạt nặng"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Ghế dùng chung vững hơn, Owen nhớ cách A giúp.",
+          "return_visit_line_vi": "Chiếc ghế hôm trước vẫn đứng chắc. Tôi đã xem lại rồi."
+        },
+        "resolved_without_player": {
+          "world_vi": "Owen kê chiếc ghế sang một bên và sửa lúc rảnh.",
+          "return_visit_line_vi": "Tôi kê chiếc ghế sang bên rồi tự chỉnh xong. Giờ dùng được."
+        },
+        "declined": {
+          "npc_can_continue": true,
+          "can_be_reoffered_if_context_still_exists": true
+        },
+        "abandoned": {
+          "npc_continues_work": true,
+          "no_unearned_credit": true
+        }
+      },
+      "ordinary_life_after_vi": "Owen trở lại sửa những món nhỏ; chiếc ghế vẫn ở góc sinh hoạt, không biến thành đồ thưởng.",
+      "required_completion": [
+        "quest_accepted",
+        "player_completed_interactions",
+        "NPC_confirmed_completion"
+      ],
+      "no_hard_deadline": true,
+      "no_forced_dialogue": true
+    },
+    {
+      "quest_id": "VLA04-Q2",
+      "title_vi": "Cánh cửa để sau",
+      "location_vi": "Góc làm việc quen thuộc của Owen, cánh cửa của chính khu làm việc ấy hơi kẹt",
+      "ambient_cue_vi": "Owen dùng vai đẩy nhẹ cánh cửa rồi bỏ sang xem món đồ khách mang tới. Không có thoại rên rỉ hay cảnh bi kịch.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA04-Q2-O1",
+        "player_acceptance": "VLA04-Q2-A1",
+        "completion_after_real_action": "VLA04-Q2-C1",
+        "refusal": "VLA04-Q2-D1"
+      },
+      "gating": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA04-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_status": "draft_not_approved",
+        "never_same_encounter_as_previous_quest": true,
+        "npc_available_context": true,
+        "no_auto_offer_on_score": true
+      },
+      "beats": [
+        {
+          "key": "ASK",
+          "action": "A tự hỏi Owen có muốn xem cánh cửa bị kẹt không; nếu ông chưa muốn thì người chơi rời đi được",
+          "result": "Owen đồng ý xem khi đang rảnh, không cho A tự tiện sửa đồ riêng.",
+          "line": [
+            "A:Cánh cửa này vẫn kẹt à?",
+            "O:Ừ. Tôi biết. Mỗi lần tính sửa lại có việc khác.",
+            "A:Giờ ông có muốn xem nó không?",
+            "O:... Ừ. Một lúc thôi."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-Q2-ASK-X01",
+              "speaker_id": "A",
+              "text_vi": "Cánh cửa này vẫn kẹt à?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-ASK-X02",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ừ. Tôi biết. Mỗi lần tính sửa lại có việc khác.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-ASK-X03",
+              "speaker_id": "A",
+              "text_vi": "Giờ ông có muốn xem nó không?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-ASK-X04",
+              "speaker_id": "VLA-04",
+              "text_vi": "... Ừ. Một lúc thôi.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "INSPECT",
+          "action": "Quan sát phía bản lề và chỗ cửa cạ khung, Owen quyết định cách chỉnh; A chỉ giữ cánh cửa theo hướng dẫn",
+          "result": "Khi A chọn sai chỗ, Owen chỉ lại và cho quan sát thêm. Không cần sinh vật phẩm bản lề mới hay đi tìm vật liệu.",
+          "line": [
+            "O:Giữ nhẹ mép này. Đừng nâng quá cao.",
+            "A:Nó cạ vào khung phía dưới.",
+            "O:Đúng chỗ tôi cứ bỏ qua mãi."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-Q2-INSPECT-X01",
+              "speaker_id": "VLA-04",
+              "text_vi": "Giữ nhẹ mép này. Đừng nâng quá cao.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-INSPECT-X02",
+              "speaker_id": "A",
+              "text_vi": "Nó cạ vào khung phía dưới.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-INSPECT-X03",
+              "speaker_id": "VLA-04",
+              "text_vi": "Đúng chỗ tôi cứ bỏ qua mãi.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "TRY",
+          "action": "Cùng Owen thử đóng mở hai lần, đứng tránh lối đi, kết thúc khi cửa không còn bị kẹt",
+          "result": "Cánh cửa được sử dụng bình thường; phát lời kết gốc, không tự xác nhận đây là cửa nhà ở Owen.",
+          "line": [
+            "A:Giờ mở được rồi.",
+            "O:Ừ. Không cần lấy vai đẩy nữa.",
+            "A:Vậy một việc của ông cũng xong rồi.",
+            "O:Chắc thế."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-Q2-TRY-X01",
+              "speaker_id": "A",
+              "text_vi": "Giờ mở được rồi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-TRY-X02",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ừ. Không cần lấy vai đẩy nữa.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-TRY-X03",
+              "speaker_id": "A",
+              "text_vi": "Vậy một việc của ông cũng xong rồi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-Q2-TRY-X04",
+              "speaker_id": "VLA-04",
+              "text_vi": "Chắc thế.",
+              "approval": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "offer_now",
+          "label_vi": "Mình xem cửa lúc ông rảnh nhé",
+          "effect": "Owen đồng ý khi hoàn cảnh phù hợp, không ép làm ngay"
+        },
+        {
+          "id": "suggest_rest",
+          "label_vi": "Ông nghỉ trước cũng được",
+          "effect": "Owen hoãn hợp lý, không tính là từ chối nhiệm vụ hoặc trừ thân"
+        },
+        {
+          "id": "take_over",
+          "label_vi": "Để tôi tự sửa hết",
+          "effect": "Owen đề nghị cùng kiểm thay vì giao toàn bộ cho A"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Cửa hoạt động tốt hơn; Owen bắt đầu chú ý việc của chính mình.",
+          "return_visit_line_vi": "Cánh cửa chỗ tôi giờ nhẹ tay hơn. Lẽ ra tôi nên sửa sớm."
+        },
+        "resolved_without_player": {
+          "world_vi": "Owen để cửa trong trạng thái sử dụng tạm và tự sửa khi có thời gian.",
+          "return_visit_line_vi": "Tôi tự sửa cánh cửa vào lúc rảnh. Hóa ra không mất lâu đến thế."
+        },
+        "declined": {
+          "npc_can_continue": true,
+          "can_be_reoffered_if_context_still_exists": true
+        },
+        "abandoned": {
+          "npc_continues_work": true,
+          "no_unearned_credit": true
+        }
+      },
+      "ordinary_life_after_vi": "Owen thỉnh thoảng đóng mở cửa bình thường; ông vẫn chăm đồ cho dân làng, nhưng không bỏ bê việc của mình.",
+      "required_completion": [
+        "quest_accepted",
+        "player_completed_interactions",
+        "NPC_confirmed_completion"
+      ],
+      "no_hard_deadline": true,
+      "no_forced_dialogue": true
+    },
+    {
+      "quest_id": "VLA04-QF",
+      "title_vi": "Một buổi sửa đồ vừa đủ",
+      "location_vi": "Góc sửa đồ chung và một bàn đặt vài món đồ đã được người gửi cho phép kiểm",
+      "ambient_cue_vi": "Owen sắp các món theo thứ tự. Ông nhìn số lượng rồi tự tách một món sang ngăn 'hôm khác' (ký hiệu chỉ là đề xuất).",
+      "base_dialogue_refs": {
+        "request_offered": "VLA04-QF-O1",
+        "player_acceptance": "VLA04-QF-A1",
+        "completion_after_real_action": "VLA04-QF-C1",
+        "refusal": "VLA04-QF-D1"
+      },
+      "gating": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA04-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_status": "draft_not_approved",
+        "never_same_encounter_as_previous_quest": true,
+        "npc_available_context": true,
+        "no_auto_offer_on_score": true
+      },
+      "beats": [
+        {
+          "key": "SORT",
+          "action": "Xem ba món được đề xuất: một món cần sửa để dùng an toàn, một món nhỏ sửa nhanh, một món có thể hẹn sau; chọn thứ tự ưu tiên",
+          "result": "Không phải nhận hết đồ từ làng; đồ chưa sửa được đặt riêng, người mang có thể nhận lại hoặc hẹn sau.",
+          "line": [
+            "O:Ba món. Tôi mà nhận cả ba rồi ngồi đến tối thì lại thế.",
+            "A:Món nào người ta cần dùng ngay?",
+            "O:Cái chốt này. Còn món kia có thể đợi."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-QF-SORT-X01",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ba món. Tôi mà nhận cả ba rồi ngồi đến tối thì lại thế.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-SORT-X02",
+              "speaker_id": "A",
+              "text_vi": "Món nào người ta cần dùng ngay?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-SORT-X03",
+              "speaker_id": "VLA-04",
+              "text_vi": "Cái chốt này. Còn món kia có thể đợi.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "AGREE",
+          "action": "Cùng Owen chọn chỉ làm phần có thể xong trong buổi, thông báo rõ món để sau qua ghi chú đơn giản",
+          "result": "Nội dung hẹn được giữ ở góc bàn; không tự gán lời đồng ý cho cư dân vắng mặt.",
+          "line": [
+            "A:Vậy mình chỉ nhận món thật cần trước.",
+            "O:Ừ. Còn lại để tôi hẹn rõ.",
+            "A:Ông không phải làm hết hôm nay.",
+            "O:Tôi đang học nói câu đó."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-QF-AGREE-X01",
+              "speaker_id": "A",
+              "text_vi": "Vậy mình chỉ nhận món thật cần trước.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-AGREE-X02",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ừ. Còn lại để tôi hẹn rõ.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-AGREE-X03",
+              "speaker_id": "A",
+              "text_vi": "Ông không phải làm hết hôm nay.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-AGREE-X04",
+              "speaker_id": "VLA-04",
+              "text_vi": "Tôi đang học nói câu đó.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "HELP",
+          "action": "Giữ chi tiết cho Owen chỉnh một món đơn giản rồi thử lại; sau đó Owen tự đóng sổ việc",
+          "result": "Một món đã sửa, món khác được xếp chờ rõ ràng, góc làm việc có trạng thái kết thúc buổi.",
+          "line": [
+            "O:Giữ chốt giúp tôi một lúc.",
+            "A:Xong phần này rồi.",
+            "O:Ừ. Thế là đủ cho hôm nay."
+          ],
+          "lines": [
+            {
+              "id": "VLA04-QF-HELP-X01",
+              "speaker_id": "VLA-04",
+              "text_vi": "Giữ chốt giúp tôi một lúc.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-HELP-X02",
+              "speaker_id": "A",
+              "text_vi": "Xong phần này rồi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA04-QF-HELP-X03",
+              "speaker_id": "VLA-04",
+              "text_vi": "Ừ. Thế là đủ cho hôm nay.",
+              "approval": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "set_small_limit",
+          "label_vi": "Chỉ nhận việc làm được hôm nay",
+          "effect": "Owen thực sự nghỉ đúng lúc; nội dung nhiệm vụ cuối kết thúc tự nhiên"
+        },
+        {
+          "id": "offer_more",
+          "label_vi": "Tôi giúp làm thêm hết những món kia",
+          "effect": "Owen giải thích cần hẹn lại, không mở vòng nhiệm vụ vô hạn"
+        },
+        {
+          "id": "ask_priority",
+          "label_vi": "Hỏi món nào cần dùng ngay",
+          "effect": "Làm rõ ưu tiên rồi cùng sửa một món; không tự tạo NPC thứ 31"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Góc sửa đồ có cách nhận việc rõ ràng; Owen dám nói 'hôm khác' và có thời gian cho mình.",
+          "return_visit_line_vi": "Tôi đã viết rõ món nào nhận, món nào hẹn. Lần này không phải sửa quá giờ."
+        },
+        "resolved_without_player": {
+          "world_vi": "Owen tự giới hạn số đồ nhận và buổi sửa vẫn diễn ra.",
+          "return_visit_line_vi": "Tôi tự hẹn bớt mấy món. Buổi sửa đồ vẫn vui, lại không mệt quá."
+        },
+        "declined": {
+          "npc_can_continue": true,
+          "can_be_reoffered_if_context_still_exists": true
+        },
+        "abandoned": {
+          "npc_continues_work": true,
+          "no_unearned_credit": true
+        }
+      },
+      "ordinary_life_after_vi": "Owen tiếp tục nhận sửa đồ vào những buổi phù hợp, thỉnh thoảng nghỉ đúng lúc; người chơi vẫn có thể tới trao đổi hoặc hỗ trợ các hoạt động nhỏ.",
+      "required_completion": [
+        "quest_accepted",
+        "player_completed_interactions",
+        "NPC_confirmed_completion"
+      ],
+      "no_hard_deadline": true,
+      "no_forced_dialogue": true
+    }
+  ],
+  "interludes": [
+    {
+      "id": "VLA04-IL1",
+      "between": "Q1->Q2",
+      "trigger": "first_nonquest_revisit_after_Q1_resolution",
+      "npc_state": "sorting_tools",
+      "lines": [
+        {
+          "id": "VLA04-IL1-X01",
+          "speaker_id": "VLA-04",
+          "text_vi": "Chiếc ghế vẫn vững.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL1-X02",
+          "speaker_id": "A",
+          "text_vi": "Vậy hôm nay sửa gì?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL1-X03",
+          "speaker_id": "VLA-04",
+          "text_vi": "Có vài món nhỏ. Chưa cái nào vội.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA04.nonquest_meetups_after_Q1"
+    },
+    {
+      "id": "VLA04-IL2",
+      "between": "Q2->QF",
+      "trigger": "first_nonquest_revisit_after_Q2_resolution",
+      "npc_state": "resting_hand_between_repairs",
+      "lines": [
+        {
+          "id": "VLA04-IL2-X01",
+          "speaker_id": "A",
+          "text_vi": "Hôm nay ông không sửa đồ à?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL2-X02",
+          "speaker_id": "VLA-04",
+          "text_vi": "Có. Nhưng tôi đang nghỉ tay.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL2-X03",
+          "speaker_id": "A",
+          "text_vi": "Thế cũng cần mà.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL2-X04",
+          "speaker_id": "VLA-04",
+          "text_vi": "Ừ.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA04.nonquest_meetups_after_Q2"
+    },
+    {
+      "id": "VLA04-IL3",
+      "between": "Q2->QF",
+      "trigger": "second_nonquest_revisit_after_Q2_resolution",
+      "npc_state": "checking_workbench",
+      "lines": [
+        {
+          "id": "VLA04-IL3-X01",
+          "speaker_id": "VLA-04",
+          "text_vi": "Tôi vừa từ chối nhận thêm một món hôm nay.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL3-X02",
+          "speaker_id": "A",
+          "text_vi": "Ông thấy sao?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-IL3-X03",
+          "speaker_id": "VLA-04",
+          "text_vi": "Hơi lạ. Nhưng cái bàn trông đỡ chật.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA04.nonquest_meetups_after_Q2"
+    },
+    {
+      "id": "VLA04-BOND",
+      "between": "Q2->QF",
+      "trigger": "after_Q2_resolution_and_player_selects_personal_talk",
+      "npc_state": "not_busy",
+      "lines": [
+        {
+          "id": "VLA04-BOND-X01",
+          "speaker_id": "VLA-04",
+          "text_vi": "Tôi cứ sửa cho nhà khác trước. Đồ ở chỗ mình thì để đấy.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-BOND-X02",
+          "speaker_id": "A",
+          "text_vi": "Ông không muốn nhờ ai à?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-BOND-X03",
+          "speaker_id": "VLA-04",
+          "text_vi": "Không quen. Tôi nghĩ tự mình làm sẽ nhanh hơn.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-BOND-X04",
+          "speaker_id": "A",
+          "text_vi": "Nhưng đôi khi mất cả một buổi mới nhớ tới nó.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-BOND-X05",
+          "speaker_id": "VLA-04",
+          "text_vi": "Ừ. Tôi biết rồi.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA04.personal_bond_event_seen"
+    },
+    {
+      "id": "VLA04-POST",
+      "between": "after_QF",
+      "trigger": "normal_revisit_after_QF_completed_or_alternate",
+      "npc_state": "repairing_small_item",
+      "lines": [
+        {
+          "id": "VLA04-POST-X01",
+          "speaker_id": "VLA-04",
+          "text_vi": "Chào. Hôm nay không có món nào cần gấp.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-POST-X02",
+          "speaker_id": "A",
+          "text_vi": "Vậy ông có chút thời gian rảnh rồi.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA04-POST-X03",
+          "speaker_id": "VLA-04",
+          "text_vi": "Ừ. Không tệ.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "none"
+    }
+  ],
+  "runtime_status": "not_implemented"
+}
