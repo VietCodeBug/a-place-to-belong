@@ -79,8 +79,11 @@ func _ready() -> void:
 	recapture()
 	if not get_tree().get_meta(MAPS.QUIET_UI, false):
 		create_tween().tween_property(fade, "color:a", 0.0, 0.68)
-	else:
+	elif DisplayServer.get_name() == "headless":
 		fade.color.a = 0.0
+	else:
+		# Let the renderer finish the camera handoff before showing the first frame.
+		RenderingServer.frame_post_draw.connect(func(): fade.color.a = 0.0, CONNECT_ONE_SHOT)
 
 func recapture() -> void:
 	if DisplayServer.get_name() != "headless":
