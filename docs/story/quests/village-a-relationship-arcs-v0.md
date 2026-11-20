@@ -14,6 +14,15 @@
 
 **20 / 50 / 80 là số đề xuất để minh họa**, có thể cân bằng sau. **Điểm chưa đủ** để tự tạo quest: cần trạng thái nhân vật, chuyện đã xảy ra, NPC đang rảnh và người chơi chủ động nhận. Không bắt làm đủ cả ba để mở toàn bộ Làng A.
 
+## Kịch bản gameplay chi tiết đã viết tiếp
+
+Hai tuyến Hazel và Owen đã có **bản v1 chi tiết** riêng để người thực hiện gameplay hiểu diễn biến và lời thoại theo nhánh, thay vì coi bản 24 nhiệm vụ này như các cutscene tuần tự:
+
+- **Hazel:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-hazel-playable-v1.md) · [JSON](village-a-hazel-playable-v1.json) — quan sát đất, chia việc chăm vườn, hình thành góc vườn chung. Có **5 tình huống gặp thường và tâm sự** xen giữa, không bắt gặp một lần xong truyện.
+- **Owen:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-owen-playable-v1.md) · [JSON](village-a-owen-playable-v1.json) — kiểm ghế, sửa cánh cửa khu làm việc, học đặt giới hạn khi nhận việc. Có **5 tình huống gặp thường và tâm sự** xen giữa.
+
+**Các lời thoại cũ `O1/A1/C1/D1` của sáu nhiệm vụ được giữ nguyên ID**; các tệp v1 chỉ tham chiếu và viết **92 câu mới** cho các nhịp hành động, lựa chọn và gặp lại. Mức thân thiết 20/50/80 vẫn là đề xuất, không chốt công thức điểm. Đây là **draft** chưa triển khai game; 6 nhiệm vụ nằm trong 24 nhiệm vụ trước đó, **không phải cộng thêm 6 nhiệm vụ mới**.
+
 ## Luật giãn cách nhiệm vụ
 
 - Sau **mọi nhiệm vụ**, đặt cờ `arc_stage_completed`; NPC trở về công việc hằng ngày và có lời chào/đối thoại trạng thái mới.
