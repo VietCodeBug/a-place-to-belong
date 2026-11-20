@@ -1,6 +1,6 @@
 # A1 House Gate · Cỏ, nền và đá tảng
 
-**PENDING_CREATOR_APPROVAL** · [Issue #12](https://github.com/VietCodeBug/a-place-to-belong/issues/12)
+**REJECTED — thay bằng [bản forest clearing gửi duyệt](../review-a1-clearing/README.md)** · [Issue #12](https://github.com/VietCodeBug/a-place-to-belong/issues/12)
 
 Ảnh thật từ Godot 4.6.3 Compatibility, 1280 × 720. Cặp ảnh dùng cùng camera và ánh sáng. GLB và Blender của nhà khớp byte với baseline cc8280f.
 

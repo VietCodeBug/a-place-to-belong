@@ -8,7 +8,7 @@ func _initialize() -> void:
 func capture() -> void:
 	var output := OS.get_environment("A1_REVIEW_DIR")
 	if output.is_empty():
-		output = "res://docs/environment/review-a1-house-gate"
+		output = "res://docs/environment/review-a1-clearing"
 	root.size = Vector2i(1280, 720)
 	var scene := SCENE.instantiate()
 	root.add_child(scene)
@@ -25,8 +25,8 @@ func capture() -> void:
 	if OS.get_environment("A1_REVIEW_DETAIL") == "1":
 		views = [
 			["verge",Vector3(0.1,0.75,6.55),Vector3(-1.5,0.18,4.2),60.0],
-			["boulder-foot",Vector3(-4.8,0.88,6.3),Vector3(-6.0,0.55,3.48),58.0],
-			["porch",Vector3(-0.35,1.22,6.5),Vector3(-0.47,0.73,2.8),57.0]
+			["boulder-foot",Vector3(-4.9,1.52,5.82),Vector3(-6.35,0.68,2.92),58.0],
+			["forest-overlook",Vector3(6.6,3.0,17.5),Vector3(-0.85,2.03,0.7),56.0]
 		]
 	for view in views:
 		shot.position = view[1]
@@ -41,6 +41,10 @@ func capture() -> void:
 		print("%s %.1f ms %.2f FPS draw_calls=%d" % [view[0],ms,1000.0/ms,
 			RenderingServer.viewport_get_render_info(root.get_viewport_rid(),
 				RenderingServer.VIEWPORT_RENDER_INFO_TYPE_VISIBLE, RenderingServer.VIEWPORT_RENDER_INFO_DRAW_CALLS_IN_FRAME)])
+		var clearing := scene.get_node_or_null("ForestClearing")
+		if clearing != null:
+			print("active grass batches=",clearing.grass_chunks.filter(func(tile: Dictionary) -> bool:
+				return tile.lod>=0).size())
 		var error := root.get_texture().get_image().save_png(output.path_join("%s.png" % view[0]))
 		if error != OK:
 			quit(1)

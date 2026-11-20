@@ -10,34 +10,23 @@ func check_yard() -> void:
 	root.add_child(scene)
 	await physics_frame
 	await physics_frame
-	var meadow := scene.get_node("YardDenseMeadow")
-	assert(meadow.counts.get("grass_carpet",0) > 4500)
-	assert(meadow.counts.get("grass_main",0) > 350)
-	assert(meadow.counts.get("grass_accent",0) > 10)
-	assert(scene.grass_mask(Vector2.ZERO).r == 0.0)
-	assert(scene.grass_mask(Vector2(-0.49,3.2)).r == 0.0)
-	assert(scene.grass_mask(Vector2(0.2,8.3)).r == 0.0)
-	var stones := scene.get_node("ForestEdgeBoulders")
-	assert(stones.get_child_count() == 3)
-	assert(scene.rock_exclusions.size() == 8)
+	var clearing := scene.get_node("ForestClearing")
+	assert(clearing.counts[0]>900 and clearing.counts[1]>1000 and clearing.counts[2]>100)
+	assert(clearing.counts.reduce(func(total: int,count: int) -> int: return total+count,0)<8000)
+	for location in [Vector2.ZERO, Vector2(-0.49,3.2), Vector2(.2,8.3),Vector2(2.0,4.05)]:
+		assert(clearing.grass_mask(location)==0.0)
+	var groups := clearing.get_node("ForestEdgeBoulders")
+	assert(groups.get_child_count()==3 and clearing.rocks.size()==8)
 	var space: PhysicsDirectSpaceState3D = scene.get_world_3d().direct_space_state
-	for group in stones.get_children():
-		var main := group.get_child(0) as Node3D
-		var at := main.global_position
-		var touch := space.intersect_ray(PhysicsRayQueryParameters3D.create(
-			Vector3(at.x,at.y+5,at.z),Vector3(at.x,at.y+0.45,at.z)))
-		assert(not touch.is_empty() and group.is_ancestor_of(touch.collider),str(group.name))
-		var around := PhysicsTestMotionParameters3D.new()
-		around.from = Transform3D(Basis.IDENTITY,Vector3(at.x,0.07,at.z+4.3))
-		around.motion = Vector3(0,0,-1.0)
-		assert(not PhysicsServer3D.body_test_motion(scene.walker.get_rid(),around),str(group.name))
-	var route := PhysicsTestMotionParameters3D.new()
-	route.from = Transform3D(Basis.IDENTITY,Vector3(0.4,0.065,9.0))
-	route.motion = Vector3(-0.89,0.0,-5.20)
-	assert(not PhysicsServer3D.body_test_motion(scene.walker.get_rid(),route),"The approach must remain clear.")
-	var ramp := space.intersect_ray(PhysicsRayQueryParameters3D.create(
-		Vector3(-0.49,0.65,3.05),Vector3(-0.49,0.03,3.05)))
-	assert(not ramp.is_empty() and ramp.position.y > 0.12)
+	for group in groups.get_children():
+		var at: Vector3 = group.get_child(0).global_position
+		var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(at.x,at.y+4,at.z),Vector3(at.x,at.y+0.22,at.z)))
+		assert(not hit.is_empty() and group.is_ancestor_of(hit.collider),str(group.name))
+	assert(absf(clearing.height(-12,1))>0.80)
+	var test := Vector3(13.30,0,-6.35)
+	var ground := space.intersect_ray(PhysicsRayQueryParameters3D.create(test+Vector3.UP*10,test-Vector3.UP*2))
+	assert(not ground.is_empty() and absf(ground.position.y-clearing.height(test.x,test.z)) < 0.002)
 	scene.set_physics_process(false)
 	scene.walker.position = Vector3(-0.49,0.07,8.20)
 	scene.walker.velocity = Vector3.ZERO
@@ -46,6 +35,7 @@ func check_yard() -> void:
 		scene.move_walker(Vector2(0,-1),1.0/60.0)
 	assert(scene.walker.position.z < 3.22)
 	assert(scene.walker.position.y > 0.13 and scene.walker.is_on_floor())
-	print("PASS first-person walker reaches porch via approach")
-	print("PASS yard layers, exclusions, three colliding rock groups, approach clearance and porch ramp")
+	for tile in clearing.grass_chunks:
+		assert(not (tile.models[0].visible and tile.models[1].visible))
+	print("PASS terrain height matches collider, three boulder clusters, grass masks/LOD, approach and porch climb")
 	quit()
