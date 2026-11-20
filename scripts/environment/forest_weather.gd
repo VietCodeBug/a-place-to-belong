@@ -244,9 +244,9 @@ func colors_at(time: float) -> Array:
 		[0.0,  "162A48", "334C6B", "7E9DC4", "556A88", "324663", 0.48],
 		[5.0,  "2D4468", "C08E92", "9AB0CA", "C8B3B6", "6B6E8C", 0.50],
 		[6.8,  "5F93C2", "F2C7A2", "BFD0DF", "F9DEC8", "96A4BE", 0.60],
-		[10.0, "4E8EC6", "DCE6DE", "C2D4E4", "FCF9F0", "98B0C6", 0.64],
-		[14.0, "4B89C0", "E3DEC9", "BDD0E2", "FAF4E6", "97ADC2", 0.64],
-		[16.8, "5688B8", "F5C390", "BBC5DA", "FAD0AD", "8E9AB6", 0.58],
+		[10.0, "4E8EC6", "AAC2CC", "C2D4E4", "FCF9F0", "98B0C6", 0.64],
+		[14.0, "4B89C0", "A9BBC6", "BDD0E2", "FAF4E6", "97ADC2", 0.64],
+		[16.8, "5688B8", "CCBAA4", "BBC5DA", "FAD0AD", "8E9AB6", 0.58],
 		[18.3, "455C8C", "E0968F", "A4B7D6", "CFA0A6", "5E6A8E", 0.52],
 		[20.0, "203963", "597396", "8DA8CE", "6E84A4", "3E5272", 0.49],
 		[24.0, "162A48", "334C6B", "7E9DC4", "556A88", "324663", 0.48],
@@ -284,10 +284,10 @@ func update_light(altitude: float, daylight: float) -> void:
 	var amb_col: Color = colors[2].lerp(Color("8FA1AA"), occlusion * .38 * daylight)
 	environment.ambient_light_color = amb_col.lerp(Color("A4B7C3"), daylight * .32)
 	environment.ambient_light_energy = (float(colors[5]) + daylight * .18) * (1. - occlusion * .16)
-	environment.fog_light_color = sky_hor.lerp(sky_top, .42)
-	environment.fog_light_energy = lerpf(0.82, 0.96, daylight)
+	environment.fog_light_color = sky_hor.lerp(Color("718B99"), .58)
+	environment.fog_light_energy = lerpf(0.75, 0.84, daylight)
 	environment.fog_depth_begin = lerpf(58., 36., occlusion)
-	environment.fog_depth_end = lerpf(195., 128., occlusion)
+	environment.fog_depth_end = lerpf(228., 140., occlusion)
 
 	sky_material.set_shader_parameter("top_color", sky_top)
 	sky_material.set_shader_parameter("horizon_color", sky_hor)

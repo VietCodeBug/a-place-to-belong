@@ -63,7 +63,14 @@ func run() -> void:
 		var structure := village.get_node_or_null(NodePath(lot[0]))
 		check(structure != null and structure.find_children("*", "CollisionShape3D", true, false).size() == 1,
 			"Exterior shell collision is missing for %s." % lot[0])
-	check(PLAN.BUILDINGS.size() == 21 and families.size() == 10, "Review layout should have 21 buildings in ten families.")
+	check(PLAN.BUILDINGS.size() == 21 and families.size() == 13, "Review layout should have 21 buildings in thirteen families.")
+	check(village.get_node("A06").get_meta("landmark","") == "chapel","The central plaza needs the chapel landmark.")
+	check(ForestFloorDesign.reserved(Vector2(6.9,14.9)),"House A path must exclude meadow clumps.")
+	for spot: Vector4 in LAND.POTHOLES:
+		var left := LAND.height_at(spot.x-2.0,spot.y)
+		var right := LAND.height_at(spot.x+2.0,spot.y)
+		check(LAND.height_at(spot.x,spot.y) < (left+right)*.5-.045,"Road hollow must depress the collision surface.")
+
 	check(hub.has_node("ForestHouseA") and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 100.0, "House A should precede the village.")
 	for season in range(4):
 		valley.set_season_palette(season)

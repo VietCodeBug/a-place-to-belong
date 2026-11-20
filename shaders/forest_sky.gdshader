@@ -47,7 +47,7 @@ void sky() {
 	vec3 sky_grad = mix(horizon_color.rgb, top_color.rgb, pow(height, 0.52));
 	// Soft warm horizon glow band
 	float horizon_band = exp(-max(EYEDIR.y, 0.0) * 7.5);
-	sky_grad = mix(sky_grad, horizon_color.rgb * 1.04, horizon_band * 0.28);
+	sky_grad = mix(sky_grad, horizon_color.rgb * .97, horizon_band * 0.19);
 	vec3 color = sky_grad;
 
 	if (!AT_CUBEMAP_PASS) {

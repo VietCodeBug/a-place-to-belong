@@ -11,7 +11,10 @@ const MODELS := {
 	"gable": preload("res://assets/village_a/gable.glb"),
 	"long": preload("res://assets/village_a/long.glb"),
 	"craft": preload("res://assets/village_a/craft.glb"),
-	"hall": preload("res://assets/village_a/hall.glb"),
+	"chapel": preload("res://assets/village_a/chapel.glb"),
+	"barn": preload("res://assets/village_a/barn.glb"),
+	"stonehouse": preload("res://assets/village_a/stonehouse.glb"),
+	"gallery": preload("res://assets/village_a/gallery.glb"),
 	"split": preload("res://assets/village_a/split.glb"),
 	"loft": preload("res://assets/village_a/loft.glb"),
 	"shed": preload("res://assets/village_a/shed.glb"),
@@ -31,7 +34,7 @@ func _ready() -> void:
 	build_shared_spaces()
 	build_greenery()
 	build_verges()
-	set_season(0)
+	set_season(BOTANY.DEFAULT_SEASON)
 
 func at(p: Vector2,lift := 0.0) -> Vector3:
 	return Vector3(p.x,L.height_at(p.x,p.y)+lift,p.y)
@@ -39,6 +42,8 @@ func at(p: Vector2,lift := 0.0) -> Vector3:
 func building(spec: Array) -> void:
 	var slot := Node3D.new()
 	slot.name = spec[0]
+	if spec[1]=="chapel":
+		slot.set_meta("landmark","chapel")
 	add_child(slot)
 	var p := Vector2(spec[2],spec[3])
 	slot.position = at(p)
@@ -46,13 +51,13 @@ func building(spec: Array) -> void:
 	var visual := (MODELS[spec[1]] as PackedScene).instantiate() as Node3D
 	slot.add_child(visual)
 	coat(visual)
-	var width: float = {"porch":5.13,"gable":5.6,"long":8.25,"hewn":6.7,"craft":6.02,"hall":7.47,"split":6.08,"loft":4.54,"shed":3.74,"wing":5.62}[spec[1]]
-	var depth: float = {"hall":5.06,"loft":4.90,"shed":3.22,"wing":4.40,"split":4.42}.get(spec[1],4.38)
+	var width: float = {"porch":5.13,"gable":5.6,"long":8.25,"hewn":6.7,"craft":6.02,"chapel":6.95,"barn":5.7,"stonehouse":4.74,"gallery":5.32,"split":6.08,"loft":4.54,"shed":3.74,"wing":5.62}[spec[1]]
+	var depth: float = {"chapel":5.07,"barn":4.32,"stonehouse":4.67,"gallery":4.42,"loft":4.90,"shed":3.22,"wing":4.40,"split":4.42}.get(spec[1],4.38)
 	var center_x := .63 if spec[1] in ["split","wing"] else 0.0
 	var foundation := S.box(slot,Vector3(center_x,-.61,0),Vector3(width*.92,1.34,depth*.94),"807264")
 	coat_mesh(foundation)
 	S.box(slot,Vector3(center_x,1.62,0),Vector3(width,3.24,depth),"FFFFFF",true).hide()
-	var front_offsets := {"porch":-.66,"gable":.82,"long":-1.16,"craft":-1.01,"split":.46,"loft":-.85,"shed":-.59,"wing":-.59}
+	var front_offsets := {"porch":-.66,"gable":.82,"long":-1.16,"craft":-1.01,"split":.46,"loft":-.85,"shed":-.59,"wing":-.59,"barn":.62,"stonehouse":.72,"gallery":-.91}
 	var entry := slot.to_global(Vector3(front_offsets.get(spec[1],0.0),0,depth*.5 + 1.28))
 	var door := Vector2(entry.x,entry.z)
 	var nearest := nearest_lane(door)
@@ -66,26 +71,43 @@ func building(spec: Array) -> void:
 		if distance < 1.60:
 			continue
 		var planter := A.place(self,"nature","flower_purpleB" if side<0 else "flower_yellowA",at(garden),0.36,slot.rotation.y)
-		A.place(self,"quaternius","Rock_Moss_1",at(garden+Vector2(.27,.34)),.37)
+		BOTANY.place_stone(self,at(garden+Vector2(.27,.34)),.48,float(side))
 		planter.name = "DoorGarden"
 	var post := slot.to_global(Vector3(width*.37,0,3.05))
 	lantern(at(Vector2(post.x,post.z)),false)
 
-func coat(visual: Node3D) -> void:
+func coat(visual: Node3D, old_cottage := false) -> void:
 	for child in visual.find_children("*","MeshInstance3D",true,false):
-		coat_mesh(child as MeshInstance3D)
+		coat_mesh(child as MeshInstance3D,old_cottage)
 
-func coat_mesh(mesh: MeshInstance3D) -> void:
+func coat_mesh(mesh: MeshInstance3D, old_cottage := false) -> void:
 	for i in range(mesh.mesh.get_surface_count()):
 		var source := mesh.get_active_material(i) as StandardMaterial3D
-		if source==null or source.emission_enabled:
+		if source == null:
+			continue
+		var label := source.resource_name.to_lower()
+		if source.emission_enabled:
+			if label.contains("glass"):
+				var glass_key := "glass:"+str(source.albedo_color)
+				if not palettes.has(glass_key):
+					var glass := source.duplicate() as StandardMaterial3D
+					glass.emission_energy_multiplier = .32
+					glass.albedo_color = glass.albedo_color.lerp(Color("A69870"),.45)
+					palettes[glass_key] = glass
+				mesh.set_surface_override_material(i,palettes[glass_key])
 			continue
 		var rgb := source.albedo_color
-		var key := str(rgb)
+		if old_cottage:
+			if label.contains("limewash"):
+				rgb = rgb.lerp(Color("B4A58E"),.62)
+			elif label.contains("oak") or label.contains("clay") or label.contains("slate"):
+				rgb = rgb.darkened(.24)
+		var key := "%s/%s" % [rgb,old_cottage]
 		if not palettes.has(key):
 			var mat := ShaderMaterial.new()
 			mat.shader = SURFACE
 			mat.set_shader_parameter("base_tint",rgb)
+			mat.set_shader_parameter("age",.87 if old_cottage else .56)
 			palettes[key] = mat
 		mesh.set_surface_override_material(i,palettes[key])
 
@@ -145,6 +167,7 @@ func route(points: Array, half_width: float) -> void:
 		route_material=ShaderMaterial.new()
 		route_material.shader=preload("res://shaders/forest_path.gdshader")
 	route_material.set_shader_parameter("continuous_trail",true)
+	route_material.set_shader_parameter("potholes",L.road_potholes())
 	street.material_override=route_material
 	add_child(street)
 
@@ -179,7 +202,7 @@ func build_shared_spaces() -> void:
 	route([PLAN.CRAFT+Vector2(-1.5,0),PLAN.CRAFT+Vector2(2.0,.2)],1.85)
 	for dx in [-2.9,2.5]:
 		var table := A.place(common,"fantasy-town","stall-bench",at(PLAN.COMMON+Vector2(dx,0.3)),.82,1.48)
-		coat(table)
+		A.recolor(table,"836C52")
 	A.place(common,"fantasy-town","cart",at(PLAN.CRAFT+Vector2(-.16,1.48)),1.10,.72)
 	A.place(common,"nature","log_stack",at(PLAN.CRAFT+Vector2(1.07,-1.4)),.76,1.61)
 	for p in [Vector2(-10.6,122.4),Vector2(14.8,128.8),Vector2(2.0,128.8),Vector2(9.3,143.8)]:
@@ -187,15 +210,15 @@ func build_shared_spaces() -> void:
 
 func build_greenery() -> void:
 	var tree_plan := [
-		["BirchTree_2",-10.1,103.4,10.0],["MapleTree_3",-10.7,110.7,8.0],
+		["BirchTree_2",-10.1,103.4,10.0],["BirchTree_1",-12.4,107.5,7.5],
 		["BirchTree_4",21.7,106.3,8.4],["NormalTree_1",2.1,119.9,11.3],
 		["MapleTree_2",-2.4,123.8,8.6],["NormalTree_5",9.25,124.5,6.2],
 		["PineTree_2",26.4,113.9,12.6],["BirchTree_3",-20.2,122.4,9.8],
-		["MapleTree_5",9.8,135.8,8.4],["PineTree_4",27.0,136.8,12.1],
+		["NormalTree_4",9.8,135.8,8.4],["PineTree_4",27.0,136.8,12.1],
 		["NormalTree_3",-4.1,143.8,10.4],["BirchTree_1",11.1,142.7,8.6],
 		["NormalTree_4",12.1,168.1,11.3],["PineTree_5",-11.2,169.2,11.8],
 		["PineTree_1",-18.2,168.1,13.0],["BirchTree_5",18.1,171.2,9.7],
-		["NormalTree_2",26.4,154.8,11.0],["MapleTree_1",-9.8,155.2,9.0],
+		["NormalTree_2",26.4,154.8,11.0],["BirchTree_2",-9.8,155.2,9.0],
 	]
 	for item in tree_plan:
 		var p := Vector2(item[1],item[2])
@@ -256,12 +279,12 @@ func build_verges() -> void:
 	rng.seed = 20319
 	for band in range(4):
 		var locations: Array[Vector3] = []
-		for cluster in range(16):
+		for cluster in range(8):
 			var z := 103.0+17.0*band+rng.randf()*16.4
 			var side := -1.0 if cluster%2==0 else 1.0
-			var center := Vector2(L.valley_path(z)+side*rng.randf_range(2.75,6.4),z)
+			var center := Vector2(L.valley_path(z)+side*rng.randf_range(2.85,4.4),z)
 			for sample in range(27):
-				var p := center+Vector2(rng.randfn(0,.74),rng.randfn(0,1.15))
+				var p := center+Vector2(rng.randfn(0,.36),rng.randfn(0,.92))
 				if p.distance_to(nearest_lane(p)) < 2.32 or p.distance_to(PLAN.COMMON) < 3.7:
 					continue
 				var on_lot := false
@@ -271,7 +294,7 @@ func build_verges() -> void:
 						break
 				if not on_lot:
 					locations.append(at(p))
-		var patch := BOTANY.grass_batch(self,locations,31613+band,52.0)
+		var patch := BOTANY.grass_batch(self,locations,31613+band,52.0,.20)
 		patch.name = "PathVerge%d" % (band+1)
 		verge_meshes.append(patch)
 
@@ -282,7 +305,8 @@ func set_season(index: int) -> void:
 		patch.visible = index != 3
 	for i in seasonal.size():
 		seasonal[i].visible=i==index
-	for mat: ShaderMaterial in palettes.values():
-		mat.set_shader_parameter("snow",.91 if index==3 else 0.0)
+	for mat in palettes.values():
+		if mat is ShaderMaterial:
+			mat.set_shader_parameter("snow",.91 if index==3 else 0.0)
 	if route_material!=null:
 		route_material.set_shader_parameter("village_snow",.96 if index==3 else 0.0)

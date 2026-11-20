@@ -1,6 +1,7 @@
 extends RefCounted
 ## Catalogued Quaternius meshes. GLB surface names identify the source texture and deciduous foliage.
 const DIR := "res://assets/vegetation/trees/"
+const DEFAULT_SEASON := 1
 const FAMILIES := ["BirchTree", "MapleTree", "NormalTree", "PineTree"]
 static var materials: Dictionary = {}
 static var scenes: Dictionary = {}
@@ -42,7 +43,7 @@ static func apply_season(tree: Node3D, season: int) -> void:
 		var name_key := source.resource_name
 		var leaves := name_key.ends_with("_Leaves")
 		var pine := name_key.begins_with("PineTree")
-		mesh.visible = not (leaves and not pine and season==3)
+		mesh.visible = not ((leaves and not pine or name_key=="Flowers") and season==3)
 		var key := "%s/%d" % [name_key,season if leaves else 2]
 		if not materials.has(key):
 			var material := StandardMaterial3D.new()
@@ -63,20 +64,45 @@ static func apply_season(tree: Node3D, season: int) -> void:
 		mesh.material_override = materials[key]
 
 static func tint(name_key: String, season: int) -> Color:
+	if name_key == "Bush_Leaves":
+		return Color("69785A") if season==0 else Color("688155")
 	if name_key.begins_with("PineTree"):
-		return Color("B4C1B3") if season==3 else Color("759C69")
+		return [Color("71805F"), Color("7DA267"), Color("567E57"), Color("819385")][season]
 	if season == 1:
-		return Color("B8D46C")
+		return Color("AAC878")
 	if season == 0:
-		if name_key.begins_with("MapleTree"):
-			return Color("E97547")
-		if name_key.begins_with("BirchTree"):
-			return Color("F4CC66")
-		return Color("CFB15E")
-	return Color("8BB85F") if name_key.begins_with("BirchTree") else Color("76A558")
+		return Color("AD6848") if name_key.begins_with("MapleTree") else Color("C3A458")
+	return Color("718E57")
 
-static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, distance: float) -> MultiMeshInstance3D:
-	var grass := instance("Grass_Large_Extruded",.29)
+static func place_stone(parent: Node3D, spot: Vector3, size: float, yaw: float, ridge: bool = false) -> Node3D:
+	var packed := preload("res://assets/village_a/split_boulder.glb") if ridge else preload("res://assets/village_a/layered_ledge.glb")
+	var rock := packed.instantiate() as Node3D
+	var bounds := FieldAssets.bounds(rock)
+	var factor := size/maxf(bounds.size.x,bounds.size.z)
+	var base := Node3D.new()
+	parent.add_child(base)
+	base.position = spot
+	base.rotation.y = yaw
+	base.add_child(rock)
+	rock.scale *= factor
+	rock.position = -Vector3(bounds.get_center().x,bounds.position.y + bounds.size.y*.19,bounds.get_center().z)*factor
+	for child in rock.find_children("*","MeshInstance3D",true,false):
+		var model := child as MeshInstance3D
+		for i in model.mesh.get_surface_count():
+			var previous := model.mesh.surface_get_material(i) as StandardMaterial3D
+			if previous == null:
+				continue
+			var key := "stone:"+previous.resource_name
+			if not materials.has(key):
+				var shader := ShaderMaterial.new()
+				shader.shader = preload("res://shaders/a1_rock_surface.gdshader")
+				shader.set_shader_parameter("stone_tint",previous.albedo_color.lerp(Color("79766C"),.34))
+				materials[key] = shader
+			model.set_surface_override_material(i,materials[key])
+	return base
+
+static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, distance: float, height: float = .29) -> MultiMeshInstance3D:
+	var grass := instance("Grass_Large_Extruded",height)
 	var visual := grass.find_children("*","MeshInstance3D",true,false)[0] as MeshInstance3D
 	var blade := visual.mesh.duplicate() as ArrayMesh
 	var pose := visual.get_parent_node_3d().transform*visual.transform
@@ -93,7 +119,7 @@ static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, di
 	instances.mesh = blade
 	instances.instance_count = positions.size()
 	for i in positions.size():
-		var scale_factor := rng.randf_range(.62,1.58)
+		var scale_factor := rng.randf_range(.70,1.25)
 		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3.ONE*scale_factor)
 		instances.set_instance_transform(i,Transform3D(basis,positions[i])*pose)
 		instances.set_instance_color(i,Color("A5AD78").lerp(Color("D1CC9D"),rng.randf()))
@@ -127,7 +153,7 @@ static func place_tree(parent: Node3D, id: String, position: Vector3, height: fl
 		child.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# Initial draw is near until a current camera is available.
 	proxy.hide()
-	season_tree(root,0)
+	season_tree(root,DEFAULT_SEASON)
 	return root
 
 static func season_tree(root: Node3D, season: int) -> void:

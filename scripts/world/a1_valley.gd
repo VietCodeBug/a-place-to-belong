@@ -26,15 +26,17 @@ func _ready() -> void:
 	build_distant_foothills()
 	build_river()
 	build_bridge()
+	build_house_grove()
 	build_groves()
 	var village := VILLAGE.new()
 	village.name = "VillageA"
 	add_child(village)
+	village.coat(get_parent().get_node("ForestHouseA"),true)
 	build_overlook()
 	build_reveal()
 	build_understory()
 	detail_slices()
-	set_season_palette(0)
+	set_season_palette(BOTANY.DEFAULT_SEASON)
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--a1-season="):
 			var season := ["autumn", "spring", "summer", "winter"].find(argument.get_slice("=", 1))
@@ -116,6 +118,8 @@ func build_distant_foothills() -> void:
 	foothills.mesh = mesh.commit()
 	var shade := StandardMaterial3D.new()
 	shade.vertex_color_use_as_albedo = true
+	shade.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	shade.disable_fog = true
 	shade.roughness = 1.0
 	foothills.material_override = shade
 	foothills.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -195,42 +199,48 @@ func build_bridge() -> void:
 			var next_y := bridge_top(z+.8) - .30
 			S.beam(bridge, Vector3(x,y,z), Vector3(x,next_y,z+0.81), 0.28, "795738")
 
+func build_house_grove() -> void:
+	# Three groups frame the private clearing and leave the front path open.
+	for entry in [["BirchTree_2",7.3,8.5,9.8],["BirchTree_5",8.8,7.1,7.3],
+		["NormalTree_3",17.3,9.9,9.7],["PineTree_1",18.3,15.6,13.4],
+		["PineTree_2",20.1,18.6,11.6],["PineTree_5",17.2,19.6,9.4],
+		["NormalTree_4",11.5,20.7,8.5],["BirchTree_3",9.7,21.5,7.4]]:
+		habitat_trees.append(BOTANY.place_tree(self,entry[0],ground(entry[1],entry[2]),entry[3],entry[1]))
+	for entry in [[7.1,11.6,1.28],[7.7,11.15,.67],[13.1,19.4,1.82],[14.1,19.65,.96],[16.9,11.5,1.28]]:
+		BOTANY.place_stone(self,ground(entry[0],entry[1]),entry[2],entry[0],entry[2]>1.5)
+
 func build_groves() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 19841
-	for i in range(190):
-		var z := rng.randf_range(26, 183)
-		var x := rng.randf_range(-39, 39)
-		var near_water := absf(z - L.river_center(x)) < 8.4
-		var path_gap := absf(x - L.valley_path(z))
-		if near_water or L.in_overlook_view(x, z) or path_gap < 4.8 or (z > 102 and z < 167 and x > -20 and x < 26):
-			continue
-		if z > 55 and z < 95 and absf(x) < 11:
-			continue
-		var at := ground(x, z)
-		var height := rng.randf_range(5.7, 13.0)
-		var yaw := rng.randf_range(0,TAU)
-		var rim := absf(x) > 16.0
-		var family: String = ["PineTree","BirchTree","NormalTree","MapleTree"][i%4]
-		if rim and i%3!=0:
-			family = "PineTree"
-		var tree := BOTANY.place_tree(self,"%s_%d" % [family,1+i%5],at,height,yaw)
-		habitat_trees.append(tree)
-		S.box(self, at + Vector3.UP * 1.5, Vector3(0.8, 3, 0.8), "FFFFFF", true).hide()
-	for i in range(132):
-		var z := rng.randf_range(29, 103)
-		var x := L.valley_path(z) + rng.randf_range(3.0, 12.0) * (-1.0 if i % 2 == 0 else 1.0)
-		if absf(z - L.river_center(x)) < 6.2:
-			continue
-		var at := ground(x, z)
-		if i % 5 == 0:
-			facet(self, at + Vector3.UP * 0.27, Vector3(1.04, 0.74, 0.90), "81877B")
-		else:
-			facet(self, at + Vector3.UP * 0.17, Vector3(0.53, 0.42, 0.50), ["708650", "8B9E5B", "5B794B"][i % 3])
-			if i % 3 == 0:
-				for petal in range(3):
-					facet(self, at + Vector3(0.14 * petal - 0.13, 0.39, sin(petal) * 0.18),
-						Vector3(0.13, 0.09, 0.13), ["E8B66A", "E2D4B2", "B69BC5"][i % 3])
+	# Height and species follow groves anchored to shoulders of the valley and its woodland edge.
+	var stands := [
+		[Vector2(-21,32),"PineTree",10.0], [Vector2(14,35),"BirchTree",9.3],
+		[Vector2(-16,46),"NormalTree",9.0], [Vector2(16,51),"PineTree",11.1],
+		[Vector2(-30,64),"BirchTree",9.0], [Vector2(25,67),"BirchTree",8.5],
+		[Vector2(-25,87),"PineTree",11.6], [Vector2(23,85),"NormalTree",9.8],
+		[Vector2(-29,105),"PineTree",10.7], [Vector2(29,103),"PineTree",11.4],
+		[Vector2(-25,130),"BirchTree",9.2], [Vector2(29,130),"NormalTree",9.7],
+		[Vector2(-27,153),"PineTree",11.4], [Vector2(30,153),"PineTree",11.2],
+		[Vector2(-18,172),"PineTree",10.4], [Vector2(21,173),"PineTree",11.2],
+	]
+	var planted: Array[Vector2] = []
+	for stand in stands:
+		var center: Vector2 = stand[0]
+		for i in range(11):
+			var p := center + Vector2(rng.randfn(0,4.7),rng.randfn(0,4.8))
+			if absf(p.x)>38.0 or p.y<27 or p.y>183 or absf(p.x-L.valley_path(p.y))<5.2:
+				continue
+			if absf(p.y-L.river_center(p.x))<8.4 or L.in_overlook_view(p.x,p.y):
+				continue
+			if p.y>100 and p.y<167 and p.x>-22 and p.x<25:
+				continue
+			if planted.any(func(other:Vector2) -> bool: return p.distance_squared_to(other) < 8.5):
+				continue
+			planted.append(p)
+			var at := ground(p.x,p.y)
+			var height: float = stand[2]+rng.randf_range(-2.6,1.6)
+			habitat_trees.append(BOTANY.place_tree(self,"%s_%d" % [stand[1],1+i%5],at,height,rng.randf()*TAU))
+			S.box(self,at+Vector3.UP*1.5,Vector3(.72,3,.72),"FFFFFF",true).hide()
 
 func build_overlook() -> void:
 	var lookout := ground(-22.5, 50.0)
@@ -331,58 +341,33 @@ func _process(delta: float) -> void:
 		bird.get_child(2).rotation.z = -bird.get_child(1).rotation.z
 
 func detail_slices() -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 92714
-	var anchors := [Vector2(-22,50),Vector2(-13,52),Vector2(-27,57),Vector2(-31,50),
-		Vector2(-10,63),Vector2(-23,66),Vector2(12,61),Vector2(11,84),Vector2(-10,102),
-		Vector2(13,105),Vector2(0,112),Vector2(12,115),Vector2(4,124),Vector2(18,121)]
-	for cluster in anchors.size():
-		var center: Vector2 = anchors[cluster]
-		for i in range(13):
-			var p := center + Vector2(rng.randf_range(-4,4),rng.randf_range(-3,3))
-			if absf(p.x-L.valley_path(p.y)) < 2.35:
-				continue
-			var at := ground(p.x,p.y)
-			if i % 6 == 0:
-				A.place(self,"quaternius","Rock_Moss_1",at,rng.randf_range(0.27,0.83),rng.randf_range(0,TAU))
-			elif i % 4 == 0:
-				A.place(self,"nature", ["flower_purpleB","flower_yellowA","flower_redC"][cluster%3],at,0.35+i*0.013,i)
-			else:
-				A.place(self,"nature","grass_leafs" if i%3==0 else "grass_large",at,rng.randf_range(0.21,0.50),i)
-	for i in range(8):
-		var x := -30.0 + 3.3 * i
-		var z := 53.5 + 5.2 * sin(i*2.0)
-		if L.in_overlook_view(x, z):
-			continue
-		var code := "BirchTree_3" if i%3==0 else "PineTree_%d" % (1+i%5)
-		habitat_trees.append(BOTANY.place_tree(self,code,ground(x,z),7.5+float(i%4)*1.75,i))
-	for side in [-1, 1]:
-		for i in range(13):
-			var x := -25.0 + i * 3.85
-			if absf(x) < 3.2:
-				continue
-			var at := ground(x,L.river_center(x)+side*(5.7+0.42*sin(i*2.01)))
-			A.place(self,"nature","rock_smallC",at,0.34+0.38*absf(sin(i)),i,"warm_stone")
-			A.place(self,"nature","grass_leafs",at+Vector3(0.53,0,0.17),0.49,i)
+	for group in [[-23.5,49.5,2.9],[-13.2,55.8,1.4],[-17.4,62.1,2.1],[11.5,59.2,2.7],
+		[-12.5,83.8,2.65],[11.0,85.0,1.95],[-9.7,98.4,2.2],[14.2,93.6,2.1],
+		[-18.8,119.9,2.7],[20.7,143.0,2.1]]:
+		var p := Vector2(group[0],group[1])
+		var width: float = group[2]
+		BOTANY.place_stone(self,ground(p.x,p.y),width,p.x,true)
+		BOTANY.place_stone(self,ground(p.x+width*.66,p.y+.21),width*.54,p.x+.61)
+		BOTANY.place_stone(self,ground(p.x-width*.37,p.y-.64),width*.35,p.x-.45)
 
 func build_understory() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 88157
 	for patch_z in [34.0,44.0,56.0,89.0]:
 		var tufts: Array[Vector3] = []
-		for cluster in range(11):
+		for cluster in range(6):
 			var bank := -1.0 if cluster%2==0 else 1.0
 			var z: float = patch_z + rng.randf_range(-4.2,4.2)
-			var x := L.valley_path(z) + bank * rng.randf_range(2.7,8.9)
+			var x := L.valley_path(z) + bank * rng.randf_range(3.0,5.7)
 			for sample in range(24):
-				var p := Vector2(x+rng.randfn(0,.90),z+rng.randfn(0,1.22))
+				var p := Vector2(x+rng.randfn(0,.40),z+rng.randfn(0,.91))
 				if absf(p.x-L.valley_path(p.y)) < 2.48:
 					continue
 				tufts.append(ground(p.x,p.y))
 			if cluster%2==0:
 				var shrub := "Bush_Large" if cluster%4==0 else "Flower_4_Clump"
 				habitat_floor.append(BOTANY.place(self,shrub,ground(x,z),.58 if cluster%4==0 else .37,cluster*1.9))
-		var layer := BOTANY.grass_batch(self,tufts,int(patch_z)+1309,38.0)
+		var layer := BOTANY.grass_batch(self,tufts,int(patch_z)+1309,38.0,.22)
 		layer.name = "ForestUnderstory%d" % int(patch_z)
 		habitat_floor.append(layer)
 
@@ -401,6 +386,8 @@ func set_season_palette(season: int) -> void:
 	if woodland != null:
 		for tree in woodland.seasonal_trees:
 			BOTANY.season_tree(tree,season)
+		for shrub in woodland.seasonal_shrubs:
+			BOTANY.apply_season(shrub,season)
 	get_node("VillageA").set_season(season)
 
 func build_reveal() -> void:

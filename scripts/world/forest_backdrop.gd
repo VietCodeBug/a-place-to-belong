@@ -21,6 +21,10 @@ func build_ring(ring_name: String, radius: float, segments: int, base_y: float, 
 		var a0 := float(i) / float(segments) * TAU
 		var a1 := float(i + 1) / float(segments) * TAU
 		var am := (a0 + a1) * 0.5
+		# The real A1 valley and its distant peaks fill the southern sector.
+		# The legacy enclosing ridge would slice across its playable terrain.
+		if sin(am) > .43:
+			continue
 		var h0 := ridge_profile(a0, peak_scale, phase)
 		var h1 := ridge_profile(a1, peak_scale, phase)
 		var hm := (h0 + h1) * 0.5 + ridge_detail(am * 3.0 + phase) * peak_scale * 0.008

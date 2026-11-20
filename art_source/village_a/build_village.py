@@ -1,4 +1,4 @@
-"""Build the editable Village A exterior kit and export its five Godot GLBs."""
+"""Build the editable Village A exterior kit and export its Godot GLBs."""
 import math
 import random
 from pathlib import Path
@@ -227,7 +227,7 @@ def chimney(x,y,z):
         block("Chimney masonry",(x,y,z+i*.17),(.66,.60,.164),STONE[i%3],.018)
     block("Chimney cap",(x,y,z+1.36),(.83,.77,.15),STONE[2],.033)
 
-for kind in ["porch","gable","long","craft","hall","split","loft","shed","wing"]:
+for kind in ["porch","gable","long","craft","hall","split","loft","shed","wing","chapel","barn","stonehouse","gallery"]:
     before=set(bpy.context.scene.objects)
     if kind=="porch":
         y=shell(5.15,4.20,2.71,4.69,-.17,TILE,PLASTER[0],-.66)
@@ -268,6 +268,41 @@ for kind in ["porch","gable","long","craft","hall","split","loft","shed","wing"]
         shell(2.60,4.15,2.62,3.96,-.21,TILE,PLASTER[2],0,2.08,.91,False)
         porch(-.6,y,2.71,2.30,SAGE)
         chimney(1.17,.64,3.18)
+    elif kind=="chapel":
+        y=shell(6.95,5.07,3.84,6.35,0,SAGE,PLASTER[1],0,door_visible=False)
+        arch=[(-.84,.33),(.84,.33),(.84,2.13)]
+        arch.extend((.84*math.cos(math.pi*i/12),2.13+.68*math.sin(math.pi*i/12)) for i in range(1,13))
+        extrude("Chapel stone portal",arch,y-.16,.19,STONE[2],.044)
+        door=[(x*.81,.39+(z-.33)*.88) for x,z in arch]
+        extrude("Weathered oak chapel door",door,y-.37,.035,WOOD[0],.022)
+        for x in [-2.45,2.45]:
+            pane("Tall nave window",x,y-.115,2.53,.60,1.32,False)
+        shell(2.15,2.37,6.72,9.02,0,TILE,PLASTER[2],0,1.77,.32,False)
+        block("Bell chamber dark inset",(1.77,-.94,5.92),(.67,.10,.88),WOOD[0],.045)
+        timber("Cross vertical",(1.77,.34,8.98),(1.77,.34,9.90),.105,.09,IRON[0])
+        timber("Cross arm",(1.45,.34,9.60),(2.09,.34,9.60),.095,.09,IRON[0])
+        for i in range(3):
+            block("Wide chapel step",(0,y-.43-i*.22,.28-i*.10),(2.25+i*.17,.45,.14),STONE[i],.035)
+    elif kind=="barn":
+        y=shell(5.7,4.32,2.82,4.56,-.90,TILE,PLASTER[2],.75,door_visible=False)
+        for x in [-2.18,-1.63,-1.08,-.53,.02,.57,1.12,1.67,2.22]:
+            timber("Endwall cladding",(x,y-.09,.42),(x,y-.09,2.70),.49,.065,WOOD[1])
+        porch(.62,y,3.64,2.28,SAGE)
+        extrude("Wide barn gates",[(-.59,.34),(1.66,.34),(1.66,2.19),(-.59,2.19)],y-.14,.13,WOOD[0])
+    elif kind=="stonehouse":
+        y=shell(4.74,4.67,3.30,5.04,.69,SAGE,PLASTER[1],.72)
+        for j in range(4):
+            stone_course("Old fieldstone plinth",-2.34,2.34,y-.087,.55+j*.21,8-j%2,.19)
+        pane("Deep upper window",-1.04,y-.118,2.72,.96,.71)
+        chimney(-1.28,.78,3.50)
+    elif kind=="gallery":
+        y=shell(5.32,4.42,3.53,5.75,-.31,TILE,PLASTER[0],-.91)
+        porch(.05,y,5.50,2.39,SAGE)
+        block("Upper gallery deck",(.40,y-.71,3.20),(3.55,1.19,.19),WOOD[0],.035)
+        for x in [-1.29,-.83,-.37,.09,.55,1.01,1.47,1.93]:
+            timber("Gallery railing upright",(x,y-1.29,3.29),(x,y-1.29,3.93),.075,.09)
+        timber("Gallery railing cap",(-1.35,y-1.29,3.95),(2.04,y-1.29,3.95),.13,.10)
+        pane("Gallery upper window",.92,y-.10,3.95,.74,.82)
     else:
         y=shell(7.51,5.19,4.08,6.28,-.11,SAGE,PLASTER[0],0)
         shell(2.16,2.25,6.09,7.41,0,TILE,PLASTER[2],0,0,.31,False)

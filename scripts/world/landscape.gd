@@ -8,6 +8,12 @@ const STEP := 2.0
 const VALLEY_END := 186
 const VALLEY_HALF_WIDTH := 40
 const BRIDGE_Z := 74.0
+# x, z, visible width radius and visible length radius. Positions align with terrain samples.
+const POTHOLES := [Vector4(4,16,.82,.69),Vector4(4,104,.77,.94),
+	Vector4(6,122,.72,1.05),Vector4(6,136,.86,.83),Vector4(4,150,.81,1.10)]
+
+static func road_potholes() -> PackedVector4Array:
+	return PackedVector4Array(POTHOLES)
 
 static func in_overlook_view(x: float, z: float) -> bool:
 	return z >= 48.0 and z < 95.0 and absf(x - (-22.5 + (z - 50.0) * 0.44)) < 8.2
@@ -51,6 +57,9 @@ static func sculpt(x: float,z: float) -> float:
 		reveal += 2.1*exp(-Vector2(x-10.4,z-92.5).length_squared()/44.0)
 		var river := 4.0 * (1.0 - smoothstep(3.4, 7.8, absf(z - river_center(x))))
 		h = lerpf(h, banks + hills + rise + reveal - river, blend)
+	for hollow: Vector4 in POTHOLES:
+		if absf(x-hollow.x) < STEP and absf(z-hollow.y) < STEP:
+			h -= .13*(1.0-smoothstep(0.0,STEP,Vector2(x-hollow.x,z-hollow.y).length()))
 	return h
 
 static func height_at(x: float,z: float) -> float:
@@ -166,6 +175,7 @@ func road() -> void:
 	var dirt := ShaderMaterial.new()
 	dirt.shader = preload("res://shaders/forest_path.gdshader")
 	dirt.set_shader_parameter("continuous_trail",true)
+	dirt.set_shader_parameter("potholes",road_potholes())
 	n.material_override = dirt
 	n.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(n)
