@@ -110,12 +110,18 @@ func build_player() -> void:
 	hitbox.position.y = 0.845
 	player.add_child(hitbox)
 	camera = EYES.new()
-	player.add_child(camera)
 	camera.yaw = BED_YAW - PI
 	camera.pitch = -0.27
+	# A newly attached camera can become current as soon as the office exits.
+	# Seed its eye transform before it enters the tree to cover that first frame.
+	camera.position = BED_ROOT - player.position + Vector3(0.0, EYES.SEATED_HEIGHT, -0.048)
+	camera.sync_input()
+	player.add_child(camera)
 	camera.head_bob = get_tree().get_meta(MAPS.HEAD_BOB, true)
 	camera.sensitivity = get_tree().get_meta(MAPS.LOOK_SENSITIVITY, 1.0)
 	update_acting(0.0, Vector3.ZERO)
+	player.force_update_transform()
+	camera.force_update_transform()
 	camera.make_current()
 
 func _physics_process(delta: float) -> void:
