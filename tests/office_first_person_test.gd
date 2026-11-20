@@ -239,6 +239,25 @@ func run() -> void:
 	check(not office.mail.visible and not office.read_mail, "Skipping the cinematic must not open or read mail.")
 	office.deliver_email()
 	check(office.mail.inbox_row.get_parent().visible and office.mail.unread_dot.visible, "The desk monitor shows an unread message.")
+	var q := InputEventKey.new()
+	q.keycode = KEY_Q
+	q.physical_keycode = KEY_Q
+	q.pressed = true
+	office._unhandled_input(q)
+	check(office.phone.visible, "Q opens the interactive phone overlay.")
+	office.phone.application_button.pressed.emit()
+	check(office.phone.application_text.visible and not office.phone.calendar_text.visible, "The phone switches between schedule and applications.")
+	var phone_case := office.phone.get_node("PhoneCase") as Control
+	check(phone_case.get_global_rect().end.x < root.get_visible_rect().size.x * 0.5, "The entire phone stays on the left.")
+	var before_phone_walk: Vector3 = office.player.position
+	Input.action_press("office_back")
+	await tick(10)
+	Input.action_release("office_back")
+	check(office.player.position.distance_to(before_phone_walk) < 0.025, "The open phone locks player movement.")
+	office.interact()
+	check(not office.read_mail and not office.mail.visible, "The phone and work mail cannot open together.")
+	office._unhandled_input(q)
+	check(not office.phone.visible, "Q closes the phone and restores office controls.")
 	office.interact()
 	check(office.read_mail and office.mail.visible and not office.mail.unread_dot.visible, "Opening the message should update its inbox state.")
 	await tick(38)
@@ -320,14 +339,62 @@ func run() -> void:
 	check(not apartment.camera.head_bob and is_equal_approx(apartment.camera.sensitivity, 1.45), "First-person settings follow the player to the apartment.")
 	var alarm: Label3D = apartment.alarm_display
 	var desk_screen: Label3D = apartment.laptop
-	apartment.examine()
-	check(not apartment.alarm_ringing, "The player can silence the alarm.")
+	await tick(2)
+	var walker: CharacterBody3D = apartment.player
+	var from_door := Transform3D(Basis.IDENTITY, Vector3(1.90, 0.025, 1.58))
+	var along_bed := Transform3D(Basis.IDENTITY, Vector3(-0.25, 0.025, 1.58))
+	check(not walker.test_move(from_door, Vector3(-2.15, 0, 0))
+		and not walker.test_move(along_bed, Vector3(0, 0, -2.55)), "The entry and the path between the furniture stay clear.")
+	var into_bathroom := Transform3D(Basis.IDENTITY, Vector3(1.93, 0.025, 1.24))
+	check(not walker.test_move(into_bathroom, Vector3(1.42, 0, 0)), "The bathroom doorway is wide enough to walk through.")
+	var wet_room_aisle := Transform3D(Basis.IDENTITY, Vector3(3.32, 0.025, 1.0))
+	var kitchen_approach := Transform3D(Basis.IDENTITY, Vector3(1.06, 0.025, -0.94))
+	check(not walker.test_move(wet_room_aisle, Vector3(0.67, 0, 0))
+		and not walker.test_move(kitchen_approach, Vector3(0.72, 0, 0)), "The shower and washing-up counter have unobstructed approaches.")
+	var fixtures: Node3D = apartment.fixtures
+	check(fixtures.has_node("Toilet") and fixtures.has_node("ShowerTray")
+		and fixtures.has_node("WashingUpCounter") and fixtures.has_node("KitchenBin"), "The apartment has a separate wet room and washing-up area.")
+	var bedside := walker.position
+	walker.position = Vector3(-0.25, 0.02, -0.97)
+	check(apartment.nearby_object() == "desk", "The laptop can be reached from the working side of the desk.")
+	walker.position = bedside
+	check(not apartment.clutter.second_day.visible and not apartment.clutter.later_days.visible
+		and not fixtures.dishes.visible, "Day one opens with a clean table, floor and sink.")
+	check(not fixtures.bathroom_mess.visible and not apartment.bedside_mess.visible
+		and fixtures.changing_finishes[0].get_shader_parameter("wear") == 0.0,
+		"Day one has a tidy bedside and clean bathroom finishes.")
+	apartment._unhandled_input(q)
+	check(apartment.phone.visible and apartment.phone.alarm_button.visible, "The apartment phone can silence the actual alarm.")
+	apartment.phone.alarm_button.pressed.emit()
+	check(not apartment.alarm_ringing and not apartment.phone.alarm_button.visible, "The alarm action updates the room and the screen.")
+	apartment.advance()
+	check(not apartment.transitioning, "The phone blocks the apartment montage shortcut.")
+	apartment._unhandled_input(escape)
+	check(not apartment.phone.visible and current_scene == apartment, "Esc closes the phone before leaving the apartment.")
 	apartment.advance()
 	await tick(90)
 	check(apartment.stage == 1 and not apartment.laptop.text.is_empty(), "Continuing shows the application phase in the same room.")
+	check(apartment.clutter.second_day.visible and apartment.clutter.flies[0].visible
+		and fixtures.dishes.visible and not apartment.clutter.later_days.visible, "The noodles, first flies and used dishes appear on day two.")
+	check(fixtures.bathroom_mess.visible and not fixtures.later_dishes.visible
+		and apartment.bedside_mess.visible and apartment.duvet.mesh == apartment.bedding[1],
+		"Day two adds damp patches, bedside clutter and rumpled bedding.")
+	var bowl := apartment.clutter.second_day.get_node("UnfinishedMeal/HalfEatenNoodles") as Node3D
+	var table: Node3D = apartment.clutter.eating_surface
+	var on_surface := table.to_local(bowl.global_position)
+	check(absf(on_surface.y) < 0.012 and absf(on_surface.x) < 0.40 and absf(on_surface.z) < 0.20,
+		"The unfinished noodles follow the relocated table and remain on its surface.")
+	var fly_position: Vector3 = apartment.clutter.flies[0].position
+	await tick(12)
+	check(apartment.clutter.flies[0].position.distance_to(fly_position) > 0.003, "The flies move around the food.")
 	apartment.advance()
 	await tick(90)
 	check(apartment.stage == 2 and apartment.laptop.text.is_empty(), "The last phase shows the disabled alarm and sleeping laptop.")
+	check(apartment.clutter.later_days.visible and apartment.clutter.flies[6].visible, "The later phase adds clutter and more flies.")
+	check(fixtures.later_dishes.visible and fixtures.bathroom_late.visible
+		and not fixtures.towel_on_rack.visible and apartment.duvet.mesh == apartment.bedding[2]
+		and fixtures.changing_finishes[0].get_shader_parameter("wear") >= 0.99,
+		"Later days add more cookware, deep bathroom wear and a towel on the floor.")
 	check(alarm == apartment.alarm_display and desk_screen == apartment.laptop, "PRO-003 reuses the room and its key props.")
 	apartment.advance()
 	await tick(90)

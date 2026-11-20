@@ -11,10 +11,10 @@ Map 01 mở tại bàn làm việc của A. Sau khi đọc và đóng email Nhâ
 
 ## P1
 
-- **Mở cảnh.** Khoảng tám giây góc nhìn thứ nhất, từ gõ phím đến liếc ra cửa sổ, xem điện thoại, nhận thư rồi đứng dậy. Esc bỏ qua đoạn dẫn và thư vẫn chưa được đọc.
+- **Mở cảnh.** Khoảng tám giây góc nhìn thứ nhất, từ gõ phím đến liếc ra cửa sổ, ngừng gõ, nhận thư rồi đứng dậy. Esc bỏ qua đoạn dẫn và thư vẫn chưa được đọc.
 - **Thời tiết và âm thanh.** Mưa nằm ngoài kính. Kính có vệt nước và thành phố có các lớp sương. Sấm chớp giãn nhịp và dời thời điểm khi người chơi đang đọc. Âm nền có máy in, điều hòa, ghế, bàn phím, chuột và tiếng trò chuyện không lời. Âm báo thư phát một lần.
 - **Khuôn mặt.** Dùng các xương hàm, môi và phần mắt có trên từng rig. Các giá trị môi đóng, mở, tròn và kéo ngang lấy nhịp từ cử chỉ cho bản thử. Chưa đối chiếu với thoại thu âm. Các rig đồng nghiệp có ít điều khiển mặt hơn rig A.
-- **Căn hộ.** Dùng một căn phòng qua ba nhịp tắt báo thức, tìm việc và báo thức hết hẹn. Bàn, giường, đồng hồ và cửa sổ ở cùng chỗ. Tương tác tùy chọn bằng E, Enter đi tiếp. Bản thử kết khi nhân vật ngồi xuống giường, ngay trước PRO-004. Bố cục căn hộ thuộc bản thử mỹ thuật.
+- **Căn hộ.** Dùng một căn phòng qua ba nhịp tắt báo thức, tìm việc và báo thức hết hẹn. Bàn, giường, đồng hồ và cửa sổ ở cùng chỗ. Ngày đầu còn gọn. Từ ngày thứ hai, rèm khép dần và tô mì ăn dở, vết bẩn, lon rỗng, quần áo rơi cùng ruồi quanh thức ăn xuất hiện. Bàn làm việc nằm dưới cửa sổ, bàn ăn dựa tường cạnh tủ bếp có bồn rửa bát và thùng rác. Phòng tắm và WC có cửa riêng ở gần lối vào. Bát đĩa, nước ngâm, cặn thức ăn, vết bám trên gạch và kính, khăn ẩm và đồ cạnh giường xuất hiện dần theo từng giai đoạn. Tương tác tùy chọn bằng E, Enter đi tiếp. Q mở giao diện điện thoại bên trái trong văn phòng và căn hộ để xem lịch, hồ sơ hoặc tắt báo thức. Bản thử kết khi nhân vật ngồi xuống giường, ngay trước PRO-004. Bố cục căn hộ thuộc bản thử mỹ thuật.
 
 ## Kiểm thử và tư liệu
 

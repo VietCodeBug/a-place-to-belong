@@ -2,6 +2,7 @@ extends Node3D
 ## The office rig uses planted foot targets and two-bone IK. Distances are metres.
 @export var model: PackedScene
 @export var seated_hip_drop := 0.32
+const PERFORMANCE = preload("res://scripts/story/character_performance.gd")
 const MIXAMO_BONES := {
 	"Hips": "Hips", "Chest": "Spine2", "Head": "Head",
 	"ThighL": "LeftUpLeg", "ThighR": "RightUpLeg",
@@ -12,6 +13,7 @@ const MIXAMO_BONES := {
 const SIDES := ["L", "R"]
 const RELAXED_FINGER_CURL := Vector3(0.24, 0.37, 0.18)
 const TYPING_DIGITS := ["Index", "Middle", "Ring"]
+const SWING_KNEE_LIMIT := 1.44
 const KEY_ROWS := 3
 const HOME_COLUMNS := [4, 7]
 const STROKE_PATTERN := [Vector2i(0, 1), Vector2i(1, 1), Vector2i(0, 0), Vector2i(2, 1),
@@ -34,6 +36,7 @@ var relaxed_palms := {}
 var palm_directions := {}
 var relaxed_thumbs := {}
 var finger_joints := {}
+var finger_indices := {"L": [], "R": []}
 var conversation_joints := {}
 var fingertip_markers := {}
 var keyboard_targets: Array[Vector3] = []
@@ -59,17 +62,26 @@ var typing := 0.0
 var desk_rest := 0.0
 var looking_out := 0.0
 var sigh := 0.0
-var phone_amount := 0.0
 var thinking := 0.0
 var reach := 0.0
-var phone: MeshInstance3D
 var mouse_prop: Node3D
 var mouse_use := 0.0
 var drink_prop: Node3D
 var drink_rest: Transform3D
+var drink_home: Transform3D
 var drink_amount := 0.0
+var drink_in_hand := false
+const MUG_HANDLE := Vector3(0.074, 0.043, 0.001)
 var face_joints: Dictionary = {}
+var face_shapes: Dictionary = {}
+var performance := PERFORMANCE.new()
 var visemes := Vector4.ZERO
+var external_visemes := false
+var hand_contacts: Dictionary = {}
+var seated_foot_reach := 0.36
+var posture_drop := 0.0
+var posture_lean := 0.0
+var lap_rest := 0.0
 
 var feet: Array[Vector3] = []
 var foot_start: Array[Vector3] = [Vector3.ZERO, Vector3.ZERO]
@@ -78,6 +90,11 @@ var swing_progress := PackedFloat32Array([-1.0, -1.0])
 var swing_duration := PackedFloat32Array([0.0, 0.0])
 var swing_height := PackedFloat32Array([0.0, 0.0])
 var gait_phase := 0.0
+var stride_speed := 0.0
+var steps_started := 0
+var planted_yaw := PackedFloat32Array([0.0, 0.0])
+var swing_from_yaw := PackedFloat32Array([0.0, 0.0])
+var swing_to_yaw := PackedFloat32Array([0.0, 0.0])
 var walking_mix := 0.0
 var previous_root := Vector3.INF
 
@@ -139,6 +156,7 @@ func _ready() -> void:
 		bones["Jaw"] = jaw
 	for part in [
 		"LeftEye", "RightEye", "LeftUpperEyelid", "RightUpperEyelid",
+		"LeftLowerEyelid", "RightLowerEyelid",
 		"LeftBrow", "RightBrow", "LeftCheek", "RightCheek",
 		"LeftLipCorner", "RightLipCorner", "LeftMouthCorner", "RightMouthCorner",
 		"LowerLip", "UpperLip", "LowerLipCenter", "UpperLipCenter",
@@ -146,20 +164,14 @@ func _ready() -> void:
 		var joint := find_rig_bone(part)
 		if joint >= 0:
 			face_joints[part] = joint
+	performance.seed_clock(hash(str(name) + ":" + str(position) + ":" + model.resource_path))
 	first_person_head = visual.find_child("OfficeHead", true, false) as MeshInstance3D
 	for node in visual.find_children("*", "MeshInstance3D", true, false):
 		var node_mesh := node as MeshInstance3D
 		if node_mesh.mesh.get_blend_shape_count() > 0:
 			face_meshes.append(node_mesh)
-	phone = MeshInstance3D.new()
-	var casing := BoxMesh.new()
-	casing.size = Vector3(0.065, 0.12, 0.012)
-	var material := StandardMaterial3D.new()
-	material.albedo_color = Color("4e5f55")
-	casing.material = material
-	phone.mesh = casing
-	add_child(phone)
-	phone.hide()
+			for index in node_mesh.mesh.get_blend_shape_count():
+				face_shapes[String(node_mesh.mesh.get_blend_shape_name(index))] = true
 
 func find_rig_bone(name: String) -> int:
 	var index := skeleton.find_bone(name)
@@ -191,6 +203,7 @@ func store_finger(side: String, name: String, palm_frame: Basis, digit: int) -> 
 			# Close the outward fan in the palm plane and keep each knuckle in place.
 			var local_parallel := (rest_pose.basis.inverse() * direction.slide(palm_frame.x)).normalized()
 			gather = Quaternion(local_direction, local_parallel)
+		finger_indices[side].append(index)
 		finger_joints[index] = [side, axis, section, toward_palm, digit]
 		conversation_joints[index] = [palm_axis, gather]
 
@@ -207,14 +220,21 @@ func store_relaxed_thumb(side: String, body_side: String, palm_forward: Vector3)
 	relaxed_thumbs[side] = [base, toward_palm]
 
 func pose_fingers(rest_curl := 0.25, close_spread := 0.0) -> void:
-	for index in finger_joints:
+	for side in SIDES:
+		pose_hand_fingers(side, rest_curl, close_spread)
+
+func pose_hand_fingers(side: String, rest_curl: float, close_spread: float, replace := false) -> void:
+	var hand := 0 if side == "L" else 1
+	for index in finger_indices[side]:
 		var joint: Array = finger_joints[index]
-		var hand := 0 if joint[0] == "L" else 1
 		var tap_curl := 0.30 if active_digits[hand] == joint[4] else 0.12
 		var curl := lerpf(rest_curl, lerpf(0.12, tap_curl, key_pressure[hand]), keyboard_weight)
 		curl *= 0.65 if joint[2] == 3 else 1.0
 		var relax := Quaternion.IDENTITY.slerp(joint[3], close_spread) * Quaternion(joint[1], curl)
-		skeleton.set_bone_pose_rotation(index, skeleton.get_bone_pose_rotation(index) * relax)
+		var base := skeleton.get_bone_pose_rotation(index)
+		if replace:
+			base = skeleton.get_bone_rest(index).basis.get_rotation_quaternion()
+		skeleton.set_bone_pose_rotation(index, base * relax)
 
 func pose_relaxed_arms(speaking := 0.0) -> void:
 	for side in SIDES:
@@ -268,14 +288,18 @@ func pose_conversation_hands(speaking: float) -> void:
 func pose_standing_coworker(delta: float, speaking := 0.0, listening := 0.0) -> void:
 	clock += delta
 	skeleton.reset_bone_poses()
+	advance_performance(delta)
 	var syllable := pow(maxf(0.0, sin(clock * 19.0 + 0.80 * sin(clock * 6.2))), 1.55)
 	var nod := listening * pow(maxf(0.0, sin(clock * 2.6)), 5.0) * 0.073
 	rotate_bone("Chest", Vector3(sin(clock * 1.45) * 0.012 + speaking * 0.04, 0.0, sin(clock * 0.8) * 0.024))
-	rotate_bone("Head", Vector3(sin(clock * 0.9) * 0.025 + nod - syllable * speaking * 0.035,
-		sin(clock * 0.68) * 0.045, sin(clock * 2.1) * speaking * 0.045))
+	apply_head(Vector3(sin(clock * 0.9) * 0.025 + nod - syllable * speaking * 0.035,
+		sin(clock * 0.68) * 0.027, sin(clock * 2.1) * speaking * 0.045))
 	var shape := clock * 4.6
-	visemes = Vector4(0.0, syllable, sin(shape) * 0.5 + 0.5, listening * 0.24) * speaking
+	if not external_visemes:
+		visemes = Vector4(0.05, syllable, sin(shape + sin(clock * 1.7)) * 0.35 + 0.36,
+			(0.5 + 0.5 * sin(clock * 7.1)) * 0.42) * speaking
 	pose_face()
+	update_face()
 	pose_relaxed_arms(speaking)
 	pose_conversation_hands(speaking)
 
@@ -295,7 +319,7 @@ func bind_keyboard(keyboard: Node3D) -> void:
 
 func update_keystrokes() -> void:
 	keyboard_weight = smoothstep(0.10, 0.76, typing) * smoothstep(0.66, 1.0, seated)
-	keyboard_weight *= (1.0 - desk_rest) * (1.0 - maxf(maxf(mouse_use, drink_amount), maxf(phone_amount, maxf(thinking, reach))))
+	keyboard_weight *= (1.0 - desk_rest) * (1.0 - maxf(maxf(mouse_use, drink_amount), maxf(thinking, reach)))
 	for i in range(2):
 		if active_keys[i] >= 0:
 			key_caps[active_keys[i]].position.y = key_rest_height
@@ -349,10 +373,49 @@ func reset_steps() -> void:
 	feet.clear()
 	swing_progress = PackedFloat32Array([-1.0, -1.0])
 	gait_phase = 0.0
+	stride_speed = 0.0
+	steps_started = 0
 
-func set_expression(name: String, amount := 1.0) -> void:
+func set_expression(name: String, amount := 1.0, blend := 0.35) -> void:
 	face_expression = name
 	expression_amount = clampf(amount, 0.0, 1.0)
+	performance.set_face(name, expression_amount, blend)
+
+func play_expression(name: String, amount := 1.0, hold := 0.65, blend := 0.24) -> void:
+	performance.emote(name, clampf(amount, 0.0, 1.0), hold, blend)
+
+func set_viseme_weights(weights: Vector4) -> void:
+	external_visemes = true
+	visemes = weights.clamp(Vector4.ZERO, Vector4.ONE)
+
+func clear_viseme_override() -> void:
+	external_visemes = false
+	visemes = Vector4.ZERO
+
+func set_attention(target: Vector3 = Vector3.INF) -> void:
+	performance.look_at_world(target)
+
+func advance_performance(delta: float) -> void:
+	var head := skeleton.get_bone_global_pose(bones["Head"])
+	performance.tick(delta, skeleton, head.origin + Vector3(0.0, 0.065, 0.07),
+		Vector2(typing * 0.075 + sigh * 0.075, looking_out * 0.45))
+
+func apply_head(extra: Vector3) -> void:
+	rotate_bone("Head", extra + Vector3(performance.head.x, performance.head.y, 0.0))
+
+func bind_drink(prop: Node3D) -> void:
+	drink_prop = prop
+	drink_home = prop.transform
+	drink_rest = prop.global_transform
+
+func set_hand_contact(side: String, target: Marker3D, weight: float, digit := 0, curl := 0.25) -> void:
+	if target == null or weight <= 0.0:
+		hand_contacts.erase(side)
+	else:
+		hand_contacts[side] = [weakref(target), clampf(weight, 0.0, 1.0), digit, curl]
+
+func clear_hand_contacts() -> void:
+	hand_contacts.clear()
 
 func resync(delta: float, planar_velocity: Vector3) -> void:
 	clock += delta
@@ -372,7 +435,7 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 		step(delta, planar_velocity, stance)
 	skeleton.reset_bone_poses()
 	var hips: Transform3D = rest["Hips"]
-	var drop := 0.025 + clampf(speed / 3.1, 0.0, 1.0) * 0.105
+	var drop := 0.025 + clampf(speed / 3.1, 0.0, 1.0) * 0.067
 	if feet.size() == 2 and seated < 0.03:
 		for i in range(2):
 			if swing_progress[i] >= 0.0:
@@ -387,49 +450,80 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 			var horizontal := Vector2(delta_foot.x, delta_foot.z).length()
 			var vertical := sqrt(maxf(0.0, reach * reach - horizontal * horizontal))
 			drop = maxf(drop, clampf(-delta_foot.y - vertical, 0.0, 0.21))
-	hips.origin.y -= seated * seated_hip_drop + drop
+	hips.origin.y -= seated * seated_hip_drop + drop + posture_drop
 	hips.origin.z -= seated * 0.03
-	var breath := sin(clock * 1.8) * 0.011
+	var breath := (sin(clock * 1.68) + 0.22 * sin(clock * 0.77)) * 0.006
+	var weight_shift := sin(clock * 0.63) * 0.011 * (1.0 - maxf(walking_mix, seated))
+	hips.origin.x += weight_shift
+	hips.basis = Basis(Vector3.UP, sin(gait_phase * TAU) * 0.065 * walking_mix) * hips.basis
 	hips.origin.y += breath * (1.0 - walking_mix)
 	skeleton.set_bone_global_pose(bones["Hips"], hips)
-	rotate_bone("Chest", Vector3(0.045 + seated * 0.12 + sigh * 0.16, looking_out * 0.18, 0.0))
-	rotate_bone("Head", Vector3(0.10 * typing + 0.22 * phone_amount + 0.10 * sigh + (0.10 * expression_amount if face_expression in ["Tired", "Sad"] else 0.0), looking_out * 0.43, thinking * 0.10))
+	rotate_bone("Chest", Vector3(0.045 + seated * 0.12 + sigh * 0.16 - breath * 2.1 + posture_lean, looking_out * 0.18 - sin(gait_phase * TAU) * 0.084 * walking_mix, weight_shift * 1.15))
+	advance_performance(delta)
+	apply_head(Vector3(0.05 * sigh - minf(0.0, performance.face.y) * 0.17, 0.0, thinking * 0.10))
 	update_keystrokes()
-	pose_fingers()
+	pose_fingers(0.25 + sin(clock * 0.82) * 0.035 * (1.0 - keyboard_weight))
+	if is_instance_valid(drink_prop):
+		var cup_parent := drink_prop.get_parent() as Node3D
+		drink_rest = cup_parent.global_transform * drink_home
+	var cup_pose := drink_rest
+	var cup_wrist := Vector3.ZERO
+	var cup_carry := 0.0
+	drink_in_hand = false
 	for i in range(2):
 		var side: String = SIDES[i]
 		var sign_x := 1.0 if i == 0 else -1.0
 		var foot: Vector3 = stance[i]
+		var shoe := Basis.IDENTITY
 		if feet.size() == 2 and seated < 0.03:
 			foot = skeleton.to_local(feet[i])
+			shoe = Basis(Vector3.UP, angle_difference(skeleton.global_rotation.y, planted_yaw[i]))
+			if swing_progress[i] >= 0.0:
+				var joint := skeleton.get_bone_global_pose(bones["Thigh" + side]).origin
+				var thigh_length: float = rest["Thigh" + side].origin.distance_to(rest["Shin" + side].origin)
+				var shin_length: float = rest["Shin" + side].origin.distance_to(rest["Foot" + side].origin)
+				var minimum_reach := thigh_length * thigh_length + shin_length * shin_length + 2.0 * thigh_length * shin_length * cos(SWING_KNEE_LIMIT)
+				var horizontal := Vector2(foot.x - joint.x, foot.z - joint.z).length_squared()
+				foot.y = minf(foot.y, joint.y - sqrt(maxf(0.0, minimum_reach - horizontal)))
 		else:
-			foot.z += seated * 0.36
-		solve_chain("Thigh" + side, "Shin" + side, "Foot" + side, foot, Vector3.BACK, Basis.IDENTITY)
+			foot.z += seated * seated_foot_reach
+		solve_chain("Thigh" + side, "Shin" + side, "Foot" + side, foot, Vector3.BACK, shoe)
 
 		var hand := Vector3(sign_x * 0.211, 0.87 + breath, 0.065)
 		if first_person_body:
 			hand = Vector3(sign_x * 0.231, 0.79 + breath, 0.014)
-		hand.z += walking_mix * (0.094 if first_person_body else 0.135) * sin(clock * 7.0 + float(i) * PI)
+		hand.z += walking_mix * (0.094 if first_person_body else 0.135) * sin(gait_phase * TAU + float(i) * PI)
 		var at_keyboard := Vector3(sign_x * 0.113, 0.865 + sin(clock * 15.0 + float(i) * 2.0) * 0.009 * typing, 0.46)
 		var rest_at_desk := Vector3(sign_x * 0.17, 0.59, 0.25) if i == 0 else Vector3(sign_x * 0.20, 0.868, 0.42)
+		rest_at_desk = rest_at_desk.lerp(Vector3(sign_x * 0.13, 0.57, 0.29), lap_rest)
 		hand = hand.lerp(at_keyboard.lerp(rest_at_desk, desk_rest), seated)
-		var palm_amount := seated * (1.0 - desk_rest * (0.80 if i == 0 else 0.11))
+		var palm_amount := seated * (1.0 - desk_rest * lerpf(0.80 if i == 0 else 0.11, 0.42, lap_rest))
 		if i == 0:
-			hand = hand.lerp(Vector3(0.18, 1.29 - seated * 0.30, 0.40), phone_amount)
 			hand = hand.lerp(Vector3(0.13, 1.35 - seated * 0.30, 0.18), thinking * 0.72 * seated)
 			hand = hand.lerp(Vector3(0.23, 1.02, 0.43), reach)
-			palm_amount = maxf(palm_amount, phone_amount * 0.42)
 		var relaxed: Basis = relaxed_palms[side]
 		var palm := relaxed.slerp(keyboard_palms[side], palm_amount)
 		if i == 1 and mouse_prop != null and mouse_use > 0.0 and fingertip_markers.has("R0"):
 			var mouse_tip := mouse_prop.to_global(Vector3(-0.011, 0.029, -0.004))
 			hand = hand.lerp(wrist_for_tip(side, 0, mouse_tip, palm), mouse_use)
-		if i == 0 and drink_prop != null and drink_amount > 0.0:
-			var grip := skeleton.to_local(drink_rest.origin) + Vector3(0.010, 0.042, -0.028)
-			var lift := smoothstep(0.38, 0.96, drink_amount)
-			var mouth := skeleton.get_bone_global_pose(bones["Head"]).origin + Vector3(0.035, -0.035, 0.102)
-			hand = hand.lerp(grip.lerp(mouth, lift), smoothstep(0.0, 0.50, drink_amount))
-			palm = palm.slerp(keyboard_palms[side] * Basis(Vector3.FORWARD, -0.74), drink_amount)
+		if i == 0 and is_instance_valid(drink_prop) and drink_amount > 0.0 and fingertip_markers.has("L0"):
+			var reach_cup := smoothstep(0.0, 0.34, drink_amount)
+			cup_carry = smoothstep(0.38, 0.97, drink_amount)
+			var close_hand := smoothstep(0.14, 0.38, drink_amount)
+			var mouth := skeleton.get_bone_global_pose(bones["Head"]).origin + Vector3(-0.022, 0.035, 0.172)
+			var sip_pose := drink_rest
+			sip_pose.basis = skeleton.global_basis * Basis(Vector3.RIGHT, -0.34) * skeleton.global_basis.inverse() * drink_rest.basis
+			sip_pose.origin = skeleton.to_global(mouth) - sip_pose.basis * Vector3(0.0, 0.084, -0.021)
+			cup_pose = drink_rest.interpolate_with(sip_pose, cup_carry)
+			var grip_palm: Basis = Basis(Vector3.UP, -0.19) * Basis(Vector3.BACK, -0.47) * keyboard_palms[side]
+			palm = palm.slerp(grip_palm, reach_cup)
+			pose_hand_fingers(side, lerpf(0.25, 0.68, close_hand), close_hand * 0.52, true)
+			if relaxed_thumbs.has(side):
+				var thumb: Array = relaxed_thumbs[side]
+				var thumb_rest := skeleton.get_bone_rest(thumb[0]).basis.get_rotation_quaternion()
+				skeleton.set_bone_pose_rotation(thumb[0], thumb_rest * Quaternion.IDENTITY.slerp(thumb[1], close_hand * 0.78))
+			cup_wrist = wrist_for_tip(side, 0, cup_pose * MUG_HANDLE, palm)
+			hand = hand.lerp(cup_wrist, reach_cup)
 		if active_keys[i] >= 0 and fingertip_markers.has(side + str(active_digits[i])):
 			var home: int = HOME_COLUMNS[i] * KEY_ROWS + 1
 			var neutral := wrist_for_tip(side, 0, key_face(home) + Vector3.UP * 0.018, palm)
@@ -438,29 +532,44 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 			hand = hand.lerp(neutral.lerp(stroke, key_travel[i]), keyboard_weight)
 		elif keyboard_targets.size() == 2 and fingertip_markers.has(side + "0") and (i != 0 or drink_amount <= 0.0):
 			hand = wrist_for_tip(side, 0, keyboard_targets[i], palm)
+		if hand_contacts.has(side):
+			var contact: Array = hand_contacts[side]
+			var marker := (contact[0] as WeakRef).get_ref() as Marker3D
+			if is_instance_valid(marker) and marker.is_inside_tree():
+				var contact_weight: float = contact[1]
+				var contact_palm := (skeleton.global_basis.inverse() * marker.global_basis).orthonormalized()
+				palm = palm.slerp(contact_palm * keyboard_palms[side], contact_weight)
+				pose_hand_fingers(side, lerpf(0.25, contact[3], contact_weight), 0.25, true)
+				var contact_point := skeleton.to_local(marker.global_position)
+				if contact[2] >= 0 and fingertip_markers.has(side + str(contact[2])):
+					contact_point = wrist_for_tip(side, contact[2], marker.global_position, palm)
+				hand = hand.lerp(contact_point, contact_weight)
 		solve_chain("Arm" + side, "Forearm" + side, "Hand" + side, hand, Vector3(sign_x * 0.65, -1.0, -0.27), palm)
 		if active_keys[i] >= 0:
 			clear_adjacent_keys(side, active_digits[i])
-	var wrist := skeleton.get_bone_global_pose(bones["HandL"])
-	if drink_prop != null:
-		var hold := smoothstep(0.38, 0.72, drink_amount)
-		var carried := skeleton.to_global(wrist.origin + Vector3(-0.010, -0.042, 0.028))
-		drink_prop.global_position = drink_rest.origin.lerp(carried, hold)
-		drink_prop.global_basis = Basis(Vector3.RIGHT, -hold * 0.35) * drink_rest.basis
-	phone.visible = phone_amount > 0.4
-	phone.position = wrist.origin + Vector3(-0.02, -0.04, 0.058)
-	phone.rotation.x = -0.38
+	if is_instance_valid(drink_prop):
+		if cup_carry > 0.0:
+			var wrist := skeleton.get_bone_global_pose(bones["HandL"])
+			var error := skeleton.global_basis * (wrist.origin - cup_wrist)
+			# Preserve handle contact when the arm's calibrated reach clamps the lift.
+			cup_pose.origin += error * smoothstep(0.0, 0.16, cup_carry)
+			drink_in_hand = (error.length() < 0.037 or cup_carry > 0.16)
+		drink_prop.global_transform = cup_pose
 	pose_face()
 	update_face()
 
 func step(delta: float, motion: Vector3, stance: Array) -> void:
+	var facing := skeleton.global_rotation.y
 	if feet.is_empty():
-		for foot in stance:
-			feet.append(skeleton.to_global(foot))
+		for i in range(2):
+			feet.append(skeleton.to_global(stance[i]))
+			planted_yaw[i] = facing
 	var speed := motion.length()
-	var jog := clampf((speed - 1.5) / 1.55, 0.0, 1.0)
-	var cycle := lerpf(0.80, 0.53, jog)
-	var support := lerpf(0.56, 0.46, jog)
+	var direction := motion.normalized()
+	stride_speed = move_toward(stride_speed, speed, delta * (7.0 if speed > stride_speed else 10.0))
+	var jog := smoothstep(1.5, 3.05, stride_speed)
+	var cycle := lerpf(0.82, 0.54, jog)
+	var support := lerpf(0.58, 0.49, jog)
 	var moving := speed > 0.11
 	if moving:
 		gait_phase = fposmod(gait_phase + delta / cycle, 1.0)
@@ -468,25 +577,49 @@ func step(delta: float, motion: Vector3, stance: Array) -> void:
 		var home := skeleton.to_global(stance[i])
 		var phase := fposmod(gait_phase + i * 0.5, 1.0)
 		var gap := Vector2(feet[i].x - home.x, feet[i].z - home.z).length()
+		var yaw_gap := absf(angle_difference(planted_yaw[i], facing))
 		if swing_progress[i] < 0.0:
-			var lagging := (home - feet[i]).dot(motion.normalized()) > 0.34
-			var lift := moving and (lagging or (phase >= support and gap > 0.095))
-			var settle := not moving and gap > 0.072 and swing_progress[1 - i] < 0.0
+			var trailing := (home - feet[i]).dot(direction)
+			var other_trailing := (skeleton.to_global(stance[1 - i]) - feet[1 - i]).dot(direction)
+			var other_swing := swing_progress[1 - i]
+			var free_to_lift := other_swing < 0.0 or (jog > 0.65 and other_swing > 0.73)
+			# Only the trailing foot may leave support. The lead foot can have a
+			# large gap after striking and must not immediately swing again.
+			var first_step := steps_started == 0
+			var threshold := 0.065 if first_step else lerpf(0.13, 0.20, jog) + (0.04 if phase < support else 0.0)
+			var lift := moving and free_to_lift and trailing >= threshold and trailing >= other_trailing - 0.025
+			var settle := not moving and (gap > 0.065 or yaw_gap > 0.30) and other_swing < 0.0
 			if not lift and not settle:
 				continue
 			foot_start[i] = feet[i]
-			swing_duration[i] = cycle * (1.0 - support) if moving else 0.24
-			var lead := swing_duration[i] + support * cycle * 0.49
-			foot_goal[i] = home + motion * lead
-			swing_height[i] = lerpf(0.062, 0.14, jog) if moving else 0.038
+			swing_from_yaw[i] = planted_yaw[i]
+			swing_to_yaw[i] = facing
+			swing_duration[i] = lerpf(0.29, 0.232, jog) if moving and not first_step else 0.23
+			steps_started += int(lift)
+			foot_goal[i] = step_landing(i, home, motion, swing_duration[i], support * cycle * 0.44)
+			swing_height[i] = lerpf(0.058, 0.098, jog) if moving else 0.035
 			swing_progress[i] = 0.0
 		swing_progress[i] = minf(1.0, swing_progress[i] + delta / swing_duration[i])
-		var phase_lift := swing_progress[i]
-		feet[i] = foot_start[i].lerp(foot_goal[i], smoothstep(0.0, 1.0, phase_lift))
-		feet[i].y += sin(phase_lift * PI) * swing_height[i]
-		if phase_lift >= 1.0:
+		var swing := swing_progress[i]
+		var eased := smoothstep(0.0, 1.0, swing)
+		# Track a changing root forecast early in the swing, then commit to contact.
+		if swing < 0.72:
+			var time_to_land := (1.0 - swing) * swing_duration[i]
+			var landing := step_landing(i, home, motion, time_to_land, support * cycle * 0.44)
+			foot_goal[i] = foot_goal[i].lerp(landing, 1.0 - exp(-12.0 * delta))
+		feet[i] = foot_start[i].lerp(foot_goal[i], eased)
+		feet[i].y += sin(swing * PI) * swing_height[i]
+		planted_yaw[i] = lerp_angle(swing_from_yaw[i], swing_to_yaw[i], eased)
+		if swing >= 1.0:
 			feet[i] = foot_goal[i]
 			swing_progress[i] = -1.0
+
+func step_landing(side: int, home: Vector3, motion: Vector3, travel_time: float, contact_lead: float) -> Vector3:
+	var basis_local := skeleton.global_basis
+	var local_motion := basis_local.inverse() * motion
+	var lead := (local_motion * contact_lead).limit_length(0.38)
+	lead.x = maxf(lead.x, -0.096) if side == 0 else minf(lead.x, 0.096)
+	return home + motion * travel_time + basis_local * lead
 
 func rotate_bone(name: String, angles: Vector3) -> void:
 	var index: int = bones[name]
@@ -505,7 +638,11 @@ func solve_chain(first: String, second: String, end: String, target: Vector3, po
 	if axis.length_squared() < 0.01:
 		axis = Vector3.DOWN
 	var distance := clampf(root.distance_to(target), absf(upper_len - lower_len) + 0.001, upper_len + lower_len - 0.002)
-	var bend := (pole - axis * axis.dot(pole)).normalized()
+	var bend := pole.slide(axis)
+	if bend.length_squared() < 0.00001:
+		var fallback := Vector3.RIGHT if absf(axis.x) < 0.8 else Vector3.FORWARD
+		bend = fallback.slide(axis)
+	bend = bend.normalized()
 	var projection := (upper_len * upper_len - lower_len * lower_len + distance * distance) / (2.0 * distance)
 	var mid := root + axis * projection + bend * sqrt(maxf(0.0, upper_len * upper_len - projection * projection))
 	var tip := root + axis * distance
@@ -516,32 +653,32 @@ func solve_chain(first: String, second: String, end: String, target: Vector3, po
 	skeleton.set_bone_global_pose(bones[end], Transform3D(end_rotation * c.basis, tip))
 
 func pose_face() -> void:
-	# Four weights represent closed, open, round and wide. They are driven by
-	# gesture timing until recorded dialogue is available.
-	var opening := clampf(visemes.y - visemes.x * 0.8, 0.0, 1.0)
+	# Shape ownership is exclusive if a future import provides expression shapes.
+	var expression := Vector4.ZERO if face_shapes.has(face_expression) else performance.face
+	var blink := 0.0 if face_shapes.has("Blink") else performance.blink
+	var opening := clampf(visemes.y - visemes.x * 0.80 + expression.w, 0.0, 1.0)
+	var rich_face := face_joints.has("LeftEye")
+	var roundness := visemes.z
+	var width := visemes.w - roundness * 0.72
 	if bones.has("Jaw"):
-		rotate_bone("Jaw", Vector3((opening + visemes.z * 0.25) * 0.046, 0.0, 0.0))
-	var blink := maxf(0.0, 1.0 - absf(fposmod(clock + 0.7, 4.3) - 4.05) / 0.085)
-	var brow := 0.0
-	var smile := 0.0
-	match face_expression:
-		"Surprised": brow = 0.84
-		"Concerned", "Thinking": brow = 0.42
-		"Sad", "Tired": brow = -0.41
-		"Happy": smile = 0.88
-	var gaze := sin(clock * 0.47) * 0.025 + looking_out * 0.08
+		rotate_bone("Jaw", Vector3((opening + roundness * 0.15) * (0.17 if rich_face else 0.061), 0.0, 0.0))
 	for side in ["Left", "Right"]:
 		var lateral := 1.0 if side == "Left" else -1.0
-		adjust_face_bone(side + "Eye", Vector3.ZERO, Vector3(0, gaze, 0))
-		adjust_face_bone(side + "UpperEyelid", Vector3(0, -0.006 * blink, 0))
-		adjust_face_bone(side + "Brow", Vector3(0, brow * expression_amount * 0.012, 0))
-		adjust_face_bone(side + "Cheek", Vector3(0, smile * expression_amount * 0.005, 0))
+		var gaze := performance.gaze
+		adjust_face_bone(side + "Eye", Vector3.ZERO, Vector3(gaze.x, gaze.y, 0.0))
+		adjust_face_bone(side + "UpperEyelid", Vector3(0, expression.y * 0.014 - 0.012 * blink, 0))
+		adjust_face_bone(side + "LowerEyelid", Vector3(0, -expression.y * 0.005 + blink * 0.004, 0))
+		var inward := maxf(0.0, -expression.z) * 0.007
+		adjust_face_bone(side + "Brow", Vector3(-inward * lateral, expression.x * (0.020 - inward), 0),
+			Vector3(0, 0, lateral * inward * 7.0))
+		adjust_face_bone(side + "Cheek", Vector3(0, maxf(0.0, expression.z) * 0.009, 0))
 		var corner: String = side + "LipCorner" if face_joints.has(side + "LipCorner") else side + "MouthCorner"
-		adjust_face_bone(corner, Vector3(lateral * (visemes.w * 0.003 - visemes.z * 0.002), smile * expression_amount * 0.006, 0))
+		adjust_face_bone(corner, Vector3(lateral * (width * 0.006 + maxf(0.0, expression.z) * 0.003),
+			expression.z * (0.013 if rich_face else 0.006), roundness * 0.002))
 	var lower := "LowerLipCenter" if face_joints.has("LowerLipCenter") else "LowerLip"
 	var upper := "UpperLipCenter" if face_joints.has("UpperLipCenter") else "UpperLip"
-	adjust_face_bone(lower, Vector3(0, -opening * 0.003, visemes.z * 0.002))
-	adjust_face_bone(upper, Vector3(0, opening * 0.0015, visemes.z * 0.002))
+	adjust_face_bone(lower, Vector3(0, -opening * (0.007 if rich_face else 0.003), roundness * 0.004))
+	adjust_face_bone(upper, Vector3(0, opening * 0.003, roundness * 0.003))
 
 func adjust_face_bone(role: String, shift: Vector3, angles := Vector3.ZERO) -> void:
 	if not face_joints.has(role) or (shift == Vector3.ZERO and angles == Vector3.ZERO):
@@ -553,7 +690,7 @@ func adjust_face_bone(role: String, shift: Vector3, angles := Vector3.ZERO) -> v
 	skeleton.set_bone_global_pose(index, pose)
 
 func update_face() -> void:
-	var blink := maxf(0.0, 1.0 - absf(fposmod(clock + 0.7, 4.3) - 4.05) / 0.085)
+	var blink := performance.blink
 	for visual in face_meshes:
 		for index in range(visual.mesh.get_blend_shape_count()):
 			var name: StringName = visual.mesh.get_blend_shape_name(index)

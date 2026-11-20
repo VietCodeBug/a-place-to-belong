@@ -14,16 +14,16 @@ const TURN_SPEED := 2.25
 
 var player: CharacterBody3D
 var next_stop := 0
+var yield_glance := 0.0
+var was_yielding := false
 var pause_left := 0.56
 var focus := Vector3(-0.33, 0, -4.1)
-var elapsed := 0.0
 
 func _ready() -> void:
 	actor.rotation.y = -PI * 0.5
 	actor.resync(0.0, Vector3.ZERO)
 
 func _physics_process(delta: float) -> void:
-	elapsed += delta
 	pause_left = maxf(0.0, pause_left - delta)
 	var stop: Dictionary = STOPS[next_stop]
 	var target: Vector3 = stop.position
@@ -35,11 +35,15 @@ func _physics_process(delta: float) -> void:
 		next_stop = (next_stop + 1) % STOPS.size()
 	var direction := approach.normalized()
 	var yielding := player_in_the_way(direction)
+	yield_glance = maxf(0.0, yield_glance - delta)
+	if yielding and not was_yielding:
+		yield_glance = 0.92
+	was_yielding = yielding
 	var inspecting := pause_left > 0.0
 	var attention := direction
 	if current_speed > 0.16:
 		attention = planar(velocity).normalized()
-	elif yielding:
+	elif yielding and yield_glance > 0.0:
 		attention = planar(player.global_position - global_position).normalized()
 	elif inspecting:
 		attention = planar(focus - global_position).normalized()
@@ -54,8 +58,13 @@ func _physics_process(delta: float) -> void:
 		speed = minf(WALK_SPEED, braking_speed) * alignment
 	velocity = planar(velocity).move_toward(direction * speed, ACCELERATION * delta)
 	move_and_slide()
-	var scan := sin(elapsed * 1.46) * (0.38 if inspecting else 0.23)
-	actor.looking_out = move_toward(actor.looking_out, scan, delta * 1.4)
+	var look_point := Vector3.INF
+	if inspecting:
+		look_point = focus + Vector3.UP * 1.24
+	elif yielding and yield_glance > 0.0 and is_instance_valid(player):
+		look_point = player.global_position + Vector3.UP * 1.49
+	actor.set_attention(look_point)
+	actor.set_expression("Thinking" if inspecting else "Neutral", 0.38, 0.45)
 	actor.resync(delta, planar(get_real_velocity()))
 
 func planar(value: Vector3) -> Vector3:

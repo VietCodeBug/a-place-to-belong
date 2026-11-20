@@ -28,8 +28,10 @@ const BOSS = preload("res://scenes/story/office_boss.tscn")
 const EYE_CAMERA = preload("res://scripts/story/opening_view.gd")
 const OFFICE_STORM = preload("res://scripts/story/office_storm.gd")
 const OFFICE_PAPERWORK = preload("res://scripts/story/office_paperwork.gd")
+const BEHAVIOR = preload("res://scripts/story/coworker_behavior.gd")
 const OFFICE_WORKDAY = preload("res://scripts/story/office_workday.gd")
 const MAIL = preload("res://scripts/ui/office_mail.gd")
+const PHONE = preload("res://scripts/ui/phone_panel.gd")
 const WORK_DESK := Vector3(-5.34, 0.0, 0.96)
 const EAST_BANK := Vector3(1.64, 0.0, 0.48)
 const DESK_SEAT := WORK_DESK + Vector3(0.0, 0.02, 0.83)
@@ -78,7 +80,15 @@ var desk_chair: Node3D
 var player_keyboard: Node3D
 var player_mouse: Node3D
 var meeting_listener: Node3D
-var phone_requested := false
+var behaviors: Dictionary = {}
+var dialogue_rng := RandomNumberGenerator.new()
+var conversation_elapsed := 0.0
+var conversation_duration := 2.25
+var conversation_person := 0
+var conversation_pause := 0.42
+var conversation_cycle := 0
+var mail_read_settle := 0.0
+var phone: PHONE
 var interaction_gesture := 0.0
 var mouse_clicked := false
 var coworker_at_archives: Node3D
@@ -164,9 +174,12 @@ func build_overlay() -> void:
 	mail.dismissed.connect(close_email)
 	storybook = STORYBOOK.new(self, MAPS.OFFICE)
 	storybook.build_pause()
+	phone = PHONE.new()
+	root_ui.add_child(phone)
+	phone.dismissed.connect(recapture)
 
 func set_pause_menu(open: bool) -> void:
-	if complete or mail.visible:
+	if complete or mail.visible or phone.visible:
 		return
 	in_pause_menu = open
 	storybook.close_page()
@@ -190,7 +203,7 @@ func deliver_email() -> void:
 	mail_indicator.show()
 	notification_time = office_time
 	workday.play_mail_cue()
-	actor.set_expression("Surprised", 0.4)
+	actor.play_expression("Surprised", 0.40, 0.61, 0.27)
 
 func recapture() -> void:
 	if DisplayServer.get_name() != "headless":
@@ -209,18 +222,37 @@ func _process(delta: float) -> void:
 		mail_indicator.scale = Vector3.ONE * lerpf(1.0, 1.25, maxf(0.0, 1.0 - (office_time - notification_time) * 1.8))
 	for index in range(seated_coworkers.size()):
 		update_seated_colleague(seated_coworkers[index], index, delta)
-	var phase := fposmod(office_time + 0.42, 6.8)
-	var printer_first := speaking_turn(phase, 0.0, 2.86)
-	var printer_second := speaking_turn(phase, 3.13, 6.18)
-	standing_coworkers[0].pose_standing_coworker(delta, printer_first, printer_second)
-	standing_coworkers[1].pose_standing_coworker(delta, printer_second, printer_first)
-	var meeting_turn := speaking_turn(fposmod(office_time + 1.42, 6.8), 0.0, 3.34)
-	standing_coworkers[2].pose_standing_coworker(delta, meeting_turn, 1.0 - meeting_turn)
-	meeting_listener.looking_out = move_toward(meeting_listener.looking_out, meeting_turn * 0.85, delta * 1.6)
+	update_pressroom(delta)
 
-func update_seated_colleague(coworker: Node3D, index: int, delta: float) -> void:
-	var duration := 17.0 + float(index % 4) * 1.8
-	var beat := fposmod(office_time + index * 3.91, duration)
+func update_pressroom(delta: float) -> void:
+	conversation_elapsed += delta
+	if conversation_elapsed >= conversation_duration + conversation_pause:
+		conversation_elapsed = 0.0
+		conversation_person = 1 - conversation_person
+		conversation_cycle += 1
+		conversation_duration = dialogue_rng.randf_range(1.6, 3.2)
+		conversation_pause = dialogue_rng.randf_range(0.58, 1.9)
+	var turn := speaking_turn(conversation_elapsed, 0.0, conversation_duration)
+	for i in range(2):
+		var coworker := standing_coworkers[i]
+		var other := standing_coworkers[1 - i]
+		coworker.set_attention(other.global_position + Vector3.UP * 1.52)
+		var speaking := i == conversation_person
+		coworker.set_expression("Subtle Smile" if conversation_cycle % 3 == 1 else "Neutral", 0.40)
+		coworker.pose_standing_coworker(delta, turn if speaking else 0.0, turn if not speaking else 0.0)
+	var meeting_guest := standing_coworkers[2]
+	var meeting_state: BEHAVIOR = behaviors[meeting_listener]
+	var meeting_turn := 0.0
+	if meeting_state.state == "Listening":
+		meeting_turn = speaking_turn(meeting_state.age, 0.24, meeting_state.duration - 0.24) * 0.68
+	meeting_guest.set_attention(meeting_listener.global_position + Vector3.UP * 1.28)
+	meeting_guest.pose_standing_coworker(delta, meeting_turn, 1.0 - meeting_turn)
+
+func update_seated_colleague(coworker: Node3D, _index: int, delta: float) -> void:
+	var behavior: BEHAVIOR = behaviors[coworker]
+	var separation: Vector3 = player.global_position - coworker.global_position
+	var local_player: Vector3 = coworker.to_local(player.global_position)
+	behavior.update(delta, separation.length_squared() < 2.4 and local_player.z > -0.28)
 	var travel := Vector3.ZERO
 	if coworker == coworker_at_archives:
 		var cycle := fposmod(office_time + 2.9, 36.0)
@@ -231,16 +263,35 @@ func update_seated_colleague(coworker: Node3D, index: int, delta: float) -> void
 		coworker.seated = 1.0 - rise
 		coworker.rotation.y = lerp_angle(PI + 0.12, 0.44, smoothstep(17.75, 18.30, cycle) * (1.0 - smoothstep(24.0, 24.65, cycle)))
 		travel = (coworker.position - old) / maxf(delta, 0.0001)
-	if coworker.drink_prop != null:
-		coworker.drink_amount = smoothstep(5.4, 6.22, beat) * (1.0 - smoothstep(7.10, 7.92, beat))
-	if coworker.mouse_prop != null:
-		var use_mouse := smoothstep(7.0, 7.65, beat) * (1.0 - smoothstep(9.05, 9.80, beat))
-		var read := smoothstep(12.1, 12.85, beat) * (1.0 - smoothstep(14.4, 15.15, beat))
-		coworker.mouse_use = use_mouse
-		coworker.desk_rest = read * 0.82
-		coworker.typing = 0.84 * (1.0 - read)
-		coworker.looking_out = sin(beat * 0.33) * 0.32 * read
-		coworker.set_expression("Thinking" if read > 0.5 else "Neutral", read * 0.38)
+	var at_work: bool = coworker.seated >= 0.98
+	var state: String = behavior.state if at_work else "Looking Around"
+	var typing := 0.87 if state == "Typing" else 0.0
+	var hands_off := 0.58 if state in ["Reading", "Thinking", "Short Break", "Looking Around"] else 0.0
+	coworker.typing = move_toward(coworker.typing, typing, delta * 2.5)
+	coworker.mouse_use = move_toward(coworker.mouse_use, 1.0 if state == "Mouse" else 0.0, delta * 2.2)
+	coworker.desk_rest = move_toward(coworker.desk_rest, hands_off, delta * 2.1)
+	coworker.thinking = move_toward(coworker.thinking, 0.38 if state == "Thinking" else 0.0, delta * 1.4)
+	coworker.sigh = move_toward(coworker.sigh, 0.36 if state == "Short Break" else 0.0, delta * 0.8)
+	coworker.drink_amount = behavior.drink_progress()
+	var target := Vector3.INF
+	var expression := "Neutral"
+	if behavior.glance > 0.0:
+		target = player.global_position + Vector3.UP * 1.45
+		expression = "Subtle Smile" if behavior.profile == 1 else "Neutral"
+	elif state == "Drinking" and behavior.age < behavior.duration * 0.26:
+		target = coworker.drink_rest.origin
+	elif state == "Listening" and coworker == meeting_listener:
+		target = to_global(Vector3(5.40, 1.25, -4.62))
+		expression = "Subtle Smile"
+	elif state in ["Reading", "Thinking", "Short Break"]:
+		target = coworker.to_global(Vector3(0.19, 0.94, 0.86))
+		expression = "Tired" if behavior.profile == 2 else "Thinking"
+	elif state == "Looking Around":
+		target = coworker.to_global(Vector3(0.64, 1.43, 1.40))
+	elif coworker.mouse_prop != null:
+		target = coworker.to_global(Vector3(0.0, 1.27, 0.96))
+	coworker.set_attention(target)
+	coworker.set_expression(expression, 0.54, 0.42)
 	coworker.resync(delta, travel)
 
 func speaking_turn(phase: float, begins: float, ends: float) -> float:
@@ -254,11 +305,10 @@ func _physics_process(delta: float) -> void:
 		actor.resync(delta, Vector3.ZERO)
 		return
 	var wants_move := Vector2.ZERO
-	if not mail.visible and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or DisplayServer.get_name() == "headless"):
+	if not mail.visible and not phone.visible and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or DisplayServer.get_name() == "headless"):
 		wants_move = Input.get_vector("office_left", "office_right", "office_forward", "office_back")
 	if wants_move.length_squared() > 0.0:
 		seat_requested = false
-		phone_requested = false
 	var previous_seated: float = actor.seated
 	actor.seated = move_toward(actor.seated, 1.0 if seat_requested else 0.0, delta * 1.8)
 	if actor.seated > 0.0 or previous_seated > 0.0:
@@ -280,7 +330,9 @@ func _physics_process(delta: float) -> void:
 		actor.rotation.y = lerp_angle(actor.rotation.y, PI + camera.yaw, 1.0 - exp(-16.0 * delta))
 	interaction_gesture = move_toward(interaction_gesture, 0.0, delta * 1.8)
 	actor.reach = interaction_gesture * smoothstep(0.15, 0.90, actor.seated) * 0.65
-	var editing: bool = actor.seated > 0.98 and not mail.visible and not phone_requested
+	mail_read_settle = maxf(0.0, mail_read_settle - delta)
+	var mail_notice := arrived and not read_mail and office_time - notification_time < 1.3
+	var editing: bool = actor.seated > 0.98 and not mail.visible and not phone.visible and not mail_notice and mail_read_settle == 0.0
 	var mouse_pass := fposmod(office_time, 12.0)
 	var mouse_use := smoothstep(6.7, 7.2, mouse_pass) * (1.0 - smoothstep(8.45, 9.1, mouse_pass))
 	var clicked := editing and mouse_pass >= 7.63 and mouse_pass < 8.35
@@ -289,14 +341,15 @@ func _physics_process(delta: float) -> void:
 	mouse_clicked = clicked
 	actor.mouse_use = move_toward(actor.mouse_use, mouse_use if editing else 0.0, delta * 4.0)
 	actor.typing = move_toward(actor.typing, actor.seated if editing else 0.0, delta * 3.0)
+	var park_hands := 0.80 if actor.seated > 0.0 and (phone.visible or mail.visible or mail_notice or mail_read_settle > 0.0) else 0.0
+	actor.desk_rest = move_toward(actor.desk_rest, park_hands, delta * 3.8)
 	actor.looking_out = move_toward(actor.looking_out, 0.0, delta * 1.6)
-	actor.sigh = move_toward(actor.sigh, 0.0, delta * 2.0)
-	actor.phone_amount = move_toward(actor.phone_amount, 1.0 if phone_requested else 0.0, delta * 2.8)
-	actor.thinking = move_toward(actor.thinking, 0.65 if mail.visible else 0.0, delta * 2.4)
+	actor.sigh = move_toward(actor.sigh, 0.34 if mail.visible or mail_read_settle > 0.0 else 0.0, delta * 0.8)
+	actor.thinking = move_toward(actor.thinking, 0.20 if mail.visible else 0.0, delta * 1.8)
 	if mail.visible:
-		actor.set_expression("Thinking", 0.6)
+		actor.set_expression("Concerned", 0.48, 0.55)
 	elif read_mail:
-		actor.set_expression("Sad", 0.42)
+		actor.set_expression("Sad", 0.42, 0.72)
 	elif office_time - notification_time > 1.15:
 		actor.set_expression("Neutral", 0.0)
 	actor.resync(delta, actual)
@@ -313,19 +366,19 @@ func update_intro(delta: float) -> void:
 	intro_time += delta
 	var quiet := storybook.reduce_motion
 	var glance := smoothstep(2.1, 3.24, intro_time) * (1.0 - smoothstep(3.44, 4.35, intro_time))
-	var phone_peek := smoothstep(4.14, 4.82, intro_time) * (1.0 - smoothstep(5.19, 5.92, intro_time))
 	var rising := smoothstep(6.98, 8.05, intro_time)
-	actor.typing = 1.0 - smoothstep(2.36, 3.06, intro_time)
-	actor.desk_rest = smoothstep(2.5, 3.37, intro_time)
-	actor.phone_amount = phone_peek if not quiet else 0.0
+	var typing_pause := smoothstep(2.25, 2.95, intro_time) * (1.0 - smoothstep(4.27, 4.85, intro_time))
+	var typing_stop := smoothstep(MAIL_DURING_INTRO, MAIL_DURING_INTRO + 0.34, intro_time)
+	actor.typing = (1.0 - typing_pause) * (1.0 - typing_stop)
+	actor.desk_rest = maxf(typing_pause * 0.78, typing_stop)
 	actor.sigh = sin(smoothstep(5.61, 6.68, intro_time) * PI) * 0.67
 	actor.seated = 1.0 - rising
 	actor.looking_out = -glance
 	player.position = DESK_SEAT.lerp(DESK_STAND, rising)
 	position_chair(actor.seated)
 
-	camera.yaw = (-1.00 * glance - 0.30 * phone_peek) if not quiet else 0.0
-	camera.pitch = lerpf(-0.381, -0.052, glance) - 0.37 * phone_peek + 0.236 * rising
+	camera.yaw = (-1.00 * glance) if not quiet else 0.0
+	camera.pitch = lerpf(-0.381, -0.052, glance) + 0.236 * rising
 	camera.follow_eyes(delta, actor.seated, 0.0, true)
 	if intro_time >= MAIL_DURING_INTRO:
 		deliver_email()
@@ -344,7 +397,6 @@ func finish_intro() -> void:
 	actor.desk_rest = 0.0
 	actor.looking_out = 0.0
 	actor.sigh = 0.0
-	actor.phone_amount = 0.0
 	actor.reset_steps()
 	position_chair(0.0)
 	camera.yaw = 0.0
@@ -361,7 +413,7 @@ func finish_intro() -> void:
 	delivery.start(3.0)
 
 func update_status() -> void:
-	if mail.visible:
+	if mail.visible or phone.visible:
 		status.text = ""
 	elif read_mail and near_exit():
 		status.text = locale.leave
@@ -394,6 +446,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			mail.close_message()
 			get_viewport().set_input_as_handled()
 		return
+	if phone.visible:
+		if PHONE.is_shortcut(event) or event.is_action_pressed("ui_cancel"):
+			phone.close_panel()
+			get_viewport().set_input_as_handled()
+		return
 	if intro_active:
 		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("ui_accept"):
 			finish_intro()
@@ -423,10 +480,17 @@ func _unhandled_input(event: InputEvent) -> void:
 					seat_requested = not seat_requested
 					workday.play_chair()
 			KEY_Q:
-				phone_requested = not phone_requested
+				open_phone()
+				get_viewport().set_input_as_handled()
+
+func open_phone() -> void:
+	player.velocity = Vector3.ZERO
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	phone.show_phone(MAPS.label(MAPS.OFFICE), MAPS.text("Workday", "Ngày làm việc"),
+		MAPS.text("No applications yet.", "Chưa có hồ sơ ứng tuyển."))
 
 func interact() -> void:
-	if intro_active or in_pause_menu or mail.visible or complete:
+	if intro_active or in_pause_menu or mail.visible or phone.visible or complete:
 		return
 	if arrived and near_desk():
 		open_email()
@@ -436,7 +500,6 @@ func interact() -> void:
 func open_email() -> void:
 	read_mail = true
 	interaction_gesture = 1.0
-	phone_requested = false
 	mail.update_inbox(true, true)
 	mail_indicator.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -453,6 +516,7 @@ func open_email() -> void:
 		mail.modulate.a = 1.0
 
 func close_email() -> void:
+	mail_read_settle = 0.62
 	camera.focus_target = 0.0
 	recapture()
 	update_status()
@@ -674,11 +738,16 @@ func add_typing_colleague(station: Node3D, model_index: int, actor_name := "Offi
 	coworker.keystroke_seconds = 0.35 + 0.028 * (seated_coworkers.size() % 5)
 	coworker.bind_keyboard(station.get_node("KeyboardCaps"))
 	coworker.mouse_prop = station.get_node("WorkMouse")
+	var behavior := BEHAVIOR.new()
+	var index := seated_coworkers.size()
+	behavior.setup(9811 + index * 97, index % 3, false, false)
+	behaviors[coworker] = behavior
 	seated_coworkers.append(coworker)
 	coworker.resync(0.0, Vector3.ZERO)
 	return coworker
 
 func build_staff() -> void:
+	dialogue_rng.seed = 1481
 	build_staff_bench(WORK_DESK, true)
 	build_staff_bench(EAST_BANK, false)
 	for index in range(2):
@@ -706,8 +775,9 @@ func build_meeting_area() -> void:
 	paperwork.packet(self, at + Vector3(-0.24, 0.826, 0.03), -0.36, "8e7772", true)
 	paperwork.page(self, at + Vector3(0.37, 0.827, -0.14), 2.79, 0)
 	meeting_listener = add_meeting_colleague(at + Vector3(-0.48, 0, 0.86), PI - 0.21, 1)
-	meeting_listener.drink_prop = meeting_mug
-	meeting_listener.drink_rest = meeting_mug.global_transform
+	meeting_listener.bind_drink(meeting_mug)
+	var listener_behavior: BEHAVIOR = behaviors[meeting_listener]
+	listener_behavior.has_mug = true
 	add_meeting_colleague(at + Vector3(0.37, 0, -0.86), -0.24, 0)
 
 func add_meeting_colleague(at: Vector3, yaw: float, model_index: int) -> Node3D:
@@ -717,6 +787,10 @@ func add_meeting_colleague(at: Vector3, yaw: float, model_index: int) -> Node3D:
 		coworker.to_global(Vector3(0.14, 0.822, 0.45)),
 		coworker.to_global(Vector3(-0.14, 0.822, 0.42)),
 	])
+	var behavior := BEHAVIOR.new()
+	var index := seated_coworkers.size()
+	behavior.setup(9811 + index * 97, 1, true, false)
+	behaviors[coworker] = behavior
 	seated_coworkers.append(coworker)
 	coworker.resync(0.0, Vector3.ZERO)
 	add_colleague_obstacle(coworker, 1.30)
