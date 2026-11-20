@@ -49,7 +49,7 @@ void fragment() {
  } else if (a1_season == 2) {
    color=mix(color,vec3(.30,.38,.13),valley*.30*(1.0-shore)*(1.0-street_bed));
  } else if (a1_season == 3) {
-   float snow = smoothstep(.27,.64,painterly+small*.14)*(1.0-street_bed*.72)*(1.0-shore*.55);
+   float snow = mix(.88,.99,smoothstep(.21,.76,large))*(1.0-street_bed*.72)*(1.0-shore*.55);
    color=mix(color,mix(vec3(.51,.62,.68),vec3(.84,.89,.92),mineral),valley*snow*.94);
  }
  float root=max(grove(p,vec2(-14,-7),1.7),grove(p,vec2(-17,10),1.5));

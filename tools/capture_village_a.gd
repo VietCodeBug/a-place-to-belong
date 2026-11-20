@@ -2,7 +2,7 @@ extends SceneTree
 ## Render the review gallery with this project's graphical Godot renderer.
 const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const L = preload("res://scripts/world/landscape.gd")
-const OUT := "res://docs/environment/review-village-a/"
+const OUT := "res://docs/environment/review-village-a-v3/"
 var hub: Node3D
 var camera: Camera3D
 
@@ -42,7 +42,8 @@ func annotate_plan() -> CanvasLayer:
 
 func run() -> void:
 	root.content_scale_size = Vector2i.ZERO
-	root.size = Vector2i(1152,648)
+	root.msaa_3d = Viewport.MSAA_2X
+	root.size = Vector2i(1920,1080)
 	hub = load("res://scenes/world/forest_hub.tscn").instantiate()
 	root.add_child(hub)
 	hub.ui.hide()
@@ -94,6 +95,10 @@ func run() -> void:
 	await grab("tu-nha-a")
 	shot(ground(L.valley_path(91),91,1.68),ground(5.2,121,2.3))
 	await grab("mai-nha-qua-tan-cay")
+	shot(ground(L.valley_path(38),38,1.68),ground(-4.3,53,2.45))
+	await grab("rung-nhieu-tang")
+	shot(ground(6.0,127.5,1.68),ground(-3.6,135.2,3.4))
+	await grab("san-chung")
 	hub.queue_free()
 	await process_frame
 	quit()

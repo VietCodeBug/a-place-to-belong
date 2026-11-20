@@ -1,7 +1,7 @@
 extends SceneTree
 const LAND = preload("res://scripts/world/landscape.gd")
-# Use --fixed-fps 10 and a graphical renderer. Frames are written outside the project.
-const FRAME_DIRECTORY := "user://village-a-walk"
+# Use --fixed-fps 8 and a graphical renderer. Frames are written outside the project.
+const FRAME_DIRECTORY := "user://village-a-v3-lod-walk"
 const ACTIONS := ["move_left","move_right","move_up","move_down"]
 
 func _initialize() -> void:
@@ -10,7 +10,7 @@ func _initialize() -> void:
 func run() -> void:
 	DirAccess.make_dir_recursive_absolute(FRAME_DIRECTORY)
 	root.content_scale_size=Vector2i.ZERO
-	root.size=Vector2i(704,396)
+	root.size=Vector2i(960,540)
 	var hub := preload("res://scenes/world/forest_hub.tscn").instantiate()
 	root.add_child(hub)
 	hub.ui.hide()
@@ -23,7 +23,7 @@ func run() -> void:
 	player.position=hub.ground(LAND.valley_path(94),94,.09)
 	camera.distance=13.0
 	camera.set_scenic_mode(false,true)
-	for frame in range(150):
+	for frame in range(226):
 		var z := player.position.z
 		var to := Vector2(LAND.valley_path(z+1.6),z+1.6)
 		var direction := (to-Vector2(player.position.x,z)).normalized().rotated(PI/4)
@@ -37,7 +37,7 @@ func run() -> void:
 	for action in ACTIONS:
 		Input.action_release(action)
 	print("WALK ",player.position,"; frames=",ProjectSettings.globalize_path(FRAME_DIRECTORY))
-	var crossed := player.position.z > 133.0
+	var crossed := player.position.z > 169.0
 	hub.queue_free()
 	await process_frame
 	quit(0 if crossed else 1)

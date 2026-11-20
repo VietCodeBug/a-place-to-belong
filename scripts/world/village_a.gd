@@ -4,6 +4,7 @@ const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const L = preload("res://scripts/world/landscape.gd")
 const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
+const BOTANY = preload("res://scripts/world/a1_botany.gd")
 const SURFACE = preload("res://shaders/village_a_surface.gdshader")
 const MODELS := {
 	"porch": preload("res://assets/village_a/porch.glb"),
@@ -11,11 +12,16 @@ const MODELS := {
 	"long": preload("res://assets/village_a/long.glb"),
 	"craft": preload("res://assets/village_a/craft.glb"),
 	"hall": preload("res://assets/village_a/hall.glb"),
+	"split": preload("res://assets/village_a/split.glb"),
+	"loft": preload("res://assets/village_a/loft.glb"),
+	"shed": preload("res://assets/village_a/shed.glb"),
+	"wing": preload("res://assets/village_a/wing.glb"),
 	"hewn": preload("res://assets/a1_house_gate/hewn_eaves_cottage.glb"),
 }
 var palettes: Dictionary = {}
 var route_material: ShaderMaterial
 var seasonal: Array[Node3D] = []
+var trees: Array[Node3D] = []
 var verge_meshes: Array[MultiMeshInstance3D] = []
 
 func _ready() -> void:
@@ -40,12 +46,14 @@ func building(spec: Array) -> void:
 	var visual := (MODELS[spec[1]] as PackedScene).instantiate() as Node3D
 	slot.add_child(visual)
 	coat(visual)
-	var width: float = {"porch":5.13,"gable":5.6,"long":8.25,"hewn":6.7,"craft":6.02,"hall":7.47}[spec[1]]
-	var depth := 5.06 if spec[1]=="hall" else 4.38
-	var foundation := S.box(slot,Vector3(0,-.61,0),Vector3(width*.92,1.34,depth*.94),"807264")
+	var width: float = {"porch":5.13,"gable":5.6,"long":8.25,"hewn":6.7,"craft":6.02,"hall":7.47,"split":6.08,"loft":4.54,"shed":3.74,"wing":5.62}[spec[1]]
+	var depth: float = {"hall":5.06,"loft":4.90,"shed":3.22,"wing":4.40,"split":4.42}.get(spec[1],4.38)
+	var center_x := .63 if spec[1] in ["split","wing"] else 0.0
+	var foundation := S.box(slot,Vector3(center_x,-.61,0),Vector3(width*.92,1.34,depth*.94),"807264")
 	coat_mesh(foundation)
-	S.box(slot,Vector3(0,1.62,0),Vector3(width,3.24,depth),"FFFFFF",true).hide()
-	var entry := slot.to_global(Vector3(0.0,0,3.95))
+	S.box(slot,Vector3(center_x,1.62,0),Vector3(width,3.24,depth),"FFFFFF",true).hide()
+	var front_offsets := {"porch":-.66,"gable":.82,"long":-1.16,"craft":-1.01,"split":.46,"loft":-.85,"shed":-.59,"wing":-.59}
+	var entry := slot.to_global(Vector3(front_offsets.get(spec[1],0.0),0,depth*.5 + 1.28))
 	var door := Vector2(entry.x,entry.z)
 	var nearest := nearest_lane(door)
 	if door.distance_to(nearest) > .38:
@@ -98,14 +106,18 @@ func build_routes() -> void:
 	for z in range(165,185,2):
 		exit_path.append(Vector2(L.valley_path(z),z))
 	route(exit_path,1.22)
+	# Inlaid stone clusters at thresholds and junctions, with earth remaining between them.
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 3165
-	for n in range(29):
-		var z := 106.0+n*1.95
-		var x := L.valley_path(z)+rng.randf_range(-1.05,1.17)
-		var flat := A.place(self,"nature","rock_smallC",at(Vector2(x,z),-.012),.059,rng.randf()*TAU,"warm_stone")
-		flat.scale.x = 2.5
-		flat.scale.z = 1.7
+	for junction in [111.0,123.2,128.0,140.4,151.9,161.8]:
+		for n in range(8):
+			var z: float = junction + (n%4-1.5)*.39
+			var x := L.valley_path(z) + (n/4-.5)*.70+rng.randf_range(-.12,.12)
+			var flat := BOTANY.place(self,"Rock_4",at(Vector2(x,z),-.032),.073,rng.randf()*TAU)
+			flat.scale.x = rng.randf_range(1.7,2.9)
+			flat.scale.z = rng.randf_range(1.3,2.3)
+			for rock in flat.find_children("*","MeshInstance3D",true,false):
+				rock.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	for z in [103.0,114.0,130.0,145.0,157.0,169.0]:
 		lantern(at(Vector2(L.valley_path(z)+2.02,z)),true)
 
@@ -174,55 +186,74 @@ func build_shared_spaces() -> void:
 		lantern(at(p),true)
 
 func build_greenery() -> void:
-	for entry in [[-10,104,7.6],[-14,109,7.3],[17.9,105.1,8.7],[-17,123,9.2],[22.4,112.8,7.7],
-		[21.9,137.2,7.1],[-8.4,130.3,6.6],[-16.4,150,8.3],[8.9,165.2,8.5],[-7.4,170.9,9.3],
-		[15.9,173,10.0],[-14,169,10.3],[25,156,7.6]]:
-		var p := Vector2(entry[0],entry[1])
-		coat(A.place(self,"quaternius","PineTree_3",at(p),entry[2],p.x,"sage"))
+	var tree_plan := [
+		["BirchTree_2",-10.1,103.4,10.0],["MapleTree_3",-10.7,110.7,8.0],
+		["BirchTree_4",21.7,106.3,8.4],["NormalTree_1",2.1,119.9,11.3],
+		["MapleTree_2",-2.4,123.8,8.6],["NormalTree_5",9.25,124.5,6.2],
+		["PineTree_2",26.4,113.9,12.6],["BirchTree_3",-20.2,122.4,9.8],
+		["MapleTree_5",9.8,135.8,8.4],["PineTree_4",27.0,136.8,12.1],
+		["NormalTree_3",-4.1,143.8,10.4],["BirchTree_1",11.1,142.7,8.6],
+		["NormalTree_4",12.1,168.1,11.3],["PineTree_5",-11.2,169.2,11.8],
+		["PineTree_1",-18.2,168.1,13.0],["BirchTree_5",18.1,171.2,9.7],
+		["NormalTree_2",26.4,154.8,11.0],["MapleTree_1",-9.8,155.2,9.0],
+	]
+	for item in tree_plan:
+		var p := Vector2(item[1],item[2])
+		if is_open_ground(p,1.4):
+			trees.append(BOTANY.place_tree(self,item[0],at(p),item[3],p.x))
 	for i in range(4):
 		var set := Node3D.new()
 		set.name=["Autumn","Spring","Summer","Winter"][i]
 		add_child(set)
 		seasonal.append(set)
-		for j in range(7):
-			var p: Vector2 = [Vector2(-10.9,115.4),Vector2(9.4,119.9),Vector2(0.1,123.0),Vector2(9.4,135.8),
-				Vector2(-5.8,142.3),Vector2(13.9,159.7),Vector2(-3.4,160.4)][j]
+		for j in range(24):
+			var z := 105.4 + j*2.96
+			var x := L.valley_path(z) + (-1.0 if j%2==0 else 1.0)*(2.9+.49*sin(j*2.7))
+			var p := Vector2(x,z)
+			if not is_open_ground(p,1.85):
+				continue
 			if i==3:
-				bare_tree(set,at(p),6.8+j%3*.52,j)
+				snow_bank(set,p,.65+.27*absf(sin(j)),.9 + .18*cos(j))
 			else:
-				leafy_tree(set,at(p),6.3+j%3*.68,j,i)
-				if i==0:
-					for k in range(7):
-						var offset := Vector2(cos(k*2.2),sin(k*2.2))*1.54
-						var leaf := S.box(set,at(p+offset,.013),Vector3(.16,.016,.086),"AD7043")
-						leaf.rotation.y=k*1.48
+				BOTANY.place(set,"Flower_4_Clump" if i!=0 and j%3!=0 else "Bush_Large",
+					at(p),[.52,.42,.61][i]+.15*absf(sin(j)),j*1.31)
 		for j in range(32):
 			var position := PLAN.GARDEN+Vector2((j%4-1.5)*1.14, float(j/4)*.46-1.52)
 			if i==3:
 				S.box(set,at(position,.091),Vector3(.51,.10,.37),"DCE8EF")
 			else:
 				A.place(set,"nature",["grass_leafs","flower_purpleB","flower_yellowA"][i],at(position,.08),[.21,.29,.46][i],j*.8)
-		for j in range(10):
-			var z := 109.0+5.18*j
-			var p := Vector2(L.valley_path(z)+2.48*(-1 if j%2==0 else 1),z)
-			if i==3:
-				var cap := SphereMesh.new()
-				cap.radial_segments=7
-				cap.rings=3
-				var snow := S.mesh(set,cap,at(p,.16),"D9E6EF")
-				snow.scale=Vector3(1.17,.37,.71)
-			else:
-				A.place(set,"nature",["grass_large","flower_redC","flower_yellowA"][i],at(p),[.26,.34,.56][i],j)
+		if i == 3:
+			for x in [-9.5,-8.4,-7.3,-6.2]:
+				snow_bank(set,Vector2(x,122.32),.46,.30)
+
+func is_open_ground(p: Vector2, lane_clearance: float) -> bool:
+	if p.distance_to(nearest_lane(p)) < lane_clearance:
+		return false
+	if p.distance_to(PLAN.GARDEN) < 2.5 or p.distance_to(PLAN.COMMON) < 3.15:
+		return false
+	for lot in PLAN.BUILDINGS:
+		if p.distance_to(Vector2(lot[2],lot[3])) < 3.3:
+			return false
+	return true
+
+func snow_bank(parent: Node3D, p: Vector2, width: float, length: float) -> void:
+	var mesh := SurfaceTool.new()
+	mesh.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in range(10):
+		var angle := TAU*i/10.0
+		var next := TAU*(i+1)/10.0
+		for point in [Vector3(p.x, L.height_at(p.x,p.y)+.24,p.y),
+			at(p+Vector2(cos(angle)*width,sin(angle)*length),.028),
+			at(p+Vector2(cos(next)*width,sin(next)*length),.028)]:
+			mesh.add_vertex(point)
+	mesh.generate_normals()
+	var bank := S.mesh(parent,mesh.commit(),Vector3.ZERO,"D6E3EB")
+	bank.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 func build_verges() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 20319
-	var blade := PrismMesh.new()
-	blade.size = Vector3(.17,.54,.062)
-	var material := StandardMaterial3D.new()
-	material.vertex_color_use_as_albedo = true
-	material.roughness = 1.0
-	blade.material = material
 	for band in range(4):
 		var locations: Array[Vector3] = []
 		for cluster in range(16):
@@ -240,58 +271,13 @@ func build_verges() -> void:
 						break
 				if not on_lot:
 					locations.append(at(p))
-		var instances := MultiMesh.new()
-		instances.transform_format = MultiMesh.TRANSFORM_3D
-		instances.use_colors = true
-		instances.mesh = blade
-		instances.instance_count = locations.size()*3
-		for i in locations.size():
-			for j in range(3):
-				var random_size := rng.randf_range(.35,.90)
-				var yaw := rng.randf()*TAU
-				var offset := Vector3(cos(yaw)*.07,random_size*.215,sin(yaw)*.07)
-				var basis := Basis(Vector3.FORWARD,rng.randf_range(-.25,.25)).rotated(Vector3.UP,yaw)
-				instances.set_instance_transform(i*3+j,Transform3D(basis.scaled(Vector3.ONE*random_size),locations[i]+offset))
-				instances.set_instance_color(i*3+j,Color("4C6833").lerp(Color("A5A45C"),rng.randf()))
-		var patch := MultiMeshInstance3D.new()
+		var patch := BOTANY.grass_batch(self,locations,31613+band,52.0)
 		patch.name = "PathVerge%d" % (band+1)
-		patch.multimesh = instances
-		patch.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		patch.visibility_range_end = 52.0
-		add_child(patch)
 		verge_meshes.append(patch)
 
-func leafy_tree(parent: Node3D, base: Vector3, height: float, seed: int, season: int) -> void:
-	var fork := base + Vector3(.27, height*.52, .12)
-	S.beam(parent,base,fork,.31,"6D5141")
-	var colors: Array = [
-		["A76538","C89049","DFA955","C58140","AB743F"],
-		["749055","8DA65F","CE8FA7","E7AEC0","A7BC72"],
-		["45693F","5C8048","678648","839957","729658"],
-	][season]
-	for k in range(5):
-		var angle := k*2.39+seed
-		var crown := fork+Vector3(cos(angle)*1.16,height*(.15+.103*(k%3)),sin(angle)*1.08)
-		S.beam(parent,fork,crown,.13,"735946")
-		var canopy := SphereMesh.new()
-		canopy.radial_segments=8
-		canopy.rings=3
-		var leaves := S.mesh(parent,canopy,crown,colors[k])
-		leaves.rotation.y=angle
-		leaves.scale=Vector3(2.64,2.47,2.72)*(1.0+.13*sin(angle))
-
-func bare_tree(parent: Node3D,base: Vector3,size: float,seed: int) -> void:
-	var fork := base+Vector3(.18,size*.55,0)
-	S.beam(parent,base,fork,.29,"796353")
-	S.beam(parent,fork,base+Vector3(.38,size*.93,.17),.19,"877461")
-	for branch in range(6):
-		var angle := branch*2.33+seed
-		var end := fork+Vector3(cos(angle)*1.88,size*(.23+branch*.018),sin(angle)*1.65)
-		S.beam(parent,fork+Vector3.UP*(branch*.073),end,.10,"887663")
-		S.beam(parent,end,end+Vector3(cos(angle+.38)*.57,.74,sin(angle+.38)*.51),.055,"A2988B")
-		S.beam(parent,fork+Vector3.UP*.052,end+Vector3.UP*.04,.061,"D9E4EB")
-
 func set_season(index: int) -> void:
+	for tree in trees:
+		BOTANY.season_tree(tree,index)
 	for patch in verge_meshes:
 		patch.visible = index != 3
 	for i in seasonal.size():

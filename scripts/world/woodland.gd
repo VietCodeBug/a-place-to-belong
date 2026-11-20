@@ -2,6 +2,8 @@ extends Node3D
 ## Curated Map 01 woodland with foreground/midground/background separation,
 ## harmonious pine/sage/autumn color distribution, and preserved clearing sightlines.
 const A = preload("res://scripts/world/field_assets.gd")
+const BOTANY = preload("res://scripts/world/a1_botany.gd")
+var seasonal_trees: Array[Node3D] = []
 var rng := RandomNumberGenerator.new()
 var batches: Dictionary = {}
 const PINES := ["PineTree_1","PineTree_2","PineTree_3","PineTree_4","PineTree_5"]
@@ -103,6 +105,15 @@ func in_camera_corridor(p: Vector2) -> bool:
 func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural", tint := Color(1,1,1,0.5)) -> void:
 	if height > 4.0 and ForestLandscape.in_overlook_view(at.x, at.z):
 		return
+	if height>4.0 and layer<2:
+		var id := asset
+		if asset.begins_with("BirchTree"):
+			id = "BirchTree_"+asset.get_slice("_",2)
+		elif asset == "tree_oak_fall":
+			id = "NormalTree_1"
+		if id.begins_with("PineTree") or id.begins_with("BirchTree") or id.begins_with("NormalTree"):
+			seasonal_trees.append(BOTANY.place_tree(self,id,at,height,yaw))
+			return
 	var pack := "quaternius" if asset.begins_with("PineTree") or asset.begins_with("BirchTree") or asset in ["Bush_1","Rock_Moss_1"] else "nature"
 	if asset.begins_with("tuft_"):
 		pack = "meadow"

@@ -1,26 +1,29 @@
 extends Node3D
 
+const BOTANY = preload("res://scripts/world/a1_botany.gd")
 const VILLAGE = preload("res://scripts/world/village_a.gd")
 const L = preload("res://scripts/world/landscape.gd")
 const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
-const PINE := ["tree_pineTallA_detailed", "tree_pineTallB_detailed", "tree_pineTallC_detailed"]
 var rabbits: Array[Node3D] = []
 var squirrels: Array[Node3D] = []
 var birds: Array[Node3D] = []
 var clock := 0.0
-var canopy_materials: Dictionary = {}
+var habitat_floor: Array[Node3D] = []
+var habitat_trees: Array[Node3D] = []
 var sun: DirectionalLight3D
 var original_shadow_distance: float
 var original_shadow_mode: int
 var local_shadows := false
+var foliage_tick := .0
 
 func _ready() -> void:
 	sun = get_parent().get_node("Sun")
 	original_shadow_distance = sun.directional_shadow_max_distance
 	original_shadow_mode = sun.directional_shadow_mode
 	build_mountains()
+	build_distant_foothills()
 	build_river()
 	build_bridge()
 	build_groves()
@@ -29,7 +32,9 @@ func _ready() -> void:
 	add_child(village)
 	build_overlook()
 	build_reveal()
+	build_understory()
 	detail_slices()
+	set_season_palette(0)
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--a1-season="):
 			var season := ["autumn", "spring", "summer", "winter"].find(argument.get_slice("=", 1))
@@ -60,14 +65,14 @@ func build_mountains() -> void:
 		var mountains := SurfaceTool.new()
 		mountains.begin(Mesh.PRIMITIVE_TRIANGLES)
 		var distance := 259.0 - 23.0 * layer
-		var palette := [Color("8395A7"), Color("748A9A"), Color("617C84")]
+		var palette := [Color("97ABBC"), Color("7F98A5"), Color("627F84")]
 		var crest := PackedVector3Array()
 		var foothill := PackedVector3Array()
 		var floor := PackedVector3Array()
 		for i in range(61):
 			var x := -420.0 + i * 14.0
-			var peaks := pow(0.5 + 0.5 * sin(x * 0.057 + layer * 2.2), 1.7)
-			var height := 14.0 + 32.0 * peaks + 4.0 * sin(x * 0.16 + layer)
+			var peaks := pow(0.5 + 0.5 * sin(x * 0.031 + layer * 2.2 + .48*sin(x*.081)), 1.35)
+			var height := 17.0 + 30.0 * peaks + 3.2 * sin(x * 0.12 + layer) + 2.1*cos(x*.247 + layer)
 			var z := distance + 11.0 * cos(x * 0.045 + layer)
 			crest.append(Vector3(x, height, z))
 			foothill.append(Vector3(x, height * 0.46 - 1.8, z - 16.0))
@@ -78,7 +83,7 @@ func build_mountains() -> void:
 				var color: Color = palette[layer].lightened(rng.randf_range(-0.027, 0.036))
 				for vertex in face:
 					var haze := 0.82 if vertex.y < 0.0 else (0.19 if vertex.y < 18.0 else 0.06)
-					mountains.set_color(color.lerp(Color("B3AAA0"), haze))
+					mountains.set_color(color.lerp(Color("8FA2A5"), haze))
 					mountains.add_vertex(vertex)
 		var ridge := MeshInstance3D.new()
 		ridge.mesh = mountains.commit()
@@ -90,6 +95,31 @@ func build_mountains() -> void:
 		ridge.material_override = material
 		ridge.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(ridge)
+
+func build_distant_foothills() -> void:
+	var mesh := SurfaceTool.new()
+	mesh.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for x in range(-210,210,7):
+		for z in range(155,330,7):
+			for offset in [Vector2.ZERO,Vector2(7,0),Vector2(0,7),Vector2(7,0),Vector2(7,7),Vector2(0,7)]:
+				var p: Vector2 = Vector2(x,z)+offset
+				var blend := smoothstep(178.0,220.0,p.y)
+				var rises := 6.5 + 9.0 * pow(.5 + .5*sin(p.x*.047 + p.y*.031),2.5)
+				rises += 4.0*sin(p.x*.023-p.y*.054)+2.4*cos(p.y*.115+p.x*.092)
+				var height := lerpf(-4.0,rises,blend)
+				var color := Color("596F66").lerp(Color("7A9286"),smoothstep(-1.0,18.0,height)*.75)
+				mesh.set_color(color)
+				mesh.add_vertex(Vector3(p.x,height,p.y))
+	mesh.generate_normals()
+	var foothills := MeshInstance3D.new()
+	foothills.name = "DistantFoothills"
+	foothills.mesh = mesh.commit()
+	var shade := StandardMaterial3D.new()
+	shade.vertex_color_use_as_albedo = true
+	shade.roughness = 1.0
+	foothills.material_override = shade
+	foothills.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(foothills)
 
 func build_river() -> void:
 	var surface := SurfaceTool.new()
@@ -178,12 +208,14 @@ func build_groves() -> void:
 		if z > 55 and z < 95 and absf(x) < 11:
 			continue
 		var at := ground(x, z)
-		var broadleaf := i % 4 == 0
-		var kind: String = "tree_oak_fall" if broadleaf else PINE[i % 3]
-		var role := "autumn" if broadleaf else ("cedar" if i % 2 == 0 else "spruce")
-		var tree := A.place(self, "nature", kind, at, rng.randf_range(5.7, 13.0), rng.randf_range(0, TAU), role)
-		if z >= 37.0:
-			register_canopy(tree, broadleaf)
+		var height := rng.randf_range(5.7, 13.0)
+		var yaw := rng.randf_range(0,TAU)
+		var rim := absf(x) > 16.0
+		var family: String = ["PineTree","BirchTree","NormalTree","MapleTree"][i%4]
+		if rim and i%3!=0:
+			family = "PineTree"
+		var tree := BOTANY.place_tree(self,"%s_%d" % [family,1+i%5],at,height,yaw)
+		habitat_trees.append(tree)
 		S.box(self, at + Vector3.UP * 1.5, Vector3(0.8, 3, 0.8), "FFFFFF", true).hide()
 	for i in range(132):
 		var z := rng.randf_range(29, 103)
@@ -269,6 +301,14 @@ func small_animal(at: Vector2, rabbit: bool) -> Node3D:
 func _process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if camera != null:
+		foliage_tick -= delta
+		if foliage_tick <= .0:
+			foliage_tick = .18
+			BOTANY.update_lod(habitat_trees,camera.global_position)
+			BOTANY.update_lod(get_node("VillageA").trees,camera.global_position)
+			var woodland := get_parent().get_node_or_null("LicensedWoodland")
+			if woodland != null:
+				BOTANY.update_lod(woodland.seasonal_trees,camera.global_position)
 		var village_view := camera.global_position.z > (24.0 if local_shadows else 27.0)
 		if village_view != local_shadows:
 			local_shadows = village_view
@@ -314,8 +354,8 @@ func detail_slices() -> void:
 		var z := 53.5 + 5.2 * sin(i*2.0)
 		if L.in_overlook_view(x, z):
 			continue
-		A.place(self,"quaternius","BirchTree_Autumn_3" if i%3==0 else "PineTree_2",
-			ground(x,z),7.5+float(i%4)*1.75,i, "autumn" if i%3==0 else "sage")
+		var code := "BirchTree_3" if i%3==0 else "PineTree_%d" % (1+i%5)
+		habitat_trees.append(BOTANY.place_tree(self,code,ground(x,z),7.5+float(i%4)*1.75,i))
 	for side in [-1, 1]:
 		for i in range(13):
 			var x := -25.0 + i * 3.85
@@ -325,41 +365,56 @@ func detail_slices() -> void:
 			A.place(self,"nature","rock_smallC",at,0.34+0.38*absf(sin(i)),i,"warm_stone")
 			A.place(self,"nature","grass_leafs",at+Vector3(0.53,0,0.17),0.49,i)
 
-func register_canopy(tree: Node3D, broadleaf: bool) -> void:
-	for child in tree.find_children("*","MeshInstance3D",true,false):
-		var visual := child as MeshInstance3D
-		for i in range(visual.mesh.get_surface_count()):
-			var source := visual.get_active_material(i) as StandardMaterial3D
-			if source == null:
-				continue
-			var name := source.resource_name.to_lower()
-			if not ("leaf" in name or "leaves" in name or name in ["grass","green","orange","lightorange"]):
-				continue
-			var key := "%d:%d" % [source.get_instance_id(), int(broadleaf)]
-			if not canopy_materials.has(key):
-				canopy_materials[key] = [source.duplicate(), source.albedo_color, broadleaf]
-			visual.set_surface_override_material(i, canopy_materials[key][0])
+func build_understory() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 88157
+	for patch_z in [34.0,44.0,56.0,89.0]:
+		var tufts: Array[Vector3] = []
+		for cluster in range(11):
+			var bank := -1.0 if cluster%2==0 else 1.0
+			var z: float = patch_z + rng.randf_range(-4.2,4.2)
+			var x := L.valley_path(z) + bank * rng.randf_range(2.7,8.9)
+			for sample in range(24):
+				var p := Vector2(x+rng.randfn(0,.90),z+rng.randfn(0,1.22))
+				if absf(p.x-L.valley_path(p.y)) < 2.48:
+					continue
+				tufts.append(ground(p.x,p.y))
+			if cluster%2==0:
+				var shrub := "Bush_Large" if cluster%4==0 else "Flower_4_Clump"
+				habitat_floor.append(BOTANY.place(self,shrub,ground(x,z),.58 if cluster%4==0 else .37,cluster*1.9))
+		var layer := BOTANY.grass_batch(self,tufts,int(patch_z)+1309,38.0)
+		layer.name = "ForestUnderstory%d" % int(patch_z)
+		habitat_floor.append(layer)
 
 func set_season_palette(season: int) -> void:
+	for patch in habitat_floor:
+		patch.visible = season != 3
+	for tree in habitat_trees:
+		BOTANY.season_tree(tree,season)
 	var terrain := get_parent().find_child("ContinuousMap01Terrain",true,false) as MeshInstance3D
 	if terrain != null:
 		(terrain.material_override as ShaderMaterial).set_shader_parameter("a1_season", season)
 	var road := get_parent().find_child("ExistingDeliveryPath",true,false) as MeshInstance3D
 	if road != null:
 		(road.material_override as ShaderMaterial).set_shader_parameter("village_snow",.92 if season==3 else 0.0)
-	for entry in canopy_materials.values():
-		var material: StandardMaterial3D = entry[0]
-		var original: Color = entry[1]
-		var broadleaf: bool = entry[2]
-		match season:
-			1: material.albedo_color = original.lerp(Color("A1B969"), 0.73 if broadleaf else 0.30)
-			2: material.albedo_color = original.lerp(Color("68894D"), 0.80 if broadleaf else 0.26)
-			3: material.albedo_color = original.lerp(Color("A9B8BA"), 0.72 if broadleaf else 0.51)
-			_: material.albedo_color = original
+	var woodland := get_parent().get_node_or_null("LicensedWoodland")
+	if woodland != null:
+		for tree in woodland.seasonal_trees:
+			BOTANY.season_tree(tree,season)
 	get_node("VillageA").set_season(season)
 
 func build_reveal() -> void:
 	for item in [[-7.3,85.0,11.2],[-5.5,90.6,10.8],[0.0,93.5,9.1],[10.8,91.1,10.2],
 		[10.2,96.2,8.3],[-6.4,98.1,9.5],[-12.9,95.5,11.4],[13.7,98.0,9.2]]:
 		var p := ground(item[0],item[1])
-		A.place(self,"quaternius","PineTree_3" if item[0]<0 else "PineTree_5",p,item[2],item[0],"spruce")
+		var index := habitat_trees.size()
+		var family: String = ["PineTree","BirchTree","NormalTree","MapleTree"][index%4]
+		habitat_trees.append(BOTANY.place_tree(self,"%s_%d" % [family,1+index%5],p,item[2],item[0]))
+	# Taller, offset groves frame the trail. A set-back meadow stays clear on the other side.
+	for item in [["BirchTree_3",-11.4,33.5,12.4],["MapleTree_2",-7.1,38.6,10.2],
+		["PineTree_4",-14.8,38.7,13.6],["BirchTree_5",3.2,34.8,9.9],
+		["NormalTree_3",6.5,41.2,12.8],["MapleTree_4",2.9,45.4,7.0],
+		["BirchTree_2",-6.4,45.5,10.6],["NormalTree_2",-11.8,47.5,13.6],
+		["BirchTree_1",6.8,62.0,9.6],["BirchTree_4",8.5,64.7,10.2],
+		["BirchTree_3",-8.1,85.8,9.9],["NormalTree_1",8.2,87.2,11.0]]:
+		habitat_trees.append(BOTANY.place_tree(self,item[0],ground(item[1],item[2]),item[3],item[0].length()*1.1))

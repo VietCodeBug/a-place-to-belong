@@ -227,7 +227,7 @@ def chimney(x,y,z):
         block("Chimney masonry",(x,y,z+i*.17),(.66,.60,.164),STONE[i%3],.018)
     block("Chimney cap",(x,y,z+1.36),(.83,.77,.15),STONE[2],.033)
 
-for kind in ["porch","gable","long","craft","hall"]:
+for kind in ["porch","gable","long","craft","hall","split","loft","shed","wing"]:
     before=set(bpy.context.scene.objects)
     if kind=="porch":
         y=shell(5.15,4.20,2.71,4.69,-.17,TILE,PLASTER[0],-.66)
@@ -247,6 +247,27 @@ for kind in ["porch","gable","long","craft","hall"]:
             block("Outdoor workbench",(x,y-.94,.88),(.96,.42,.11),WOOD[1],.024)
             for dx in [-.33,.33]:
                 block("Bench post",(x+dx,y-.94,.46),(.12,.27,.80),WOOD[0])
+    elif kind=="split":
+        y=shell(4.74,4.32,2.72,4.95,-.73,TILE,PLASTER[2],.46)
+        shell(2.48,2.75,2.93,3.98,.61,SAGE,PLASTER[1],0,2.43,.59,False)
+        porch(.46,y,3.25,2.22,TILE)
+        chimney(-1.21,1.1,3.6)
+    elif kind=="loft":
+        y=shell(4.54,4.9,4.11,5.75,.16,TILE,PLASTER[1],-.85)
+        for x in [-1.18,1.18]:
+            pane("Upper floor shutter",x,y-.10,3.31,.73,.96)
+        porch(.17,y,3.82,2.48,SAGE)
+        chimney(1.63,1.26,4.3)
+    elif kind=="shed":
+        y=shell(3.74,3.22,2.17,3.42,.64,SAGE,PLASTER[2],-.59)
+        for i in range(12):
+            block("Clapboard",(1.885,.0,.48+i*.13),(.11,3.24,.11),WOOD[(i//3)%3],.011)
+        porch(-.6,y,1.96,1.93,TILE)
+    elif kind=="wing":
+        y=shell(4.48,3.87,2.76,4.72,.38,SAGE,PLASTER[0],-.59)
+        shell(2.60,4.15,2.62,3.96,-.21,TILE,PLASTER[2],0,2.08,.91,False)
+        porch(-.6,y,2.71,2.30,SAGE)
+        chimney(1.17,.64,3.18)
     else:
         y=shell(7.51,5.19,4.08,6.28,-.11,SAGE,PLASTER[0],0)
         shell(2.16,2.25,6.09,7.41,0,TILE,PLASTER[2],0,0,.31,False)
@@ -271,6 +292,13 @@ for kind in ["porch","gable","long","craft","hall"]:
     export=[]
     for mat,(verts,faces) in batches.items():
         obj=geo(kind+" "+mat.name,verts,faces,mat)
+        if obj.type == "MESH":
+            # Keep hard architectural edges but weld duplicates within each material batch.
+            mesh = bmesh.new()
+            mesh.from_mesh(obj.data)
+            bmesh.ops.remove_doubles(mesh, verts=list(mesh.verts), dist=.00002)
+            mesh.to_mesh(obj.data)
+            mesh.free()
         obj.select_set(True)
         export.append(obj)
     bpy.ops.export_scene.gltf(filepath=str(DEST/(kind+".glb")),export_format="GLB",use_selection=True)

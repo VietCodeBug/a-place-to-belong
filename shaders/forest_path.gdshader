@@ -25,6 +25,10 @@ void fragment() {
  float ragged=(ground_noise(p*2.6)-.5)*.30+(ground_noise(p*.75)-.5)*.28;
  float verge_darken=smoothstep(-.35,.22,edge);
  base*=mix(1.0,.86,verge_darken*.55);
+ float village_grade=smoothstep(94.0,107.0,p.y)*(1.0-smoothstep(162.0,183.0,p.y));
+ float gutter=exp(-pow((abs(UV.x)-UV.y+.24)/.20,2.0));
+ base=mix(base,base*vec3(.63,.67,.68),(gutter*.43 + grit*.16)*village_grade);
+ base*=mix(1.0,.91+fine*.12,village_grade);
  // Rainwater puddles collect naturally in wheel ruts & shallow hollows
  float hollow=ground_field(p*.48+vec2(3.7,9.1));
  float puddle_mask=smoothstep(.46,.72,hollow*0.82+tracks*0.18)*(1.0-verge_darken*.85)*smoothstep(.12,.62,wetness);

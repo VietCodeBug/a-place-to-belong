@@ -1,6 +1,7 @@
 extends SceneTree
 ## Run with godot --headless --path . --script res://tests/village_a_test.gd.
 const PLAN = preload("res://scripts/world/village_a_layout.gd")
+const BOTANY = preload("res://scripts/world/a1_botany.gd")
 const LAND = preload("res://scripts/world/landscape.gd")
 const MOVEMENT := ["move_left", "move_right", "move_up", "move_down"]
 var failed := false
@@ -26,11 +27,35 @@ func walk(player: CharacterBody3D, target: Vector2) -> bool:
 		await physics_frame
 	return false
 
+func test_tree_lod(host: Node3D) -> void:
+	var tree := BOTANY.place_tree(host,"MapleTree_2",Vector3.ZERO,8.1,.44)
+	var cohort: Array[Node3D] = [tree]
+	var detail := tree.get_node("Near") as Node3D
+	var far := tree.get_node("Far") as Node3D
+	var meshes := detail.find_children("*","MeshInstance3D",true,false)
+	check(meshes.size() == 2, "Species must have separate seasonal bark and foliage.")
+	var canopy := detail.find_child("MapleTree_Leaves",true,false) as MeshInstance3D
+	check(canopy != null, "Seasonal foliage was not separated at import.")
+	BOTANY.update_lod(cohort,Vector3(0,2,40))
+	check(detail.visible and not far.visible,"Near detail should be exclusive.")
+	BOTANY.update_lod(cohort,Vector3(0,2,90))
+	check(not detail.visible and far.visible,"Old model should appear at distance.")
+	BOTANY.update_lod(cohort,Vector3(0,2,73))
+	check(far.visible,"LOD should not flip inside the hysteresis band.")
+	BOTANY.update_lod(cohort,Vector3(0,2,60))
+	check(detail.visible and not far.visible,"Near detail should reappear after returning.")
+	BOTANY.season_tree(tree,3)
+	BOTANY.update_lod(cohort,Vector3(0,2,90))
+	check(detail.visible and not far.visible and canopy != null and not canopy.visible,
+		"Deciduous trees should keep the original bare branches at distance in winter.")
+	tree.queue_free()
+
 func run() -> void:
 	var hub := preload("res://scenes/world/forest_hub.tscn").instantiate()
 	root.add_child(hub)
 	var valley := hub.get_node("A1RiverValley")
 	var village := valley.get_node("VillageA")
+	test_tree_lod(hub)
 	var player: CharacterBody3D = hub.player
 	var families := {}
 	for lot in PLAN.BUILDINGS:
@@ -38,7 +63,7 @@ func run() -> void:
 		var structure := village.get_node_or_null(NodePath(lot[0]))
 		check(structure != null and structure.find_children("*", "CollisionShape3D", true, false).size() == 1,
 			"Exterior shell collision is missing for %s." % lot[0])
-	check(PLAN.BUILDINGS.size() == 11 and families.size() == 6, "Review layout should have 11 buildings in six families.")
+	check(PLAN.BUILDINGS.size() == 21 and families.size() == 10, "Review layout should have 21 buildings in ten families.")
 	check(hub.has_node("ForestHouseA") and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 100.0, "House A should precede the village.")
 	for season in range(4):
 		valley.set_season_palette(season)
