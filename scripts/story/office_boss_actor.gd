@@ -43,6 +43,7 @@ func _ready() -> void:
 func resync(delta: float, planar_velocity: Vector3) -> void:
 	clock += delta
 	var speed := planar_velocity.length()
+	advance_performance(delta)
 	walk_phase = fposmod(walk_phase + speed * delta / walk_distance, 1.0)
 	walk_weight = move_toward(walk_weight, smoothstep(0.02, 0.58, speed), delta * 5.2)
 	var hips_index: int = bones["Hips"]
@@ -51,6 +52,8 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 		pose_standing(delta)
 		if walk_weight == 0.0:
 			correct_feet()
+			pose_face()
+			update_face()
 			return
 		standing_hips = skeleton.get_bone_pose_position(hips_index)
 		for i in standing_rotations.size():
@@ -69,9 +72,11 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 			var walking_rotation := skeleton.get_bone_pose_rotation(i)
 			skeleton.set_bone_pose_rotation(i, standing_rotations[i].slerp(walking_rotation, walk_weight))
 	skeleton.set_bone_pose_position(hips_index, hips)
-	rotate_bone("Head", Vector3(0.0, looking_out * 0.32 * walk_weight, 0.0))
+	apply_head(Vector3.ZERO)
 	pose_fingers(0.14 * walk_weight, 0.45 * walk_weight)
 	correct_feet()
+	pose_face()
+	update_face()
 
 func correct_feet() -> void:
 	for i in range(2):
@@ -131,7 +136,7 @@ func pose_standing(delta: float) -> void:
 		drop = maxf(drop, offset.y - reach_y)
 	hips.origin.y -= drop
 	skeleton.set_bone_global_pose(bones["Hips"], hips)
-	rotate_bone("Head", Vector3(0.018, looking_out * 0.32, 0.0))
+	apply_head(Vector3(0.018, 0.0, 0.0))
 	pose_fingers(0.43, 0.62)
 	pose_relaxed_arms()
 	for i in range(2):
