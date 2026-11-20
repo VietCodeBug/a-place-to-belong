@@ -101,6 +101,8 @@ func in_camera_corridor(p: Vector2) -> bool:
 	return p.y > 12.0 and p.y < 54.0 and p.x > -15.5 and p.x < 34.0
 
 func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural", tint := Color(1,1,1,0.5)) -> void:
+	if height > 4.0 and ForestLandscape.in_overlook_view(at.x, at.z):
+		return
 	var pack := "quaternius" if asset.begins_with("PineTree") or asset.begins_with("BirchTree") or asset in ["Bush_1","Rock_Moss_1"] else "nature"
 	if asset.begins_with("tuft_"):
 		pack = "meadow"

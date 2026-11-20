@@ -51,6 +51,7 @@ var notice_tween: Tween
 var envelope: Control
 var envelope_tween: Tween
 var in_pause_menu := false
+var valley_map: Control
 var ui_clock := 0.0
 var walk_timer := 0.0
 var current_grass_quality := "high"
@@ -72,6 +73,9 @@ func _ready() -> void:
 	build_hud()
 	build_interaction_prompt()
 	build_letter_modal()
+	valley_map = preload("res://scripts/ui/a1_map.gd").new()
+	valley_map.player = player
+	root_ui.add_child(valley_map)
 	var saved_grass_quality: String = get_tree().get_meta(MAPS.GRASS_QUALITY, current_grass_quality)
 	if saved_grass_quality != current_grass_quality:
 		apply_grass_quality(saved_grass_quality)
@@ -371,7 +375,7 @@ func _process(delta: float) -> void:
 				active = item
 				nearest = d
 
-	var show_prompt := active != null and not panel.visible and not in_title_menu and not in_pause_menu
+	var show_prompt := active != null and not valley_map.visible and not panel.visible and not in_title_menu and not in_pause_menu
 	prompt.text = "E  •  " + active.interaction_name if show_prompt else ""
 	prompt_card.visible = show_prompt
 	if show_prompt:
@@ -423,6 +427,20 @@ func icon_for_item(item: Node) -> String:
 	return "envelope"
 
 func _unhandled_input(event: InputEvent) -> void:
+	var map_key: bool = event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_M
+	if valley_map.visible:
+		if map_key or event.is_action_pressed("ui_cancel"):
+			valley_map.hide()
+			player.blocked = false
+		elif event is InputEventKey and event.pressed and event.keycode == KEY_HOME:
+			valley_map.center_on_player()
+		get_viewport().set_input_as_handled()
+		return
+	if map_key and not in_title_menu and not in_pause_menu and not panel.visible:
+		player.blocked = true
+		valley_map.show()
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("ui_cancel"):
 		if storybook.shade.visible:
 			storybook.back()

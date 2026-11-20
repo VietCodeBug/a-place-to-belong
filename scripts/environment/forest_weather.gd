@@ -270,10 +270,10 @@ func update_light(altitude: float, daylight: float) -> void:
 	var occlusion: float = weather_value.w
 	var colors := colors_at(hours)
 	sun.rotation_degrees = Vector3(-altitude * 60., -52. + (hours - 16.5) * 15., 0)
-	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.32 * (1. - smoothstep(.10,.48,occlusion) * .94)
+	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.15 * (1. - smoothstep(.10,.48,occlusion) * .94)
 	var sun_col := Color("FFC987").lerp(Color("FFF2DC"), smoothstep(.16, .78, altitude))
 	sun.light_color = sun_col
-	sun.shadow_opacity=1.-smoothstep(.12,.55,occlusion)
+	sun.shadow_opacity=.80*(1.0-smoothstep(.12,.55,occlusion))
 	sun.shadow_enabled = altitude > .025 and occlusion<.58
 
 	moon.rotation_degrees = Vector3(maxf(0.32, -altitude * 0.65) * -46., 128. + (hours - 16.5) * 15., 0)
@@ -282,8 +282,8 @@ func update_light(altitude: float, daylight: float) -> void:
 	var sky_top: Color = colors[0].lerp(Color("5D707B"), occlusion * .56 * daylight)
 	var sky_hor: Color = colors[1].lerp(Color("94A4A8"), occlusion * .68 * daylight)
 	var amb_col: Color = colors[2].lerp(Color("8FA1AA"), occlusion * .38 * daylight)
-	environment.ambient_light_color = amb_col
-	environment.ambient_light_energy = float(colors[5]) * (1. - occlusion * .16)
+	environment.ambient_light_color = amb_col.lerp(Color("A4B7C3"), daylight * .32)
+	environment.ambient_light_energy = (float(colors[5]) + daylight * .18) * (1. - occlusion * .16)
 	environment.fog_light_color = sky_hor.lerp(sky_top, .42)
 	environment.fog_light_energy = lerpf(0.82, 0.96, daylight)
 	environment.fog_depth_begin = lerpf(58., 36., occlusion)
