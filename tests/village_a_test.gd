@@ -55,6 +55,7 @@ func run() -> void:
 	root.add_child(hub)
 	var valley := hub.get_node("A1RiverValley")
 	var village := valley.get_node("VillageA")
+	var planting := valley.get_node("SeasonalPlanting")
 	test_tree_lod(hub)
 	var player: CharacterBody3D = hub.player
 	var families := {}
@@ -76,6 +77,10 @@ func run() -> void:
 		valley.set_season_palette(season)
 		for i in range(4):
 			check(village.seasonal[i].visible == (i == season), "Exactly one seasonal group should be visible.")
+			check(planting.seasons[i].visible == (i == season),"Exactly one planting season should be visible.")
+	check(planting.has_node("Summer/VegetableBeds/Tomato_4"),"Summer tomato row did not import.")
+	check(planting.has_node("Autumn/VegetableBeds/Pumpkin_4"),"Autumn pumpkin vines did not import.")
+	check(not planting.has_node("Winter/VegetableBeds/Tomato_4"),"Winter beds must exclude summer crops.")
 	valley.set_season_palette(0)
 
 	var walk_start: Vector2 = PLAN.HOUSE_APPROACH[0]
@@ -83,6 +88,13 @@ func run() -> void:
 	player.velocity = Vector3.ZERO
 	for frame in range(8):
 		await physics_frame
+	for mound: Vector4 in LAND.RELIEF:
+		var point := Vector2(mound.x,mound.y)
+		var h := LAND.height_at(point.x,point.y)
+		var query := PhysicsRayQueryParameters3D.create(Vector3(point.x,h+.22,point.y),
+			Vector3(point.x,h-.22,point.y))
+		var hit := player.get_world_3d().direct_space_state.intersect_ray(query)
+		check(not hit.is_empty() and absf(hit.position.y-h)<.02, "Relief mesh/collision mismatch at %s." % point)
 	var destinations: Array[Vector2] = []
 	destinations.assign(PLAN.HOUSE_APPROACH.slice(1))
 	for z in range(19,25):
@@ -97,6 +109,13 @@ func run() -> void:
 		check(player.position.y > LAND.height_at(destination.x,destination.y)-.25 or destination.y in range(69,82),
 			"Player below the terrain near %s." % destination)
 	print("Main walk ended at ", player.position)
+	destinations.reverse()
+	destinations.append(walk_start)
+	for destination in destinations.slice(1):
+		if not await walk(player, destination):
+			check(false,"Return to House A blocked near %s at %s." % [destination,player.position])
+			break
+	print("Return ended at ",player.position)
 	for lane in PLAN.LANES:
 		var start: Vector2 = lane[0]
 		player.position = hub.ground(start.x,start.y,.12)

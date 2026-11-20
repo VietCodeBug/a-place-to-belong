@@ -240,12 +240,6 @@ func build_greenery() -> void:
 			else:
 				BOTANY.place(set,"Flower_4_Clump" if i!=0 and j%3!=0 else "Bush_Large",
 					at(p),[.52,.42,.61][i]+.15*absf(sin(j)),j*1.31)
-		for j in range(32):
-			var position := PLAN.GARDEN+Vector2((j%4-1.5)*1.14, float(j/4)*.46-1.52)
-			if i==3:
-				S.box(set,at(position,.091),Vector3(.51,.10,.37),"DCE8EF")
-			else:
-				A.place(set,"nature",["grass_leafs","flower_purpleB","flower_yellowA"][i],at(position,.08),[.21,.29,.46][i],j*.8)
 		if i == 3:
 			for x in [-9.5,-8.4,-7.3,-6.2]:
 				snow_bank(set,Vector2(x,122.32),.46,.30)

@@ -1,0 +1,98 @@
+[
+  {
+    "file": "Carrot_2.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Carrot_2.glb",
+    "git_blob": "ab829e7b1ecbbcc14771994cd53a48ac19206777",
+    "sha256": "bfea2e1cda00fdfc42c6a333acb020f722346ca181688ee387861e9d0c59965d"
+  },
+  {
+    "file": "Carrot_4.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Carrot_4.glb",
+    "git_blob": "53ec1171e25f8779f1f06aa945584194ba5578bf",
+    "sha256": "3e49a8dd8f4476bf2b5aaf98a903e1775b91cbae3b2c6a84420420531eee2e32"
+  },
+  {
+    "file": "Lettuce_2.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Lettuce_2.glb",
+    "git_blob": "b387e118f5f40dfdeb31bd8c9dd01dad63dcd869",
+    "sha256": "62ab2e3ba5acdc130a3db76dfd459dabec52e5200af036430b57aac5a524bf85"
+  },
+  {
+    "file": "Lettuce_4.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Lettuce_4.glb",
+    "git_blob": "fdbeff91de94e22631e68971e468d46ffac0e5f2",
+    "sha256": "e1b4d9f5be1d94b82b10ea21f7438d069d9f2a789fc83ab96d4c65ebb4821ea1"
+  },
+  {
+    "file": "Beet_3.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Beet_3.glb",
+    "git_blob": "9f1c285746646ffac056e7b36fe9081607f1c5ca",
+    "sha256": "f2d77559467e7e4a175cf46770a25f7a4af69d37c073e6cee1d536cdb440beff"
+  },
+  {
+    "file": "Tomato_2.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Tomato_2.glb",
+    "git_blob": "155984c5416dc38c287131ae2419b8c9a55944c4",
+    "sha256": "39a42267f00450802337f1a1d03160d308d75708db8f30871eb9b516ced94763"
+  },
+  {
+    "file": "Tomato_4.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Tomato_4.glb",
+    "git_blob": "7bae5aa1bb89b5d7042e56e8ce052989404a95ca",
+    "sha256": "be8746b966e96110333c4674a661b0c18d82c4c5b1c387f8bccfbb2e971de3f4"
+  },
+  {
+    "file": "Pumpkin_2.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Pumpkin_2.glb",
+    "git_blob": "5c4070e806bde295a4cd68e8982e3ad009840f20",
+    "sha256": "5369c13f2a61664faf53879a74dee3ce8343f5fc1b100d3420d7130b5cd2dfad"
+  },
+  {
+    "file": "Pumpkin_4.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Pumpkin_4.glb",
+    "git_blob": "9080bd216f07df031e6e4c8d0509c0433da9cc9f",
+    "sha256": "f15570e3f262e913290df06719bd666173653df1204f4c3a2c897043dd4ceb88"
+  },
+  {
+    "file": "Corn_4.glb",
+    "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/crops_pack/Corn_4.glb",
+    "git_blob": "38df6f8a0b4d3d2b617de930f2eab6765d4c98cb",
+    "sha256": "6145ae91839127d4c4158b775bbd50a9e1d1d1f6ee366a336b1f34c4217f544b"
+  },
+  {
+    "file": "Flower_1.fbx",
+    "source": "https://raw.githubusercontent.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/d36a06461359a8e60039e17b95d50bedc96c1edc/ultimate-stylized-nature/sources/FBX/Flower_1.fbx",
+    "git_blob": "171e4445a66ffed156ce68d79ea52ea80d26558f",
+    "sha256": "75f819bb8c73463e746bb79b6f489be73bd83eadd2050dc70239a56ca51de921"
+  },
+  {
+    "file": "Flower_2.fbx",
+    "source": "https://raw.githubusercontent.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/d36a06461359a8e60039e17b95d50bedc96c1edc/ultimate-stylized-nature/sources/FBX/Flower_2.fbx",
+    "git_blob": "e0d0200f549d4fed253b0d37d305fd64bb96785e",
+    "sha256": "21488d7a807858b0e67255333efa11175b8a5aeafc84e445cd2dd533a5bf0bd9"
+  },
+  {
+    "file": "Flower_3_Clump.fbx",
+    "source": "https://raw.githubusercontent.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/d36a06461359a8e60039e17b95d50bedc96c1edc/ultimate-stylized-nature/sources/FBX/Flower_3_Clump.fbx",
+    "git_blob": "35e24c77ee7e382dcbdf8d739104c244532ce975",
+    "sha256": "9097dc9625008c3039245761f14810ca060150b15d34b7f036f84c14d796e303"
+  },
+  {
+    "file": "Flower_5_Clump.fbx",
+    "source": "https://raw.githubusercontent.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/d36a06461359a8e60039e17b95d50bedc96c1edc/ultimate-stylized-nature/sources/FBX/Flower_5_Clump.fbx",
+    "git_blob": "bdbe729df732e9af888fbe677ba3155da56a2a65",
+    "sha256": "27f2a1ecc69dfbe97db3e3304cf3729561dda3b9d4a0feb240d20d152f156dbd"
+  },
+  {
+    "file": "Bush_Small_Flowers.fbx",
+    "source": "https://raw.githubusercontent.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/d36a06461359a8e60039e17b95d50bedc96c1edc/ultimate-stylized-nature/sources/FBX/Bush_Small_Flowers.fbx",
+    "git_blob": "0f7a271a76217c39ca018835731780470cbeb811",
+    "sha256": "7e7912232d16c2e73fbf141ff4259f100d88b6664ad6cdbb6c04c6dec4258215"
+  },
+  {
+    "file": "Plant_Flowers.fbx",
+    "source": "https://raw.githubusercontent.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/d36a06461359a8e60039e17b95d50bedc96c1edc/ultimate-stylized-nature/sources/FBX/Plant_Flowers.fbx",
+    "git_blob": "886c63ff47ffa7117a4f24058cf75d0e732b5cb1",
+    "sha256": "afe5b3cb894676fb5704071b1222cae46ce70c9aecb3155f0062c390de8469a8"
+  }
+]

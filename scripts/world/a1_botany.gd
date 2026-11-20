@@ -5,6 +5,7 @@ const DEFAULT_SEASON := 1
 const FAMILIES := ["BirchTree", "MapleTree", "NormalTree", "PineTree"]
 static var materials: Dictionary = {}
 static var scenes: Dictionary = {}
+static var meadow_meshes: Dictionary = {}
 
 static func codes() -> PackedStringArray:
 	var result := PackedStringArray()
@@ -13,18 +14,20 @@ static func codes() -> PackedStringArray:
 			result.append("%s_%d" % [family, index])
 	return result
 
-static func instance(id: String, height: float) -> Node3D:
+static func instance(id: String, height: float, source_dir: String = DIR, style := true) -> Node3D:
 	var wrapper := Node3D.new()
-	if not scenes.has(id):
-		scenes[id] = load(DIR + id + ".glb")
-	var scene := scenes[id] as PackedScene
+	var path := source_dir + id + ".glb"
+	if not scenes.has(path):
+		scenes[path] = load(path)
+	var scene := scenes[path] as PackedScene
 	var model := scene.instantiate() as Node3D
 	wrapper.add_child(model)
 	var bounds := FieldAssets.bounds(model)
 	var factor := height / maxf(.01,bounds.size.y)
 	model.scale *= factor
 	model.position -= Vector3(bounds.get_center().x,bounds.position.y,bounds.get_center().z)*factor
-	apply_season(wrapper,2)
+	if style:
+		apply_season(wrapper,2)
 	return wrapper
 
 static func place(parent: Node3D, id: String, position: Vector3, height: float, yaw := 0.0) -> Node3D:
@@ -102,29 +105,32 @@ static func place_stone(parent: Node3D, spot: Vector3, size: float, yaw: float, 
 	return base
 
 static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, distance: float, height: float = .29) -> MultiMeshInstance3D:
-	var grass := instance("Grass_Large_Extruded",height)
-	var visual := grass.find_children("*","MeshInstance3D",true,false)[0] as MeshInstance3D
-	var blade := visual.mesh.duplicate() as ArrayMesh
-	var pose := visual.get_parent_node_3d().transform*visual.transform
-	var material := visual.material_override.duplicate() as StandardMaterial3D
-	material.vertex_color_use_as_albedo = true
-	blade.surface_set_material(0,material)
-	grass.free()
-
+	const MEADOW = preload("res://environment/vegetation/scripts/meadow_meshes.gd")
+	if not materials.has("a1_meadow"):
+		var grass := ShaderMaterial.new()
+		grass.shader = preload("res://environment/vegetation/shaders/dense_meadow.gdshader")
+		grass.set_shader_parameter("lod_level",-1)
+		grass.set_shader_parameter("wind_strength",.043)
+		grass.set_shader_parameter("wind_direction",Vector2(.85,.52))
+		materials["a1_meadow"] = grass
+	var mesh_key := "meadow_mesh_%d" % (seed%2)
+	if not meadow_meshes.has(mesh_key):
+		meadow_meshes[mesh_key] = MEADOW.grass(1,seed%2)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed
 	var instances := MultiMesh.new()
 	instances.transform_format = MultiMesh.TRANSFORM_3D
-	instances.use_colors = true
-	instances.mesh = blade
+	instances.use_custom_data = true
+	instances.mesh = meadow_meshes[mesh_key]
 	instances.instance_count = positions.size()
 	for i in positions.size():
-		var scale_factor := rng.randf_range(.70,1.25)
-		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3.ONE*scale_factor)
-		instances.set_instance_transform(i,Transform3D(basis,positions[i])*pose)
-		instances.set_instance_color(i,Color("A5AD78").lerp(Color("D1CC9D"),rng.randf()))
+		var height_scale := height/.26*rng.randf_range(.72,1.20)
+		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3(.99,height_scale,.99))
+		instances.set_instance_transform(i,Transform3D(basis,positions[i]))
+		instances.set_instance_custom_data(i,Color(0,0,0,rng.randf()))
 	var patch := MultiMeshInstance3D.new()
 	patch.multimesh = instances
+	patch.material_override = materials["a1_meadow"]
 	patch.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	patch.visibility_range_end = distance
 	parent.add_child(patch)

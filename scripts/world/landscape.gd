@@ -12,6 +12,16 @@ const BRIDGE_Z := 74.0
 const POTHOLES := [Vector4(4,16,.82,.69),Vector4(4,104,.77,.94),
 	Vector4(6,122,.72,1.05),Vector4(6,136,.86,.83),Vector4(4,150,.81,1.10)]
 
+# Off-trail shoulders only. x/z, radius, signed vertical relief in metres.
+const RELIEF := [
+	Vector4(6,20,3.2,.39), Vector4(16,8,3.0,.48), Vector4(-11,16,3.6,-.34),
+	Vector4(-14,31,5.2,.58), Vector4(9,38,4.5,-.37), Vector4(-10,45,5,.61),
+	Vector4(-19,58,4.8,.44), Vector4(13,65,4.6,.45), Vector4(-13,83,4.5,.52),
+	Vector4(16,91,4.0,-.39), Vector4(-11,94,5.0,.54), Vector4(9.8,98,2.7,.32),
+	Vector4(-21,122,3.7,.42), Vector4(25,146,3.5,-.39), Vector4(-13,168,4.1,.49),
+	Vector4(12,176,4.0,.57), Vector4(-4,177,3.8,-.35),
+]
+
 static func road_potholes() -> PackedVector4Array:
 	return PackedVector4Array(POTHOLES)
 
@@ -57,6 +67,10 @@ static func sculpt(x: float,z: float) -> float:
 		reveal += 2.1*exp(-Vector2(x-10.4,z-92.5).length_squared()/44.0)
 		var river := 4.0 * (1.0 - smoothstep(3.4, 7.8, absf(z - river_center(x))))
 		h = lerpf(h, banks + hills + rise + reveal - river, blend)
+	for mound: Vector4 in RELIEF:
+		if absf(z-mound.y)<mound.z and absf(x-mound.x)<mound.z:
+			var radius := Vector2(x-mound.x,z-mound.y).length()
+			h += mound.w*(1.0-smoothstep(0,mound.z,radius))
 	for hollow: Vector4 in POTHOLES:
 		if absf(x-hollow.x) < STEP and absf(z-hollow.y) < STEP:
 			h -= .13*(1.0-smoothstep(0.0,STEP,Vector2(x-hollow.x,z-hollow.y).length()))
