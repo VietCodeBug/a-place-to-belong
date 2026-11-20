@@ -1,0 +1,660 @@
+{
+  "schema": "apb.playable_character_script.v1",
+  "character_id": "VLA-01",
+  "name_en_draft": "Hazel",
+  "status": "draft_pending_creator_review",
+  "language": "vi",
+  "profile_source": "docs/story/characters/village-a-roster.json",
+  "quest_source": "docs/story/quests/village-a-relationship-arcs-v0.json",
+  "base_dialogue_source": "docs/story/dialogue/village-a-dialogues-v0.json",
+  "area_vi": "Góc vườn chung Làng A",
+  "active_npc_behavior_vi": "Sờ đất, tưới cây, sắp dụng cụ, nghỉ ngơi; không đứng chờ để giao nhiệm vụ.",
+  "quest_gate_contract": "20/50/80 provisional friendship thresholds; meaningful_shared_activity, separated return visits, bond event and voluntary acceptance; not ordered chapter completion",
+  "quests": [
+    {
+      "quest_id": "VLA01-Q1",
+      "title_vi": "Luống rau cần để mắt",
+      "location_vi": "Góc vườn chung, hai luống non; một luống đất sáng màu hơn, một luống vừa đủ ẩm",
+      "ambient_cue_vi": "Hazel đang quỳ bên hai luống, chạm nhẹ vào đất rồi đứng dậy. Không gọi A từ xa.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA01-Q1-O1",
+        "player_acceptance": "VLA01-Q1-A1",
+        "completion_after_real_action": "VLA01-Q1-C1",
+        "refusal": "VLA01-Q1-D1"
+      },
+      "gating": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_status": "draft_not_approved",
+        "never_same_encounter_as_previous_quest": true,
+        "npc_available_context": true,
+        "no_auto_offer_on_score": true
+      },
+      "beats": [
+        {
+          "key": "LOOK",
+          "action": "Tự quan sát hai mảnh đất; chạm đất/so màu, chọn luống thấy khô",
+          "result": "Luống A đất khô mịn, luống B vẫn ẩm và bám tay. Không đặt mũi tên khổng lồ lên luống.",
+          "line": [
+            "H:Đất ở luống bên trái đổi màu từ hôm trước rồi.",
+            "A:Nhìn mặt đất đã đủ biết chưa?",
+            "H:Chưa hẳn. Thử xem dưới lớp trên một chút."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-Q1-LOOK-X01",
+              "speaker_id": "VLA-01",
+              "text_vi": "Đất ở luống bên trái đổi màu từ hôm trước rồi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q1-LOOK-X02",
+              "speaker_id": "A",
+              "text_vi": "Nhìn mặt đất đã đủ biết chưa?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q1-LOOK-X03",
+              "speaker_id": "VLA-01",
+              "text_vi": "Chưa hẳn. Thử xem dưới lớp trên một chút.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "CHOOSE",
+          "action": "Chọn tưới phần khô, hoặc đề nghị Hazel xác nhận trước khi tưới. Nếu lỡ chọn phần ướt, Hazel nhắc kiểm lại và cho sửa.",
+          "result": "Tưới luống khô: đất đổi sắc nhẹ; luống ẩm được giữ nguyên. Lỗi chỉ tạo phản hồi và thử lại, không phá cây.",
+          "line": [
+            "H:Chỗ ấy còn ẩm đấy. Cậu thử xem luống kia trước được không?",
+            "A:Ừ, tôi nhìn vội quá.",
+            "H:Không sao. Chăm cây có lúc phải dừng tay một chút."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-Q1-CHOOSE-X01",
+              "speaker_id": "VLA-01",
+              "text_vi": "Chỗ ấy còn ẩm đấy. Cậu thử xem luống kia trước được không?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q1-CHOOSE-X02",
+              "speaker_id": "A",
+              "text_vi": "Ừ, tôi nhìn vội quá.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q1-CHOOSE-X03",
+              "speaker_id": "VLA-01",
+              "text_vi": "Không sao. Chăm cây có lúc phải dừng tay một chút.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "REPORT",
+          "action": "Quay lại báo Hazel đã xem cả hai luống và chỉ tưới nơi cần",
+          "result": "Hazel kiểm lại, ghi nhớ A biết quan sát; phát câu kết gốc chỉ ở nhánh đã kiểm đất và hoàn thành.",
+          "line": [
+            "A:Tôi để luống kia như cũ. Đất vẫn đủ ẩm.",
+            "H:Tốt. Vậy tôi yên tâm hơn rồi."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-Q1-REPORT-X01",
+              "speaker_id": "A",
+              "text_vi": "Tôi để luống kia như cũ. Đất vẫn đủ ẩm.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q1-REPORT-X02",
+              "speaker_id": "VLA-01",
+              "text_vi": "Tốt. Vậy tôi yên tâm hơn rồi.",
+              "approval": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "inspect_first",
+          "label_vi": "Kiểm đất trước",
+          "effect": "Đạt bước quan sát cẩn thận, không cộng điểm lặp"
+        },
+        {
+          "id": "ask_hazel",
+          "label_vi": "Hỏi Hazel cách nhận biết",
+          "effect": "Hazel hướng dẫn ngắn, cùng kết quả gameplay"
+        },
+        {
+          "id": "water_without_check",
+          "label_vi": "Tưới luôn",
+          "effect": "Hazel nhắc sửa, chưa hoàn tất quest cho tới khi kiểm lại; không phạt thân thiết"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Hai luống ghi nhận đã kiểm; luống khô được tưới vừa đủ, luống ẩm giữ nguyên.",
+          "return_visit_line_vi": "Tôi vừa nhìn luống hôm trước. Không thấy phần nào bị tưới quá tay."
+        },
+        "resolved_without_player": {
+          "world_vi": "Hazel tự kiểm và chăm sau khi A rời đi.",
+          "return_visit_line_vi": "Tôi tự xem hai luống hôm trước rồi. Cũng may phát hiện chỗ đất khô kịp."
+        },
+        "declined": {
+          "npc_can_continue": true,
+          "can_be_reoffered_if_context_still_exists": true
+        },
+        "abandoned": {
+          "npc_continues_work": true,
+          "no_unearned_credit": true
+        }
+      },
+      "ordinary_life_after_vi": "Sắp tới phải xem đất thêm một lần. Chẳng cần làm gì lớn cả, chỉ cần nhớ nó đang thay đổi.",
+      "required_completion": [
+        "quest_accepted",
+        "player_completed_interactions",
+        "NPC_confirmed_completion"
+      ],
+      "no_hard_deadline": true,
+      "no_forced_dialogue": true
+    },
+    {
+      "quest_id": "VLA01-Q2",
+      "title_vi": "Không thể tưới hết mọi nơi",
+      "location_vi": "Cùng góc vườn, có bảng nhắc việc/giấy ghi chú tạm và đồ tưới đang dùng",
+      "ambient_cue_vi": "Hazel đứng giữa luống non và kệ dụng cụ, tay cầm hai ghi chú; trông bận nhưng vẫn tự làm việc.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA01-Q2-O1",
+        "player_acceptance": "VLA01-Q2-A1",
+        "completion_after_real_action": "VLA01-Q2-C1",
+        "refusal": "VLA01-Q2-D1"
+      },
+      "gating": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA01-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_status": "draft_not_approved",
+        "never_same_encounter_as_previous_quest": true,
+        "npc_available_context": true,
+        "no_auto_offer_on_score": true
+      },
+      "beats": [
+        {
+          "key": "COMPARE",
+          "action": "Đọc hai công việc: xem đất ở chỗ nắng gắt và xếp lại đồ tưới đã dùng; A tự chọn thứ nên ưu tiên",
+          "result": "Không có đồng hồ đếm ngược ép lựa chọn. Hazel nói rõ điều gì quan trọng lúc này.",
+          "line": [
+            "H:Một chỗ đất đang khô, còn đống dụng cụ kia thì chưa kịp cất.",
+            "A:Luống có cây phải xem trước nhỉ?",
+            "H:Ừ. Đồ còn có thể đợi một lát."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-Q2-COMPARE-X01",
+              "speaker_id": "VLA-01",
+              "text_vi": "Một chỗ đất đang khô, còn đống dụng cụ kia thì chưa kịp cất.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q2-COMPARE-X02",
+              "speaker_id": "A",
+              "text_vi": "Luống có cây phải xem trước nhỉ?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q2-COMPARE-X03",
+              "speaker_id": "VLA-01",
+              "text_vi": "Ừ. Đồ còn có thể đợi một lát.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "DIVIDE",
+          "action": "Chọn A kiểm luống, Hazel xếp dụng cụ; hoặc đề nghị Hazel tự xử lý luống và A xếp dụng cụ; nếu muốn nhờ cư dân khác thì phải có người thật sẵn sàng và đồng ý.",
+          "result": "Hai phần việc có người tự nguyện đảm nhận; không tự gán nhiệm vụ cho NPC đang bận.",
+          "line": [
+            "A:Tôi làm một phần. Phần kia cô chọn đi.",
+            "H:Tôi cứ tưởng tự mình phải làm hết trước khi nhờ ai.",
+            "A:Không cần lúc nào cũng vậy."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-Q2-DIVIDE-X01",
+              "speaker_id": "A",
+              "text_vi": "Tôi làm một phần. Phần kia cô chọn đi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q2-DIVIDE-X02",
+              "speaker_id": "VLA-01",
+              "text_vi": "Tôi cứ tưởng tự mình phải làm hết trước khi nhờ ai.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q2-DIVIDE-X03",
+              "speaker_id": "A",
+              "text_vi": "Không cần lúc nào cũng vậy.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "DO",
+          "action": "Thực hiện phần việc vừa chọn (xem và tưới đúng luống hoặc đặt bình/dụng cụ vào kệ), rồi quay lại xác nhận",
+          "result": "Kệ gọn và luống được xem. Hazel nói lời kết gốc sau khi việc thật sự hoàn tất.",
+          "line": [
+            "H:Xong phần của cậu rồi à?",
+            "A:Ừ. Còn phần của cô?",
+            "H:Cũng vừa đủ. Được thế này là tốt rồi."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-Q2-DO-X01",
+              "speaker_id": "VLA-01",
+              "text_vi": "Xong phần của cậu rồi à?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q2-DO-X02",
+              "speaker_id": "A",
+              "text_vi": "Ừ. Còn phần của cô?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-Q2-DO-X03",
+              "speaker_id": "VLA-01",
+              "text_vi": "Cũng vừa đủ. Được thế này là tốt rồi.",
+              "approval": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "share_tasks",
+          "label_vi": "Chia việc giữa hai người",
+          "effect": "Hazel chủ động giao một việc vừa sức; nhớ A giúp cô tập nhờ người khác"
+        },
+        {
+          "id": "take_all_tasks",
+          "label_vi": "Để tôi làm hết",
+          "effect": "Hazel nhắc không cần ôm toàn bộ; người chơi vẫn làm một việc trước rồi cô làm phần còn lại"
+        },
+        {
+          "id": "ask_nearby_if_available",
+          "label_vi": "Hỏi người đang rảnh",
+          "effect": "Chỉ có nếu đúng NPC tình nguyện có mặt; không tự sinh người mới hoặc đổi gia đình"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Lịch công việc được phân chia và kệ tưới/luống cây cập nhật ở mức nhỏ.",
+          "return_visit_line_vi": "Tôi đã để lại một khoảng trống trong lịch việc. Hóa ra không có gì đáng sợ."
+        },
+        "resolved_without_player": {
+          "world_vi": "Hazel hoãn một việc không khẩn cấp và tự sắp xếp lại.",
+          "return_visit_line_vi": "Tôi đã hoãn bớt một việc hôm ấy, xong đâu vào đấy."
+        },
+        "declined": {
+          "npc_can_continue": true,
+          "can_be_reoffered_if_context_still_exists": true
+        },
+        "abandoned": {
+          "npc_continues_work": true,
+          "no_unearned_credit": true
+        }
+      },
+      "ordinary_life_after_vi": "Dạo này cô hay để một vài việc sang hôm sau hơn trước.",
+      "required_completion": [
+        "quest_accepted",
+        "player_completed_interactions",
+        "NPC_confirmed_completion"
+      ],
+      "no_hard_deadline": true,
+      "no_forced_dialogue": true
+    },
+    {
+      "quest_id": "VLA01-QF",
+      "title_vi": "Một góc vườn cho mọi người",
+      "location_vi": "Rìa vườn chung, hai góc đất có thể trồng cây non mà không chắn lối đi",
+      "ambient_cue_vi": "Hazel đang xem một góc đất trống. Không dựng cổng khu vườn mới, không biến thành lễ hội.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA01-QF-O1",
+        "player_acceptance": "VLA01-QF-A1",
+        "completion_after_real_action": "VLA01-QF-C1",
+        "refusal": "VLA01-QF-D1"
+      },
+      "gating": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA01-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_status": "draft_not_approved",
+        "never_same_encounter_as_previous_quest": true,
+        "npc_available_context": true,
+        "no_auto_offer_on_score": true
+      },
+      "beats": [
+        {
+          "key": "VISIT_SPOTS",
+          "action": "Quan sát hai góc đất: một dễ tiếp cận và dễ tưới; một nhiều nắng nhưng xa nguồn nước hơn",
+          "result": "Hai vị trí đều khả thi. Không chốt vị trí vườn chung trước khi A chọn.",
+          "line": [
+            "H:Chỗ này ai đi qua cũng thấy. Góc kia nắng hơn, nhưng tưới xa hơn một chút.",
+            "A:Cô thích góc nào?",
+            "H:Tôi muốn chọn nơi người khác cũng có thể chăm được."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-QF-VISIT_SPOTS-X01",
+              "speaker_id": "VLA-01",
+              "text_vi": "Chỗ này ai đi qua cũng thấy. Góc kia nắng hơn, nhưng tưới xa hơn một chút.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-QF-VISIT_SPOTS-X02",
+              "speaker_id": "A",
+              "text_vi": "Cô thích góc nào?",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-QF-VISIT_SPOTS-X03",
+              "speaker_id": "VLA-01",
+              "text_vi": "Tôi muốn chọn nơi người khác cũng có thể chăm được.",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "DECIDE",
+          "action": "Chọn một góc, thảo luận ưu nhược điểm với Hazel; thử đặt hai cây non theo khoảng cách hợp lý",
+          "result": "Cây không chắn lối; người chơi thấy góc mới đang hình thành.",
+          "line": [
+            "A:Chọn góc này nhé. Mọi người có thể ghé mà không dẫm lên luống.",
+            "H:Ừ. Để thử đặt cách nhau một chút.",
+            "A:Vậy còn việc chăm?"
+          ],
+          "lines": [
+            {
+              "id": "VLA01-QF-DECIDE-X01",
+              "speaker_id": "A",
+              "text_vi": "Chọn góc này nhé. Mọi người có thể ghé mà không dẫm lên luống.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-QF-DECIDE-X02",
+              "speaker_id": "VLA-01",
+              "text_vi": "Ừ. Để thử đặt cách nhau một chút.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-QF-DECIDE-X03",
+              "speaker_id": "A",
+              "text_vi": "Vậy còn việc chăm?",
+              "approval": "draft"
+            }
+          ]
+        },
+        {
+          "key": "PLANT",
+          "action": "Cùng Hazel đặt cây/kiểm đất lần cuối, để lại nhãn việc chăm tự nguyện (nháp), không ràng buộc người chơi phải tưới mỗi ngày",
+          "result": "Góc cây chung tồn tại, Hazel có công việc mới và không chờ A mãi.",
+          "line": [
+            "H:Tôi sẽ chăm khi có mặt. Ai muốn góp tay thì cứ hỏi.",
+            "A:Không cần giao hết cho một người.",
+            "H:Ừ. Tôi đang tập quen với điều đó."
+          ],
+          "lines": [
+            {
+              "id": "VLA01-QF-PLANT-X01",
+              "speaker_id": "VLA-01",
+              "text_vi": "Tôi sẽ chăm khi có mặt. Ai muốn góp tay thì cứ hỏi.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-QF-PLANT-X02",
+              "speaker_id": "A",
+              "text_vi": "Không cần giao hết cho một người.",
+              "approval": "draft"
+            },
+            {
+              "id": "VLA01-QF-PLANT-X03",
+              "speaker_id": "VLA-01",
+              "text_vi": "Ừ. Tôi đang tập quen với điều đó.",
+              "approval": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "accessible",
+          "label_vi": "Gần lối sinh hoạt",
+          "effect": "Góc vườn dễ ghé, ít nắng hơn; Hazel chú ý lượng nước phù hợp"
+        },
+        {
+          "id": "sunny",
+          "label_vi": "Nơi nhiều nắng",
+          "effect": "Góc đất thoáng hơn, cần kiểm độ khô nhiều hơn; không phải sai"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Một góc vườn nhỏ được A và Hazel cùng chọn, vẫn phát triển khi A vắng; không tự tạo quest thường trực.",
+          "return_visit_line_vi": "Góc vườn cậu cùng chọn đang lớn dần. Hôm nay không cần cậu ở đây suốt đâu."
+        },
+        "resolved_without_player": {
+          "world_vi": "Hazel vẫn trồng với những cư dân sẵn lòng; A có thể tới xem sau.",
+          "return_visit_line_vi": "Tôi bắt đầu góc vườn chung với người rảnh khác. Nếu thích, cậu vẫn có thể ghé."
+        },
+        "declined": {
+          "npc_can_continue": true,
+          "can_be_reoffered_if_context_still_exists": true
+        },
+        "abandoned": {
+          "npc_continues_work": true,
+          "no_unearned_credit": true
+        }
+      },
+      "ordinary_life_after_vi": "Có người khác vừa xem luống cây. Hazel để họ tự làm rồi chỉ kiểm lại khi cần.",
+      "required_completion": [
+        "quest_accepted",
+        "player_completed_interactions",
+        "NPC_confirmed_completion"
+      ],
+      "no_hard_deadline": true,
+      "no_forced_dialogue": true
+    }
+  ],
+  "interludes": [
+    {
+      "id": "VLA01-IL1",
+      "between": "Q1->Q2",
+      "trigger": "first_nonquest_revisit_after_Q1_resolution",
+      "npc_state": "checking_soil_as_usual",
+      "lines": [
+        {
+          "id": "VLA01-IL1-X01",
+          "speaker_id": "VLA-01",
+          "text_vi": "Chỗ đất hôm trước giờ đều hơn rồi.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-IL1-X02",
+          "speaker_id": "A",
+          "text_vi": "Cô còn phải tưới nhiều chứ?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-IL1-X03",
+          "speaker_id": "VLA-01",
+          "text_vi": "Hôm nào đất cần thì tưới. Không cần sáng nào cũng làm đủ một lượt.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA01.nonquest_meetups_after_Q1",
+      "effect": "counts_one_distinct_visit"
+    },
+    {
+      "id": "VLA01-IL2",
+      "between": "Q2->QF",
+      "trigger": "first_nonquest_revisit_after_Q2_resolution",
+      "npc_state": "sorting_small_tools",
+      "lines": [
+        {
+          "id": "VLA01-IL2-X01",
+          "speaker_id": "VLA-01",
+          "text_vi": "Tôi vừa cất bớt mấy cái bình không dùng tới.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-IL2-X02",
+          "speaker_id": "A",
+          "text_vi": "Thế là cô đỡ đi lại rồi.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-IL2-X03",
+          "speaker_id": "VLA-01",
+          "text_vi": "Ừ. Tại cứ để ngay trước mắt thì lại muốn làm thêm.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA01.nonquest_meetups_after_Q2",
+      "effect": "counts_one_distinct_visit"
+    },
+    {
+      "id": "VLA01-IL3",
+      "between": "Q2->QF",
+      "trigger": "second_nonquest_revisit_after_Q2_resolution",
+      "npc_state": "sitting_near_garden_after_work",
+      "lines": [
+        {
+          "id": "VLA01-IL3-X01",
+          "speaker_id": "A",
+          "text_vi": "Hôm nay cô ngồi nghỉ à?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-IL3-X02",
+          "speaker_id": "VLA-01",
+          "text_vi": "Ừ. Cây đâu có mọc nhanh hơn chỉ vì tôi đứng nhìn.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-IL3-X03",
+          "speaker_id": "A",
+          "text_vi": "Nghe cũng có lý.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA01.nonquest_meetups_after_Q2",
+      "effect": "counts_one_other_distinct_visit"
+    },
+    {
+      "id": "VLA01-BOND",
+      "between": "Q2->QF",
+      "trigger": "after_Q2_resolution_and_player_selects_personal_talk",
+      "npc_state": "not_busy",
+      "lines": [
+        {
+          "id": "VLA01-BOND-X01",
+          "speaker_id": "VLA-01",
+          "text_vi": "Cậu biết không, tôi ghét phải nói 'giúp tôi một tay'.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-BOND-X02",
+          "speaker_id": "A",
+          "text_vi": "Vì cô sợ phiền người khác?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-BOND-X03",
+          "speaker_id": "VLA-01",
+          "text_vi": "Không hẳn. Tôi quen tự lo đến mức quên mất mình có thể hỏi.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-BOND-X04",
+          "speaker_id": "A",
+          "text_vi": "Giúp nhau đôi khi cũng bình thường mà.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-BOND-X05",
+          "speaker_id": "VLA-01",
+          "text_vi": "Ừ. Tôi đang thử nghĩ như vậy.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "VLA01.personal_bond_event_seen",
+      "effect": "one_time_personal_talk_not_a_quest"
+    },
+    {
+      "id": "VLA01-POST",
+      "between": "after_QF",
+      "trigger": "normal_revisit_after_QF_completed_or_alternate",
+      "npc_state": "normal_gardening",
+      "lines": [
+        {
+          "id": "VLA01-POST-X01",
+          "speaker_id": "VLA-01",
+          "text_vi": "À, lại là cậu. Ghé xem luống nào à?",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-POST-X02",
+          "speaker_id": "A",
+          "text_vi": "Chỉ đi ngang qua thôi.",
+          "approval": "draft"
+        },
+        {
+          "id": "VLA01-POST-X03",
+          "speaker_id": "VLA-01",
+          "text_vi": "Ừ. Cứ đi thong thả.",
+          "approval": "draft"
+        }
+      ],
+      "flag": "none",
+      "effect": "repeat_rotation_not_story_end"
+    }
+  ],
+  "runtime_status": "not_implemented"
+}
