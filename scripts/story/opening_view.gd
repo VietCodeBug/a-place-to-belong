@@ -16,6 +16,9 @@ var focus: Node3D
 var focus_weight := 0.0
 var focus_target := 0.0
 var probe := SphereShape3D.new()
+var pose_offset := Vector3.ZERO
+var pose_aim := 0.0
+var pose_look := Vector3.INF
 
 func _ready() -> void:
 	fov = 59.0
@@ -45,7 +48,7 @@ func follow_eyes(delta: float, seated: float, speed: float, scripted := false) -
 	var down_lean := smoothstep(0.43, 1.20, -view_pitch) * 0.18 * (1.0 - seated)
 	var drift := Vector3(bob.x, bob.y, -0.048 * seated - down_lean).rotated(Vector3.UP, yaw * (1.0 - seated))
 	var room := drift_clearance(anchor, drift)
-	position = anchor + drift * room
+	position = anchor + pose_offset + drift * room
 	# A wall can take away the room needed to look ahead of the collar.
 	view_pitch = maxf(view_pitch, lerpf(-0.91, DOWN_LIMIT, room))
 	fov = lerpf(59.0, 54.0, emphasis)
@@ -54,6 +57,10 @@ func follow_eyes(delta: float, seated: float, speed: float, scripted := false) -
 		var direction := global_position.direction_to(focus.global_position)
 		heading.x = lerp_angle(heading.x, asin(direction.y), emphasis)
 		heading.y = lerp_angle(heading.y, atan2(-direction.x, -direction.z), emphasis)
+	if pose_look.is_finite() and pose_aim > 0.0:
+		var direction := global_position.direction_to(pose_look)
+		heading.x = lerp_angle(heading.x, asin(direction.y), pose_aim)
+		heading.y = lerp_angle(heading.y, atan2(-direction.x, -direction.z), pose_aim)
 	var ease := 1.0 if scripted or delta == 0.0 else 1.0 - exp(-28.0 * delta)
 	rotation.x = lerp_angle(rotation.x, heading.x, ease)
 	rotation.y = lerp_angle(rotation.y, heading.y, ease)

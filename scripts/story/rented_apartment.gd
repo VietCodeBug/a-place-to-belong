@@ -2,6 +2,7 @@ extends Node3D
 ## PRO-003, the same rented room across three moments in time.
 
 const MAPS = preload("res://scripts/story/map_flow.gd")
+const ACTOR = preload("res://scenes/story/opening_actor.tscn")
 const EYES = preload("res://scripts/story/opening_view.gd")
 const T = preload("res://scripts/ui/storybook_theme.gd")
 const WALNUT = preload("res://scripts/story/office_wood.gdshader")
@@ -16,7 +17,8 @@ const CHAIR = preload("res://assets/story/office_models/work_chair.glb")
 const MUG = preload("res://assets/story/office_models/personal_mug.glb")
 const PAPERWORK = preload("res://scripts/story/office_paperwork.gd")
 
-const BEDSIDE := Vector3(-0.80, 0.01, 0.24)
+const BED_ROOT := Vector3(-1.165, 0.0, -0.22)
+const BED_YAW := 1.30
 const ALARM := Vector3(-1.11, 0.68, -0.73)
 const DESK := Vector3(0.37, 0.0, -1.60)
 const CALENDAR := Vector3(1.49, 1.49, -1.92)
@@ -28,6 +30,17 @@ var resting := false
 var transitioning := false
 var player: CharacterBody3D
 var camera: EYES
+var actor: Node3D
+var alarm_contact: Marker3D
+var laptop_contacts: Array[Marker3D] = []
+var bed_contact: Marker3D
+var acting := &"waking"
+var acting_time := 0.0
+var seat_blend := 1.0
+var pose_blend := 1.0
+var pose_origin := BED_ROOT
+var pose_yaw := BED_YAW
+var work_stance := Vector3.ZERO
 var environment: Environment
 var daylight: DirectionalLight3D
 var alarm_display: Label3D
@@ -81,7 +94,14 @@ func _exit_tree() -> void:
 func build_player() -> void:
 	player = CharacterBody3D.new()
 	add_child(player)
-	player.position = BEDSIDE
+	player.position = Vector3(-0.943, 0.01, BED_ROOT.z)
+	actor = ACTOR.instantiate()
+	actor.name = "ApartmentActor"
+	player.add_child(actor)
+	actor.use_first_person()
+	actor.seated_hip_drop = 0.32
+	actor.seated_foot_reach = 0.32
+	actor.set_expression("Tired", 0.22)
 	var hitbox := CollisionShape3D.new()
 	var capsule := CapsuleShape3D.new()
 	capsule.radius = 0.22
@@ -91,16 +111,16 @@ func build_player() -> void:
 	player.add_child(hitbox)
 	camera = EYES.new()
 	player.add_child(camera)
-	camera.yaw = 0.02
-	camera.pitch = -0.22
+	camera.yaw = BED_YAW - PI
+	camera.pitch = -0.27
 	camera.head_bob = get_tree().get_meta(MAPS.HEAD_BOB, true)
 	camera.sensitivity = get_tree().get_meta(MAPS.LOOK_SENSITIVITY, 1.0)
-	camera.follow_eyes(0.0, 1.0, 0.0, true)
+	update_acting(0.0, Vector3.ZERO)
 	camera.make_current()
 
 func _physics_process(delta: float) -> void:
 	var motion := Vector2.ZERO
-	if not alarm_ringing and not resting and not transitioning and not phone.visible:
+	if acting == &"free" and not alarm_ringing and not resting and not transitioning and not phone.visible:
 		motion.x = float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A))
 		motion.y = float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))
 	var movement := Vector3(motion.x, 0.0, motion.y).normalized().rotated(Vector3.UP, camera.yaw) * 1.38
@@ -108,10 +128,104 @@ func _physics_process(delta: float) -> void:
 	player.velocity.z = move_toward(player.velocity.z, movement.z, 8.0 * delta)
 	player.velocity.y = maxf(-8.0, player.velocity.y - 18.0 * delta)
 	player.move_and_slide()
-	var eye_seat := clampf((EYES.STANDING_HEIGHT - camera.position.y) / (EYES.STANDING_HEIGHT - EYES.SEATED_HEIGHT), 0.0, 1.0)
-	eye_seat = move_toward(eye_seat, 1.0 if alarm_ringing or resting else 0.0, delta * 1.8)
-	camera.follow_eyes(delta, eye_seat, movement.length())
+	var actual := player.get_real_velocity()
+	actual.y = 0.0
+	update_acting(delta, actual)
 	update_hint()
+
+func update_acting(delta: float, motion: Vector3) -> void:
+	acting_time += delta
+	var seated_target := 0.0
+	var root_target := player.global_position
+	var yaw_target := PI + camera.yaw
+	var look := Vector3.INF
+	var aim := 0.0
+	var lean := 0.0
+	var slump := 0.0
+	actor.clear_hand_contacts()
+	match acting:
+		&"waking", &"alarm":
+			root_target = BED_ROOT
+			yaw_target = BED_YAW
+			seated_target = 1.0
+			look = alarm_contact.global_position
+			aim = 0.22 + 0.59 * smoothstep(0.0, 0.85, acting_time)
+			slump = 0.045 * (1.0 - smoothstep(0.0, 1.15, acting_time))
+			lean = 0.21
+			if acting == &"alarm":
+				var reach_weight := smoothstep(0.06, 0.52, acting_time) * (1.0 - smoothstep(0.68, 1.17, acting_time))
+				actor.set_hand_contact("L", alarm_contact, reach_weight, 0, 0.16)
+				if acting_time >= 0.52:
+					silence_alarm()
+				if acting_time >= 1.21:
+					start_acting(&"rising")
+		&"rising":
+			if seat_blend < 0.03:
+				start_acting(&"free")
+		&"laptop":
+			root_target = work_stance
+			yaw_target = PI
+			var engagement := smoothstep(0.0, 0.75, acting_time) * (1.0 - smoothstep(4.6, 5.38, acting_time))
+			seated_target = engagement
+			root_target = player.global_position.lerp(root_target, engagement)
+			look = laptop.global_position
+			aim = engagement * 0.59
+			lean = engagement * 0.12
+			var hands := smoothstep(0.62, 1.36, acting_time) * (1.0 - smoothstep(3.22, 4.12, acting_time))
+			for i in range(laptop_contacts.size()):
+				var contact := laptop_contacts[i]
+				var tap := pow(maxf(0.0, sin(acting_time * 18.0 + i * 2.7)), 3.0)
+				contact.position.y = 0.028 + (1.0 - tap) * 0.013
+				contact.position.z = 0.050 + sin(acting_time * 7.0 + i) * 0.021
+				actor.set_hand_contact("L" if i == 0 else "R", contact, hands, i, 0.18 + 0.19 * tap)
+			if acting_time >= 5.54:
+				start_acting(&"free")
+		&"silent_clock":
+			look = alarm_contact.global_position
+			aim = 0.40 * smoothstep(0.0, 0.47, acting_time) * (1.0 - smoothstep(1.62, 2.45, acting_time))
+			lean = aim * 0.19
+			if acting_time >= 2.5:
+				start_acting(&"free")
+		&"bed":
+			seated_target = 1.0
+			root_target = BED_ROOT
+			yaw_target = BED_YAW
+			slump = seat_blend * 0.087
+			lean = seat_blend * 0.27
+			look = bed_contact.global_position
+			aim = 0.30 * smoothstep(0.0, 0.72, acting_time) * (1.0 - smoothstep(1.35, 2.2, acting_time))
+			actor.set_hand_contact("R", bed_contact, smoothstep(0.17, 0.97, acting_time), 0, 0.20)
+	seat_blend = move_toward(seat_blend, seated_target, delta * (1.55 if stage == 2 else 2.15))
+	pose_blend = smoothstep(0.0, 1.0, seat_blend)
+	var pose_ease := 1.0 if delta == 0.0 or acting == &"free" and seat_blend == 0.0 else 1.0 - exp(-8.0 * delta)
+	pose_origin = pose_origin.lerp(root_target, pose_ease)
+	pose_yaw = lerp_angle(pose_yaw, yaw_target, pose_ease)
+	actor.global_position = pose_origin
+	actor.rotation.y = pose_yaw
+	actor.seated = pose_blend
+	actor.desk_rest = 1.0
+	actor.lap_rest = 1.0
+	actor.posture_drop = lerpf(actor.posture_drop, slump, pose_ease)
+	actor.posture_lean = lerpf(actor.posture_lean, lean, pose_ease)
+	actor.set_attention(look)
+	actor.set_expression(["Neutral", "Concerned", "Tired"][stage], [0.0, 0.35, 0.65][stage], 0.65)
+	actor.resync(delta, motion if acting == &"free" else Vector3.ZERO)
+	camera.pose_offset = pose_origin - player.global_position
+	camera.pose_offset.y -= actor.posture_drop
+	camera.pose_look = look
+	camera.pose_aim = aim
+	camera.follow_eyes(delta, pose_blend, motion.length())
+
+func start_acting(next: StringName) -> void:
+	acting = next
+	acting_time = 0.0
+
+func contact_marker(target: Node3D, at: Vector3, yaw: float) -> Marker3D:
+	var marker := Marker3D.new()
+	target.add_child(marker)
+	marker.position = at
+	marker.rotation.y = yaw
+	return marker
 
 func _unhandled_input(event: InputEvent) -> void:
 	if phone.visible:
@@ -161,21 +275,32 @@ func silence_alarm() -> void:
 		return
 	alarm_ringing = false
 	alarm_sound.stop()
+	if acting == &"waking":
+		start_acting(&"rising")
 	if phone.visible:
 		phone.update_calendar(phone_schedule())
 
 func examine() -> void:
 	if alarm_ringing:
-		silence_alarm()
+		if acting == &"waking":
+			start_acting(&"alarm")
+		return
+	if acting != &"free":
 		return
 	var target := nearby_object()
 	if target == "desk":
+		if stage == 1:
+			work_stance = DESK + Vector3(0.04, 0.0, 0.51)
+			camera.yaw = 0.0
+			start_acting(&"laptop")
 		show_detail([MAPS.text("Old work documents", "Tài liệu công việc cũ"),
 			MAPS.text("Application received", "Đã nhận hồ sơ ứng tuyển"),
 			MAPS.text("The laptop is asleep", "Laptop đang ở chế độ ngủ")][stage])
 	elif target == "calendar":
 		show_detail(calendar.text)
 	elif target == "alarm":
+		if stage == 2:
+			start_acting(&"silent_clock")
 		show_detail([MAPS.text("Alarm silenced", "Đã tắt tiếng báo thức"),
 			MAPS.text("Alarm still set", "Báo thức vẫn còn hẹn"),
 			MAPS.text("Alarm schedule off", "Đã tắt lịch báo thức")][stage])
@@ -211,15 +336,20 @@ func advance() -> void:
 	if transitioning or alarm_ringing or resting or phone.visible:
 		return
 	transitioning = true
+	if acting in [&"laptop", &"silent_clock"]:
+		start_acting(&"free")
 	var duration := 0.0 if get_tree().get_meta(MAPS.QUIET_UI, false) else 0.56
 	var montage := create_tween()
 	montage.tween_property(fade, "color:a", 1.0, duration)
 	montage.tween_callback(func():
 		if stage == 2:
 			resting = true
-			player.position = BEDSIDE
-			camera.yaw = 0.02
-			camera.pitch = -0.17
+			player.position = Vector3(-0.943, 0.01, BED_ROOT.z)
+			pose_origin = player.global_position
+			actor.reset_steps()
+			camera.yaw = BED_YAW - PI
+			camera.pitch = -0.36
+			start_acting(&"bed")
 		else:
 			stage += 1
 			apply_stage()
@@ -370,7 +500,8 @@ func build_room() -> void:
 			slab(Vector3(x, float(row) * 0.58 - 1.86, z + 1.033), Vector3(0.99, 0.19, 0.011), "768a93")
 
 	build_sleeping_corner()
-	slab(ALARM - Vector3(0, 0.073, 0), Vector3(0.29, 0.13, 0.15), "485554")
+	var clock_body := slab(ALARM - Vector3(0, 0.073, 0), Vector3(0.29, 0.13, 0.15), "485554")
+	alarm_contact = contact_marker(clock_body, Vector3(0.075, 0.068, 0.032), BED_YAW)
 	alarm_display = sign3d(ALARM + Vector3(0, -0.064, 0.078), 0.0021, "f0bd8a")
 	alarm_sound = AudioStreamPlayer3D.new()
 	alarm_sound.stream = preload("res://assets/story/apartment_alarm.wav")
@@ -400,6 +531,7 @@ func build_sleeping_corner() -> void:
 	wood.set_shader_parameter("wood", Color("927859"))
 	wood.set_shader_parameter("boards", false)
 	var base := slab(Vector3(-1.79, 0.18, 0.17), Vector3(1.17, 0.31, 2.00), "80684c", true)
+	bed_contact = contact_marker(base, Vector3(0.526, 0.328, -0.15), -1.0)
 	base.material_override = wood
 	slab(Vector3(-1.20, 0.268, 0.17), Vector3(0.036, 0.074, 1.97), "a18b6c")
 	slab(Vector3(-1.79, 0.286, 1.178), Vector3(1.18, 0.080, 0.048), "967e60")
@@ -543,6 +675,8 @@ func build_work_corner() -> Node3D:
 	surface.position.y = 0.027
 	top.add_child(surface)
 	slab(Vector3(0.06, 0.014, 0.031), Vector3(0.45, 0.028, 0.28), "5b625d", false, surface)
+	for x in [-0.050, 0.164]:
+		laptop_contacts.append(contact_marker(surface, Vector3(x, 0.028, 0.05), PI))
 	slab(Vector3(0.06, 0.143, -0.11), Vector3(0.45, 0.254, 0.035), "454e4d", false, surface)
 	laptop = sign3d(Vector3(0.06, 0.147, -0.089), 0.0019, "c3d0b7")
 	laptop.reparent(surface, false)
