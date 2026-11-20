@@ -59,10 +59,8 @@ var typing := 0.0
 var desk_rest := 0.0
 var looking_out := 0.0
 var sigh := 0.0
-var phone_amount := 0.0
 var thinking := 0.0
 var reach := 0.0
-var phone: MeshInstance3D
 var mouse_prop: Node3D
 var mouse_use := 0.0
 var drink_prop: Node3D
@@ -151,15 +149,6 @@ func _ready() -> void:
 		var node_mesh := node as MeshInstance3D
 		if node_mesh.mesh.get_blend_shape_count() > 0:
 			face_meshes.append(node_mesh)
-	phone = MeshInstance3D.new()
-	var casing := BoxMesh.new()
-	casing.size = Vector3(0.065, 0.12, 0.012)
-	var material := StandardMaterial3D.new()
-	material.albedo_color = Color("4e5f55")
-	casing.material = material
-	phone.mesh = casing
-	add_child(phone)
-	phone.hide()
 
 func find_rig_bone(name: String) -> int:
 	var index := skeleton.find_bone(name)
@@ -295,7 +284,7 @@ func bind_keyboard(keyboard: Node3D) -> void:
 
 func update_keystrokes() -> void:
 	keyboard_weight = smoothstep(0.10, 0.76, typing) * smoothstep(0.66, 1.0, seated)
-	keyboard_weight *= (1.0 - desk_rest) * (1.0 - maxf(maxf(mouse_use, drink_amount), maxf(phone_amount, maxf(thinking, reach))))
+	keyboard_weight *= (1.0 - desk_rest) * (1.0 - maxf(maxf(mouse_use, drink_amount), maxf(thinking, reach)))
 	for i in range(2):
 		if active_keys[i] >= 0:
 			key_caps[active_keys[i]].position.y = key_rest_height
@@ -393,7 +382,7 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 	hips.origin.y += breath * (1.0 - walking_mix)
 	skeleton.set_bone_global_pose(bones["Hips"], hips)
 	rotate_bone("Chest", Vector3(0.045 + seated * 0.12 + sigh * 0.16, looking_out * 0.18, 0.0))
-	rotate_bone("Head", Vector3(0.10 * typing + 0.22 * phone_amount + 0.10 * sigh + (0.10 * expression_amount if face_expression in ["Tired", "Sad"] else 0.0), looking_out * 0.43, thinking * 0.10))
+	rotate_bone("Head", Vector3(0.10 * typing + 0.10 * sigh + (0.10 * expression_amount if face_expression in ["Tired", "Sad"] else 0.0), looking_out * 0.43, thinking * 0.10))
 	update_keystrokes()
 	pose_fingers()
 	for i in range(2):
@@ -415,10 +404,8 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 		hand = hand.lerp(at_keyboard.lerp(rest_at_desk, desk_rest), seated)
 		var palm_amount := seated * (1.0 - desk_rest * (0.80 if i == 0 else 0.11))
 		if i == 0:
-			hand = hand.lerp(Vector3(0.18, 1.29 - seated * 0.30, 0.40), phone_amount)
 			hand = hand.lerp(Vector3(0.13, 1.35 - seated * 0.30, 0.18), thinking * 0.72 * seated)
 			hand = hand.lerp(Vector3(0.23, 1.02, 0.43), reach)
-			palm_amount = maxf(palm_amount, phone_amount * 0.42)
 		var relaxed: Basis = relaxed_palms[side]
 		var palm := relaxed.slerp(keyboard_palms[side], palm_amount)
 		if i == 1 and mouse_prop != null and mouse_use > 0.0 and fingertip_markers.has("R0"):
@@ -441,15 +428,12 @@ func resync(delta: float, planar_velocity: Vector3) -> void:
 		solve_chain("Arm" + side, "Forearm" + side, "Hand" + side, hand, Vector3(sign_x * 0.65, -1.0, -0.27), palm)
 		if active_keys[i] >= 0:
 			clear_adjacent_keys(side, active_digits[i])
-	var wrist := skeleton.get_bone_global_pose(bones["HandL"])
 	if drink_prop != null:
+		var wrist := skeleton.get_bone_global_pose(bones["HandL"])
 		var hold := smoothstep(0.38, 0.72, drink_amount)
 		var carried := skeleton.to_global(wrist.origin + Vector3(-0.010, -0.042, 0.028))
 		drink_prop.global_position = drink_rest.origin.lerp(carried, hold)
 		drink_prop.global_basis = Basis(Vector3.RIGHT, -hold * 0.35) * drink_rest.basis
-	phone.visible = phone_amount > 0.4
-	phone.position = wrist.origin + Vector3(-0.02, -0.04, 0.058)
-	phone.rotation.x = -0.38
 	pose_face()
 	update_face()
 

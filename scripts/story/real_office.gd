@@ -30,6 +30,7 @@ const OFFICE_STORM = preload("res://scripts/story/office_storm.gd")
 const OFFICE_PAPERWORK = preload("res://scripts/story/office_paperwork.gd")
 const OFFICE_WORKDAY = preload("res://scripts/story/office_workday.gd")
 const MAIL = preload("res://scripts/ui/office_mail.gd")
+const PHONE = preload("res://scripts/ui/phone_panel.gd")
 const WORK_DESK := Vector3(-5.34, 0.0, 0.96)
 const EAST_BANK := Vector3(1.64, 0.0, 0.48)
 const DESK_SEAT := WORK_DESK + Vector3(0.0, 0.02, 0.83)
@@ -78,7 +79,7 @@ var desk_chair: Node3D
 var player_keyboard: Node3D
 var player_mouse: Node3D
 var meeting_listener: Node3D
-var phone_requested := false
+var phone: PHONE
 var interaction_gesture := 0.0
 var mouse_clicked := false
 var coworker_at_archives: Node3D
@@ -164,9 +165,12 @@ func build_overlay() -> void:
 	mail.dismissed.connect(close_email)
 	storybook = STORYBOOK.new(self, MAPS.OFFICE)
 	storybook.build_pause()
+	phone = PHONE.new()
+	root_ui.add_child(phone)
+	phone.dismissed.connect(recapture)
 
 func set_pause_menu(open: bool) -> void:
-	if complete or mail.visible:
+	if complete or mail.visible or phone.visible:
 		return
 	in_pause_menu = open
 	storybook.close_page()
@@ -254,11 +258,10 @@ func _physics_process(delta: float) -> void:
 		actor.resync(delta, Vector3.ZERO)
 		return
 	var wants_move := Vector2.ZERO
-	if not mail.visible and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or DisplayServer.get_name() == "headless"):
+	if not mail.visible and not phone.visible and (Input.mouse_mode == Input.MOUSE_MODE_CAPTURED or DisplayServer.get_name() == "headless"):
 		wants_move = Input.get_vector("office_left", "office_right", "office_forward", "office_back")
 	if wants_move.length_squared() > 0.0:
 		seat_requested = false
-		phone_requested = false
 	var previous_seated: float = actor.seated
 	actor.seated = move_toward(actor.seated, 1.0 if seat_requested else 0.0, delta * 1.8)
 	if actor.seated > 0.0 or previous_seated > 0.0:
@@ -280,7 +283,7 @@ func _physics_process(delta: float) -> void:
 		actor.rotation.y = lerp_angle(actor.rotation.y, PI + camera.yaw, 1.0 - exp(-16.0 * delta))
 	interaction_gesture = move_toward(interaction_gesture, 0.0, delta * 1.8)
 	actor.reach = interaction_gesture * smoothstep(0.15, 0.90, actor.seated) * 0.65
-	var editing: bool = actor.seated > 0.98 and not mail.visible and not phone_requested
+	var editing: bool = actor.seated > 0.98 and not mail.visible and not phone.visible
 	var mouse_pass := fposmod(office_time, 12.0)
 	var mouse_use := smoothstep(6.7, 7.2, mouse_pass) * (1.0 - smoothstep(8.45, 9.1, mouse_pass))
 	var clicked := editing and mouse_pass >= 7.63 and mouse_pass < 8.35
@@ -289,9 +292,10 @@ func _physics_process(delta: float) -> void:
 	mouse_clicked = clicked
 	actor.mouse_use = move_toward(actor.mouse_use, mouse_use if editing else 0.0, delta * 4.0)
 	actor.typing = move_toward(actor.typing, actor.seated if editing else 0.0, delta * 3.0)
+	var park_hands := 0.80 if phone.visible and actor.seated > 0.0 else 0.0
+	actor.desk_rest = move_toward(actor.desk_rest, park_hands, delta * 3.8)
 	actor.looking_out = move_toward(actor.looking_out, 0.0, delta * 1.6)
 	actor.sigh = move_toward(actor.sigh, 0.0, delta * 2.0)
-	actor.phone_amount = move_toward(actor.phone_amount, 1.0 if phone_requested else 0.0, delta * 2.8)
 	actor.thinking = move_toward(actor.thinking, 0.65 if mail.visible else 0.0, delta * 2.4)
 	if mail.visible:
 		actor.set_expression("Thinking", 0.6)
@@ -313,19 +317,17 @@ func update_intro(delta: float) -> void:
 	intro_time += delta
 	var quiet := storybook.reduce_motion
 	var glance := smoothstep(2.1, 3.24, intro_time) * (1.0 - smoothstep(3.44, 4.35, intro_time))
-	var phone_peek := smoothstep(4.14, 4.82, intro_time) * (1.0 - smoothstep(5.19, 5.92, intro_time))
 	var rising := smoothstep(6.98, 8.05, intro_time)
 	actor.typing = 1.0 - smoothstep(2.36, 3.06, intro_time)
 	actor.desk_rest = smoothstep(2.5, 3.37, intro_time)
-	actor.phone_amount = phone_peek if not quiet else 0.0
 	actor.sigh = sin(smoothstep(5.61, 6.68, intro_time) * PI) * 0.67
 	actor.seated = 1.0 - rising
 	actor.looking_out = -glance
 	player.position = DESK_SEAT.lerp(DESK_STAND, rising)
 	position_chair(actor.seated)
 
-	camera.yaw = (-1.00 * glance - 0.30 * phone_peek) if not quiet else 0.0
-	camera.pitch = lerpf(-0.381, -0.052, glance) - 0.37 * phone_peek + 0.236 * rising
+	camera.yaw = (-1.00 * glance) if not quiet else 0.0
+	camera.pitch = lerpf(-0.381, -0.052, glance) + 0.236 * rising
 	camera.follow_eyes(delta, actor.seated, 0.0, true)
 	if intro_time >= MAIL_DURING_INTRO:
 		deliver_email()
@@ -344,7 +346,6 @@ func finish_intro() -> void:
 	actor.desk_rest = 0.0
 	actor.looking_out = 0.0
 	actor.sigh = 0.0
-	actor.phone_amount = 0.0
 	actor.reset_steps()
 	position_chair(0.0)
 	camera.yaw = 0.0
@@ -361,7 +362,7 @@ func finish_intro() -> void:
 	delivery.start(3.0)
 
 func update_status() -> void:
-	if mail.visible:
+	if mail.visible or phone.visible:
 		status.text = ""
 	elif read_mail and near_exit():
 		status.text = locale.leave
@@ -394,6 +395,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			mail.close_message()
 			get_viewport().set_input_as_handled()
 		return
+	if phone.visible:
+		if PHONE.is_shortcut(event) or event.is_action_pressed("ui_cancel"):
+			phone.close_panel()
+			get_viewport().set_input_as_handled()
+		return
 	if intro_active:
 		if event.is_action_pressed("ui_cancel") or event.is_action_pressed("ui_accept"):
 			finish_intro()
@@ -423,10 +429,17 @@ func _unhandled_input(event: InputEvent) -> void:
 					seat_requested = not seat_requested
 					workday.play_chair()
 			KEY_Q:
-				phone_requested = not phone_requested
+				open_phone()
+				get_viewport().set_input_as_handled()
+
+func open_phone() -> void:
+	player.velocity = Vector3.ZERO
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	phone.show_phone(MAPS.label(MAPS.OFFICE), MAPS.text("Workday", "Ngày làm việc"),
+		MAPS.text("No applications yet.", "Chưa có hồ sơ ứng tuyển."))
 
 func interact() -> void:
-	if intro_active or in_pause_menu or mail.visible or complete:
+	if intro_active or in_pause_menu or mail.visible or phone.visible or complete:
 		return
 	if arrived and near_desk():
 		open_email()
@@ -436,7 +449,6 @@ func interact() -> void:
 func open_email() -> void:
 	read_mail = true
 	interaction_gesture = 1.0
-	phone_requested = false
 	mail.update_inbox(true, true)
 	mail_indicator.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
