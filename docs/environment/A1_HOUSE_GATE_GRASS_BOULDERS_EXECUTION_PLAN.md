@@ -1,6 +1,6 @@
 # A1 House Gate — Kế hoạch thực thi: cỏ rừng đồng bộ, nền sạch và đá tảng lớn
 
-> **Loại:** execution plan / art review gate. **Trạng thái:** PLANNED, **chưa thực thi, chưa duyệt**.  
+> **Loại:** execution plan / art review gate. **Trạng thái:** PENDING_CREATOR_APPROVAL. [Ảnh, số đo và biên bản P0–P4](review-a1-house-yard/README.md).  
 > **Đầu vào đã xác nhận:** phản hồi của người sáng tạo ngày 20/11/2026 — *nhà đã đẹp hơn; giữ nhà; đưa cỏ đã ưng ý ở khu nhà trong rừng sang cảnh House Gate; nền đừng xanh bẩn; thêm những tảng đá lớn vì sân quá trống*.  
 > **Baseline không thay đổi:** commit [`cc8280f`](https://github.com/VietCodeBug/a-place-to-belong/commit/cc8280fc3cd7454f2370ca2f13f483a7c40855f4) trên nhánh `feature/character-emotional-animation-v1`; [gallery A1](review-a1-house-gate/README.md), [báo cáo trạng thái](A1_ART_REBUILD_STATUS.md), [chuẩn mỹ thuật](A1_ASSET_QUALITY_BIBLE.md).  
 > **Issue thực hiện:** [#12 — Cỏ, nền và đá tảng](https://github.com/VietCodeBug/a-place-to-belong/issues/12).  

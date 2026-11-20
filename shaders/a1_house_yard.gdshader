@@ -6,13 +6,14 @@ void vertex() {
 }
 void fragment() {
 	vec2 p = yard.xz;
-	float mottling = ground_field(p * 0.57);
-	float grain = ground_noise(p * 15.0);
-	float path = abs(p.x + 0.49 - (p.y - 3.6) * 0.15) + mottling * 0.31;
-	float wear = (1.0 - smoothstep(0.38, 1.22, path)) * smoothstep(2.9, 3.6, p.y);
-	float skirt = 1.0 - smoothstep(0.0, 1.4, max(abs(p.x) - 3.4, abs(p.y)-2.8));
-	vec3 leaf = mix(vec3(0.14,0.21,0.082),vec3(0.31,0.37,0.145),mottling);
-	vec3 earth = mix(vec3(0.23,0.166,0.101),vec3(0.347,0.269,0.172),mottling);
-	ALBEDO = mix(leaf,earth,max(wear,skirt * 0.58)) * (0.92 + grain * 0.14);
-	ROUGHNESS=0.96;
+	float broad = ground_noise(p * 0.105);
+	float grain = ground_noise(p * 7.0);
+	float center = p.x + 0.49 - (p.y - 3.6) * 0.145;
+	float margin = abs(center) + (ground_noise(p * 0.69)-0.5)*0.27;
+	float wear = (1.0 - smoothstep(0.45,1.30,margin)) * smoothstep(3.0,3.72,p.y);
+	float under_eaves = 1.0 - smoothstep(0.0,0.76,max(abs(p.x+0.22)-3.16,abs(p.y)-2.52));
+	vec3 green = mix(vec3(0.248,0.306,0.128),vec3(0.301,0.363,0.164),broad);
+	vec3 earth = mix(vec3(0.34,0.245,0.145),vec3(0.408,0.309,0.194),broad);
+	ALBEDO = mix(green,earth,max(wear,under_eaves*0.52)) * (0.977 + grain * 0.046);
+	ROUGHNESS = 0.96;
 }
