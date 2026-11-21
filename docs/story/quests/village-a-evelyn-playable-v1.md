@@ -1,5 +1,7 @@
 # Evelyn — Kịch bản tương tác 3 nhiệm vụ, vườn Làng A và hồ A1 (bản v1)
 
+> **LƯU Ý CHO AI TRIỂN KHAI:** Đây là bản mô tả biên kịch, **KHÔNG được tự phát từng đoạn theo thứ tự hoặc đọc các bước OBSERVE/CHECK/REPORT như thoại**. Riêng Q2 có lỗi nhánh trong bản cũ: A nói đã thấy ven hồ khi chỉ làm ở vườn. **Dùng [flow Q2 đã tách nhánh](village-a-evelyn-q2-flow-v1.md) / [JSON](village-a-evelyn-q2-flow-v1.json) làm tham chiếu bàn giao**; không dùng đoạn Q2 trong file này trực tiếp cho dialogue runtime.
+
 > **DRAFT biên kịch**, hồ A1 đã được m duyệt là nơi khám phá chính thức. Đường từ Làng A tới bờ hồ có trong nhánh A1 Superworld, nhưng *sự kiện nói chuyện và ghi chép của Evelyn* vẫn là đề xuất biên kịch, chưa phải NPC hay quest chạy trong Godot.
 
 **Nhịp sống:** Evelyn phân loại hũ hạt và quan sát vườn phía tây. Bà truyền kỹ năng qua những điều có thể kiểm chứng, không biết nguồn gốc giấc mơ và không giữ bí mật phép thuật. Q1/Q2/QF mở dần sau các cuộc gặp thực sự và độ thân thiết (20/50/80 chỉ là ngưỡng thử nghiệm). A có thể từ chối, Evelyn vẫn tự giải quyết và sống tiếp.
