@@ -45,10 +45,12 @@ Nội thất và diễn xuất dùng hình khối prototype. Các nhà dân chư
 - `scripts/story/prototype/chapter_01.gd`, `interaction.gd`, `session.gd` nối cửa, vị trí và trạng thái phiên.
 - `scripts/story/prototype/npc_actor.gd`, `npc_visual.gd`, `village_population.gd` dựng người, lịch và đường đi.
 - `scripts/story/prototype/conversation.gd`, `activities.gd` đọc thoại, làm việc và ghi nhớ.
-- `scripts/world/forest_hub.gd`, `scripts/interactions/interaction_controller.gd` thêm điểm vào Prototype và cách dùng chung UI.
+- `scripts/world/forest_hub.gd`, `scripts/interactions/interaction_controller.gd` và `scripts/ui/wax_close_button.gd` thêm điểm vào Prototype, lựa chọn thoại và cách dùng chung UI.
 - `tools/a1_story_walkthrough.gd`, `tools/benchmark_a1_story.gd`, `tests/chapter01_prototype_test.gd` quay tuyến thật, kiểm hồi quy và đối chiếu hiệu năng.
 
 ## Kiểm thử trong Godot
+
+Năm bộ kiểm Godot đều đạt. Riêng lượt Chapter 01 đối chiếu thêm **642 đoạn đường** giữa các waypoint của dân làng với collider của A1.
 
 | Lượt | Nội dung |
 | --- | --- |
@@ -72,4 +74,4 @@ Gộp các phần hình khối cùng khớp giảm **255 draw calls** trong lư�
 
 ## Ảnh và video
 
-[Ảnh trong Godot, video gameplay và mốc xem](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-story-prototype-phase3/docs/world/review-a1-story-prototype/README.md). Quay từ một lượt dùng controller và UI hiện có. Video giữ tốc độ chơi của những đoạn giữ lại và cắt bớt quãng chạy dài. Cảnh ngoài trời vẫn dùng camera gameplay. Cây hoặc mái có thể che camera ở một số góc, nhất là gần Thomas và bàn sửa. Hình khối, các lời DRAFT, bố cục nội thất, lịch sinh hoạt và ánh xạ hộ dân đang chờ người sáng tạo duyệt.
+Video **1 phút 12,5 giây**, 640 × 360, 8 FPS, quay từ một lượt dùng controller và UI hiện có. Video giữ tốc độ chơi của những đoạn giữ lại và cắt bớt quãng chạy dài. Cảnh ngoài trời vẫn dùng camera gameplay. Cây hoặc mái có thể che camera ở một số góc, nhất là gần Thomas và bàn sửa. Hình khối, các lời DRAFT, bố cục nội thất, lịch sinh hoạt và ánh xạ hộ dân đang chờ người sáng tạo duyệt. [Ảnh trong Godot, video gameplay và mốc xem](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-story-prototype-phase3/docs/world/review-a1-story-prototype/README.md)
