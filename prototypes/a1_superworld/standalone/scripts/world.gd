@@ -30,7 +30,8 @@ func _ready() -> void:
 	explorer=PLAYER.new()
 	explorer.name="Explorer"
 	explorer.setup(generator)
-	explorer.global_position=Vector3(GEN.HOUSE.x,generator.terrain_height(GEN.HOUSE.x,GEN.HOUSE.y)+3.0,GEN.HOUSE.y)
+	var start: Vector2 = GEN.HOUSE+Vector2(0,-14)
+	explorer.position=Vector3(start.x,generator.terrain_height(start.x,start.y)+1.0,start.y)
 	add_child(explorer)
 	streamer.setup(generator,explorer)
 	streamer.ensure_spawn()
@@ -137,7 +138,7 @@ func setup_interface() -> void:
 func _process(delta:float) -> void:
 	if explorer==null:return
 	var pos:=explorer.global_position
-	var season_name:=["Thu","Xuân","Hạ","Đông"][season]
+	var season_name: String = ["Thu","Xuân","Hạ","Đông"][season]
 	var underwater:=explorer.underwater
 	water_tint.visible=underwater
 	environment.fog_density=.016 if underwater else .00032
@@ -162,7 +163,7 @@ func _unhandled_input(e:InputEvent) -> void:
 	if e.is_action_pressed("release_mouse"):
 		Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if Input.mouse_mode==Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
 	if e.is_action_pressed("tp_house"):
-		teleport(GEN.HOUSE)
+		teleport(GEN.HOUSE+Vector2(0,-14))
 	if e.is_action_pressed("tp_village"):
 		teleport(GEN.VILLAGE)
 	if e.is_action_pressed("tp_lake"):

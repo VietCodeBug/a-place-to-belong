@@ -2,6 +2,7 @@ extends CharacterBody3D
 ## Samatha is the temporary player; retain supplied textures and animation clips.
 const AVATAR = preload("res://assets/characters/samatha/samatha.glb")
 var blocked := false
+var superworld: Node3D
 var state := "idle"
 @onready var model: Node3D = $Model
 var animation_player: AnimationPlayer
@@ -34,6 +35,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var input := Vector2.ZERO if blocked else Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var direction := Vector3(input.x,0,input.y).rotated(Vector3.UP, PI/4)
+	if superworld != null and superworld.lake.contains(position):
+		superworld.lake.swim(self,direction,blocked,delta)
+		state = "swimming"
+		if direction.length_squared()>.01:
+			model.rotation.y = lerp_angle(model.rotation.y,atan2(-direction.x,-direction.z),1-exp(-12*delta))
+		update_animation(false,false)
+		return
 	var speed := 4.5 if Input.is_action_pressed("jog") else 2.8
 	velocity.x = move_toward(velocity.x, direction.x*speed, 12*delta)
 	velocity.z = move_toward(velocity.z, direction.z*speed, 12*delta)
@@ -41,6 +49,10 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		velocity.y = 0
 	move_and_slide()
+	if superworld != null:
+		var limit: Rect2 = superworld.field.bounds.grow(-1.0)
+		position.x = clampf(position.x,limit.position.x,limit.end.x)
+		position.z = clampf(position.z,limit.position.y,limit.end.y)
 	state = "walking" if direction.length() > 0.1 else "idle"
 	if state == "walking":
 		model.rotation.y = lerp_angle(model.rotation.y, atan2(-direction.x,-direction.z), 1-exp(-12*delta))

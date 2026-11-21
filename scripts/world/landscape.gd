@@ -5,6 +5,7 @@ const CAFE_LEVEL := 0.0
 const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const S = preload("res://scripts/world/shapes.gd")
 const STEP := 2.0
+var expansion: RefCounted
 
 const WOODLAND_START := -356
 const VALLEY_END := 186
@@ -123,6 +124,8 @@ static func on_road(p: Vector2,margin := 0.0) -> bool:
 func _ready() -> void:
 	terrain()
 	road()
+	if expansion != null:
+		return
 	for x in [-24, 24]:
 		var length := 24.0 - WOODLAND_START
 		S.box(self, Vector3(x, 8, WOODLAND_START + length*.5), Vector3(.3, 28, length), "496B59", true).hide()
@@ -138,36 +141,24 @@ func terrain() -> void:
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	st.set_smooth_group(-1)
 	var faces := PackedVector3Array()
-	# Playable grid at fine 2m step out to +-64m, seamlessly joined by 4m outer foothill skirt to 164m.
-	for x in range(-64,64,2):
-		for z in range(WOODLAND_START,VALLEY_END,2):
-			var a := Vector3(x,sculpt(x,z),z)
-			var b := Vector3(x+2,sculpt(x+2,z),z)
-			var c := Vector3(x,sculpt(x,z+2),z+2)
-			var d := Vector3(x+2,sculpt(x+2,z+2),z+2)
-			for v in [a,b,c,b,d,c]:
+	var bounds := Rect2(-64,WOODLAND_START,128,VALLEY_END-WOODLAND_START)
+	if expansion != null:
+		bounds = expansion.CORE
+	for x in range(int(bounds.position.x),int(bounds.end.x),2):
+		for z in range(int(bounds.position.y),int(bounds.end.y),2):
+			var playable := expansion != null or (x>=-24 and x<24 and z<24) \
+				or (x>=-VALLEY_HALF_WIDTH and x<VALLEY_HALF_WIDTH and z>=24)
+			for p: Vector2 in [Vector2(x,z),Vector2(x+2,z),Vector2(x,z+2),
+				Vector2(x+2,z),Vector2(x+2,z+2),Vector2(x,z+2)]:
+				var y: float = expansion.vertex(p) if expansion != null else sculpt(p.x,p.y)
+				var v := Vector3(p.x,y,p.y)
 				var tint := 0.5+0.5*sin(v.x*0.17+sin(v.z*0.12))
 				st.set_color(Color("687B64").lerp(Color("8C9468"),tint*0.55))
 				st.add_vertex(v)
-				if (x>=-24 and x<24 and z>=WOODLAND_START and z<24) or (x>=-VALLEY_HALF_WIDTH and x<VALLEY_HALF_WIDTH and z>=24):
+				if playable:
 					faces.append(v)
-	for x in range(-164,164,4):
-		for z in range(WOODLAND_START-44,252,4):
-			if x>=-64 and x<64 and z>=WOODLAND_START and z<VALLEY_END-2:
-				continue
-			if (z < -152 and abs(x) > 108) or (z >= -152 and z < 0 and Vector2(x+2,z+2).length()>164):
-				continue
-			var center_strip := x>=-64 and x<64
-			var start_z := maxi(z,VALLEY_END) if center_strip and z>=VALLEY_END-2 else z
-			var end_z := mini(z+4,WOODLAND_START) if center_strip and z<WOODLAND_START else z+4
-			var a := Vector3(x,sculpt(x,start_z),start_z)
-			var b := Vector3(x+4,sculpt(x+4,start_z),start_z)
-			var c := Vector3(x,sculpt(x,end_z),end_z)
-			var d := Vector3(x+4,sculpt(x+4,end_z),end_z)
-			for v in [a,b,c,b,d,c]:
-				var tint := 0.5+0.5*sin(v.x*0.11+sin(v.z*0.09))
-				st.set_color(Color("586E59").lerp(Color("7A8A68"),tint*0.5))
-				st.add_vertex(v)
+	if expansion == null:
+		backdrop_terrain(st)
 	st.generate_normals()
 	var mesh := MeshInstance3D.new()
 	mesh.name = "ContinuousMap01Terrain"
@@ -185,6 +176,25 @@ func terrain() -> void:
 	collider.shape = shape
 	body.add_child(collider)
 	add_child(body)
+
+func backdrop_terrain(st: SurfaceTool) -> void:
+	for x in range(-164,164,4):
+		for z in range(WOODLAND_START-44,252,4):
+			if x>=-64 and x<64 and z>=WOODLAND_START and z<VALLEY_END-2:
+				continue
+			if (z < -152 and abs(x) > 108) or (z >= -152 and z < 0 and Vector2(x+2,z+2).length()>164):
+				continue
+			var center_strip := x>=-64 and x<64
+			var start_z := maxi(z,VALLEY_END) if center_strip and z>=VALLEY_END-2 else z
+			var end_z := mini(z+4,WOODLAND_START) if center_strip and z<WOODLAND_START else z+4
+			var a := Vector3(x,sculpt(x,start_z),start_z)
+			var b := Vector3(x+4,sculpt(x+4,start_z),start_z)
+			var c := Vector3(x,sculpt(x,end_z),end_z)
+			var d := Vector3(x+4,sculpt(x+4,end_z),end_z)
+			for v in [a,b,c,b,d,c]:
+				var tint := 0.5+0.5*sin(v.x*0.11+sin(v.z*0.09))
+				st.set_color(Color("586E59").lerp(Color("7A8A68"),tint*0.5))
+				st.add_vertex(v)
 
 func road() -> void:
 	# Same centerline and core width, starting cleanly under the porch ramp (z=4.25) with feathered verges.

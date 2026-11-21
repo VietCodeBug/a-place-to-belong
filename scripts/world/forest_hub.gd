@@ -4,8 +4,11 @@ const A = preload("res://scripts/world/field_assets.gd")
 const L = preload("res://scripts/world/landscape.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
 const VILLAGE = preload("res://scripts/world/village_a_layout.gd")
+const SUPERWORLD = preload("res://scripts/world/superworld/a1_superworld.gd")
+const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
+var superworld: SUPERWORLD
 var player: CharacterBody3D
 var mailbox: Node3D
 var ui: CanvasLayer
@@ -14,11 +17,18 @@ var collision_probe := Vector3(0,L.CAFE_LEVEL+0.65,2)
 
 func _ready() -> void:
 	configure_inputs()
-	var backdrop := preload("res://scripts/world/forest_backdrop.gd").new()
-	backdrop.name = "ForestBackdrop"
-	add_child(backdrop)
+	if has_meta("a1_superworld") or "--a1-superworld" in OS.get_cmdline_user_args():
+		superworld = SUPERWORLD.new()
+		superworld.name = "A1Superworld"
+		superworld.field = FIELD.new(Callable(L,"height_at"))
+	else:
+		var backdrop := preload("res://scripts/world/forest_backdrop.gd").new()
+		backdrop.name = "ForestBackdrop"
+		add_child(backdrop)
 	lighting()
 	var landscape := L.new()
+	if superworld != null:
+		landscape.expansion = superworld.field
 	add_child(landscape)
 	var cafe := Node3D.new()
 	cafe.name = "Cafe"
@@ -56,10 +66,15 @@ func _ready() -> void:
 	var valley := preload("res://scripts/world/a1_valley.gd").new()
 	valley.name = "A1RiverValley"
 	add_child(valley)
+	if superworld != null:
+		add_child(superworld)
+		superworld.start(player,get_node("ForestWeather"),valley.current_season)
 	var camera := Camera3D.new()
 	camera.name = "GameplayCamera"
 	camera.set_script(preload("res://scripts/player/follow_camera.gd"))
 	camera.target = player
+	if superworld != null:
+		camera.superworld = superworld
 	add_child(camera)
 	ui = CanvasLayer.new()
 	ui.set_script(preload("res://scripts/interactions/interaction_controller.gd"))
@@ -211,6 +226,9 @@ func add_story_light(at: Vector3, energy: float, light_range: float) -> void:
 
 func configure_inputs() -> void:
 	var bindings := {"move_left":KEY_A,"move_right":KEY_D,"move_up":KEY_W,"move_down":KEY_S,"jog":KEY_SHIFT,"interact":KEY_E}
+	if superworld != null or has_meta("a1_superworld") or "--a1-superworld" in OS.get_cmdline_user_args():
+		bindings["a1_surface"] = KEY_SPACE
+		bindings["a1_dive"] = KEY_CTRL
 	for action in bindings:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)

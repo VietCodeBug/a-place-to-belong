@@ -73,7 +73,11 @@ func _ready() -> void:
 	build_hud()
 	build_interaction_prompt()
 	build_letter_modal()
-	valley_map = preload("res://scripts/ui/a1_map.gd").new()
+	if hub.superworld == null:
+		valley_map = preload("res://scripts/ui/a1_map.gd").new()
+	else:
+		valley_map = preload("res://scripts/ui/a1_superworld_map.gd").new()
+		valley_map.world = hub.superworld
 	valley_map.player = player
 	root_ui.add_child(valley_map)
 	var saved_grass_quality: String = get_tree().get_meta(MAPS.GRASS_QUALITY, current_grass_quality)
@@ -432,8 +436,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if map_key or event.is_action_pressed("ui_cancel"):
 			valley_map.hide()
 			player.blocked = false
-		elif event is InputEventKey and event.pressed and event.keycode == KEY_HOME:
-			valley_map.center_on_player()
+		elif event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_HOME:
+				valley_map.center_on_player()
+			elif event.keycode == KEY_TAB and valley_map.has_method("toggle_atlas"):
+				valley_map.toggle_atlas()
+			elif event.keycode == KEY_F7 and valley_map.has_method("toggle_chunks"):
+				valley_map.toggle_chunks()
 		get_viewport().set_input_as_handled()
 		return
 	if map_key and not in_title_menu and not in_pause_menu and not panel.visible:

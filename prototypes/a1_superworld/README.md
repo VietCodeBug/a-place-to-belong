@@ -2,6 +2,13 @@
 
 This is an **isolated, experimental Godot project** seeded into the existing game repository for AI engineering handoff. **Do not merge or substitute for the current game without integration tests.**
 
+## Runtime review
+
+The current integrated prototype is opt-in from the original root project. See
+[the Vietnamese review and launch guide](../../docs/world/A1_SUPERWORLD_SLICE.md).
+The standalone retains its own scene and draft coordinates. Its boot and chunk
+collision lifecycle were checked in Godot 4.6.3.
+
 ## Start here
 
 1. [AI engineering handoff / specifications](../../docs/world/A1_SUPERWORLD_AI_HANDOFF.md)

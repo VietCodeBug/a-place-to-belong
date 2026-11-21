@@ -10,6 +10,7 @@ const MAPS = preload("res://scripts/story/map_flow.gd")
 const WILDLIFE = preload("res://scripts/world/a1_wildlife.gd")
 var birds: Array[Node3D] = []
 var clock := 0.0
+var current_season := BOTANY.DEFAULT_SEASON
 var habitat_floor: Array[Node3D] = []
 var habitat_trees: Array[Node3D] = []
 var sun: DirectionalLight3D
@@ -22,8 +23,9 @@ func _ready() -> void:
 	sun = get_parent().get_node("Sun")
 	original_shadow_distance = sun.directional_shadow_max_distance
 	original_shadow_mode = sun.directional_shadow_mode
-	build_mountains()
-	build_distant_foothills()
+	if get_parent().superworld == null:
+		build_mountains()
+		build_distant_foothills()
 	build_river()
 	build_bridge()
 	build_house_grove()
@@ -381,6 +383,9 @@ func build_understory() -> void:
 		habitat_floor.append(layer)
 
 func set_season_palette(season: int) -> void:
+	current_season = season
+	if get_parent().superworld != null:
+		get_parent().superworld.set_season(season)
 	var meadow := get_parent().get_node_or_null("CuratedGroundCover/DenseMeadow") as Node3D
 	if meadow != null:
 		meadow.visible = season != 3
