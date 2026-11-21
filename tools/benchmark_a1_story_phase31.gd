@@ -25,6 +25,7 @@ func run() -> void:
 	hub.superworld.prepare_at(TARGET)
 	hub.player.position = hub.ground(TARGET.x,TARGET.y,.04)
 	hub.player.velocity = Vector3.ZERO
+	hub.player.model.hide()
 	var weather := hub.get_node("ForestWeather")
 	weather.set_time(10.3)
 	weather.set_weather("clear",true)

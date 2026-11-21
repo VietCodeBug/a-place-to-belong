@@ -23,28 +23,30 @@ Trong source và cảnh gameplay của PR #15, tại cụm rừng `(16, −338)`
 
 ## So sánh ở Làng A
 
-Godot 4.6.3 Compatibility, Mesa llvmpipe, 960 × 540, camera đo cố định ngang mắt tại `(5,8; 128,6)`, cùng góc nhìn và thời gian 10:18. Lấy 32 mẫu sau 28 khung làm nóng. Phase 3 lấy từ bản archive `a04741f`, thêm bộ đếm thời gian NPC trong bản archive tạm. Số thời gian qua cửa đo phần xử lý đồng bộ khi hai world đã nạp, ngoài hoạt ảnh mở cửa 0,32 giây.
+Godot 4.6.3 Compatibility, Mesa llvmpipe, 960 × 540. Cả hai bản dùng cùng camera ngang mắt tại X 5,8 và Z 128,6, cùng hướng nhìn và giờ 10:18, ẩn avatar local. Lấy 32 mẫu sau 28 khung làm nóng. Phase 3 lấy từ bản archive `a04741f`, có thêm bộ đếm thời gian NPC trong bản archive tạm. Thời gian qua cửa đo phần xử lý đồng bộ khi hai world đã nạp. Hoạt ảnh mở cửa riêng dài 0,32 giây.
 
 | Chỉ số | Phase 3 | Phase 3.1 |
 | --- | ---: | ---: |
-| Frame time P50 | 877,8 ms | 846,2 ms |
-| Frame time P95 | 1.306,8 ms | 913,4 ms |
-| Draw calls trung vị | 1.386 | 1.395 |
+| Frame time P50 | 997,6 ms | 1.123,5 ms |
+| Frame time P95 | 1.229,0 ms | 1.235,2 ms |
+| Draw calls trung vị | 1.384 | 1.396 |
 | NPC đang hoạt động gần A | 28 | 28 |
-| Tick NPC P50 / P95 | 0,015 / 0,127 ms | 0,206 / 0,312 ms |
-| Qua cửa vào / ra | 97 / 488 µs | 58 / 202 µs |
-| Bộ nhớ engine | 156,2 MiB | 159,1 MiB |
-| Bộ nhớ dựng hình Godot báo | 357,58 MiB | 357,64 MiB |
+| Tick NPC P50 / P95 | 0,022 / 0,156 ms | 0,210 / 0,329 ms |
+| Qua cửa vào / ra | 60 / 426 µs | 65 / 218 µs |
+| Bộ nhớ engine | 156,1 MiB | 159,2 MiB |
+| Bộ nhớ dựng hình Godot báo | 357,59 MiB | 357,59 MiB |
 
-Đây là phép đo phần mềm tại một góc camera. Hiệu năng trên GPU Windows chưa được đo.
+Frame time tăng 12,6% ở P50 và 0,5% ở P95 trong lượt đo phần mềm tại góc này. Chi phí cập nhật NPC tăng 0,173 ms ở P95. Cả hai bản báo hai texture GL còn tồn tại lúc tắt Godot. Hiệu năng trên GPU Windows chưa được đo.
 
 ## Ảnh và gameplay
 
 [Album Godot, ảnh mặt bằng, ảnh khảo sát và video](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-story-prototype-phase31/docs/world/review-a1-story-prototype-phase31/README.md)
 
+Bản quay first-person dài khoảng 1 phút 4 giây. Các quãng chạy dài được cắt từ cùng một lượt chơi. Bản debug ca sáng của Hazel dài khoảng 18 giây và dùng công cụ đổi giờ. Cả hai clip kết xuất 640 × 360 ở 8 FPS, không kèm âm thanh. Hai ảnh khảo sát bố cục Nhà A và cụm rừng có độ phân giải 1280 × 720.
+
 ## Kiểm thử và giới hạn bàn giao
 
 - Godot đã chạy tuyến Nhà A → Thomas → Làng A → Nhà A bằng controller và tia nhìn. Test thêm nhánh giữ đầu gỗ, kết quả bát trên bàn, gặp lại Thomas, thích nghi mưa trong nhà, mở M, giờ về nhà và bơi/lặn first-person. Đối chiếu 30 ID, 642 đoạn đường NPC và quan sát 15 lượt thu/mang/đặt đạo cụ trong lượt kiểm. Tuỳ chọn debug giờ phục vụ kiểm thử, nằm ngoài vòng chơi chính.
 - Chạy lại `a1_superworld_test`, `village_a_test` với `--a1-superworld`, `smoke_test` và `office_first_person_test`. Các lượt đều qua. Test Làng A tính phím theo yaw first-person khi chạy với cờ A1, nên vẫn dùng controller thực tế.
-- Video ghi ba tình huống Thomas, Hazel, Owen; mẫu dọn bàn có kiểm tra trạng thái riêng. Một số động tác của dân làng vẫn dùng chung bộ cử động hình khối. Ngoài trời, cửa sổ trong phòng cho nhìn một cụm cây minh họa dùng cây A1 và theo mùa.
+- Video ghi ba tình huống Thomas, Hazel và Owen. Mẫu dọn bàn có kiểm tra trạng thái riêng. Một số động tác của dân làng vẫn dùng chung bộ cử động hình khối. Nhìn qua cửa sổ trong phòng thấy một cụm cây dùng asset A1 và đổi theo mùa.
 - Ngoài việc xác định công trình thứ hai, chất lượng diễn xuất và bố cục mới vẫn cần người sáng tạo duyệt. Dữ liệu hội thoại DRAFT không đổi canon của Chapter 01.
