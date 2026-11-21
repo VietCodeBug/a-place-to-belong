@@ -1,0 +1,73 @@
+Phase 3 · a04741f with NPC timing probe in temporary archive
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+WARNING: 'res://assets/characters/samatha/samatha.glb': In external resource #0, invalid UID: 'uid://5qm3gntv7gfg' - using text path instead: 'res://assets/characters/samatha/samatha_texture_pbr_20250901.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+WARNING: 'res://assets/characters/samatha/samatha.glb': In external resource #1, invalid UID: 'uid://bygkjksf7quit' - using text path instead: 'res://assets/characters/samatha/samatha_texture_pbr_20250901_metallic-texture_pbr_20250901_roughness.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+WARNING: 'res://assets/characters/samatha/samatha.glb': In external resource #2, invalid UID: 'uid://sxyv7jfhc5ec' - using text path instead: 'res://assets/characters/samatha/samatha_texture_pbr_20250901_normal.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+WARNING: 'res://assets/vendor/kenney/fantasy-town/lantern.glb': In external resource #0, invalid UID: 'uid://ba7co7m4yng5x' - using text path instead: 'res://assets/vendor/kenney/fantasy-town/Textures/colormap.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+     GDScript backtrace (most recent call first):
+         [0] model (res://scripts/world/field_assets.gd:25)
+         [1] build_lantern_post (res://scripts/world/forest_hub.gd:206)
+         [2] landmarks (res://scripts/world/forest_hub.gd:165)
+         [3] _ready (res://scripts/world/forest_hub.gd:48)
+         [4] run (res://tools/benchmark_a1_story_phase31.gd:15)
+WARNING: 'res://assets/vendor/kenney/fantasy-town/cart.glb': In external resource #0, invalid UID: 'uid://ba7co7m4yng5x' - using text path instead: 'res://assets/vendor/kenney/fantasy-town/Textures/colormap.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+     GDScript backtrace (most recent call first):
+         [0] model (res://scripts/world/field_assets.gd:25)
+         [1] place (res://scripts/world/field_assets.gd:37)
+         [2] landmarks (res://scripts/world/forest_hub.gd:183)
+         [3] _ready (res://scripts/world/forest_hub.gd:48)
+         [4] run (res://tools/benchmark_a1_story_phase31.gd:15)
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=2002
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+WARNING: 'res://assets/vendor/kenney/fantasy-town/fence.glb': In external resource #0, invalid UID: 'uid://ba7co7m4yng5x' - using text path instead: 'res://assets/vendor/kenney/fantasy-town/Textures/colormap.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+     GDScript backtrace (most recent call first):
+         [0] model (res://scripts/world/field_assets.gd:25)
+         [1] place (res://scripts/world/field_assets.gd:37)
+         [2] build_shared_spaces (res://scripts/world/village_a.gd:198)
+         [3] _ready (res://scripts/world/village_a.gd:34)
+         [4] _ready (res://scripts/world/a1_valley.gd:39)
+         [5] _ready (res://scripts/world/forest_hub.gd:73)
+         [6] run (res://tools/benchmark_a1_story_phase31.gd:15)
+WARNING: 'res://assets/vendor/kenney/fantasy-town/stall-bench.glb': In external resource #0, invalid UID: 'uid://ba7co7m4yng5x' - using text path instead: 'res://assets/vendor/kenney/fantasy-town/Textures/colormap.png'.
+     at: open (core/io/resource_format_binary.cpp:1089)
+     GDScript backtrace (most recent call first):
+         [0] model (res://scripts/world/field_assets.gd:25)
+         [1] place (res://scripts/world/field_assets.gd:37)
+         [2] build_shared_spaces (res://scripts/world/village_a.gd:205)
+         [3] _ready (res://scripts/world/village_a.gd:34)
+         [4] _ready (res://scripts/world/a1_valley.gd:39)
+         [5] _ready (res://scripts/world/forest_hub.gd:73)
+         [6] run (res://tools/benchmark_a1_story_phase31.gd:15)
+PHASE31_BENCH {"enter_us":60,"exit_us":426,"median_draws":1384.0,"near_npcs":28,"npc_tick_p50_ms":0.022,"npc_tick_p95_ms":0.156,"p50_ms":997.562,"p95_ms":1228.98,"render_mib":357.587471008301,"renderer":"llvmpipe (LLVM 19.1.7, 256 bits)","samples":32,"static_mib":156.139095306396}
+ERROR: Texture with GL ID of 71: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 72: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+
+Phase 3.1 · b92e18d with same benchmark harness and player visibility
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=1882
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+PHASE31_BENCH {"enter_us":65,"exit_us":218,"median_draws":1396.0,"near_npcs":28,"npc_tick_p50_ms":0.21,"npc_tick_p95_ms":0.329,"p50_ms":1123.5,"p95_ms":1235.161,"render_mib":357.592586517334,"renderer":"llvmpipe (LLVM 19.1.7, 256 bits)","samples":32,"static_mib":159.206497192383}
+ERROR: Texture with GL ID of 72: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 73: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
