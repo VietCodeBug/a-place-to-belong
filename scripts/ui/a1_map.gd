@@ -7,7 +7,7 @@ const MAP_CENTER_Z := (L.VALLEY_END - 24.0) * .5
 const PLACES := [
 	[VILLAGE.HOUSE_A, "House A", "Nhà A"],
 	[Vector2(0, -3), "Forest clearing", "Khoảng rừng"],
-	[Vector2(-6.85, 17.8), "Thomas", "Thomas"],
+	[VILLAGE.THOMAS, "Thomas", "Thomas"],
 	[Vector2(-22.5, 50), "Valley overlook", "Điểm ngắm thung lũng"],
 	[Vector2(0, 74), "River bridge", "Cầu qua sông"],
 	[VILLAGE.COMMON, "Village A", "Làng A"],
@@ -76,6 +76,11 @@ func _draw() -> void:
 		for waypoint in VILLAGE.HOUSE_APPROACH:
 			house_trail.append(point(waypoint))
 		draw_polyline(house_trail, Color("ead0a3"), 1.5 * map_scale(), true)
+	if visited.has(VILLAGE.THOMAS):
+		var forest_spur := PackedVector2Array()
+		for waypoint in VILLAGE.THOMAS_APPROACH:
+			forest_spur.append(point(waypoint))
+		draw_polyline(forest_spur,Color("ead0a3"),1.3*map_scale(),true)
 	if visited.has(VILLAGE.COMMON):
 		for lane in VILLAGE.LANES:
 			var mapped := PackedVector2Array()

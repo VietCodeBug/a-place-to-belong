@@ -50,7 +50,7 @@ func building(spec: Array) -> void:
 	slot.rotation.y = spec[4]
 	var visual := (MODELS[spec[1]] as PackedScene).instantiate() as Node3D
 	slot.add_child(visual)
-	coat(visual)
+	coat(visual,.24 if spec[1] in ["chapel","barn","stonehouse"] else .15)
 	var width: float = {"porch":5.13,"gable":5.6,"long":8.25,"hewn":6.7,"craft":6.02,"chapel":6.95,"barn":5.7,"stonehouse":4.74,"gallery":5.32,"split":6.08,"loft":4.54,"shed":3.74,"wing":5.62}[spec[1]]
 	var depth: float = {"chapel":5.07,"barn":4.32,"stonehouse":4.67,"gallery":4.42,"loft":4.90,"shed":3.22,"wing":4.40,"split":4.42}.get(spec[1],4.38)
 	var center_x := .63 if spec[1] in ["split","wing"] else 0.0
@@ -76,11 +76,11 @@ func building(spec: Array) -> void:
 	var post := slot.to_global(Vector3(width*.37,0,3.05))
 	lantern(at(Vector2(post.x,post.z)),false)
 
-func coat(visual: Node3D, old_cottage := false) -> void:
+func coat(visual: Node3D, age := .15) -> void:
 	for child in visual.find_children("*","MeshInstance3D",true,false):
-		coat_mesh(child as MeshInstance3D,old_cottage)
+		coat_mesh(child as MeshInstance3D,age)
 
-func coat_mesh(mesh: MeshInstance3D, old_cottage := false) -> void:
+func coat_mesh(mesh: MeshInstance3D, age := .15) -> void:
 	for i in range(mesh.mesh.get_surface_count()):
 		var source := mesh.get_active_material(i) as StandardMaterial3D
 		if source == null:
@@ -97,17 +97,17 @@ func coat_mesh(mesh: MeshInstance3D, old_cottage := false) -> void:
 				mesh.set_surface_override_material(i,palettes[glass_key])
 			continue
 		var rgb := source.albedo_color
-		if old_cottage:
+		if age>.50:
 			if label.contains("limewash"):
 				rgb = rgb.lerp(Color("B4A58E"),.62)
 			elif label.contains("oak") or label.contains("clay") or label.contains("slate"):
 				rgb = rgb.darkened(.24)
-		var key := "%s/%s" % [rgb,old_cottage]
+		var key := "%s/%s" % [rgb,age]
 		if not palettes.has(key):
 			var mat := ShaderMaterial.new()
 			mat.shader = SURFACE
 			mat.set_shader_parameter("base_tint",rgb)
-			mat.set_shader_parameter("age",.87 if old_cottage else .56)
+			mat.set_shader_parameter("age",age)
 			palettes[key] = mat
 		mesh.set_surface_override_material(i,palettes[key])
 
@@ -122,6 +122,7 @@ func nearest_lane(p: Vector2) -> Vector2:
 
 func build_routes() -> void:
 	route(PLAN.HOUSE_APPROACH,1.10)
+	route(PLAN.THOMAS_APPROACH,.79)
 	for lane in PLAN.LANES:
 		route(lane,0.96)
 	var exit_path: Array[Vector2] = []
@@ -132,7 +133,7 @@ func build_routes() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 3165
 	for junction in [111.0,123.2,128.0,140.4,151.9,161.8]:
-		for n in range(8):
+		for n in range(7):
 			var z: float = junction + (n%4-1.5)*.39
 			var x := L.valley_path(z) + (n/4-.5)*.70+rng.randf_range(-.12,.12)
 			var flat := BOTANY.place(self,"Rock_4",at(Vector2(x,z),-.032),.073,rng.randf()*TAU)
@@ -191,7 +192,7 @@ func build_shared_spaces() -> void:
 		var x := PLAN.GARDEN.x+(row-1.5)*1.14
 		for z in [118.6,119.6,120.6,121.6]:
 			var soil := at(Vector2(x,z))
-			S.box(garden,soil+Vector3.UP*.029,Vector3(.75,.08,1.02),"79553D")
+			S.box(garden,soil+Vector3.UP*.029,Vector3(.75,.08,1.02),"906747")
 			S.box(garden,soil+Vector3(.41,.053,0),Vector3(.078,.132,1.03),"977653")
 		for z in [117.9,122.1]:
 			coat(A.place(garden,"fantasy-town","fence",at(Vector2(x,z)),.63,0))
@@ -239,7 +240,7 @@ func build_greenery() -> void:
 				snow_bank(set,p,.65+.27*absf(sin(j)),.9 + .18*cos(j))
 			else:
 				BOTANY.place(set,"Flower_4_Clump" if i!=0 and j%3!=0 else "Bush_Large",
-					at(p),[.52,.42,.61][i]+.15*absf(sin(j)),j*1.31)
+					at(p),[.52,.42,.61][i]+.095*absf(sin(j)),j*1.31)
 		if i == 3:
 			for x in [-9.5,-8.4,-7.3,-6.2]:
 				snow_bank(set,Vector2(x,122.32),.46,.30)
@@ -273,7 +274,7 @@ func build_verges() -> void:
 	rng.seed = 20319
 	for band in range(4):
 		var locations: Array[Vector3] = []
-		for cluster in range(8):
+		for cluster in range(7):
 			var z := 103.0+17.0*band+rng.randf()*16.4
 			var side := -1.0 if cluster%2==0 else 1.0
 			var center := Vector2(L.valley_path(z)+side*rng.randf_range(2.85,4.4),z)

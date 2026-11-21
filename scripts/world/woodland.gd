@@ -106,7 +106,7 @@ func in_camera_corridor(p: Vector2) -> bool:
 func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural", tint := Color(1,1,1,0.5)) -> void:
 	if height > 4.0 and ForestLandscape.in_overlook_view(at.x, at.z):
 		return
-	if height>4.0 and layer<2:
+	if height>4.0 and (layer<2 or (absf(at.x)<42.0 and at.z>8.0)):
 		var id := asset
 		if asset.begins_with("BirchTree"):
 			id = "BirchTree_"+asset.get_slice("_",2)

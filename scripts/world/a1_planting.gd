@@ -9,7 +9,7 @@ const KENNEY := "res://assets/vendor/kenney/nature/"
 const WILD := [
 	[Vector2(7.35,12.45),["Flower_1","Flower_3_Clump","Bush_Small_Flowers"]],
 	[Vector2(11.55,17.0),["Flower_2","Flower_5_Clump","Flower_3_Clump"]],
-	[Vector2(-9.3,16.2),["Plant_Flowers","flower_yellowA","flower_purpleB"]],
+	[Vector2(-6.35,16.2),["Plant_Flowers","flower_yellowA","flower_purpleB"]],
 	[Vector2(5.4,21.7),["Flower_1","Flower_4_Clump","Flower_5_Clump"]],
 	[Vector2(-9.75,33.5),["Flower_3_Clump","flower_yellowA","Plant_Flowers"]],
 	[Vector2(5.45,42.2),["Flower_2","Flower_5_Clump","flower_redC"]],
@@ -52,11 +52,11 @@ func build_verge_cover() -> void:
 	var village := get_parent().get_node("VillageA")
 	for band in [32,52,71,90,107,128,148,169]:
 		var cover: Array[Vector3] = []
-		for i in range(270):
+		for i in range(196):
 			var z: float = band + rng.randf_range(-6.2,7.0)
 			var offset := rng.randf_range(2.75,5.30) * (-1.0 if i%2==0 else 1.0)
 			var p := Vector2(L.valley_path(z)+offset,z)
-			if sin(z*.75 + offset*.9)+cos(z*.28-offset*1.9) < -.24:
+			if sin(z*.75 + offset*.9)+cos(z*.28-offset*1.9) < -.07:
 				continue
 			if absf(p.y-L.river_center(p.x))<6.4:
 				continue
@@ -77,8 +77,8 @@ func flowers(parent: Node3D, season: int) -> void:
 		var center: Vector2 = cluster[0]
 		var id: String = cluster[1][[2,0,1][season]]
 		var poses: Array[Transform3D] = []
-		for i in range(4 if season==0 else 7):
-			var p := center+Vector2(rng.randfn(0,.45),rng.randfn(0,.40))
+		for i in range(3 if season==0 else 5):
+			var p := center+Vector2(rng.randfn(0,.34),rng.randfn(0,.32))
 			if absf(p.x)>38.0 or p.y<23 and ForestFloorDesign.reserved(p,.16):
 				continue
 			if p.y>=24.0 and absf(p.x-L.valley_path(p.y))<2.7:
@@ -105,12 +105,12 @@ func crops(parent: Node3D, season: int) -> void:
 		if id.is_empty():
 			continue
 		var poses: Array[Transform3D] = []
-		var height: float = [.44,.32,.83,.47][row]
+		var height: float = [.40,.29,.74,.43][row]
 		if season==1:
 			height *= .69
-		for plant in range(5 if row!=3 else 3):
-			var p := Vector2(PLAN.GARDEN.x+(row-1.5)*1.14+sin(plant*1.6)*.075,
-				118.63+plant*(.68 if row!=3 else 1.27))
+		for plant in range(4 if row!=3 else 3):
+			var p := Vector2(PLAN.GARDEN.x+(row-1.5)*1.14+sin(plant*1.6)*.045,
+				118.63+plant*(.83 if row!=3 else 1.27))
 			var rooted := .085
 			if id.begins_with("Carrot") or id.begins_with("Beet"):
 				rooted -= height*.53
@@ -128,8 +128,8 @@ func crops(parent: Node3D, season: int) -> void:
 		batch(garden,"Corn_4",DIR,1.04,corn,false,45.0)
 
 func garden_tools() -> void:
-	for i in range(5):
-		var p := Vector2(PLAN.GARDEN.x+.70,118.60+i*.68)
+	for i in range(4):
+		var p := Vector2(PLAN.GARDEN.x+.70,118.60+i*.83)
 		var foot := position_on_ground(p)
 		S.beam(self,foot,foot+Vector3(.06,1.07,.04),.031,"85664B")
 	for i in [0,1]:

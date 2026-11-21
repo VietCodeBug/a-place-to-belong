@@ -220,10 +220,14 @@ func update_environment(delta: float) -> void:
 		var camera := get_viewport().get_camera_3d()
 		if camera != null:
 			var focus: Vector3 = camera.global_position - camera.global_basis.z * 11.5
-			var clamped := Vector3(clampf(focus.x, -22., 22.), 9.2, clampf(focus.z, -22., 22.))
+			var lateral_limit := 22.0 if focus.z < 24.0 else ForestLandscape.VALLEY_HALF_WIDTH - 2.0
+			var x := clampf(focus.x,-lateral_limit,lateral_limit)
+			var z := clampf(focus.z,-22.0,ForestLandscape.VALLEY_END-2.0)
+			var floor_y := ForestLandscape.height_at(x,z)
+			var clamped := Vector3(x,floor_y+9.2,z)
 			rain.global_position = clamped
 			if rain_splashes != null:
-				rain_splashes.global_position = Vector3(clamped.x, ForestLandscape.height_at(clamped.x, clamped.z) + 0.14, clamped.z)
+				rain_splashes.global_position = Vector3(clamped.x, floor_y + 0.14, clamped.z)
 		rain.emitting = weather_value.y > .025
 		rain.mesh.material.set_shader_parameter("rain_strength", weather_value.y)
 		rain.direction = Vector3(wind_direction.x * .20, -1., wind_direction.y * .20).normalized()
@@ -273,7 +277,7 @@ func update_light(altitude: float, daylight: float) -> void:
 	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.15 * (1. - smoothstep(.10,.48,occlusion) * .94)
 	var sun_col := Color("FFC987").lerp(Color("FFF2DC"), smoothstep(.16, .78, altitude))
 	sun.light_color = sun_col
-	sun.shadow_opacity=.80*(1.0-smoothstep(.12,.55,occlusion))
+	sun.shadow_opacity=.73*(1.0-smoothstep(.12,.55,occlusion))
 	sun.shadow_enabled = altitude > .025 and occlusion<.58
 
 	moon.rotation_degrees = Vector3(maxf(0.32, -altitude * 0.65) * -46., 128. + (hours - 16.5) * 15., 0)
@@ -283,7 +287,7 @@ func update_light(altitude: float, daylight: float) -> void:
 	var sky_hor: Color = colors[1].lerp(Color("94A4A8"), occlusion * .68 * daylight)
 	var amb_col: Color = colors[2].lerp(Color("8FA1AA"), occlusion * .38 * daylight)
 	environment.ambient_light_color = amb_col.lerp(Color("A4B7C3"), daylight * .32)
-	environment.ambient_light_energy = (float(colors[5]) + daylight * .18) * (1. - occlusion * .16)
+	environment.ambient_light_energy = (float(colors[5]) + daylight * .20) * (1. - occlusion * .16)
 	environment.fog_light_color = sky_hor.lerp(Color("718B99"), .58)
 	environment.fog_light_energy = lerpf(0.75, 0.84, daylight)
 	environment.fog_depth_begin = lerpf(58., 36., occlusion)

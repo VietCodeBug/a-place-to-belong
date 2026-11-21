@@ -15,14 +15,14 @@ void fragment() {
  vec2 p=floor_position.xz;
  vec2 warp=vec2(ground_noise(p*.12),ground_noise(p*.12+19.0))*2.5;
  float large=ground_field((p+warp)*.18);
- float small=ground_field(p*1.3);
+ float small=ground_field(p*.64);
  float woods=forest_weight(p);
  vec3 lawn=mix(meadow_dark.rgb,meadow_light.rgb,smoothstep(.28,.72,large));
  vec3 woodland=mix(earth.rgb,moss.rgb,smoothstep(.34,.66,ground_field((p+warp)*.53)));
- vec3 color=mix(lawn,woodland,woods*.86);
- float exposed=smoothstep(.66,.86,ground_noise(p*.38+warp))*(.12+.6*woods);
+ vec3 color=mix(lawn,woodland,woods*.72);
+ float exposed=smoothstep(.66,.86,ground_noise(p*.38+warp))*(.045+.27*woods);
  color=mix(color,earth.rgb,exposed);
- color*=mix(.93,1.055,small);
+ color*=mix(.972,1.025,small);
  float margin=abs(p.x-path_center_visual(p.y))-path_width_visual(p.y);
  float shoulder=(1.0-smoothstep(-.15,1.85+ground_noise(p*.85)*.45,margin))*smoothstep(4.0,5.1,p.y)*(1.0-smoothstep(23.2,24.8,p.y));
  color=mix(color,soil.rgb,shoulder*.68);
@@ -33,14 +33,14 @@ void fragment() {
  float outer_blend=smoothstep(30.0,115.0,length(p));
  color=mix(color,mix(foothill_sage.rgb,moss.rgb,smoothstep(.3,.7,large)),outer_blend*.58);
  float valley=smoothstep(28.0,36.0,p.y);
- float painterly=ground_field(p*.53+warp*.65);
- float mineral=ground_field(p*3.0);
- vec3 upland=mix(vec3(.155,.216,.103),vec3(.273,.345,.155),smoothstep(.26,.75,large));
- upland=mix(upland,vec3(.195,.157,.10),smoothstep(.56,.76,painterly)*.61);
+ float painterly=ground_field(p*.29+warp*.52);
+ float mineral=ground_field(p*.91);
+ vec3 upland=mix(vec3(.20,.26,.135),vec3(.28,.345,.174),smoothstep(.26,.75,large));
+ upland=mix(upland,vec3(.234,.192,.125),smoothstep(.56,.76,painterly)*.29);
  float river=74.0+6.0*sin(p.x*.057)*smoothstep(3.0,16.0,abs(p.x));
  float shore=1.0-smoothstep(4.1,8.0,abs(p.y-river)+small*.65);
- vec3 silt=mix(vec3(.17,.16,.12),vec3(.29,.255,.19),painterly);
- color=mix(color,mix(upland,silt,shore*.95)*(0.87+0.23*mineral),valley);
+ vec3 silt=mix(vec3(.218,.186,.133),vec3(.29,.254,.191),painterly);
+ color=mix(color,mix(upland,silt,shore*.95)*(0.965+0.065*mineral),valley);
  float street_x = 5.2 * smoothstep(84.0,111.0,p.y) + 1.45 * sin((p.y-112.0)*.112) * smoothstep(112.0,123.0,p.y);
  float street_bed = smoothstep(98.0,102.0,p.y) * (1.0-smoothstep(1.55,2.9,abs(p.x-street_x)+small*.26));
  color=mix(color,mix(vec3(.28,.219,.153),vec3(.35,.288,.207),mineral),street_bed*.95);
@@ -50,12 +50,12 @@ void fragment() {
    color=mix(color,vec3(.30,.38,.13),valley*.30*(1.0-shore)*(1.0-street_bed));
  } else if (a1_season == 3) {
    float snow = mix(.88,.99,smoothstep(.21,.76,large))*(1.0-street_bed*.72)*(1.0-shore*.55);
-   color=mix(color,mix(vec3(.51,.62,.68),vec3(.84,.89,.92),mineral),valley*snow*.94);
+   color=mix(color,mix(vec3(.51,.62,.68),vec3(.84,.89,.92),mineral),snow*.94);
  }
  float root=max(grove(p,vec2(-14,-7),1.7),grove(p,vec2(-17,10),1.5));
  root=max(root,grove(p,vec2(-12,4),1.0));root=max(root,grove(p,vec2(20,-4),1.5));root=max(root,grove(p,vec2(12,-16),1.7));
  float damp_hollow=smoothstep(.58,.84,ground_field(p*.34+4.1))*wetness;
- ALBEDO=color*(1.0-root*.16)*mix(1.0,.72,wetness)*mix(1.0,.86,damp_hollow);
+ ALBEDO=color*(1.0-root*.16)*mix(1.0,.84,wetness)*mix(1.0,.94,damp_hollow);
  ROUGHNESS=mix(.98,.46,wetness*(.65+.35*damp_hollow));
  SPECULAR=mix(.10,.28,wetness);
  AO=1.0-root*.2;AO_LIGHT_AFFECT=.15;

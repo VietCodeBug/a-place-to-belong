@@ -31,7 +31,7 @@ func _ready() -> void:
 	var village := VILLAGE.new()
 	village.name = "VillageA"
 	add_child(village)
-	village.coat(get_parent().get_node("ForestHouseA"),true)
+	village.coat(get_parent().get_node("ForestHouseA"),.53)
 	var planting := preload("res://scripts/world/a1_planting.gd").new()
 	planting.name = "SeasonalPlanting"
 	add_child(planting)
@@ -375,6 +375,9 @@ func build_understory() -> void:
 		habitat_floor.append(layer)
 
 func set_season_palette(season: int) -> void:
+	var meadow := get_parent().get_node_or_null("CuratedGroundCover/DenseMeadow") as Node3D
+	if meadow != null:
+		meadow.visible = season != 3
 	for patch in habitat_floor:
 		patch.visible = season != 3
 	for tree in habitat_trees:

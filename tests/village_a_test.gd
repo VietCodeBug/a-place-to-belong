@@ -56,6 +56,7 @@ func run() -> void:
 	var valley := hub.get_node("A1RiverValley")
 	var village := valley.get_node("VillageA")
 	var planting := valley.get_node("SeasonalPlanting")
+	var meadow := hub.get_node("CuratedGroundCover/DenseMeadow") as Node3D
 	test_tree_lod(hub)
 	var player: CharacterBody3D = hub.player
 	var families := {}
@@ -75,6 +76,7 @@ func run() -> void:
 	check(hub.has_node("ForestHouseA") and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 100.0, "House A should precede the village.")
 	for season in range(4):
 		valley.set_season_palette(season)
+		check(meadow.visible == (season != 3), "The original meadow must follow winter visibility.")
 		for i in range(4):
 			check(village.seasonal[i].visible == (i == season), "Exactly one seasonal group should be visible.")
 			check(planting.seasons[i].visible == (i == season),"Exactly one planting season should be visible.")
@@ -97,6 +99,10 @@ func run() -> void:
 		check(not hit.is_empty() and absf(hit.position.y-h)<.02, "Relief mesh/collision mismatch at %s." % point)
 	var destinations: Array[Vector2] = []
 	destinations.assign(PLAN.HOUSE_APPROACH.slice(1))
+	destinations.append_array(PLAN.THOMAS_APPROACH.slice(1))
+	var spur_return := PLAN.THOMAS_APPROACH.slice(0,-1)
+	spur_return.reverse()
+	destinations.append_array(spur_return)
 	for z in range(19,25):
 		destinations.append(Vector2(ClearingLayout.path_center(z), z))
 	for z in range(25,181,4):

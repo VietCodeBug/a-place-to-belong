@@ -19,6 +19,8 @@ const COMMON := Vector2(5.2,128)
 const CRAFT := Vector2(16.1,128.1)
 const EXIT := Vector2(6.6,180.0)
 const HOUSE_A := Vector2(13.1,13.7)
+const THOMAS := Vector2(-6.85,17.8)
+const THOMAS_APPROACH := [Vector2(-2.55,17.6),Vector2(-4.3,17.35),Vector2(-6.05,17.8)]
 const HOUSE_APPROACH := [Vector2(9.5,14.2), Vector2(6.9,14.9), Vector2(3.1,16.7), Vector2(-2.55,17.6)]
 const LANES := [
 	[Vector2(3.1,110),Vector2(-3.2,111),Vector2(-9.2,113.3),Vector2(-10.4,117.8),Vector2(-9,123),Vector2(4.8,124)],

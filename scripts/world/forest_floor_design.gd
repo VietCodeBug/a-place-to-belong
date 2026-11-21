@@ -21,9 +21,11 @@ static func reserved(p: Vector2, margin := 0.0) -> bool:
 	var house_space := (p-VILLAGE.HOUSE_A).rotated(-PI*.48)
 	if absf(house_space.x)<2.65+margin and absf(house_space.y)<2.00+margin:
 		return true
-	for i in range(VILLAGE.HOUSE_APPROACH.size()-1):
-		var nearest := Geometry2D.get_closest_point_to_segment(p,VILLAGE.HOUSE_APPROACH[i],VILLAGE.HOUSE_APPROACH[i+1])
-		if p.distance_to(nearest)<1.24+margin:
-			return true
+	for footpath in [VILLAGE.HOUSE_APPROACH,VILLAGE.THOMAS_APPROACH]:
+		var clearance := 1.24 if footpath == VILLAGE.HOUSE_APPROACH else .89
+		for i in range(footpath.size()-1):
+			var nearest := Geometry2D.get_closest_point_to_segment(p,footpath[i],footpath[i+1])
+			if p.distance_to(nearest)<clearance+margin:
+				return true
 	if p.distance_to(Vector2(-5.4,6.8))<0.9+margin: return true
 	return false

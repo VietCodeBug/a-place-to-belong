@@ -68,7 +68,7 @@ func _ready() -> void:
 	if ResourceLoader.exists(thomas_path):
 		var thomas: Node3D = load(thomas_path).new()
 		thomas.name = "Thomas"
-		thomas.position = ground(-6.85,17.8)
+		thomas.position = ground(VILLAGE.THOMAS.x,VILLAGE.THOMAS.y)
 		thomas.rotation.y = 1.24
 		thomas.viewer = player
 		thomas.dialogue = ui
