@@ -1,0 +1,725 @@
+{
+  "schema": "apb.playable_character_script.v1",
+  "character_id": "VLA-06",
+  "name_en_draft": "Clara",
+  "status": "draft_pending_creator_review",
+  "language": "vi",
+  "sources": {
+    "arc": "docs/story/quests/village-a-relationship-arcs-v0.json",
+    "base_dialogue": "docs/story/dialogue/village-a-dialogues-v0.json",
+    "roster": "docs/story/characters/village-a-roster.json"
+  },
+  "scope": {
+    "village": "VILLAGE_A",
+    "is_cutscene": false,
+    "quests_optional": true,
+    "level_design_not_authorized": true,
+    "game_engine_not_implemented": true
+  },
+  "npc_ordinary_routine_vi": "Clara làm bếp, bày bàn, chuẩn bị món và ăn với cư dân; tiếp tục công việc khi A vắng. Không đứng chờ quest.",
+  "gate_contract": {
+    "friendship_thresholds_proposed": [
+      20,
+      50,
+      80
+    ],
+    "requires_previous_stage_or_self_resolution": true,
+    "distinct_nonquest_visits_between_quests": true,
+    "bond_before_final": true,
+    "player_explicit_acceptance": true,
+    "score_alone_never_triggers_quest": true,
+    "no_same_encounter_chain": true
+  },
+  "quests": [
+    {
+      "quest_id": "VLA06-Q1",
+      "title_vi": "Bữa ăn đủ ngon",
+      "context_vi": "Góc chuẩn bị bữa ăn và bàn sinh hoạt chung Làng A (bố trí cụ thể còn nháp)",
+      "ambient_cue_vi": "Clara đứng chỉnh vị trí một chiếc đĩa, trong khi các bát còn chưa được đặt lên bàn. Người chơi được tự đi qua; cô không gọi A từ xa.",
+      "story_source_summary_vi": "Clara đang chuẩn bị một bữa nhỏ nhưng thiếu thời gian bày biện như mong muốn.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA06-Q1-O1",
+        "player_acceptance": "VLA06-Q1-A1",
+        "completion_after_real_action": "VLA06-Q1-C1",
+        "refusal": "VLA06-Q1-D1"
+      },
+      "gating": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_approved": false,
+        "player_initiates": true,
+        "needs_npc_available_context": true,
+        "not_same_visit_as_last_quest": true
+      },
+      "beats": [
+        {
+          "id": "SET_TABLE",
+          "action_vi": "Kiểm bàn, tự cầm từng bát từ kệ thấp rồi đặt đủ các vị trí đã chuẩn bị. Có thể chỉnh một chiếc bát bị đặt lệch.",
+          "result_vi": "Bát được đặt thực, bàn nhìn sẵn sàng hơn; không chấm điểm vì đẹp tuyệt đối.",
+          "talk": [
+            "C:Tôi cứ thấy chiếc đĩa này lệch.",
+            "A:Còn mấy chiếc bát chưa được bày.",
+            "C:Ừ. Tôi nhìn mãi một chỗ nên quên mất phần còn lại."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-Q1-SET_TABLE-X01",
+              "speaker_id": "VLA-06",
+              "text_vi": "Tôi cứ thấy chiếc đĩa này lệch.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-SET_TABLE-X02",
+              "speaker_id": "A",
+              "text_vi": "Còn mấy chiếc bát chưa được bày.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-SET_TABLE-X03",
+              "speaker_id": "VLA-06",
+              "text_vi": "Ừ. Tôi nhìn mãi một chỗ nên quên mất phần còn lại.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "CHOICE",
+          "action_vi": "Chọn bày đơn giản rồi đem món nóng ra, hoặc chỉnh thêm khăn/bát trước khi ra món. Cả hai là lựa chọn hợp lệ; nếu chỉnh quá lâu, Clara tự đề nghị mang món ra trước, không tạo timer thất bại.",
+          "result_vi": "Chọn đơn giản: bàn mộc mạc, món được ra sớm. Chọn chỉnh thêm: bàn gọn hơn, Clara thấy mình đang cố cầu toàn; món vẫn được phục vụ.",
+          "talk": [
+            "A:Mang món ra trước nhé?",
+            "C:Nhưng tôi vẫn muốn chỉnh chỗ này một chút.",
+            "A:Người ngồi ăn chắc thích món còn nóng hơn.",
+            "C:... Ừ, cậu nói cũng phải."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-Q1-CHOICE-X01",
+              "speaker_id": "A",
+              "text_vi": "Mang món ra trước nhé?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-CHOICE-X02",
+              "speaker_id": "VLA-06",
+              "text_vi": "Nhưng tôi vẫn muốn chỉnh chỗ này một chút.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-CHOICE-X03",
+              "speaker_id": "A",
+              "text_vi": "Người ngồi ăn chắc thích món còn nóng hơn.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-CHOICE-X04",
+              "speaker_id": "VLA-06",
+              "text_vi": "... Ừ, cậu nói cũng phải.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "SERVE",
+          "action_vi": "A cầm khay khi được Clara cho phép, mang tới bàn chung và đặt xuống vị trí trống; quay lại báo Clara cùng ngồi/ngắm phản ứng khách có mặt (không xác định danh tính mới).",
+          "result_vi": "Chỉ phát câu kết gốc sau khi bát và khay đã đặt đúng. Không cần hiển thị cả một đám đông mới.",
+          "talk": [
+            "C:Vậy là mọi thứ đã lên bàn.",
+            "A:Chưa phải bàn đẹp nhất, nhưng ăn được rồi.",
+            "C:Mà trông mọi người có vẻ vui."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-Q1-SERVE-X01",
+              "speaker_id": "VLA-06",
+              "text_vi": "Vậy là mọi thứ đã lên bàn.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-SERVE-X02",
+              "speaker_id": "A",
+              "text_vi": "Chưa phải bàn đẹp nhất, nhưng ăn được rồi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q1-SERVE-X03",
+              "speaker_id": "VLA-06",
+              "text_vi": "Mà trông mọi người có vẻ vui.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "simple_and_warm",
+          "label_vi": "Bày vừa đủ, mang ra khi còn nóng",
+          "consequence_vi": "Clara nhớ A quan tâm trải nghiệm bữa ăn hơn hình thức."
+        },
+        {
+          "id": "tidy_first",
+          "label_vi": "Chỉnh thêm cho gọn rồi mang ra",
+          "consequence_vi": "Clara nhớ A cũng chú ý chuyện bày bàn, nhưng việc sửa mãi chưa chắc cần thiết."
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "environment_vi": "Một bữa ăn diễn ra tự nhiên; Clara nhớ A đã ưu tiên người ngồi ăn.",
+          "return_line_vi": "Cảm ơn hôm đó. Cậu giúp tôi nhớ mang món ra trước khi nó nguội."
+        },
+        "resolved_without_player": {
+          "environment_vi": "Clara tự bày nhanh và bữa ăn vẫn diễn ra.",
+          "return_line_vi": "Tôi tự bày nhanh bữa hôm trước. Hóa ra mọi người vẫn ăn ngon."
+        },
+        "declined": {
+          "npc_continues_life": true,
+          "may_reoffer_if_context_remains": true
+        },
+        "in_progress": {
+          "can_leave_and_return": true,
+          "do_not_credit_before_completion": true
+        }
+      },
+      "ordinary_routine_after_vi": "Clara tiếp tục nấu, thử cách xếp bàn riêng, trò chuyện với người tới ăn; không phát quest mới ngay lần gặp sau.",
+      "required_completion": [
+        "quest_accepted_by_player",
+        "three_gameplay_beats_or_equivalent_actions_done",
+        "npc_confirmed_success"
+      ],
+      "no_deadline": true
+    },
+    {
+      "quest_id": "VLA06-Q2",
+      "title_vi": "Thử một cách khác",
+      "context_vi": "Góc bếp quen thuộc, có sẵn vài nguyên liệu của món ăn thường ngày; tên món và công thức chưa chốt",
+      "ambient_cue_vi": "Clara nhìn hai cách chuẩn bị cho cùng một món nhỏ; cô không gọi đó là sáng chế vĩ đại.",
+      "story_source_summary_vi": "Sau vài lần trò chuyện, Clara muốn thử một cách chuẩn bị món quen với nguyên liệu đang có.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA06-Q2-O1",
+        "player_acceptance": "VLA06-Q2-A1",
+        "completion_after_real_action": "VLA06-Q2-C1",
+        "refusal": "VLA06-Q2-D1"
+      },
+      "gating": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA06-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_approved": false,
+        "player_initiates": true,
+        "needs_npc_available_context": true,
+        "not_same_visit_as_last_quest": true
+      },
+      "beats": [
+        {
+          "id": "INSPECT",
+          "action_vi": "A xem nguyên liệu đang có và chọn thử mẻ nhỏ thay vì mặc định phải mua hay thu thập vật liệu mới.",
+          "result_vi": "Hiện hai phương án hợp lý phù hợp nguyên liệu đã có; không tự thêm hệ nghề bếp/công thức mới.",
+          "talk": [
+            "C:Tôi muốn đổi cách làm một chút, nhưng sợ phí nguyên liệu.",
+            "A:Hay thử một phần nhỏ trước?",
+            "C:Ừ. Hỏng thì cũng không mất cả bữa."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-Q2-INSPECT-X01",
+              "speaker_id": "VLA-06",
+              "text_vi": "Tôi muốn đổi cách làm một chút, nhưng sợ phí nguyên liệu.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q2-INSPECT-X02",
+              "speaker_id": "A",
+              "text_vi": "Hay thử một phần nhỏ trước?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q2-INSPECT-X03",
+              "speaker_id": "VLA-06",
+              "text_vi": "Ừ. Hỏng thì cũng không mất cả bữa.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "PREPARE",
+          "action_vi": "Chọn làm biến thể mới hoặc giữ cách quen, tự xếp nguyên liệu vào khay và giúp Clara thao tác chuẩn bị đơn giản, an toàn; Clara phụ trách phần bếp nóng.",
+          "result_vi": "Món thử có hình thức khác nhau tùy chọn; người chơi không bị ép chọn biến thể mới để thắng.",
+          "talk": [
+            "A:Cách này nhìn khác hẳn mọi khi.",
+            "C:Tôi vẫn hơi lo. Để thử xem sao.",
+            "A:Có thể không giống tưởng tượng, nhưng cứ thử đã."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-Q2-PREPARE-X01",
+              "speaker_id": "A",
+              "text_vi": "Cách này nhìn khác hẳn mọi khi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q2-PREPARE-X02",
+              "speaker_id": "VLA-06",
+              "text_vi": "Tôi vẫn hơi lo. Để thử xem sao.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q2-PREPARE-X03",
+              "speaker_id": "A",
+              "text_vi": "Có thể không giống tưởng tượng, nhưng cứ thử đã.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "TASTE",
+          "action_vi": "Sau khi Clara hoàn tất phần chế biến, A và Clara nếm thử một khẩu phần; chọn nhận xét chân thành thay vì tự động khen.",
+          "result_vi": "Clara lắng nghe: nếu chọn làm mới cô nhớ A đã giúp thử; nếu giữ cách cũ cô thấy việc chủ động lựa chọn cũng đáng quý.",
+          "talk": [
+            "C:Không giống tôi định lúc đầu.",
+            "A:Nhưng mình biết được điều gì hợp rồi.",
+            "C:Đúng. Không cần bỏ cả phần thử chỉ vì nó khác mong đợi."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-Q2-TASTE-X01",
+              "speaker_id": "VLA-06",
+              "text_vi": "Không giống tôi định lúc đầu.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q2-TASTE-X02",
+              "speaker_id": "A",
+              "text_vi": "Nhưng mình biết được điều gì hợp rồi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-Q2-TASTE-X03",
+              "speaker_id": "VLA-06",
+              "text_vi": "Đúng. Không cần bỏ cả phần thử chỉ vì nó khác mong đợi.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "try_variant",
+          "label_vi": "Thử biến thể mới với một phần nhỏ",
+          "consequence_vi": "Clara nhớ A đã động viên thử điều mới, món thử có cách bày khác."
+        },
+        {
+          "id": "keep_familiar",
+          "label_vi": "Giữ cách quen và thay đổi phần bày",
+          "consequence_vi": "Clara nhớ A giúp cô tự tin chọn thứ phù hợp, không đánh đồng không đổi với thất bại."
+        },
+        {
+          "id": "truthful_feedback",
+          "label_vi": "Nói rõ điểm thích và điều chưa hợp",
+          "consequence_vi": "Clara coi trọng nhận xét cụ thể, không tăng thân thiết chỉ vì khen lấy lòng."
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "environment_vi": "Clara dám thử lựa chọn không hoàn hảo mà không vứt món.",
+          "return_line_vi": "Tôi còn nghĩ về lần thử món đó. Cách mình chọn không phải hoàn hảo, nhưng có ích."
+        },
+        "resolved_without_player": {
+          "environment_vi": "Clara thử một mẻ nhỏ vào lúc khác.",
+          "return_line_vi": "Tôi tự thử một phần nhỏ lúc rảnh. Không tệ như tôi lo."
+        },
+        "declined": {
+          "npc_continues_life": true,
+          "may_reoffer_if_context_remains": true
+        },
+        "in_progress": {
+          "can_leave_and_return": true,
+          "do_not_credit_before_completion": true
+        }
+      },
+      "ordinary_routine_after_vi": "Clara vẫn nấu món thường ngày; món thử không tự trở thành đặc sản hay quán ăn.",
+      "required_completion": [
+        "quest_accepted_by_player",
+        "three_gameplay_beats_or_equivalent_actions_done",
+        "npc_confirmed_success"
+      ],
+      "no_deadline": true
+    },
+    {
+      "quest_id": "VLA06-QF",
+      "title_vi": "Ngồi xuống ăn cùng nhau",
+      "context_vi": "Khoảng sinh hoạt dùng bữa chung trong Làng A; không mặc định đây là nhà hàng hay café",
+      "ambient_cue_vi": "Clara đặt khay xuống, nhìn bàn rồi dừng lại; lần này cô chủ động chuẩn bị một chiếc ghế cho chính mình.",
+      "story_source_summary_vi": "Clara quen đứng phục vụ đến khi người khác ăn xong; cô muốn thay đổi.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA06-QF-O1",
+        "player_acceptance": "VLA06-QF-A1",
+        "completion_after_real_action": "VLA06-QF-C1",
+        "refusal": "VLA06-QF-D1"
+      },
+      "gating": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA06-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_approved": false,
+        "player_initiates": true,
+        "needs_npc_available_context": true,
+        "not_same_visit_as_last_quest": true
+      },
+      "beats": [
+        {
+          "id": "ARRANGE",
+          "action_vi": "A kiểm chỗ ngồi, đặt bát và khăn cho số chỗ đã có; chọn tự bày một phần hoặc đề nghị một người đang rảnh phụ, nếu người ấy đồng ý. Không tự triệu hồi NPC.",
+          "result_vi": "Bàn sẵn sàng và có chỗ thật cho Clara. Nếu không có người khác rảnh, A và Clara vẫn làm được.",
+          "talk": [
+            "C:Lần này tôi muốn ngồi xuống ngay khi bữa ăn bắt đầu.",
+            "A:Vậy phải chừa chỗ cho cô trước.",
+            "C:Nghe đơn giản thật. Tôi cứ quên làm thế."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-QF-ARRANGE-X01",
+              "speaker_id": "VLA-06",
+              "text_vi": "Lần này tôi muốn ngồi xuống ngay khi bữa ăn bắt đầu.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-QF-ARRANGE-X02",
+              "speaker_id": "A",
+              "text_vi": "Vậy phải chừa chỗ cho cô trước.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-QF-ARRANGE-X03",
+              "speaker_id": "VLA-06",
+              "text_vi": "Nghe đơn giản thật. Tôi cứ quên làm thế.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "SHARE",
+          "action_vi": "Cùng Clara mang món ra; chọn tự lấy phần hoặc để người tham gia tự lấy theo lời mời. Không bắt A phục vụ tất cả hay buộc NPC khác tham gia.",
+          "result_vi": "Món ăn và bàn ăn tồn tại như sinh hoạt đời thường, không cần hoạt cảnh cả làng chúc mừng.",
+          "talk": [
+            "A:Mọi thứ đủ rồi. Có cần chỉnh thêm không?",
+            "C:Không. Tôi muốn để nguyên như thế.",
+            "A:Vậy ngồi đi."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-QF-SHARE-X01",
+              "speaker_id": "A",
+              "text_vi": "Mọi thứ đủ rồi. Có cần chỉnh thêm không?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-QF-SHARE-X02",
+              "speaker_id": "VLA-06",
+              "text_vi": "Không. Tôi muốn để nguyên như thế.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-QF-SHARE-X03",
+              "speaker_id": "A",
+              "text_vi": "Vậy ngồi đi.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "SIT",
+          "action_vi": "Chọn ngồi ăn cùng Clara hoặc chào rồi rời đi sau khi đã hỗ trợ. Nếu A ở lại, giao tiếp ngắn diễn ra khi Clara thực sự ngồi; nếu A đi, cô vẫn tự ngồi ăn.",
+          "result_vi": "Với nhánh A ở lại, quest được hoàn tất khi Clara đã ngồi và bữa ăn bắt đầu. Nhánh A rời sớm sau khi giúp được ghi nhận công sức, nhưng không ghi A đã ăn cùng.",
+          "talk": [
+            "C:Lạ thật, được ngồi từ đầu dễ chịu hơn hẳn.",
+            "A:Bữa ăn ngon nhất có khi là bữa mình không phải chạy đi sửa gì.",
+            "C:Ừ. Cứ ăn thôi."
+          ],
+          "lines": [
+            {
+              "id": "VLA06-QF-SIT-X01",
+              "speaker_id": "VLA-06",
+              "text_vi": "Lạ thật, được ngồi từ đầu dễ chịu hơn hẳn.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-QF-SIT-X02",
+              "speaker_id": "A",
+              "text_vi": "Bữa ăn ngon nhất có khi là bữa mình không phải chạy đi sửa gì.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA06-QF-SIT-X03",
+              "speaker_id": "VLA-06",
+              "text_vi": "Ừ. Cứ ăn thôi.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "eat_together",
+          "label_vi": "Ngồi ăn cùng Clara",
+          "consequence_vi": "Clara nhớ A đã ở lại chia sẻ bữa ăn."
+        },
+        {
+          "id": "help_then_leave",
+          "label_vi": "Giúp bày xong rồi đi làm việc riêng",
+          "consequence_vi": "Clara nhớ A đã giúp chuẩn bị nhưng không tự nhận A từng ngồi ăn cùng."
+        },
+        {
+          "id": "ask_willing_helper",
+          "label_vi": "Hỏi một người đang rảnh có muốn phụ không",
+          "consequence_vi": "Chỉ áp dụng khi NPC khác thật sự có mặt và đồng ý; không tự thêm quan hệ hay nhiệm vụ mới."
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "environment_vi": "Clara tham gia bữa ăn từ đầu; các lần gặp sau cô có thể rủ A ngồi ăn thay vì chỉ nhờ bày bàn.",
+          "return_line_vi": "Lần trước tôi đã ngồi ăn từ đầu. Hôm nay tôi cũng định làm vậy."
+        },
+        "resolved_without_player": {
+          "environment_vi": "Clara chủ động mang món ra rồi ngồi với mọi người, dù A không tham gia.",
+          "return_line_vi": "Tôi tự bày đủ rồi ngồi ăn cùng mọi người. Đúng là nên thử sớm hơn."
+        },
+        "declined": {
+          "npc_continues_life": true,
+          "may_reoffer_if_context_remains": true
+        },
+        "in_progress": {
+          "can_leave_and_return": true,
+          "do_not_credit_before_completion": true
+        }
+      },
+      "ordinary_routine_after_vi": "Clara vẫn nấu, bày bữa ăn nhỏ và thỉnh thoảng mời A ngồi; hoàn thành tuyến ba nhiệm vụ không làm nhân vật biến mất.",
+      "required_completion": [
+        "quest_accepted_by_player",
+        "three_gameplay_beats_or_equivalent_actions_done",
+        "npc_confirmed_success"
+      ],
+      "no_deadline": true
+    }
+  ],
+  "interludes": [
+    {
+      "id": "VLA06-IL1",
+      "between": "Q1_to_Q2",
+      "trigger": "first_distinct_nonquest_return_after_Q1_resolution",
+      "topic": "Một bữa ăn không phải nhiệm vụ",
+      "talk": [
+        "C:Hôm nay tôi bày bàn nhanh hơn chút.",
+        "A:Không cần chỉnh từng chiếc đĩa à?",
+        "C:Vẫn muốn, nhưng tôi đang tập thôi."
+      ],
+      "flag": "VLA06.nonquest_meetups_after_Q1",
+      "lines": [
+        {
+          "id": "VLA06-IL1-X01",
+          "speaker_id": "VLA-06",
+          "text_vi": "Hôm nay tôi bày bàn nhanh hơn chút.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-IL1-X02",
+          "speaker_id": "A",
+          "text_vi": "Không cần chỉnh từng chiếc đĩa à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-IL1-X03",
+          "speaker_id": "VLA-06",
+          "text_vi": "Vẫn muốn, nhưng tôi đang tập thôi.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA06-IL2",
+      "between": "Q2_to_QF",
+      "trigger": "first_distinct_nonquest_return_after_Q2_resolution",
+      "topic": "Món ăn thường ngày",
+      "talk": [
+        "A:Hôm nay cô vẫn nấu món quen à?",
+        "C:Ừ. Không phải bữa nào cũng cần thử cái mới.",
+        "A:Nghe hợp lý."
+      ],
+      "flag": "VLA06.nonquest_meetups_after_Q2",
+      "lines": [
+        {
+          "id": "VLA06-IL2-X01",
+          "speaker_id": "A",
+          "text_vi": "Hôm nay cô vẫn nấu món quen à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-IL2-X02",
+          "speaker_id": "VLA-06",
+          "text_vi": "Ừ. Không phải bữa nào cũng cần thử cái mới.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-IL2-X03",
+          "speaker_id": "A",
+          "text_vi": "Nghe hợp lý.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA06-IL3",
+      "between": "Q2_to_QF",
+      "trigger": "second_distinct_nonquest_return_after_Q2_resolution",
+      "topic": "Chiếc ghế còn trống",
+      "talk": [
+        "C:Tôi đang tính bày thêm một chỗ ngồi.",
+        "A:Cho ai thế?",
+        "C:Tôi vẫn chưa chắc. Có lẽ cho chính mình."
+      ],
+      "flag": "VLA06.nonquest_meetups_after_Q2",
+      "lines": [
+        {
+          "id": "VLA06-IL3-X01",
+          "speaker_id": "VLA-06",
+          "text_vi": "Tôi đang tính bày thêm một chỗ ngồi.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-IL3-X02",
+          "speaker_id": "A",
+          "text_vi": "Cho ai thế?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-IL3-X03",
+          "speaker_id": "VLA-06",
+          "text_vi": "Tôi vẫn chưa chắc. Có lẽ cho chính mình.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA06-BOND",
+      "between": "Q2_to_QF",
+      "trigger": "player_selects_personal_topic_after_Q2_resolved_on_nonquest_visit",
+      "topic": "Chuyện Clara ít khi nói",
+      "talk": [
+        "C:Có điều này hơi buồn cười. Tôi sợ mọi người thất vọng nếu món ăn không đẹp như tôi tính.",
+        "A:Nhưng người ta vẫn đến vì muốn ăn cùng nhau mà.",
+        "C:Tôi biết. Chỉ có tôi hay nghĩ mình phải làm mọi thứ đúng.",
+        "A:Không ai cần cô đứng chỉnh đĩa suốt bữa đâu.",
+        "C:Ừ. Có lẽ tôi nên ngồi xuống thử."
+      ],
+      "flag": "VLA06.personal_bond_event_seen",
+      "lines": [
+        {
+          "id": "VLA06-BOND-X01",
+          "speaker_id": "VLA-06",
+          "text_vi": "Có điều này hơi buồn cười. Tôi sợ mọi người thất vọng nếu món ăn không đẹp như tôi tính.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-BOND-X02",
+          "speaker_id": "A",
+          "text_vi": "Nhưng người ta vẫn đến vì muốn ăn cùng nhau mà.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-BOND-X03",
+          "speaker_id": "VLA-06",
+          "text_vi": "Tôi biết. Chỉ có tôi hay nghĩ mình phải làm mọi thứ đúng.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-BOND-X04",
+          "speaker_id": "A",
+          "text_vi": "Không ai cần cô đứng chỉnh đĩa suốt bữa đâu.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-BOND-X05",
+          "speaker_id": "VLA-06",
+          "text_vi": "Ừ. Có lẽ tôi nên ngồi xuống thử.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA06-POST",
+      "between": "after_QF",
+      "trigger": "normal_return_after_final_quest_resolved",
+      "topic": "Bữa sau vẫn tiếp tục",
+      "talk": [
+        "C:Chào cậu. Nếu muốn, hôm nay cứ ngồi ăn cùng mọi người.",
+        "A:Cô không phải lo bày thêm à?",
+        "C:Đủ rồi. Phần còn lại để tôi ăn trước đã."
+      ],
+      "flag": null,
+      "lines": [
+        {
+          "id": "VLA06-POST-X01",
+          "speaker_id": "VLA-06",
+          "text_vi": "Chào cậu. Nếu muốn, hôm nay cứ ngồi ăn cùng mọi người.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-POST-X02",
+          "speaker_id": "A",
+          "text_vi": "Cô không phải lo bày thêm à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA06-POST-X03",
+          "speaker_id": "VLA-06",
+          "text_vi": "Đủ rồi. Phần còn lại để tôi ăn trước đã.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": false,
+      "not_a_quest": true
+    }
+  ]
+}
