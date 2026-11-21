@@ -14,6 +14,8 @@
 
 Các tài liệu nguồn: [hồ sơ tính cách 30 cư dân](../characters/village-a-roster.md), [CH01-007](../scenes/CH01-007.md), [quy ước kể chuyện thế giới mở](../production/open-world-narrative-v0.md).
 
+> **CẢNH BÁO TÍCH HỢP:** Các file Markdown/JSON v0–v1 hiện là **nguồn biên kịch, không phải kịch bản thoại có thể chạy thẳng**. Không đọc mô tả, điều kiện, hành động hoặc các dòng `Nếu giúp`, `Sau đó` như lời NPC. Khi chuyển vào game phải tách type, trigger, branch và speaker; xem [quy chuẩn bàn giao AI](../production/narrative-dialogue-handoff-contract-v1.md) và [pilot Evelyn Q2](../quests/village-a-evelyn-q2-flow-v1.md). Các file khác **chưa được chuyển hết**.
+
 ## Hướng dẫn AI lập trình đọc — không phát thành một bộ phim
 
 **Hội thoại NPC ↔ NPC:** [6 đoạn ngắn nghe thoáng qua](village-a-overheard-v0.md), [JSON](village-a-overheard-v0.json). Chỉ chạy khi đủ hai NPC, không chồng lên lời thoại với người chơi; không yêu cầu A có mặt.
