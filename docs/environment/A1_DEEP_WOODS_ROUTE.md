@@ -1,9 +1,9 @@
-# A1 · Nhà A trong rừng sâu
+# A1 · Từ Nhà A qua rừng đến làng
 
-Nhà A ở (16, −84). Cửa làng gần z=101, cách khoảng 185 m theo đường chim bay, và khoảng 200 m theo lối đi trước khi rẽ sang nhánh Thomas. Từ hiên, đường uốn quanh hai vai đồi và nhiều cụm cây trước khi nhập lại tuyến cũ. Nhánh Thomas vẫn nối vào đường chính. Qua cầu, người chơi còn đi qua bìa rừng trước khi thấy rõ làng. [Ảnh Godot theo tuyến](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-deep-woods/docs/environment/review-a1-deep-woods/README.md)
+Nhà A nằm ở (16, −338). Lối đi từ hiên tới cửa làng dài khoảng 510 m, mất khoảng ba phút ở tốc độ đi bộ 2,8 m/s. Rừng sâu chiếm hơn 400 m đầu tiên. Đường đổi hướng qua các sườn đồi và cụm rừng, nhập lại tuyến cũ gần nhánh Thomas rồi qua cầu và bìa rừng trước khi mở ra làng. Bản đồ M đã bao quát toàn bộ tuyến. [Ảnh Godot theo tuyến](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-forest-journey/docs/environment/review-a1-forest-journey/README.md)
 
-Địa hình đi được kéo tới z=−94. Lối mòn và sân Nhà A dùng cao độ thoải riêng, cùng sampler với mesh và collider. Phần nhà, cầu và làng dùng lại asset sẵn có. Bản đồ M bao quát phần rừng mới, và camera mở đầu lấy mốc spawn mới.
+Cỏ quanh nhà và dọc tuyến chính được trồng trên lưới có độ xê dịch, thành lớp cỏ dày sát lề và lớp thưa dần ở xa hơn. Các cụm hoa bám theo hai bên khúc cua và tập trung nhiều quanh hiên. Cỏ và hoa dùng MultiMesh chia theo đoạn, với hình học đơn giản hơn ở phần ngoài lề. Xuân và hè có nhiều hoa, thu còn các cụm thưa hơn, đông phủ tuyết.
 
-Thảm cỏ lá thấp kéo dọc hai lề và phủ sân Nhà A. Mật độ dọc tuyến làng bớt ngắt đột ngột. Hoa thành cụm ở chân hiên, sau các khúc cua và ven rừng. Kiểm tra vẫn dùng các trạng thái mùa của A1.
+Hai GLB cáo và hươu từ bộ Ultimate Animated Animal Pack của Quaternius, giấy phép CC0, tổng dung lượng khoảng 1,25 MB. Mỗi loài có animation đi, đứng nghỉ và cúi ăn. Cáo xuất hiện gần Nhà A và trong rừng phía thung lũng. Hai con hươu xuất hiện cùng một khoảng rừng giữa đường. [Nguồn và SHA-256](../../assets/vendor/quaternius/a1_wildlife/provenance.json)
 
-Chạy ảnh review bằng `godot --path . --audio-driver Dummy --script tools/capture_a1_deep_woods.gd`. Chạy kiểm tra lộ trình với `godot --headless --path . --disable-render-loop --fixed-fps 60 --script tests/village_a_test.gd`.
+Chạy ảnh review bằng `godot --path . --audio-driver Dummy --script tools/capture_a1_deep_woods.gd`. Chạy kiểm tra đi–về và bốn đường nhánh bằng `godot --headless --path . --disable-render-loop --fixed-fps 60 --script tests/village_a_test.gd`. Ảnh từ Godot Compatibility trên Linux với Mesa llvmpipe. Hiệu năng trên GPU đích chưa được đo.

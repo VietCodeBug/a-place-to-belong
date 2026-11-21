@@ -32,6 +32,9 @@ void fragment() {
  // Gentle atmospheric sage transition across outer foothills (>30m)
  float outer_blend=smoothstep(30.0,115.0,length(p));
  color=mix(color,mix(foothill_sage.rgb,moss.rgb,smoothstep(.3,.7,large)),outer_blend*.58);
+ float deep_woods = smoothstep(29.0,78.0,-p.y) * (1.0-smoothstep(20.0,55.0,abs(p.x)));
+ vec3 grass_ground = mix(vec3(.19,.25,.105),vec3(.255,.32,.131),smoothstep(.20,.78,large));
+ color=mix(color,grass_ground * mix(.97,1.04,small),deep_woods*.94);
  float valley=smoothstep(28.0,36.0,p.y);
  float painterly=ground_field(p*.29+warp*.52);
  float mineral=ground_field(p*.91);

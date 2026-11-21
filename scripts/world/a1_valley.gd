@@ -7,8 +7,7 @@ const L = preload("res://scripts/world/landscape.gd")
 const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
-var rabbits: Array[Node3D] = []
-var squirrels: Array[Node3D] = []
+const WILDLIFE = preload("res://scripts/world/a1_wildlife.gd")
 var birds: Array[Node3D] = []
 var clock := 0.0
 var habitat_floor: Array[Node3D] = []
@@ -46,10 +45,7 @@ func _ready() -> void:
 			var season := ["autumn", "spring", "summer", "winter"].find(argument.get_slice("=", 1))
 			if season >= 0:
 				set_season_palette(season)
-	for at in [Vector2(4, 37), Vector2(-7, 56), Vector2(5, 93)]:
-		rabbits.append(small_animal(at, true))
-	for at in [Vector2(-6, 44), Vector2(12, 91)]:
-		squirrels.append(small_animal(at, false))
+	add_child(WILDLIFE.new())
 	for i in range(5):
 		var bird := Node3D.new()
 		add_child(bird)
@@ -204,21 +200,48 @@ func build_bridge() -> void:
 			S.beam(bridge, Vector3(x,y,z), Vector3(x,next_y,z+0.81), 0.28, "795738")
 
 func build_house_grove() -> void:
-	for entry in [["BirchTree_2",12.0,-90.2,9.8],["NormalTree_3",20.3,-89,9.7],
-		["PineTree_1",21,-82,13.4],["PineTree_2",19.5,-77.5,11.6],
-		["NormalTree_4",13.5,-76,11.8],["BirchTree_3",3.0,-80,10.4]]:
-		habitat_trees.append(BOTANY.place_tree(self,entry[0],ground(entry[1],entry[2]),entry[3],entry[1]))
-	for i in range(1,11):
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 80433
+	var home := VILLAGE_PLAN.HOUSE_A
+	for entry in [["BirchTree_2",-4.0,-6.2,9.8],["NormalTree_3",4.3,-5.0,9.7],
+		["PineTree_1",5.0,2.0,13.4],["PineTree_2",3.5,6.5,11.6],
+		["NormalTree_4",-2.5,8,11.8],["BirchTree_3",-13.0,4,10.4]]:
+		var p := home + Vector2(entry[1],entry[2])
+		habitat_trees.append(BOTANY.place_tree(self,entry[0],ground(p.x,p.y),entry[3],p.x))
+	for i in range(1,VILLAGE_PLAN.HOUSE_APPROACH.size()-4):
 		var center: Vector2 = VILLAGE_PLAN.HOUSE_APPROACH[i]
-		for j in range(4):
-			var side := -1.0 if j<2 else 1.0
-			var spot := center + Vector2(side*(3.4+j%2*3.1),sin(i*2.2+j)*2.5)
-			if ForestFloorDesign.reserved(spot,1.4) or absf(spot.x)>=23.2:
-				continue
-			var id: String = ["PineTree_2","BirchTree_2","NormalTree_3","PineTree_5"][(i+j)%4]
-			habitat_trees.append(BOTANY.place_tree(self,id,ground(spot.x,spot.y),8.7+float((i+j)%5),i+j))
-	for entry in [[11.4,-87.1,1.28],[12.2,-87.6,.67],[16.2,-77.6,1.82],[17.1,-77.9,.96]]:
-		BOTANY.place_stone(self,ground(entry[0],entry[1]),entry[2],entry[0],entry[2]>1.5)
+		for side in [-1.0,1.0]:
+			for depth in [0,1,2]:
+				var spot := center + Vector2(side*(4.6+depth*7.3+rng.randf_range(-1.9,2.5)),rng.randf_range(-5.2,5.8))
+				if ForestFloorDesign.reserved(spot,1.5) or spot.distance_to(home)<8:
+					continue
+				var id: String = ["PineTree_2","BirchTree_2","NormalTree_3","PineTree_5","MapleTree_3"][(i+depth)%5]
+				var height := rng.randf_range(8.4,15.3)
+				habitat_trees.append(BOTANY.place_tree(self,id,ground(spot.x,spot.y),height,rng.randf()*TAU))
+		if i%4==1 and i>1:
+			var spot := center + Vector2(-6.7 if i%3==0 else 6.9,-3.9)
+			if not ForestFloorDesign.reserved(spot,2.9):
+				BOTANY.place_stone(self,ground(spot.x,spot.y),rng.randf_range(1.7,2.6),rng.randf()*TAU,true)
+				spot += Vector2(-1.3,-.8)
+				BOTANY.place_stone(self,ground(spot.x,spot.y),.95,rng.randf()*TAU)
+	for x in [-37,-26,29,39]:
+		for z in range(int(home.y)-10,-83,13):
+			var spot := Vector2(x+rng.randf_range(-5.3,5.3),z+rng.randf_range(-5.2,5.2))
+			var tree := BOTANY.place_tree(self,"PineTree_%d" % rng.randi_range(1,5),
+				ground(spot.x,spot.y),rng.randf_range(10.4,17.5),rng.randf()*TAU)
+			habitat_trees.append(tree)
+	# Frame the clearing with woodland across the ridge behind the cottage.
+	for depth in [0,1,2]:
+		for i in range(13):
+			var spot := home + Vector2(
+				12.0+depth*11.5+rng.randf_range(-4.5,4.4),
+				-37.0+i*5.6+rng.randf_range(-3.0,3.9))
+			var id: String = ["PineTree_4","NormalTree_2","PineTree_1","BirchTree_3"][(i+depth)%4]
+			habitat_trees.append(BOTANY.place_tree(self,id,ground(spot.x,spot.y),
+				rng.randf_range(8.6,15.2),rng.randf()*TAU))
+	for entry in [[-4.6,-3.1,1.28],[-3.8,-3.6,.67],[.2,6.4,1.82],[1.1,6.1,.96]]:
+		var p := home + Vector2(entry[0],entry[1])
+		BOTANY.place_stone(self,ground(p.x,p.y),entry[2],p.x,entry[2]>1.5)
 
 func build_groves() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -301,24 +324,6 @@ func facet(parent: Node3D, at: Vector3, size: Vector3, color: String) -> MeshIns
 	mesh.scale = size
 	return mesh
 
-func small_animal(at: Vector2, rabbit: bool) -> Node3D:
-	var animal := Node3D.new()
-	add_child(animal)
-	animal.position = ground(at.x, at.y)
-	animal.set_meta("home", at)
-	var fur := "A59079" if rabbit else "AB603F"
-	facet(animal, Vector3(0, 0.21, 0), Vector3(0.31, 0.37, 0.53), fur)
-	facet(animal, Vector3(0, 0.34, 0.23), Vector3(0.28, 0.26, 0.28), fur)
-	for side in [-1, 1]:
-		facet(animal, Vector3(side * 0.079, 0.49 if rabbit else 0.44, 0.18),
-			Vector3(0.087, 0.29 if rabbit else 0.14, 0.085), fur)
-		facet(animal, Vector3(side * 0.113, 0.38, 0.29), Vector3(0.035, 0.039, 0.03), "352924")
-		facet(animal, Vector3(side * 0.105, 0.08, 0.065), Vector3(0.14, 0.12, 0.26), fur)
-	var tail := facet(animal, Vector3(0, 0.25 if rabbit else 0.39, -0.26),
-		Vector3(0.15, 0.15, 0.15) if rabbit else Vector3(0.23, 0.52, 0.25), "E4D6C2" if rabbit else "9B5038")
-	tail.rotation.x = 0.37
-	return animal
-
 func _process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if camera != null:
@@ -336,13 +341,6 @@ func _process(delta: float) -> void:
 			sun.directional_shadow_max_distance = minf(original_shadow_distance, 48.0) if local_shadows else original_shadow_distance
 			sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if local_shadows else original_shadow_mode
 	clock += delta
-	for animal in rabbits + squirrels:
-		var home: Vector2 = animal.get_meta("home")
-		var visit := clock * 0.7 + home.y
-		var pace := clampf(sin(visit * 1.8), 0.0, 1.0)
-		var p := home + Vector2(sin(visit * 0.42), cos(visit * 0.42)) * 1.65
-		animal.position = ground(p.x, p.y) + Vector3.UP * pace * absf(sin(visit * 5.0)) * 0.17
-		animal.rotation.y = visit * 0.42 + PI * 0.5
 	for i in birds.size():
 		var bird := birds[i]
 		var t := clock * 0.24 + i * 0.13

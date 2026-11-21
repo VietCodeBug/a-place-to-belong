@@ -24,7 +24,11 @@ static func reserved(p: Vector2, margin := 0.0) -> bool:
 	for footpath in [VILLAGE.HOUSE_APPROACH,VILLAGE.THOMAS_APPROACH]:
 		var clearance := 1.24 if footpath == VILLAGE.HOUSE_APPROACH else .89
 		for i in range(footpath.size()-1):
-			var nearest := Geometry2D.get_closest_point_to_segment(p,footpath[i],footpath[i+1])
+			var a: Vector2 = footpath[i]
+			var b: Vector2 = footpath[i+1]
+			if p.y < minf(a.y,b.y)-clearance-margin or p.y > maxf(a.y,b.y)+clearance+margin:
+				continue
+			var nearest := Geometry2D.get_closest_point_to_segment(p,a,b)
 			if p.distance_to(nearest)<clearance+margin:
 				return true
 	if p.distance_to(Vector2(-5.4,6.8))<0.9+margin: return true

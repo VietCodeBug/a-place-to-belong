@@ -1,6 +1,7 @@
 extends SceneTree
 const L = preload("res://scripts/world/landscape.gd")
-const OUT := "user://a1-deep-woods/"
+const PLAN = preload("res://scripts/world/village_a_layout.gd")
+const OUT := "user://a1-forest-journey/"
 var camera: Camera3D
 var valley: Node3D
 
@@ -38,13 +39,20 @@ func run() -> void:
 	hub.add_child(camera)
 	camera.make_current()
 	valley = hub.get_node("A1RiverValley")
-	valley.set_season_palette(2)
-	await shot("nha-a",mark(9.4,-84.6,1.62),mark(16,-84,2.2))
-	await shot("hoa-ven-hien",mark(11.1,-84.65,.88),mark(12.4,-85.65,.33))
-	await shot("roi-nha-a",mark(11.9,-83.1,1.65),mark(7.0,-71.8,1.9))
-	await shot("giua-rung",mark(15.4,-52.1,1.64),mark(14.4,-38.5,1.7))
+	valley.set_season_palette(1)
+	var home := PLAN.HOUSE_A
+	var start: Vector2 = PLAN.HOUSE_APPROACH[0]
+	await RenderingServer.frame_post_draw
+	await shot("nha-a",mark(home.x-9.6,home.y+1.3,1.65),mark(home.x,home.y,2.24))
+	await shot("hoa-ven-hien",mark(start.x-2.8,start.y-.1,1.25),mark(home.x-1.5,home.y-1.95,.85))
+	await shot("cao-ven-nha",mark(home.x-8.9,home.y-1.15,1.18),mark(home.x-6.0,home.y-3.4,.31))
+	await shot("duong-roi-nha-a",mark(9.45,-336.55,1.65),mark(-.8,-322.5,1.42))
+	await shot("doi-rung",mark(3.8,-274.4,1.66),mark(13.4,-260,1.80))
+	await shot("huou-trong-rung",mark(11.7,-245.3,1.54),mark(8.1,-243.7,.75))
 	await shot("bia-rung",mark(L.valley_path(85),85,1.65),mark(5.1,111,2.2))
 	await shot("vao-lang",mark(L.valley_path(101),101,1.65),mark(5.2,121,2.3))
+	valley.set_season_palette(3)
+	await shot("nha-a-dong",mark(home.x-9.6,home.y+1.3,1.65),mark(home.x,home.y,2.24))
 	print(ProjectSettings.globalize_path(OUT))
 	hub.queue_free()
 	await process_frame

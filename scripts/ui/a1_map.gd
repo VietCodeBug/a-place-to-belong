@@ -36,7 +36,7 @@ func point(at: Vector2) -> Vector2:
 	return size * 0.5 + pan + Vector2(at.x, MAP_CENTER_Z - at.y) * map_scale()
 
 func map_scale() -> float:
-	return minf(size.x / 150.0, size.y / 330.0) * zoom
+	return minf(size.x / 150.0, maxf(1.0, size.y - 142.0) / (L.VALLEY_END - L.WOODLAND_START)) * zoom
 
 func center_on_player() -> void:
 	pan = -Vector2(player.position.x, MAP_CENTER_Z - player.position.z) * map_scale()

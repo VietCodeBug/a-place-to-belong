@@ -104,7 +104,7 @@ static func place_stone(parent: Node3D, spot: Vector3, size: float, yaw: float, 
 			model.set_surface_override_material(i,materials[key])
 	return base
 
-static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, distance: float, height: float = .29) -> MultiMeshInstance3D:
+static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, distance: float, height: float = .29, spread: float = .99, low := false) -> MultiMeshInstance3D:
 	const MEADOW = preload("res://environment/vegetation/scripts/meadow_meshes.gd")
 	if not materials.has("a1_meadow"):
 		var grass := ShaderMaterial.new()
@@ -113,9 +113,9 @@ static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, di
 		grass.set_shader_parameter("wind_strength",.043)
 		grass.set_shader_parameter("wind_direction",Vector2(.85,.52))
 		materials["a1_meadow"] = grass
-	var mesh_key := "meadow_mesh_%d" % (seed%2)
+	var mesh_key := "meadow_mesh_%d_%s" % [seed%2,low]
 	if not meadow_meshes.has(mesh_key):
-		meadow_meshes[mesh_key] = MEADOW.grass(1,seed%2)
+		meadow_meshes[mesh_key] = MEADOW.grass(1,seed%2,low)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed
 	var instances := MultiMesh.new()
@@ -125,7 +125,7 @@ static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, di
 	instances.instance_count = positions.size()
 	for i in positions.size():
 		var height_scale := height/.26*rng.randf_range(.72,1.20)
-		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3(.99,height_scale,.99))
+		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3(spread,height_scale,spread))
 		instances.set_instance_transform(i,Transform3D(basis,positions[i]))
 		instances.set_instance_custom_data(i,Color(0,0,0,rng.randf()))
 	var patch := MultiMeshInstance3D.new()
@@ -133,8 +133,16 @@ static func grass_batch(parent: Node3D, positions: Array[Vector3], seed: int, di
 	patch.material_override = materials["a1_meadow"]
 	patch.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	patch.visibility_range_end = distance
+	patch.visibility_range_end_margin = 6.0
 	parent.add_child(patch)
 	return patch
+
+static func grass_season(season: int) -> void:
+	var grass := materials.get("a1_meadow") as ShaderMaterial
+	if grass == null:
+		return
+	grass.set_shader_parameter("root_color",[Color("67783D"),Color("5F8035"),Color("587A35"),Color("67783D")][season])
+	grass.set_shader_parameter("tip_color",[Color("A09F53"),Color("9BBA53"),Color("88A743"),Color("A09F53")][season])
 
 static func place_tree(parent: Node3D, id: String, position: Vector3, height: float, yaw: float) -> Node3D:
 	var root := Node3D.new()

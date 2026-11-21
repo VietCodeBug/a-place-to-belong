@@ -73,7 +73,18 @@ func run() -> void:
 		var right := LAND.height_at(spot.x+2.0,spot.y)
 		check(LAND.height_at(spot.x,spot.y) < (left+right)*.5-.045,"Road hollow must depress the collision surface.")
 
-	check(hub.has_node("ForestHouseA") and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 200.0, "House A should precede the village.")
+	var woods_length := 0.0
+	for i in range(PLAN.HOUSE_APPROACH.size()-1):
+		woods_length += PLAN.HOUSE_APPROACH[i].distance_to(PLAN.HOUSE_APPROACH[i+1])
+	check(hub.has_node("ForestHouseA") and woods_length > 395.0 and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 425.0,
+		"House A needs a separate deep-woods approach before the village.")
+	var wildlife := valley.get_node("ForestWildlife")
+	var species := {}
+	for animal in wildlife.animals:
+		species[animal.body.name] = true
+		for clip in [animal.walk,animal.eat,animal.idle]:
+			check(animal.animator.has_animation(clip),"Wildlife should import its idle, walking and eating clips.")
+	check(species.has("Fox") and species.has("Deer"),"The forest needs both authored wildlife models.")
 	for season in range(4):
 		valley.set_season_palette(season)
 		check(meadow.visible == (season != 3), "The original meadow must follow winter visibility.")
@@ -83,6 +94,8 @@ func run() -> void:
 	check(planting.has_node("Summer/VegetableBeds/Tomato_4"),"Summer tomato row did not import.")
 	check(planting.has_node("Autumn/VegetableBeds/Pumpkin_4"),"Autumn pumpkin vines did not import.")
 	check(not planting.has_node("Winter/VegetableBeds/Tomato_4"),"Winter beds must exclude summer crops.")
+	check(planting.get_node("Spring/ForestFlowers").get_child_count() >= 45,"Spring trail should have recurring flower pockets.")
+	check(not planting.has_node("Winter/ForestFlowers"),"Winter must hide flowering trail pockets.")
 	valley.set_season_palette(0)
 
 	var walk_start: Vector2 = PLAN.HOUSE_APPROACH[0]

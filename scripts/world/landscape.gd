@@ -6,7 +6,7 @@ const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const S = preload("res://scripts/world/shapes.gd")
 const STEP := 2.0
 
-const WOODLAND_START := -94
+const WOODLAND_START := -356
 const VALLEY_END := 186
 const VALLEY_HALF_WIDTH := 40
 const BRIDGE_Z := 74.0
@@ -73,7 +73,12 @@ static func sculpt(x: float,z: float) -> float:
 		var shoulder := exp(-Vector2(x+1.5,z+67).length_squared()/135.0)*5.1
 		shoulder += exp(-Vector2(x-26,z+46).length_squared()/160.0)*4.7
 		h += shoulder
-		var house_yard := 1.0-smoothstep(7.4,15.8,Vector2(x-16,z+84).length())
+		var upland := smoothstep(76.0,105.0,-z)
+		var folds := 1.8 + 1.45*sin(z*.037)+.80*cos(z*.079)
+		folds += (6.8 + 3.2*sin(z*.065+x*.04)) * smoothstep(4.0,29.0,absf(x-8.0*sin(z*.048)))
+		folds += 3.7 * exp(-Vector2(x+6,z+347).length_squared()/140.0)
+		h = lerpf(h, folds, upland)
+		var house_yard := 1.0-smoothstep(7.4,15.8,Vector2(x,z).distance_to(PLAN.HOUSE_A))
 		h = lerpf(h,.92,house_yard)
 	if z < -12.0 and absf(x) < 24.0:
 		var p := Vector2(x,z)
@@ -85,6 +90,8 @@ static func sculpt(x: float,z: float) -> float:
 				continue
 			nearest = minf(nearest,p.distance_to(Geometry2D.get_closest_point_to_segment(p,a,b)))
 		var trail_floor := .92+1.25*smoothstep(-82.0,-34.0,z)+.8*smoothstep(-45.0,-16.0,z)
+		var trail_rise := smoothstep(0.0,29.0,z-PLAN.HOUSE_A.y)*(1.0-smoothstep(-124.0,-80.0,z))
+		trail_floor += trail_rise*(2.2+1.55*sin(z*.051)+.65*cos(z*.104))
 		h = lerpf(h,trail_floor,(1.0-smoothstep(1.65,8.2,nearest))*(1.0-smoothstep(-31.0,-12.0,z)))
 	for mound: Vector4 in RELIEF:
 		if absf(z-mound.y)<mound.z and absf(x-mound.x)<mound.z:
@@ -117,7 +124,8 @@ func _ready() -> void:
 	terrain()
 	road()
 	for x in [-24, 24]:
-		S.box(self, Vector3(x, 8, -35), Vector3(0.3, 28, 118), "496B59", true).hide()
+		var length := 24.0 - WOODLAND_START
+		S.box(self, Vector3(x, 8, WOODLAND_START + length*.5), Vector3(.3, 28, length), "496B59", true).hide()
 	for x in [-40, 40]:
 		S.box(self, Vector3(x, 11, 105), Vector3(0.3, 32, 162), "496B59", true).hide()
 	for x in [-32, 32]:
@@ -144,10 +152,10 @@ func terrain() -> void:
 				if (x>=-24 and x<24 and z>=WOODLAND_START and z<24) or (x>=-VALLEY_HALF_WIDTH and x<VALLEY_HALF_WIDTH and z>=24):
 					faces.append(v)
 	for x in range(-164,164,4):
-		for z in range(-164,252,4):
+		for z in range(WOODLAND_START-44,252,4):
 			if x>=-64 and x<64 and z>=WOODLAND_START and z<VALLEY_END-2:
 				continue
-			if z < 0 and Vector2(x+2,z+2).length()>164:
+			if (z < -152 and abs(x) > 108) or (z >= -152 and z < 0 and Vector2(x+2,z+2).length()>164):
 				continue
 			var center_strip := x>=-64 and x<64
 			var start_z := maxi(z,VALLEY_END) if center_strip and z>=VALLEY_END-2 else z
