@@ -1,0 +1,638 @@
+{
+  "schema": "apb.playable_character_script.v1",
+  "character_id": "VLA-13",
+  "name_en_draft": "Maeve",
+  "status": "draft_pending_creator_approval",
+  "source_map": {
+    "village_branch": "feature/village-a-world",
+    "village_commit": "9cf0f45397e8f25aad6cf626bb0f3bd4d41bb14d",
+    "approved_lake_branch": "feature/a1-superworld-slice",
+    "approved_lake_commit": "ab420bf4e565e4d1ae807c6afb0884aaa5b95167",
+    "lake_location_status": "creator_approved",
+    "npc_lakeside_encounter_status": "narrative_proposal_only"
+  },
+  "quests": [
+    {
+      "quest_id": "VLA13-Q1",
+      "title_vi": "Miếng vá vừa tay",
+      "location_vi": "Sân thủ công A05 ở phía đông sân chung",
+      "ambient_vi": "Maeve kiểm miếng lót giỏ đã sờn, cân nhắc một đường vá nhỏ.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA13-Q1-O1",
+        "player_acceptance": "VLA13-Q1-A1",
+        "completion_after_real_action": "VLA13-Q1-C1",
+        "refusal": "VLA13-Q1-D1"
+      },
+      "gating": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_min_is_proposal": true,
+        "player_initiates": true,
+        "no_same_visit_chain": true
+      },
+      "beats": [
+        {
+          "id": "LOOK",
+          "player_action_vi": "Chủ động hỏi mục đích của tấm vải; kiểm mép bị kéo căng khi đặt vào chiếc giỏ dùng chung.",
+          "dialogue": [
+            {
+              "id": "VLA13-Q1-LOOK-X1",
+              "speaker_id": "VLA-13",
+              "text_vi": "Tôi có thể giấu vết rách, nhưng chưa chắc dùng được lâu.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q1-LOOK-X2",
+              "speaker_id": "A",
+              "text_vi": "Tấm lót này chịu lực ở đâu?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q1-LOOK-X3",
+              "speaker_id": "VLA-13",
+              "text_vi": "Ở chỗ gấp mép. Cậu thử đặt vào giỏ xem.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "PICK",
+          "player_action_vi": "Chọn đường vá có thể nhìn thấy nhưng chắc, hoặc đường vá kín kèm gia cố; có thể thử lại trước khi quyết định.",
+          "dialogue": [
+            {
+              "id": "VLA13-Q1-PICK-X1",
+              "speaker_id": "A",
+              "text_vi": "Thì ra gập mép lại mới thấy chỗ dễ bung.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q1-PICK-X2",
+              "speaker_id": "VLA-13",
+              "text_vi": "Ừ. Trước giờ tôi cứ nghĩ tới chuyện nhìn cho gọn.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q1-PICK-X3",
+              "speaker_id": "A",
+              "text_vi": "Một đường chỉ thấy rõ cũng đâu có sao.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "FIX",
+          "player_action_vi": "Lấy chỉ, giữ mép vải, để Maeve tự khâu rồi cùng thử lại trên chiếc giỏ; chỉ sau thử mới hoàn thành.",
+          "dialogue": [
+            {
+              "id": "VLA13-Q1-FIX-X1",
+              "speaker_id": "VLA-13",
+              "text_vi": "Giữ góc đó thôi, tôi sẽ khâu.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q1-FIX-X2",
+              "speaker_id": "A",
+              "text_vi": "Thử lại xem có căng quá không.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q1-FIX-X3",
+              "speaker_id": "VLA-13",
+              "text_vi": "Không, giờ chắc hơn rồi.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "strong",
+          "label_vi": "Ưu tiên đường vá bền, lộ mũi",
+          "outcome_vi": "Maeve nhớ A coi trọng công dụng"
+        },
+        {
+          "id": "neat",
+          "label_vi": "Vá kín và gia cố chỗ chịu lực",
+          "outcome_vi": "Maeve nhớ A cân bằng hình thức và độ bền"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Món đồ được sửa theo lựa chọn; Maeve nhớ ý kiến của A.",
+          "return_vi": "Tấm lót giỏ hôm trước vẫn chắc. Cậu chọn đúng kiểu cho nó."
+        },
+        "resolved_without_player": {
+          "world_vi": "Maeve chọn cách vá phù hợp nhất với mục đích dùng.",
+          "return_vi": "Tôi đã tự khâu lại tấm lót. Lần này tôi nhớ thử xem nó có chịu lực không."
+        }
+      },
+      "after_vi": "Maeve tiếp tục sửa đồ trong sân thủ công; không giao Q2 ngay sau đó.",
+      "completion_requires": [
+        "accepted",
+        "player_performed_beats",
+        "npc_confirms_result"
+      ],
+      "can_pause": true
+    },
+    {
+      "quest_id": "VLA13-Q2",
+      "title_vi": "Một chồng đồ đang đợi",
+      "location_vi": "Sân thủ công A05 và lối đi ngắn ra sân chung",
+      "ambient_vi": "Bên bàn có vài món vải do chủ sở hữu đã đồng ý để sửa; Maeve đang không biết nên bắt đầu từ đâu.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA13-Q2-O1",
+        "player_acceptance": "VLA13-Q2-A1",
+        "completion_after_real_action": "VLA13-Q2-C1",
+        "refusal": "VLA13-Q2-D1"
+      },
+      "gating": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA13-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_min_is_proposal": true,
+        "player_initiates": true,
+        "no_same_visit_chain": true
+      },
+      "beats": [
+        {
+          "id": "SORT",
+          "player_action_vi": "Xem ba loại việc: món cần dùng ở sân chung, món có thể để sau, món chưa xác nhận người gửi; không lấy món thứ ba tự ý.",
+          "dialogue": [
+            {
+              "id": "VLA13-Q2-SORT-X1",
+              "speaker_id": "VLA-13",
+              "text_vi": "Tôi cứ nhận thêm việc. Lúc trải ra mới thấy nhiều thế này.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-SORT-X2",
+              "speaker_id": "A",
+              "text_vi": "Cái nào đang có người cần dùng?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-SORT-X3",
+              "speaker_id": "VLA-13",
+              "text_vi": "Cái ở sân chung. Hai món kia không vội.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "DECIDE",
+          "player_action_vi": "Chọn món ưu tiên và thỏa thuận chỉ xử lý một phần vừa sức; cùng Maeve ghi chú món để hẹn.",
+          "dialogue": [
+            {
+              "id": "VLA13-Q2-DECIDE-X1",
+              "speaker_id": "A",
+              "text_vi": "Mình có thể hẹn vài món sang buổi khác.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-DECIDE-X2",
+              "speaker_id": "VLA-13",
+              "text_vi": "Tôi ngại nói câu đó.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-DECIDE-X3",
+              "speaker_id": "A",
+              "text_vi": "Nhưng nói rõ còn hơn hứa rồi không làm kịp.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-DECIDE-X4",
+              "speaker_id": "VLA-13",
+              "text_vi": "Ừ. Tôi thử nhé.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "DO",
+          "player_action_vi": "Giúp chuẩn bị phần vải cần sửa, cất đúng từng nhóm và để Maeve tự kết thúc buổi làm việc.",
+          "dialogue": [
+            {
+              "id": "VLA13-Q2-DO-X1",
+              "speaker_id": "VLA-13",
+              "text_vi": "Cái bàn bây giờ trống hơn rồi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-DO-X2",
+              "speaker_id": "A",
+              "text_vi": "Hôm nay làm thêm không?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-Q2-DO-X3",
+              "speaker_id": "VLA-13",
+              "text_vi": "Không. Để buổi sau.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "urgent",
+          "label_vi": "Làm món đang cần trước",
+          "outcome_vi": "Việc được hoàn tất rõ"
+        },
+        {
+          "id": "ask_owner",
+          "label_vi": "Để riêng món chưa rõ người gửi",
+          "outcome_vi": "Không xâm phạm đồ người khác"
+        },
+        {
+          "id": "do_all",
+          "label_vi": "Đòi làm hết trong buổi",
+          "outcome_vi": "Maeve tự giới hạn, không mở vòng nhiệm vụ vô hạn"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Góc sửa đồ bớt chồng chất; Maeve thử nói rõ việc nào cần được giúp.",
+          "return_vi": "Từ hôm mình chia việc, tôi đã dám nói món nào cần hẹn sau."
+        },
+        "resolved_without_player": {
+          "world_vi": "Maeve chủ động hẹn lại một số món và tự sắp kệ.",
+          "return_vi": "Tôi tự hẹn bớt một số món. Hóa ra người ta cũng hiểu."
+        }
+      },
+      "after_vi": "Maeve đôi khi rời bàn sửa đồ để ngồi ở sân chung và không mặc định mang việc theo.",
+      "completion_requires": [
+        "accepted",
+        "player_performed_beats",
+        "npc_confirms_result"
+      ],
+      "can_pause": true
+    },
+    {
+      "quest_id": "VLA13-QF",
+      "title_vi": "Mũi chỉ có nhiều bàn tay",
+      "location_vi": "Mái che sân thủ công A05 (không cần nội thất mới)",
+      "ambient_vi": "Maeve xếp vải mẫu cho một buổi học ngắn với người tự nguyện tham gia.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA13-QF-O1",
+        "player_acceptance": "VLA13-QF-A1",
+        "completion_after_real_action": "VLA13-QF-C1",
+        "refusal": "VLA13-QF-D1"
+      },
+      "gating": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA13-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_min_is_proposal": true,
+        "player_initiates": true,
+        "no_same_visit_chain": true
+      },
+      "beats": [
+        {
+          "id": "PREP",
+          "player_action_vi": "Sắp một bàn vải mẫu theo thứ tự dễ tới khó, để dụng cụ an toàn ở nơi phù hợp.",
+          "dialogue": [
+            {
+              "id": "VLA13-QF-PREP-X1",
+              "speaker_id": "VLA-13",
+              "text_vi": "Tôi muốn người thích may có thể tự thử một đường chỉ.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-QF-PREP-X2",
+              "speaker_id": "A",
+              "text_vi": "Cứ bắt đầu bằng mẫu dễ nhất.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-QF-PREP-X3",
+              "speaker_id": "VLA-13",
+              "text_vi": "Nhỡ tôi giải thích không rõ thì sao?",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "SHOW",
+          "player_action_vi": "Chỉ mở bước hướng dẫn khi một cư dân phù hợp trong roster tự nguyện có mặt (Tessa là ví dụ, chưa chốt lịch); nếu chưa có người, tạm hoãn.",
+          "dialogue": [
+            {
+              "id": "VLA13-QF-SHOW-X1",
+              "speaker_id": "A",
+              "text_vi": "Cô làm mẫu chậm thôi rồi để họ thử.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-QF-SHOW-X2",
+              "speaker_id": "VLA-13",
+              "text_vi": "Ừ. Nếu làm sai thì tháo ra cũng được.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-QF-SHOW-X3",
+              "speaker_id": "A",
+              "text_vi": "Đúng. Không cần nhanh.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "HANDOFF",
+          "player_action_vi": "Người học tự làm một đường chỉ an toàn; Maeve chỉ hướng dẫn, A có thể đứng cạnh giúp khi được hỏi.",
+          "dialogue": [
+            {
+              "id": "VLA13-QF-HANDOFF-X1",
+              "speaker_id": "VLA-13",
+              "text_vi": "Tôi cứ định đưa tay làm hộ.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-QF-HANDOFF-X2",
+              "speaker_id": "A",
+              "text_vi": "Nhưng họ đang tự làm được mà.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA13-QF-HANDOFF-X3",
+              "speaker_id": "VLA-13",
+              "text_vi": "Ừ. Tôi phải tập để người khác thử.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "demo",
+          "label_vi": "Làm mẫu trước rồi nhường lượt",
+          "outcome_vi": "Người học thử sau mẫu"
+        },
+        {
+          "id": "try",
+          "label_vi": "Để người học thử trước",
+          "outcome_vi": "Maeve hướng dẫn từng bước"
+        },
+        {
+          "id": "wait",
+          "label_vi": "Không có ai muốn học thì hoãn",
+          "outcome_vi": "Không tự sinh NPC và không kết thúc sớm"
+        }
+      ],
+      "outcomes": {
+        "completed": {
+          "world_vi": "Một góc thử vá trở thành hoạt động tự chọn; Maeve dám đề nghị được hỗ trợ lần sau.",
+          "return_vi": "Có người ghé hỏi tôi thêm một mũi khâu. Tôi thấy vui vì họ tự làm được."
+        },
+        "resolved_without_player": {
+          "world_vi": "Maeve mở góc thử nhỏ khi rảnh, không phải sự kiện bắt buộc.",
+          "return_vi": "Tôi tự thử mở một buổi nhỏ. Đã có người muốn học rồi."
+        }
+      },
+      "after_vi": "Buổi thử may là sinh hoạt tùy chọn; Maeve vẫn sửa đồ, trò chuyện và có thể rời làng đi nghỉ.",
+      "completion_requires": [
+        "accepted",
+        "player_performed_beats",
+        "npc_confirms_result"
+      ],
+      "can_pause": true
+    }
+  ],
+  "interludes": [
+    {
+      "id": "VLA13-IL1",
+      "available_after": "after_Q1",
+      "location_id": "craft_yard",
+      "trigger": "distinct_nonquest_return_visit",
+      "flag": "nonquest_meetups_after_Q1",
+      "not_quest": true,
+      "lines": [
+        {
+          "id": "VLA13-IL1-X1",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi vừa thử lại miếng vá cậu từng xem.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-IL1-X2",
+          "speaker_id": "A",
+          "text_vi": "Có bị tuột không?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-IL1-X3",
+          "speaker_id": "VLA-13",
+          "text_vi": "Không. Một đường chỉ thấy được đôi khi cũng đẹp.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA13-IL2",
+      "available_after": "after_Q2",
+      "location_id": "central_square",
+      "trigger": "distinct_nonquest_return_visit",
+      "flag": "nonquest_meetups_after_Q2",
+      "not_quest": true,
+      "lines": [
+        {
+          "id": "VLA13-IL2-X1",
+          "speaker_id": "A",
+          "text_vi": "Hôm nay cô ngồi nghỉ à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-IL2-X2",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi vừa rời bàn sửa đồ một lát.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-IL2-X3",
+          "speaker_id": "A",
+          "text_vi": "Cũng phải nghỉ chứ.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA13-IL3",
+      "available_after": "after_Q2",
+      "location_id": "craft_yard",
+      "trigger": "distinct_nonquest_return_visit",
+      "flag": "nonquest_meetups_after_Q2",
+      "not_quest": true,
+      "lines": [
+        {
+          "id": "VLA13-IL3-X1",
+          "speaker_id": "VLA-13",
+          "text_vi": "Có người hỏi món còn lại bao giờ xong.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-IL3-X2",
+          "speaker_id": "A",
+          "text_vi": "Cô nói sao?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-IL3-X3",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi bảo chưa chắc, nhưng sẽ báo khi làm được.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA13-BOND",
+      "available_after": "after_Q2",
+      "location_id": "craft_yard",
+      "trigger": "player_chooses_personal_talk",
+      "flag": "personal_bond_event_seen",
+      "not_quest": true,
+      "lines": [
+        {
+          "id": "VLA13-BOND-X1",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi luôn giúp người khác sửa đồ, còn nhờ một người giữ vải hộ thì ngại.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-BOND-X2",
+          "speaker_id": "A",
+          "text_vi": "Cô sợ họ nghĩ mình không giỏi?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-BOND-X3",
+          "speaker_id": "VLA-13",
+          "text_vi": "Ừ. Tôi cứ nghĩ người sửa đồ thì phải tự làm hết.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-BOND-X4",
+          "speaker_id": "A",
+          "text_vi": "Nhờ giúp cũng là một cách làm việc cùng nhau.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-BOND-X5",
+          "speaker_id": "VLA-13",
+          "text_vi": "Có lẽ tôi sẽ thử hỏi dễ dàng hơn.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA13-POST",
+      "available_after": "after_QF",
+      "location_id": "central_square",
+      "trigger": "distinct_nonquest_return_visit",
+      "flag": null,
+      "not_quest": true,
+      "lines": [
+        {
+          "id": "VLA13-POST-X1",
+          "speaker_id": "VLA-13",
+          "text_vi": "Hôm nay tôi chỉ nhận một món cần sửa.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-POST-X2",
+          "speaker_id": "A",
+          "text_vi": "Vậy buổi chiều còn rảnh à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-POST-X3",
+          "speaker_id": "VLA-13",
+          "text_vi": "Ừ. Tôi muốn đi dạo một chút.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA13-LAKE_OPTIONAL",
+      "available_after": "after_QF",
+      "location_id": "approved_A1_lake_shore",
+      "trigger": "lake_discovered_and_maeve_outing_occurs",
+      "flag": null,
+      "not_quest": true,
+      "lines": [
+        {
+          "id": "VLA13-LAKE_OPTIONAL-X1",
+          "speaker_id": "A",
+          "text_vi": "Tôi không ngờ gặp cô ở bờ hồ.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-LAKE_OPTIONAL-X2",
+          "speaker_id": "VLA-13",
+          "text_vi": "Hôm nay tôi muốn ngồi nhìn mặt nước, không nghĩ về đường kim nào cả.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-LAKE_OPTIONAL-X3",
+          "speaker_id": "A",
+          "text_vi": "Không mang đồ để sửa theo thật à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA13-LAKE_OPTIONAL-X4",
+          "speaker_id": "VLA-13",
+          "text_vi": "Không. Tôi để chúng ở làng rồi.",
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "meet_is_not_quest": true,
+    "friendship_thresholds_are_proposals": [
+      20,
+      50,
+      80
+    ],
+    "same_visit_next_quest": false,
+    "nonquest_visits_required": true,
+    "decline_allowed": true,
+    "npc_self_resolution_allowed": true,
+    "player_actions_required_for_completion": true,
+    "never_auto_spawns_npc": true,
+    "not_game_code": true
+  }
+}
