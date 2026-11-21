@@ -61,6 +61,8 @@
 - [quests/village-a-relationship-arcs-v0.md](quests/village-a-relationship-arcs-v0.md) và [JSON](quests/village-a-relationship-arcs-v0.json): **8 tuyến nhân vật chính × 3 nhiệm vụ = 24 nhiệm vụ nháp**, mở theo độ thân thiết + gặp lại + sự kiện, không giao liên tục.
 - [quests/village-a-hazel-playable-v1.md](quests/village-a-hazel-playable-v1.md) và [JSON](quests/village-a-hazel-playable-v1.json): **Hazel — 3 nhiệm vụ triển khai thành kịch bản chơi**, 5 cuộc gặp đời thường xen giữa, nhánh nếu giúp/từ chối.
 - [quests/village-a-owen-playable-v1.md](quests/village-a-owen-playable-v1.md) và [JSON](quests/village-a-owen-playable-v1.json): **Owen — 3 nhiệm vụ triển khai thành kịch bản chơi**, thao tác sửa đồ, câu chuyện quan hệ và những lần gặp lại.
+- [quests/village-a-clara-playable-v1.md](quests/village-a-clara-playable-v1.md) và [JSON](quests/village-a-clara-playable-v1.json): **Clara — 3 nhiệm vụ gameplay**, bày bàn, thử một món theo nhiều cách, tập ngồi ăn cùng mọi người; 5 tình huống gặp đời thường.
+- [quests/village-a-rowan-playable-v1.md](quests/village-a-rowan-playable-v1.md) và [JSON](quests/village-a-rowan-playable-v1.json): **Rowan — 3 nhiệm vụ gameplay**, giữ lối đi an toàn mà không phá hoa dại; 5 tình huống gặp đời thường.
 - [production/intro-comic-v0.md](production/intro-comic-v0.md): kịch bản dựng thử mở đầu dạng truyện tranh, 14 mốc storyboard/handoff.
 - [production/intro-comic-v0.json](production/intro-comic-v0.json): 12 panel truyện tranh dạng dữ liệu, handoff sang gameplay (nháp).
 - [production/environment-scenes-v0.md](production/environment-scenes-v0.md): hồ sơ **bối cảnh không gian chi tiết** của văn phòng, căn hộ thuê, nhà A, khu rừng và bìa rừng Thomas, để người dựng 3D dựa vào.
