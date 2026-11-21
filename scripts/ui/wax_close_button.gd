@@ -11,4 +11,5 @@ func _draw() -> void:
 	if has_focus() or is_hovered():draw_arc(c,28,0,TAU,48,T.OAK,2.,true)
 	draw_rect(Rect2(c-Vector2(11,7),Vector2(22,15)),T.CREAM,false,1.4)
 	draw_polyline(PackedVector2Array([c+Vector2(-11,-7),c+Vector2(0,2),c+Vector2(11,-7)]),T.CREAM,1.4,true)
-	draw_string(T.HAND,Vector2(0,72),"Put away [Esc]",HORIZONTAL_ALIGNMENT_CENTER,150,23,T.FOREST)
+	var caption := "%s [Esc]" % (text if not text.is_empty() else "Put away")
+	draw_string(T.HAND,Vector2(0,72),caption,HORIZONTAL_ALIGNMENT_CENTER,150,23,T.FOREST)

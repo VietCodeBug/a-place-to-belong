@@ -2,6 +2,7 @@ extends CharacterBody3D
 ## Samatha is the temporary player; retain supplied textures and animation clips.
 const AVATAR = preload("res://assets/characters/samatha/samatha.glb")
 var blocked := false
+var eyes: RefCounted
 var superworld: Node3D
 var state := "idle"
 @onready var model: Node3D = $Model
@@ -34,7 +35,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var input := Vector2.ZERO if blocked else Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	var direction := Vector3(input.x,0,input.y).rotated(Vector3.UP, PI/4)
+	var direction := Vector3(input.x,0,input.y).rotated(Vector3.UP,eyes.yaw if eyes!=null else PI/4)
 	if superworld != null and superworld.lake.contains(position):
 		superworld.lake.swim(self,direction,blocked,delta)
 		state = "swimming"

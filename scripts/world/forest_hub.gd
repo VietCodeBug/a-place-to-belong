@@ -6,8 +6,11 @@ const MAPS = preload("res://scripts/story/map_flow.gd")
 const VILLAGE = preload("res://scripts/world/village_a_layout.gd")
 const SUPERWORLD = preload("res://scripts/world/superworld/a1_superworld.gd")
 const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
+const EYES = preload("res://scripts/player/a1_eyes.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
+var eyes: RefCounted
+var story_prototype: Node
 var superworld: SUPERWORLD
 var player: CharacterBody3D
 var mailbox: Node3D
@@ -16,6 +19,10 @@ var cafe_base := L.CAFE_LEVEL
 var collision_probe := Vector3(0,L.CAFE_LEVEL+0.65,2)
 
 func _ready() -> void:
+	var story_mode := has_meta("story_prototype") or "--story-prototype" in OS.get_cmdline_user_args()
+	if story_mode:
+		set_meta("a1_superworld",true)
+		set_meta(MAPS.SHOW_TITLE,false)
 	configure_inputs()
 	if has_meta("a1_superworld") or "--a1-superworld" in OS.get_cmdline_user_args():
 		superworld = SUPERWORLD.new()
@@ -59,7 +66,15 @@ func _ready() -> void:
 	player = preload("res://scenes/player/postal_worker.tscn").instantiate()
 	player.name = "Player"
 	add_child(player)
-	place_house_a()
+	if story_mode or "--a1-superworld" in OS.get_cmdline_user_args():
+		eyes = EYES.new()
+		eyes.sensitivity = get_tree().get_meta(&"a1_sensitivity",1.0)
+		eyes.head_bob = get_tree().get_meta(&"a1_head_bob",true)
+		eyes.fov = get_tree().get_meta(&"a1_fov",68.0)
+		player.eyes = eyes
+		for mesh: MeshInstance3D in player.model.find_children("*","MeshInstance3D",true,false):
+			mesh.layers = EYES.AVATAR_LAYER
+	place_house_a(story_mode)
 	var spawn: Vector2 = VILLAGE.HOUSE_APPROACH[0]
 	player.position = ground(spawn.x,spawn.y,0.15)
 	player.floor_snap_length = 0.45
@@ -73,6 +88,7 @@ func _ready() -> void:
 	camera.name = "GameplayCamera"
 	camera.set_script(preload("res://scripts/player/follow_camera.gd"))
 	camera.target = player
+	camera.eyes = eyes
 	if superworld != null:
 		camera.superworld = superworld
 	add_child(camera)
@@ -81,7 +97,7 @@ func _ready() -> void:
 	ui.player = player
 	# The existing local Thomas pass can coexist with the village PR.
 	var thomas_path := "res://scripts/npc/thomas.gd"
-	if ResourceLoader.exists(thomas_path):
+	if not story_mode and ResourceLoader.exists(thomas_path):
 		var thomas: Node3D = load(thomas_path).new()
 		thomas.name = "Thomas"
 		thomas.position = ground(VILLAGE.THOMAS.x,VILLAGE.THOMAS.y)
@@ -90,15 +106,33 @@ func _ready() -> void:
 		thomas.dialogue = ui
 		add_child(thomas)
 	add_child(ui)
+	if story_mode:
+		story_prototype = preload("res://scripts/story/prototype/chapter_01.gd").new()
+		story_prototype.name = "Chapter01Prototype"
+		add_child(story_prototype)
+		story_prototype.setup(self)
 
-func place_house_a() -> void:
+func place_house_a(expanded: bool) -> void:
+	var root := Node3D.new()
+	root.name = "ForestHouseA"
+	add_child(root)
+	root.position = ground(VILLAGE.HOUSE_A.x,VILLAGE.HOUSE_A.y)
+	root.rotation.y = -PI*.48
 	var home := preload("res://assets/a1_house_gate/hewn_eaves_cottage.glb").instantiate() as Node3D
-	home.name = "ForestHouseA"
-	add_child(home)
-	home.position = ground(VILLAGE.HOUSE_A.x,VILLAGE.HOUSE_A.y)
-	home.rotation.y = -PI*0.48
-	home.scale = Vector3.ONE*.79
-	S.box(home,Vector3(-.40,1.6,0),Vector3(6.22,3.2,4.12),"FFFFFF",true).hide()
+	home.name = "CottageShell"
+	root.add_child(home)
+	home.scale = Vector3(1.77,1.25,1.74) if expanded else Vector3.ONE*.79
+	if expanded:
+		var threshold := Vector3(-.49,.48,2.76)
+		home.position = threshold*(Vector3.ONE*.79-home.scale)
+	if expanded:
+		S.box(home,Vector3(-.44,1.6,-.05),Vector3(5.14,3.2,4.34),"FFFFFF",true).hide()
+		S.box(home,Vector3(1.04,.38,2.92),Vector3(.11,.1,.2),"34271C")
+		for i in 3:
+			var level := .11+float(i)*.082
+			S.box(home,Vector3(-.49,level*.5,3.43-float(i)*.24),Vector3(1.38,level,.28),"FFFFFF",true).hide()
+	else:
+		S.box(home,Vector3(-.40,1.6,0),Vector3(6.22,3.2,4.12),"FFFFFF",true).hide()
 
 func ground(x: float, z: float, extra := 0.0) -> Vector3:
 	return Vector3(x,L.height_at(x,z)+extra,z)
