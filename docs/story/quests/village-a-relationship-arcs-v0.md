@@ -16,14 +16,16 @@
 
 ## Kịch bản gameplay chi tiết đã viết tiếp
 
-Bốn tuyến Hazel, Owen, Clara và Rowan đã có **bản v1 chi tiết** riêng để người thực hiện gameplay hiểu các thao tác và lựa chọn, thay vì coi bản 24 nhiệm vụ này như các cutscene tuần tự:
+Sáu tuyến Hazel, Owen, Clara, Rowan, Maeve và Evelyn đã có **bản v1 chi tiết** riêng để người thực hiện gameplay hiểu các thao tác và lựa chọn, thay vì coi bản 24 nhiệm vụ này như các cutscene tuần tự:
 
 - **Hazel:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-hazel-playable-v1.md) · [JSON](village-a-hazel-playable-v1.json) — quan sát đất, chia việc chăm vườn, hình thành góc vườn chung. Có **5 tình huống gặp thường và tâm sự** xen giữa, không bắt gặp một lần xong truyện.
 - **Owen:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-owen-playable-v1.md) · [JSON](village-a-owen-playable-v1.json) — kiểm ghế, sửa cánh cửa khu làm việc, học đặt giới hạn khi nhận việc. Có **5 tình huống gặp thường và tâm sự** xen giữa.
 - **Clara:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-clara-playable-v1.md) · [JSON](village-a-clara-playable-v1.json) — bữa ăn đủ ngon, thử cách làm món quen, ngồi ăn cùng mọi người. Có **5 cuộc gặp/tâm sự** giữa chặng và lựa chọn ăn cùng hoặc rời đi.
 - **Rowan:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-rowan-playable-v1.md) · [JSON](village-a-rowan-playable-v1.json) — dọn tối thiểu lối đi, tìm đường vòng giữ hoa, hướng dẫn chung để mọi người chăm đường. Có **5 cuộc gặp/tâm sự** giữa chặng, không khóa đường rừng.
+- **Maeve:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-maeve-playable-v1.md) · [JSON](village-a-maeve-playable-v1.json) — ở sân thủ công A05, sửa vải, học giới hạn việc, chia sẻ kỹ năng. Có cuộc gặp nghỉ ngơi **ven hồ đã duyệt** tùy chọn sau tuyến cuối.
+- **Evelyn:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-evelyn-playable-v1.md) · [JSON](village-a-evelyn-playable-v1.json) — ở vườn phía tây, ghi nhãn hạt và học quan sát; Q2 có nhánh **đi bộ tới bờ hồ** (tùy chọn), QF hướng dẫn người mới.
 
-**Các lời thoại cũ `O1/A1/C1/D1` của 12 nhiệm vụ được giữ nguyên ID.** Hazel/Owen đã viết 92 câu mới ở bản trước; Clara/Rowan vừa bổ sung **92 câu mới** trong 6 nhiệm vụ, 10 tình huống gặp/tâm sự. Mức thân thiết 20/50/80 vẫn là đề xuất, không chốt công thức điểm. **Bốn tuyến x ba nhiệm vụ = 12/24 nhiệm vụ khung có script chơi chi tiết**; đây là bản nháp, **không cộng thêm quest ngoài bộ 24**.
+**Mã thoại gốc `O1/A1/C1/D1` của 18 nhiệm vụ được giữ nguyên**, các bản v1 bổ sung tình huống và lời thoại mới. Sáu tuyến × ba nhiệm vụ = **18/24 nhiệm vụ khung có script chơi chi tiết**. Mốc thân thiết 20/50/80 vẫn là đề xuất. **Maeve và Evelyn thêm 99 câu thoại mới** vào các cuộc gặp và thao tác; địa điểm hồ được duyệt, **tình tiết NPC đến hồ chưa phải hành vi đã code**. Hai tuyến còn lại: Ada, Grace.
 
 ## Luật giãn cách nhiệm vụ
 
