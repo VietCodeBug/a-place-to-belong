@@ -282,6 +282,10 @@ func eligible(candidate: Dictionary, observer: Vector2) -> bool:
 func play_line() -> void:
 	var line: Dictionary = exchange.lines[exchange_line]
 	var speaker: Node3D = registry[line.speaker_id]
+	var listener_id: String = exchange.actors[1] if exchange.actors[0]==line.speaker_id else exchange.actors[0]
+	var listener: Node3D = registry[listener_id]
+	speaker.face(listener.point)
+	listener.face(speaker.point)
 	overheard_label = speaker.visual.gesture_label
 	overheard_label.text = line.text_vi
 	overheard_label.show()

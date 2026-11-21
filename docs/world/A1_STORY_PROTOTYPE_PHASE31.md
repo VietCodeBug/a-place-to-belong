@@ -42,7 +42,7 @@ Frame time tăng 12,6% ở P50 và 0,5% ở P95 trong lượt đo phần mềm t
 
 [Album Godot, ảnh mặt bằng, ảnh khảo sát và video](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-story-prototype-phase31/docs/world/review-a1-story-prototype-phase31/README.md)
 
-Bản quay first-person dài khoảng 1 phút 4 giây. Các quãng chạy dài được cắt từ cùng một lượt chơi. Bản debug ca sáng của Hazel dài khoảng 18 giây và dùng công cụ đổi giờ. Cả hai clip kết xuất 640 × 360 ở 8 FPS, không kèm âm thanh. Hai ảnh khảo sát bố cục Nhà A và cụm rừng có độ phân giải 1280 × 720.
+Bản quay first-person dài khoảng 1 phút 4 giây. Các quãng chạy dài được cắt từ cùng một lượt chơi. Bản debug ca sáng của Hazel dài khoảng 18 giây và dùng công cụ đổi giờ. Clip debug thứ hai ghi Clara và Grace gặp nhau trong giờ nghỉ, tự quay về phía nhau và trao đổi hai lượt thoại khi A đứng bên lề. Các clip kết xuất 640 × 360 ở 8 FPS, không kèm âm thanh. Hai ảnh khảo sát bố cục Nhà A và cụm rừng có độ phân giải 1280 × 720. [Bản ghi giờ nghỉ của Clara và Grace và số liệu đo gốc](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-story-prototype-phase31-npc-exchange/docs/world/review-a1-story-prototype-phase31/README.md)
 
 ## Kiểm thử và giới hạn bàn giao
 
