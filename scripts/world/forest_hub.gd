@@ -3,6 +3,7 @@ const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
 const L = preload("res://scripts/world/landscape.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
+const VILLAGE = preload("res://scripts/world/village_a_layout.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
 var player: CharacterBody3D
@@ -48,8 +49,13 @@ func _ready() -> void:
 	player = preload("res://scenes/player/postal_worker.tscn").instantiate()
 	player.name = "Player"
 	add_child(player)
-	player.position = ground(1,13,0.15)
+	place_house_a()
+	var spawn: Vector2 = VILLAGE.HOUSE_APPROACH[0]
+	player.position = ground(spawn.x,spawn.y,0.15)
 	player.floor_snap_length = 0.45
+	var valley := preload("res://scripts/world/a1_valley.gd").new()
+	valley.name = "A1RiverValley"
+	add_child(valley)
 	var camera := Camera3D.new()
 	camera.name = "GameplayCamera"
 	camera.set_script(preload("res://scripts/player/follow_camera.gd"))
@@ -58,7 +64,26 @@ func _ready() -> void:
 	ui = CanvasLayer.new()
 	ui.set_script(preload("res://scripts/interactions/interaction_controller.gd"))
 	ui.player = player
+	# The existing local Thomas pass can coexist with the village PR.
+	var thomas_path := "res://scripts/npc/thomas.gd"
+	if ResourceLoader.exists(thomas_path):
+		var thomas: Node3D = load(thomas_path).new()
+		thomas.name = "Thomas"
+		thomas.position = ground(VILLAGE.THOMAS.x,VILLAGE.THOMAS.y)
+		thomas.rotation.y = 1.24
+		thomas.viewer = player
+		thomas.dialogue = ui
+		add_child(thomas)
 	add_child(ui)
+
+func place_house_a() -> void:
+	var home := preload("res://assets/a1_house_gate/hewn_eaves_cottage.glb").instantiate() as Node3D
+	home.name = "ForestHouseA"
+	add_child(home)
+	home.position = ground(VILLAGE.HOUSE_A.x,VILLAGE.HOUSE_A.y)
+	home.rotation.y = -PI*0.48
+	home.scale = Vector3.ONE*.79
+	S.box(home,Vector3(-.40,1.6,0),Vector3(6.22,3.2,4.12),"FFFFFF",true).hide()
 
 func ground(x: float, z: float, extra := 0.0) -> Vector3:
 	return Vector3(x,L.height_at(x,z)+extra,z)

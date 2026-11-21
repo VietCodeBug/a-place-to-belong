@@ -2,6 +2,9 @@ extends Node3D
 ## Curated Map 01 woodland with foreground/midground/background separation,
 ## harmonious pine/sage/autumn color distribution, and preserved clearing sightlines.
 const A = preload("res://scripts/world/field_assets.gd")
+const BOTANY = preload("res://scripts/world/a1_botany.gd")
+var seasonal_shrubs: Array[Node3D] = []
+var seasonal_trees: Array[Node3D] = []
 var rng := RandomNumberGenerator.new()
 var batches: Dictionary = {}
 const PINES := ["PineTree_1","PineTree_2","PineTree_3","PineTree_4","PineTree_5"]
@@ -101,6 +104,17 @@ func in_camera_corridor(p: Vector2) -> bool:
 	return p.y > 12.0 and p.y < 54.0 and p.x > -15.5 and p.x < 34.0
 
 func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural", tint := Color(1,1,1,0.5)) -> void:
+	if height > 4.0 and ForestLandscape.in_overlook_view(at.x, at.z):
+		return
+	if height>4.0 and (layer<2 or (absf(at.x)<42.0 and at.z>8.0)):
+		var id := asset
+		if asset.begins_with("BirchTree"):
+			id = "BirchTree_"+asset.get_slice("_",2)
+		elif asset == "tree_oak_fall":
+			id = "NormalTree_1"
+		if id.begins_with("PineTree") or id.begins_with("BirchTree") or id.begins_with("NormalTree"):
+			seasonal_trees.append(BOTANY.place_tree(self,id,at,height,yaw))
+			return
 	var pack := "quaternius" if asset.begins_with("PineTree") or asset.begins_with("BirchTree") or asset in ["Bush_1","Rock_Moss_1"] else "nature"
 	if asset.begins_with("tuft_"):
 		pack = "meadow"
@@ -155,8 +169,8 @@ func gardens() -> void:
 			var p:=center+Vector2(rng.randf_range(-1.05,1.05),rng.randf_range(-.9,.9))
 			if ForestFloorDesign.reserved(p, 0.55):
 				continue
-			var bush_role := "autumn" if k in [1,6] else ("sage" if k%2==0 else "natural")
-			plant("Bush_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),rng.randf_range(.48,1.05),rng.randf()*TAU,0,bush_role,TINTS[(k+i)%TINTS.size()])
+			var spot := Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y)
+			seasonal_shrubs.append(BOTANY.place(self,"Bush_Large",spot,rng.randf_range(.34,.68),rng.randf()*TAU))
 		for i in range(4):
 			var bloom:=center+Vector2(rng.randf_range(-1.6,1.6),rng.randf_range(-1.2,1.2))
 			if not ForestFloorDesign.reserved(bloom,.45):
@@ -164,7 +178,7 @@ func gardens() -> void:
 				plant(flower_asset,Vector3(bloom.x,ForestLandscape.height_at(bloom.x,bloom.y),bloom.y),rng.randf_range(.15,.22),rng.randf()*TAU)
 		var p:=center+Vector2(.85,.6)
 		if not ForestFloorDesign.reserved(p, 0.5):
-			plant("Rock_Moss_1",Vector3(p.x,ForestLandscape.height_at(p.x,p.y)-.06,p.y),.58+(k%4)*.14,k*1.1)
+			BOTANY.place_stone(self,Vector3(p.x,ForestLandscape.height_at(p.x,p.y),p.y),.93+(k%4)*.20,k*1.1)
 
 	# Larger perimeter anchor boulders nestled into tree edges (visual grounding, outside walking routes)
 	var boulders := [
@@ -176,7 +190,8 @@ func gardens() -> void:
 	]
 	for b in boulders:
 		var bp: Vector2 = b[0]
-		plant(b[1],Vector3(bp.x,ForestLandscape.height_at(bp.x,bp.y)-0.12,bp.y),float(b[2]),float(b[3]),0,"warm_stone")
+		if not ForestFloorDesign.reserved(bp,.35):
+			BOTANY.place_stone(self,Vector3(bp.x,ForestLandscape.height_at(bp.x,bp.y),bp.y),float(b[2])*1.57,float(b[3]),true)
 
 	plant("stump_roundDetailed",Vector3(8,ForestLandscape.height_at(8,12),12),0.65,0.3)
 	plant("log_stack",Vector3(-10,ForestLandscape.height_at(-10,0),0),0.7,0.5)

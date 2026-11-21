@@ -1,0 +1,408 @@
+{
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source_pack": "https://quaternius.com/packs/ultimatestylizednature.html",
+  "pinned_mirror": "https://github.com/walterpalladino/godot-quaternius-ultimate-stylized-nature/tree/d36a06461359a8e60039e17b95d50bedc96c1edc",
+  "source_files": [
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/BirchTree_1.fbx",
+      "git_blob": "06d66c03795c39eca59cc56c2a42f99d9e7a7520",
+      "sha256": "d2b416c8275721b44c976737c3381d22f1daa7e2e11eae3612de40d125dfff37",
+      "bytes": 365372
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/BirchTree_2.fbx",
+      "git_blob": "7b6f030b351c2c1b132faa1642c412f9696ecab5",
+      "sha256": "10b99587b5fb068b4cd43027afb33a67c8145750cbd804f1cd1f2b24ff95dccf",
+      "bytes": 495308
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/BirchTree_3.fbx",
+      "git_blob": "7c707423c826b3cac9e57877118396eb9505cb40",
+      "sha256": "db172e05f02ad62d47c6344f41c753871fd95f96dd7b3398a39bc9a050d13e68",
+      "bytes": 737564
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/BirchTree_4.fbx",
+      "git_blob": "96319e960e9ea131cc16dca0c299c0cba11ef4eb",
+      "sha256": "2b26be65fd8935472d979a3b8404f5116435009f90025095365b32bf4cc5b167",
+      "bytes": 246124
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/BirchTree_5.fbx",
+      "git_blob": "9982b17ae7e0141db897991fa0f58c5fea2bb88a",
+      "sha256": "50ff89f9ea2e10d29a5fb3e89f80e3f04a92858d02e3e967e378cc6a0afc301e",
+      "bytes": 313708
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/Bush_Large.fbx",
+      "git_blob": "58ce759cb0e9fbb3d6c840b162b69b06b99fdd0d",
+      "sha256": "9058aa1155f9c19b18362cea62a8dc511a74f50cfc009b74768e29b38a150b48",
+      "bytes": 44636
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/Flower_4_Clump.fbx",
+      "git_blob": "63161c9cd45a772faa31b62d23399c30463d0d63",
+      "sha256": "14eef1ff9ad8fe33f6580e66203e3d98963bd5af0d500bf98338c87693300e40",
+      "bytes": 22924
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/Grass_Large_Extruded.fbx",
+      "git_blob": "528c47bd51639b3a660fd05f8c98226b34622c28",
+      "sha256": "857477301098e3323750fdd269d1975cb8a80f055ac054ce35fc0814b4a009d8",
+      "bytes": 32268
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/MapleTree_1.fbx",
+      "git_blob": "b5be8921a0b9b60152aff450750a6fbac1b07d4e",
+      "sha256": "15fb35644306d216435b4113d1d4600a3975db75db97b423bb1f732d9f2a9cd9",
+      "bytes": 172284
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/MapleTree_2.fbx",
+      "git_blob": "ab7a9a8aa78204ba77b5c515174b92df997ea1c2",
+      "sha256": "3ca835581711aeccefe98f3b3b7a06e25ad7e90678db28acfbc46f3b84e70581",
+      "bytes": 218444
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/MapleTree_3.fbx",
+      "git_blob": "3b7e97a0178957e676e741479af560d45e66ad90",
+      "sha256": "52ba8a36d25060590a7b3e4ac4763d0520f9304c890cbb62a6b9456313394f38",
+      "bytes": 291452
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/MapleTree_4.fbx",
+      "git_blob": "89c2909697f62cbabccc7106991cd6bd972ffb95",
+      "sha256": "965c83486df301643bb1993d1ef4f8e25a5d9823c408e5fbb885d5d01d2c975f",
+      "bytes": 75868
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/MapleTree_5.fbx",
+      "git_blob": "c017903fb2a85308bb2466fcac50e4bdab123608",
+      "sha256": "b844870085b8b1e7c1bc950121d4313f5e896524c104d8b4af5f647ace11a972",
+      "bytes": 208380
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/NormalTree_1.fbx",
+      "git_blob": "0a1f6b26a1a7f82258a001040b80f50a031d933a",
+      "sha256": "00db2ad4822d7585b638728aacd28b493182a9408c3b57fa87a72839a3449117",
+      "bytes": 689756
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/NormalTree_2.fbx",
+      "git_blob": "c4e8c3e4d1d9b2e96fcfe926fd63b08a911500f5",
+      "sha256": "92281d1117ea0a80428dfe87ebc4df88c9ad7780f681e249ed3d13790ac96309",
+      "bytes": 563324
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/NormalTree_3.fbx",
+      "git_blob": "c1f0a68c3631953e12e35e3cc7e2d15aa6643172",
+      "sha256": "93239f98585b24ac805d575033d0b4b69f4a2dc8de31a27e68c362c34984d1d5",
+      "bytes": 471148
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/NormalTree_4.fbx",
+      "git_blob": "d1dccf3966538c33d1bb7c573e2ac309fb66e0cc",
+      "sha256": "0689b2a895fa25c6a2c1e57762e4fc83ff80b539b8ec9e0771403cda2e6d9ca6",
+      "bytes": 515692
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/NormalTree_5.fbx",
+      "git_blob": "2485820d7c9ecc4bdcc27d6a8e85af3bda974e7e",
+      "sha256": "e37a7075d400b21240601bf685bf6c0eb5c9a79b1de69d639e26f3f7c41a332e",
+      "bytes": 174988
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/PineTree_1.fbx",
+      "git_blob": "ab4e942b590b91f165b5f6a86feaf3554ce82d02",
+      "sha256": "cd680289859db92ebb052e4bb8933de8dd9e9f28a601177ce912794ffe7d865f",
+      "bytes": 101260
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/PineTree_2.fbx",
+      "git_blob": "812579bb9585e8bc2ea15b0bfe8740ada0c73c4e",
+      "sha256": "62803f29708264a1d6b062c6578e98d27312e0ab87586b7a52e8d44ca222cced",
+      "bytes": 136956
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/PineTree_3.fbx",
+      "git_blob": "bccffeed9e25822d92b7f6ef3e088918e1d3e0e8",
+      "sha256": "8b316a10789eaff5268fa29e8def69e4dcafd82ed20c6323fea19f76315c91a0",
+      "bytes": 93276
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/PineTree_4.fbx",
+      "git_blob": "4a87fd27b5671b85b679d118cfd726c1b49db064",
+      "sha256": "cac0b5c4644b29a019ed0fa7ac37dae874ccf01bf2a98f4731c7c3812a1fd2a3",
+      "bytes": 131388
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/PineTree_5.fbx",
+      "git_blob": "1a271fe37371ed20e54b0ba05e77b7619be1827f",
+      "sha256": "7687254fae795b5488675930ff6b823f52e2c165c838077be0bba00fd1c00bb0",
+      "bytes": 63628
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/FBX/Rock_4.fbx",
+      "git_blob": "833d4e4e3cdb6d2c80ab19d8603ea91e0bd304e3",
+      "sha256": "cb8e4636299e1bda747bea332c8bb41b185b251722a05e949bad99b2d6ce9ec2",
+      "bytes": 31580
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/BirchTree_Bark.png",
+      "git_blob": "281d95c3660dd7fd7c741d4364f2a3829a7e211f",
+      "sha256": "689dd3e55523e999cf9a2271aa1e8ce1ac6a7cf3a2dc4bd796dd76860a33154b",
+      "bytes": 23133683
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/BirchTree_Leaves.png",
+      "git_blob": "6efb90dac5ea09a0612155a2b6adf57430716986",
+      "sha256": "8b674a02017d987f8ec0448bd2a52ad788d1235f91b7f00499b4ca071f8e69fe",
+      "bytes": 77836
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/Bush_Leaves.png",
+      "git_blob": "ce9a7109a74fc8993aa17e4bed3dec6705bb546b",
+      "sha256": "9f662296a285ca56b1ed56e952a198b93b466ae39ab7b6ee1c1ac1bd1c46242f",
+      "bytes": 74828
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/Flowers.png",
+      "git_blob": "fbdc53aabb633c54c474f85b56d5cb491606f85e",
+      "sha256": "23673fc87e55d8f7cbc699581a164cffec505376bd8b0b90b593dc387aa569fd",
+      "bytes": 318021
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/Grass.png",
+      "git_blob": "205ba2b648f1b45a725ffc7bfd4aef65f569fcfc",
+      "sha256": "facde747020acfefdc84d176dd4037282895d200a66fc20b0d9baca470f310f1",
+      "bytes": 734927
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/MapleTree_Bark.png",
+      "git_blob": "e4a32e2f3d76cda064acfb54ff8bc046de3ced80",
+      "sha256": "183645b8dc99e810e9b4c5d48a0944ccff4c2f2a9bd5f1816ab66a367cfe9a92",
+      "bytes": 22229469
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/MapleTree_Leaves.png",
+      "git_blob": "459e97edbade3b5f080db87bcc7a7e7a1268944f",
+      "sha256": "915f0836e9889e28032662c7aa0d0eb9601ba999eda042c9a4e38690786d6c7b",
+      "bytes": 212333
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/NormalTree_Bark.png",
+      "git_blob": "fc92f8ce941c28c332334785f8af7bd02701dc2a",
+      "sha256": "17d8836b4eb3462c486bc0ca596d8d4dcde918c0ce0dd37eec9111b2e175be69",
+      "bytes": 20875728
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/NormalTree_Leaves.png",
+      "git_blob": "ce9a7109a74fc8993aa17e4bed3dec6705bb546b",
+      "sha256": "9f662296a285ca56b1ed56e952a198b93b466ae39ab7b6ee1c1ac1bd1c46242f",
+      "bytes": 74828
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/PineTree_Bark.png",
+      "git_blob": "0519829cf580e8045c450c196d7e3a48fb8332ce",
+      "sha256": "dcda0e989e2d0f6325e2fb994589d6be9e71191dd3f888b15d22720d5527fe0f",
+      "bytes": 15436565
+    },
+    {
+      "mirror_path": "ultimate-stylized-nature/sources/Textures/PineTree_Leaves.png",
+      "git_blob": "5cebe08cdea69efea0e99059e9781e80560340a9",
+      "sha256": "8d3e0b49043639089ec68a36058c5b2ceea3fadded773adf7d9acbd006c49e1c",
+      "bytes": 491019
+    }
+  ],
+  "godot_outputs": [
+    {
+      "path": "assets/vegetation/trees/BirchTree_1.glb",
+      "sha256": "98c8c49eb9eb36dadab9aafd6798efd962f0dad361222be0d558a928cab2d9c3",
+      "triangles": 6508,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/BirchTree_2.glb",
+      "sha256": "5ccb2f5d63812e72e7c62697f16a0e28a64958a49a0340ede78e44dbba04314a",
+      "triangles": 9856,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/BirchTree_3.glb",
+      "sha256": "e2d7c8ee10c409fa43ca40d04607b6a3b2d56544e9b6c46c429994483d983c1d",
+      "triangles": 10956,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/BirchTree_4.glb",
+      "sha256": "322eb587c780223e38756732fa3effa5f3c8667b85b4a3d5e26990fbe16147ed",
+      "triangles": 4660,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/BirchTree_5.glb",
+      "sha256": "ae9d7f8e0dd91334f674add3445410108f78b39c1b98c16a8f9cb287c1992c36",
+      "triangles": 5984,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/Bush_Large.glb",
+      "sha256": "bdbab1bc5944b9ca1d8bdc338c88589b4462d4d10fab16e8c2cb5a1743af6651",
+      "triangles": 552,
+      "materials": 1
+    },
+    {
+      "path": "assets/vegetation/trees/Flower_4_Clump.glb",
+      "sha256": "4d594641e1d3de75151450545a9af988fb903efe6c2c798da4b31b7cb04f4b0d",
+      "triangles": 272,
+      "materials": 1
+    },
+    {
+      "path": "assets/vegetation/trees/Grass_Large_Extruded.glb",
+      "sha256": "062878d251f4458004424aa3a193b8d7ce76406d1569d7136a2237a13e0297f9",
+      "triangles": 516,
+      "materials": 1
+    },
+    {
+      "path": "assets/vegetation/trees/MapleTree_1.glb",
+      "sha256": "7cdc58bc36e11ea5e8bcb30aaa02044fcc191c3e94e7c14c12caa26557308796",
+      "triangles": 3848,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/MapleTree_2.glb",
+      "sha256": "b99365f87ecc2eaaf4305d18bfee714fe70392f861a158db434dc4c0c111309d",
+      "triangles": 4800,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/MapleTree_3.glb",
+      "sha256": "c5e381e6ea87decf6534ea937a7e339c4895b492710adaf2a4c76834288c147c",
+      "triangles": 6678,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/MapleTree_4.glb",
+      "sha256": "6b1ef5d774afea2a2c66482f81008133eda05d8ca2bcc35644ac7f62f1829237",
+      "triangles": 1256,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/MapleTree_5.glb",
+      "sha256": "f56bda08e34d9a8d88d5a350881da7120106722c2936ea52c3914521d32ed8b4",
+      "triangles": 4504,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/NormalTree_1.glb",
+      "sha256": "fd059348b4f965775fa133a75130504672c51f0f1183e999418680c7386acdda",
+      "triangles": 12248,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/NormalTree_2.glb",
+      "sha256": "8cb9f9897fce5b33c9af34fcb7c0188f8c1e842ec8e6f8867e2e53ecfbbac493",
+      "triangles": 10824,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/NormalTree_3.glb",
+      "sha256": "8fa4171935cfaafebd4fd645421463ce60ca8b6d376430e358c4a04c9c133798",
+      "triangles": 9264,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/NormalTree_4.glb",
+      "sha256": "d21cdfe644912c46bfe06d94ac5c9a7b19c05c8db2460059869969120bbfcb03",
+      "triangles": 9148,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/NormalTree_5.glb",
+      "sha256": "34642ba82c21bc781c205b83e0df948c0c3921cff9467e8da711904f3d454402",
+      "triangles": 3004,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/PineTree_1.glb",
+      "sha256": "0d14aead29454fcb8eed30bce11920aee68cd82d18d44de8bf28e185ec46ea30",
+      "triangles": 2760,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/PineTree_2.glb",
+      "sha256": "712f1f1aebb614cfc85479adb0ba24cf69184adc24a718259e99107d2105ebc8",
+      "triangles": 3832,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/PineTree_3.glb",
+      "sha256": "f9ce529e860c2413fdff6a850d3766ac7ee7648becdd610d5d868521a14c9381",
+      "triangles": 2500,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/PineTree_4.glb",
+      "sha256": "bf15a661822761e1b04adbb112e53b8b5e7a5596114647e7bac8cadd99246c8d",
+      "triangles": 3708,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/PineTree_5.glb",
+      "sha256": "19462f19c0e69348737c1f0d734644d34a2f23e1d2c21f8ce9e57c79bf3e7b7b",
+      "triangles": 1540,
+      "materials": 2
+    },
+    {
+      "path": "assets/vegetation/trees/Rock_4.glb",
+      "sha256": "fb191b5c6069ae7786a21c9d70e3d3c81f68f390a83d3bd21faa46adae5f95a0",
+      "triangles": 456,
+      "materials": 1
+    },
+    {
+      "path": "assets/vegetation/trees/textures/BirchTree_Bark.png",
+      "sha256": "e001e60ab5a605e852f4251d2f89ff972567cce06f351bcddde82f7c55321f30"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/BirchTree_Leaves.png",
+      "sha256": "303a9a0b62aa02df1558a9ee55435d60681f8836716dc22f523c482bd1123891"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/Bush_Leaves.png",
+      "sha256": "908148b9452a2fad0f18c94d86f3537ffd7b97ccfe4c672c89313957e3388c1d"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/Flowers.png",
+      "sha256": "92927e7fab5a6af67879e78de33a5c90fa3d12485e833fb314b518f6065a99ff"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/Grass.png",
+      "sha256": "267da945fde57f035b9ba508fba05a2d8484e79334fc63af03a18deb710e5251"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/MapleTree_Bark.png",
+      "sha256": "0c94ed103453c45508862a7b53ce49abd4a2ecd5f2bfbdc65ddde43e8552198c"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/MapleTree_Leaves.png",
+      "sha256": "e2bbb92fcd95dec4814b7cccf588e59bf88f965ac5609840325487fbdc162b19"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/NormalTree_Bark.png",
+      "sha256": "294f8d0294fc350871da6d01815c88042b89fa08f094edc8ee2311cdab240ad6"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/NormalTree_Leaves.png",
+      "sha256": "dc1c3258f997baee421bd8240fec8c610c7eea61210c0e9e77855c87a3c5174d"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/PineTree_Bark.png",
+      "sha256": "28f830dc79b6d3c69b40eaf2fe1d52e80dae39e10233e8e238d58f2f6809bc92"
+    },
+    {
+      "path": "assets/vegetation/trees/textures/PineTree_Leaves.png",
+      "sha256": "4b66f36ac96a582d3284162335f8695c9b47e4e53cd875d8c21ff597506f1d05"
+    }
+  ]
+}

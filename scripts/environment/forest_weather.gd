@@ -220,10 +220,14 @@ func update_environment(delta: float) -> void:
 		var camera := get_viewport().get_camera_3d()
 		if camera != null:
 			var focus: Vector3 = camera.global_position - camera.global_basis.z * 11.5
-			var clamped := Vector3(clampf(focus.x, -22., 22.), 9.2, clampf(focus.z, -22., 22.))
+			var lateral_limit := 22.0 if focus.z < 24.0 else ForestLandscape.VALLEY_HALF_WIDTH - 2.0
+			var x := clampf(focus.x,-lateral_limit,lateral_limit)
+			var z := clampf(focus.z,ForestLandscape.WOODLAND_START+2.0,ForestLandscape.VALLEY_END-2.0)
+			var floor_y := ForestLandscape.height_at(x,z)
+			var clamped := Vector3(x,floor_y+9.2,z)
 			rain.global_position = clamped
 			if rain_splashes != null:
-				rain_splashes.global_position = Vector3(clamped.x, ForestLandscape.height_at(clamped.x, clamped.z) + 0.14, clamped.z)
+				rain_splashes.global_position = Vector3(clamped.x, floor_y + 0.14, clamped.z)
 		rain.emitting = weather_value.y > .025
 		rain.mesh.material.set_shader_parameter("rain_strength", weather_value.y)
 		rain.direction = Vector3(wind_direction.x * .20, -1., wind_direction.y * .20).normalized()
@@ -244,9 +248,9 @@ func colors_at(time: float) -> Array:
 		[0.0,  "162A48", "334C6B", "7E9DC4", "556A88", "324663", 0.48],
 		[5.0,  "2D4468", "C08E92", "9AB0CA", "C8B3B6", "6B6E8C", 0.50],
 		[6.8,  "5F93C2", "F2C7A2", "BFD0DF", "F9DEC8", "96A4BE", 0.60],
-		[10.0, "4E8EC6", "DCE6DE", "C2D4E4", "FCF9F0", "98B0C6", 0.64],
-		[14.0, "4B89C0", "E3DEC9", "BDD0E2", "FAF4E6", "97ADC2", 0.64],
-		[16.8, "5688B8", "F5C390", "BBC5DA", "FAD0AD", "8E9AB6", 0.58],
+		[10.0, "4E8EC6", "AAC2CC", "C2D4E4", "FCF9F0", "98B0C6", 0.64],
+		[14.0, "4B89C0", "A9BBC6", "BDD0E2", "FAF4E6", "97ADC2", 0.64],
+		[16.8, "5688B8", "CCBAA4", "BBC5DA", "FAD0AD", "8E9AB6", 0.58],
 		[18.3, "455C8C", "E0968F", "A4B7D6", "CFA0A6", "5E6A8E", 0.52],
 		[20.0, "203963", "597396", "8DA8CE", "6E84A4", "3E5272", 0.49],
 		[24.0, "162A48", "334C6B", "7E9DC4", "556A88", "324663", 0.48],
@@ -270,10 +274,10 @@ func update_light(altitude: float, daylight: float) -> void:
 	var occlusion: float = weather_value.w
 	var colors := colors_at(hours)
 	sun.rotation_degrees = Vector3(-altitude * 60., -52. + (hours - 16.5) * 15., 0)
-	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.32 * (1. - smoothstep(.10,.48,occlusion) * .94)
+	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.15 * (1. - smoothstep(.10,.48,occlusion) * .94)
 	var sun_col := Color("FFC987").lerp(Color("FFF2DC"), smoothstep(.16, .78, altitude))
 	sun.light_color = sun_col
-	sun.shadow_opacity=1.-smoothstep(.12,.55,occlusion)
+	sun.shadow_opacity=.73*(1.0-smoothstep(.12,.55,occlusion))
 	sun.shadow_enabled = altitude > .025 and occlusion<.58
 
 	moon.rotation_degrees = Vector3(maxf(0.32, -altitude * 0.65) * -46., 128. + (hours - 16.5) * 15., 0)
@@ -282,12 +286,12 @@ func update_light(altitude: float, daylight: float) -> void:
 	var sky_top: Color = colors[0].lerp(Color("5D707B"), occlusion * .56 * daylight)
 	var sky_hor: Color = colors[1].lerp(Color("94A4A8"), occlusion * .68 * daylight)
 	var amb_col: Color = colors[2].lerp(Color("8FA1AA"), occlusion * .38 * daylight)
-	environment.ambient_light_color = amb_col
-	environment.ambient_light_energy = float(colors[5]) * (1. - occlusion * .16)
-	environment.fog_light_color = sky_hor.lerp(sky_top, .42)
-	environment.fog_light_energy = lerpf(0.82, 0.96, daylight)
+	environment.ambient_light_color = amb_col.lerp(Color("A4B7C3"), daylight * .32)
+	environment.ambient_light_energy = (float(colors[5]) + daylight * .20) * (1. - occlusion * .16)
+	environment.fog_light_color = sky_hor.lerp(Color("718B99"), .58)
+	environment.fog_light_energy = lerpf(0.75, 0.84, daylight)
 	environment.fog_depth_begin = lerpf(58., 36., occlusion)
-	environment.fog_depth_end = lerpf(195., 128., occlusion)
+	environment.fog_depth_end = lerpf(228., 140., occlusion)
 
 	sky_material.set_shader_parameter("top_color", sky_top)
 	sky_material.set_shader_parameter("horizon_color", sky_hor)
