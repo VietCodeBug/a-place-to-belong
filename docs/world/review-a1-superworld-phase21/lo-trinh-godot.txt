@@ -1,0 +1,28 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 576×324 @ 8 FPS...
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=1952
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+ROUNDTRIP Làng A → bờ tây hồ (6.6, 9.09357, 178.0)
+ROUNDTRIP Xuống nước và bơi ra gờ nông (216.5237, 5.471871, -455.017)
+ROUNDTRIP Lặn qua vòm đá (295.5078, 0.881607, -470.8609)
+ROUNDTRIP Ra khỏi vòm, nổi lên và bơi về bờ (319.5179, -1.154298, -470.9999)
+ROUNDTRIP Bờ tây hồ → trở lại Làng A (217.2166, 5.404233, -455.4519)
+ROUNDTRIP Đã trở lại Làng A (7.096667, 8.996386, 177.9912)
+ROUNDTRIP PASS movement_ticks=24098
+ERROR: Texture with GL ID of 65: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 66: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/a1-p21-roundtrip-final.avi
+3220 frames at 8 FPS (movie length: 00:06:42:04), recorded in 00:29:55 (22% of real-time speed).
+CPU render time: 1746.46 seconds (average: 542.38 ms/frame)
+GPU render time: 1743.26 seconds (average: 541.38 ms/frame)
+Encoding time: 10.47 seconds (average: 3.25 ms/frame)
+--------------------------------------------------------------------------------
