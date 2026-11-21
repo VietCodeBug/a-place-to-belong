@@ -10,6 +10,10 @@ const T = preload("res://scripts/ui/storybook_theme.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
 const CozyIcon = preload("res://scripts/ui/cozy_ui_icons.gd")
 
+signal story_closed
+var story_choices: VBoxContainer
+var story_open := false
+
 var player: CharacterBody3D
 var camera: Camera3D
 var weather: Node
@@ -259,6 +263,9 @@ func build_letter_modal() -> void:
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size = Vector2(540, 90)
 	column.add_child(body)
+	story_choices = VBoxContainer.new()
+	column.add_child(story_choices)
+	story_choices.hide()
 
 	var footer := HBoxContainer.new()
 	footer.alignment = BoxContainer.ALIGNMENT_END
@@ -371,9 +378,11 @@ func _process(delta: float) -> void:
 			controls_hint_panel.modulate.a = move_toward(controls_hint_panel.modulate.a, 0.0, delta * 0.45)
 
 	active = null
-	if player != null and not in_title_menu and not in_pause_menu:
+	if player != null and not player.blocked and not in_title_menu and not in_pause_menu:
 		var nearest := INF
 		for item in get_tree().get_nodes_in_group("interactables"):
+			if item.get_viewport()!=player.get_viewport():
+				continue
 			var d: float = player.global_position.distance_to(item.global_position)
 			if d < item.interaction_radius and d < nearest:
 				active = item
@@ -424,13 +433,19 @@ func format_clock(h: float) -> String:
 
 func icon_for_item(item: Node) -> String:
 	var n: String = str(item.get("interaction_name")).to_lower()
-	if "talk" in n or "chat" in n or "eggeght" in n:
+	if "talk" in n or "chat" in n or "eggeght" in n or "nói chuyện" in n:
 		return "chat"
 	elif "sign" in n or "trail" in n or "board" in n:
 		return "signpost"
 	return "envelope"
 
 func _unhandled_input(event: InputEvent) -> void:
+	var prototype: Node = get_parent().story_prototype
+	if prototype!=null and prototype.intro_running:
+		if event.is_action_pressed("ui_cancel"):
+			prototype.skip_intro()
+		get_viewport().set_input_as_handled()
+		return
 	var map_key: bool = event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_M
 	if valley_map.visible:
 		if map_key or event.is_action_pressed("ui_cancel"):
@@ -445,7 +460,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				valley_map.toggle_chunks()
 		get_viewport().set_input_as_handled()
 		return
-	if map_key and not in_title_menu and not in_pause_menu and not panel.visible:
+	if map_key and (prototype==null or not prototype.inside) and not in_title_menu and not in_pause_menu and not panel.visible:
 		player.blocked = true
 		valley_map.show()
 		get_viewport().set_input_as_handled()
@@ -459,10 +474,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_pause_menu(false)
 		elif not in_title_menu:
 			set_pause_menu(true)
-	elif event.is_action_pressed("interact") and active != null and not panel.visible and not in_title_menu and not in_pause_menu:
+	elif event.is_action_pressed("interact") and not event.is_echo() and active != null and not panel.visible and not in_title_menu and not in_pause_menu:
 		active.interact()
 
 func show_message(title: String, message: String, source_item: Node = null) -> void:
+	story_choices.hide()
 	heading.text = title
 	body.text = message
 	if source_item != null:
@@ -503,8 +519,56 @@ func show_message(title: String, message: String, source_item: Node = null) -> v
 		player.blocked = true
 	close_button.grab_focus()
 
+func show_story(title: String, message: String, options: Array) -> void:
+	story_open = true
+	heading.text = title
+	body.text = message
+	body.visible_ratio = 1.0
+	panel.scale = Vector2.ONE
+	category_label.text = "CHƯƠNG 01"
+	if letter_tween!=null: letter_tween.kill()
+	if envelope_tween!=null: envelope_tween.kill()
+	envelope.hide()
+	for child in story_choices.get_children():
+		story_choices.remove_child(child)
+		child.queue_free()
+	for option in options:
+		var button := make_cozy_button(option.label,false)
+		button.pressed.connect(option.action)
+		story_choices.add_child(button)
+	story_choices.visible = not options.is_empty()
+	close_button.text = "Khép lại"
+	close_button.tooltip_text = "Khép lại [Esc]"
+	modal_backdrop.show()
+	panel.show()
+	player.blocked = true
+	if story_choices.get_child_count()>0:
+		story_choices.get_child(0).grab_focus()
+	else:
+		close_button.grab_focus()
+
+func story_notice(message: String) -> void:
+	notice.text = message
+	notice.modulate.a = 1.0
+	if notice_tween!=null:
+		notice_tween.kill()
+	notice_tween = create_tween()
+	notice_tween.tween_interval(3.5)
+	notice_tween.tween_property(notice,"modulate:a",0.0,.45)
+
 func close() -> void:
 	var was_open:=panel.visible
+	if story_open:
+		story_open = false
+		story_choices.hide()
+		panel.hide()
+		modal_backdrop.hide()
+		close_button.text = "Put away"
+		close_button.tooltip_text = "Put away letter [Esc]"
+		if not in_pause_menu and not in_title_menu:
+			player.blocked = false
+		story_closed.emit()
+		return
 	if envelope_tween!=null:envelope_tween.kill()
 	if envelope!=null:envelope.hide()
 	if panel.visible and notice!=null:

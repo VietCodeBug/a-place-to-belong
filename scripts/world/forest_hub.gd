@@ -8,6 +8,7 @@ const SUPERWORLD = preload("res://scripts/world/superworld/a1_superworld.gd")
 const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
+var story_prototype: Node
 var superworld: SUPERWORLD
 var player: CharacterBody3D
 var mailbox: Node3D
@@ -16,6 +17,10 @@ var cafe_base := L.CAFE_LEVEL
 var collision_probe := Vector3(0,L.CAFE_LEVEL+0.65,2)
 
 func _ready() -> void:
+	var story_mode := has_meta("story_prototype") or "--story-prototype" in OS.get_cmdline_user_args()
+	if story_mode:
+		set_meta("a1_superworld",true)
+		set_meta(MAPS.SHOW_TITLE,false)
 	configure_inputs()
 	if has_meta("a1_superworld") or "--a1-superworld" in OS.get_cmdline_user_args():
 		superworld = SUPERWORLD.new()
@@ -81,7 +86,7 @@ func _ready() -> void:
 	ui.player = player
 	# The existing local Thomas pass can coexist with the village PR.
 	var thomas_path := "res://scripts/npc/thomas.gd"
-	if ResourceLoader.exists(thomas_path):
+	if not story_mode and ResourceLoader.exists(thomas_path):
 		var thomas: Node3D = load(thomas_path).new()
 		thomas.name = "Thomas"
 		thomas.position = ground(VILLAGE.THOMAS.x,VILLAGE.THOMAS.y)
@@ -90,6 +95,11 @@ func _ready() -> void:
 		thomas.dialogue = ui
 		add_child(thomas)
 	add_child(ui)
+	if story_mode:
+		story_prototype = preload("res://scripts/story/prototype/chapter_01.gd").new()
+		story_prototype.name = "Chapter01Prototype"
+		add_child(story_prototype)
+		story_prototype.setup(self)
 
 func place_house_a() -> void:
 	var home := preload("res://assets/a1_house_gate/hewn_eaves_cottage.glb").instantiate() as Node3D
