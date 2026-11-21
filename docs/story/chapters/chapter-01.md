@@ -23,6 +23,8 @@
 
 ## Vòng chơi kể chuyện từ khu dân cư## Hội thoại Làng A (đang viết theo gameplay, không phải scene tuyến tính)**Tuyến nhiệm vụ quan hệ:** [8 tuyến chính, mỗi người 3 chặng Q1/Q2/QF](../quests/village-a-relationship-arcs-v0.md). Giữa các chặng bắt buộc có **cuộc gặp không phải nhiệm vụ**, cùng hoạt động và những thay đổi đời thường. Nội dung 24 nhiệm vụ là nháp để duyệt; không đặt quest liên tục trong một lượt gặp.
 
+**Bản gameplay chi tiết hiện có:** [Hazel](../quests/village-a-hazel-playable-v1.md) · [Owen](../quests/village-a-owen-playable-v1.md) · [Clara](../quests/village-a-clara-playable-v1.md) · [Rowan](../quests/village-a-rowan-playable-v1.md). Tổng cộng 12/24 nhiệm vụ khung đã thành các nhịp gameplay có lời thoại theo trạng thái. **Không yêu cầu hoàn thành theo thứ tự các nhân vật**.
+
 
 
 Đã có bản [hội thoại nền 30 cư dân](../dialogue/village-a-dialogues-guide-v0.md) gồm cách gặp, hỏi việc, tham gia hoạt động, từ chối, quay lại và mở câu thân quen. [6 cuộc trao đổi giữa NPC](../dialogue/village-a-overheard-v0.md) hỗ trợ cảm giác làng tự sống khi A vắng mặt. **Đây là bản nháp**, chưa chốt tên, quan hệ, lịch sinh hoạt hoặc tuyến truyện sâu; không ép hoàn tất hội thoại để rời làng.
