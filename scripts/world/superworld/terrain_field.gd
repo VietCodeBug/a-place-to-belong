@@ -95,6 +95,9 @@ func outside_shape(p: Vector2) -> float:
 	var pass_grade := 7.0 + 9.0*sin(clampf((p.y+455.0)/635.0,0,1)*PI)
 	pass_grade += 53.0*(1.0-smoothstep(-825.0,-520.0,p.y))
 	h = lerpf(h,pass_grade,pass_weight)
+	# A traversable, wide crest on the lake-facing side of the ridge.
+	var plateau := 1.0-smoothstep(19.0,88.0,p.distance_to(OVERLOOK))
+	h = lerpf(h,61.0+(p.y-OVERLOOK.y)*.032,plateau)
 	var d := lake_ratio(p)
 	if d < 1.20:
 		# Shore is the zero contour of the bathymetry. A shallow western shelf

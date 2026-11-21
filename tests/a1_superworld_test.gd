@@ -90,6 +90,9 @@ func run() -> void:
 	probe(Vector2(-2045,1754))
 	check(world.streamer.solid.has(field.tile(Vector2(-2037,1757))),"Far chunk is not physical")
 	check(not world.streamer.solid.has(Vector2i(1,-5)),"Distant collider was retained")
+	await put(FIELD.LAKE+Vector2(2,-3))
+	probe(FIELD.LAKE)
+	check(actor.position.y<FIELD.WATER-27.0,"Center basin did not load deep collision")
 	await put(Vector2(209,-462))
 	for p in [Vector2(223,-462),Vector2(256.04,-462),Vector2(269,-470)]:
 		probe(p)

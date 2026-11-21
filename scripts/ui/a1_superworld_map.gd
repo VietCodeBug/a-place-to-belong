@@ -20,12 +20,17 @@ var explored: Dictionary = {}
 var zoom := 1.0
 var atlas := false
 var show_chunks := false
+var routes: Array
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	field = world.field
 	center = field.bounds.get_center()
+	var story := PLAN.HOUSE_APPROACH.duplicate()
+	for z in range(18,181,2):
+		story.append(Vector2(ForestLandscape.valley_path(z) if z>24 else ClearingLayout.path_center(z),z))
+	routes = FIELD.TRAILS + [story]
 	hide()
 
 func _process(_delta: float) -> void:
@@ -56,7 +61,7 @@ func generate_overview() -> void:
 	texture = ImageTexture.create_from_image(image)
 
 func map_rect() -> Rect2:
-	var width := minf(size.x*.76,size.y-116.0)
+	var width := minf(size.x*.76,size.y-137.0)
 	return Rect2(Vector2((size.x-width)*.5,(size.y-width)*.5),Vector2.ONE*width)
 
 func world_view() -> Rect2:
@@ -119,7 +124,7 @@ func _draw() -> void:
 		var corner := point(FIELD.CORE.position,rect,view)
 		var core_rect := Rect2(corner,FIELD.CORE.size/metres_per_pixel)
 		draw_rect(core_rect.intersection(rect),Color("654737"),false,2.0)
-	for route in FIELD.TRAILS + [PLAN.HOUSE_APPROACH]:
+	for route in routes:
 		for i in range(route.size()-1):
 			var a := point(route[i],rect,view)
 			var b := point(route[i+1],rect,view)

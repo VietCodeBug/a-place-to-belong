@@ -90,6 +90,19 @@ func run() -> void:
 	ui.add_child(caption)
 	hub.ui.controls_hint_panel.hide()
 
+	if "--surface-only" in OS.get_cmdline_user_args():
+		place(Vector2(294,-472))
+		title("Rời vòm đá  ·  Giữ Space để nổi lên")
+		await wait_frames(5)
+		Input.action_press("a1_surface")
+		await move_to(Vector2(288,-473),2.4)
+		Input.action_release("a1_surface")
+		print("surface_end_y=",actor.position.y)
+		await wait_frames(9)
+		hub.queue_free()
+		await process_frame
+		quit()
+		return
 	if not shots_only:
 		title("Nhà A  ·  Đi bộ bằng WASD")
 		await wait_frames(5)
@@ -99,6 +112,8 @@ func run() -> void:
 	place(Vector2(216,-466))
 	await wait_frames(4)
 	await save_image("bo-ho")
+	if shots_only:
+		await art_shot(camera,"ben-go",Vector2(213,-454),Vector2(237,-447),1.66,1.4)
 	if not shots_only:
 		await move_to(Vector2(224,-466),3.1)
 		title("Bơi trên mặt hồ  ·  WASD")
@@ -109,9 +124,10 @@ func run() -> void:
 		actor.position.y = FIELD.WATER-.92
 		camera.set_scenic_mode(false,true)
 		Input.action_press("a1_dive")
-		await move_to(Vector2(303,-471),4.7,55,"lan")
+		await move_to(Vector2(302,-471),4.15,55,"lan")
 		Input.action_release("a1_dive")
-		title("Giữ Space để nổi lên")
+		title("Ra ngoài vòm đá và giữ Space để nổi lên")
+		await move_to(Vector2(292,-471),3.2)
 		Input.action_press("a1_surface")
 		await wait_frames(29)
 		Input.action_release("a1_surface")
@@ -135,7 +151,7 @@ func run() -> void:
 	overview.far = 7200.0
 	overview.fov = 55
 	hub.add_child(overview)
-	overview.position = Vector3(1350,1400,1320)
+	overview.position = Vector3(1150,1710,1260)
 	overview.look_at(Vector3(0,0,-250))
 	overview.make_current()
 	var panorama_environment := overview.get_world_3d().environment.duplicate() as Environment
@@ -148,7 +164,7 @@ func run() -> void:
 	await art_shot(overview,"dong-co-hoa",Vector2(320,147),Vector2(365,126),1.6,2.7)
 	await art_shot(overview,"song-va-cau",Vector2(-11,67),Vector2(3,78),1.7,1.65)
 	await art_shot(overview,"lang-a",Vector2(6.8,120.9),Vector2(-2,133),1.64,2.6)
-	await art_shot(overview,"cao-nguyen",FIELD.OVERLOOK+Vector2(-4,1),FIELD.LAKE,2.0,0.0)
+	await art_shot(overview,"cao-nguyen",FIELD.OVERLOOK+Vector2(9,9),FIELD.LAKE,2.0,19.0)
 	print("REVIEW COMPLETE ",ProjectSettings.globalize_path(OUT))
 	hub.queue_free()
 	await process_frame

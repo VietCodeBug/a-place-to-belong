@@ -48,12 +48,18 @@ func make_surface() -> void:
 func make_pier() -> void:
 	# The side of the pier remains open for water entry and exit.
 	var z := FIELD.SHORE.y+6.0
+	var last_pole := Vector3.ZERO
 	var start := FIELD.SHORE.x-6.0
 	for i in range(7):
 		var x := start+i*2.25
 		var y := lerpf(field.height(Vector2(start,z))+.04,FIELD.WATER+.54,minf(i/4.0,1.0))
 		SHAPES.box(self,Vector3(x,y-.11,z),Vector3(2.27,.22,3.0),"927754",true)
 		if i%2==0:
+			var pole := Vector3(x,y+.75,z+1.34)
+			SHAPES.box(self,pole-Vector3.UP*.3,Vector3(.16,.92,.16),"775E47")
+			if last_pole != Vector3.ZERO:
+				SHAPES.beam(self,last_pole-Vector3.UP*.28,pole-Vector3.UP*.28,.09,"A48255")
+			last_pole = pole
 			for sign_z in [-1.0,1.0]:
 				SHAPES.box(self,Vector3(x,y-1.2,z+sign_z*1.25),Vector3(.27,3.25,.27),"665741")
 	var post := Vector3(start-1.5,field.height(Vector2(start-1.5,z))+1.18,z+1.9)
