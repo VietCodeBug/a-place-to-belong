@@ -1,0 +1,20 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=1987
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+STORY_ROUTE 0 Thức dậy ở Nhà A (-1.32, 0.04, -1.63)
+STORY_ROUTE 136 Gặp Thomas trên đường mòn (7.048963, 0.054238, 14.48557)
+STORY_ROUTE 257 Làng A và đường vào làng (1.271206, 7.385917, 92.6142)
+STORY_ROUTE 317 Hazel và hai luống cây (6.605741, 8.552197, 125.1356)
+STORY_ROUTE 439 Owen và bàn sửa đồ (13.7495, 8.654464, 124.947)
+STORY_ROUTE 484 Về Nhà A (-10.86392, 3.015111, -298.622)
+STORY_ROUTE PASS frames=580
+ERROR: Texture with GL ID of 70: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 71: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
