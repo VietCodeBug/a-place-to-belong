@@ -10,6 +10,7 @@ const MAPS = preload("res://scripts/story/map_flow.gd")
 const WILDLIFE = preload("res://scripts/world/a1_wildlife.gd")
 var birds: Array[Node3D] = []
 var clock := 0.0
+var current_season := BOTANY.DEFAULT_SEASON
 var habitat_floor: Array[Node3D] = []
 var habitat_trees: Array[Node3D] = []
 var sun: DirectionalLight3D
@@ -22,11 +23,16 @@ func _ready() -> void:
 	sun = get_parent().get_node("Sun")
 	original_shadow_distance = sun.directional_shadow_max_distance
 	original_shadow_mode = sun.directional_shadow_mode
-	build_mountains()
-	build_distant_foothills()
+	if get_parent().superworld == null:
+		build_mountains()
+		build_distant_foothills()
 	build_river()
 	build_bridge()
+	if get_parent().superworld != null:
+		dress_river_banks()
 	build_house_grove()
+	if get_parent().superworld != null:
+		dress_ancient_grove()
 	build_groves()
 	var village := VILLAGE.new()
 	village.name = "VillageA"
@@ -141,6 +147,7 @@ func build_river() -> void:
 	water.mesh = surface.commit()
 	var material := ShaderMaterial.new()
 	material.shader = preload("res://shaders/a1_river.gdshader")
+	material.set_shader_parameter("superworld_water",get_parent().superworld != null)
 	water.material_override = material
 	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(water)
@@ -150,6 +157,59 @@ func build_river() -> void:
 			if abs(x) < 3:
 				continue
 			S.box(self, Vector3(x, 2.2, L.river_center(x) + side * 5.2), Vector3(2.1, 4, 0.9), "FFFFFF", true).hide()
+
+func dress_ancient_grove() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 164447
+	var understory := Node3D.new()
+	understory.name = "AncientGroveFloor"
+	add_child(understory)
+	var moss: Array[Vector3] = []
+	for origin: Vector2 in [Vector2(-6.8,-321.4),Vector2(-14.4,-312.1),Vector2(4.8,-309.7),Vector2(-16.9,-300.6)]:
+		if ForestFloorDesign.reserved(origin,3.2):
+			continue
+		# Each root starts against the same trunk as its surrounding moss and stones.
+		var tree_id := "NormalTree_3" if origin.x<0 else "BirchTree_2"
+		var base := ground(origin.x,origin.y)
+		habitat_trees.append(BOTANY.place_tree(understory,tree_id,base,rng.randf_range(12.5,15.5),rng.randf()*TAU))
+		for i in 5:
+			var dir := Vector2.from_angle(i*TAU/5.0+rng.randf_range(-.24,.24))
+			var near := origin+dir*.36
+			var end := origin+dir*rng.randf_range(1.23,2.3)
+			if ForestFloorDesign.reserved(end,.25):
+				continue
+			var elbow := near.lerp(end,.54)+dir.orthogonal()*.19
+			var raised := ground(elbow.x,elbow.y)+Vector3.UP*.12
+			S.beam(understory,ground(near.x,near.y)+Vector3.UP*.24,raised,.22,"564433")
+			S.beam(understory,raised,ground(end.x,end.y)-Vector3.UP*.05,.11,"5D513A")
+		for i in 55:
+			var p := origin+Vector2.from_angle(rng.randf()*TAU)*rng.randf_range(.78,3.2)
+			if not ForestFloorDesign.reserved(p,.56):
+				moss.append(ground(p.x,p.y))
+		var rock := origin+Vector2(-2.3,.9)
+		if not ForestFloorDesign.reserved(rock,1.1):
+			BOTANY.place_stone(understory,ground(rock.x,rock.y)-Vector3.UP*.14,rng.randf_range(1,1.7),rng.randf()*TAU)
+	if not moss.is_empty():
+		habitat_floor.append(BOTANY.grass_batch(understory,moss,1327,62.0,.24,1.4,true))
+
+func dress_river_banks() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 70745
+	for side in [-1.0,1.0]:
+		var sedges: Array[Vector3] = []
+		for index in 23:
+			var x := rng.randf_range(-31.0,31.0)
+			if absf(x)<4.3:
+				continue
+			var z: float = L.river_center(x)+side*rng.randf_range(3.5,6.9)
+			var point := ground(x,z)
+			var width := rng.randf_range(.56,1.9)
+			BOTANY.place_stone(self,point-Vector3.UP*.15,width,rng.randf()*TAU,index%4==0)
+			for tuft in 9:
+				var p := ground(x+rng.randf_range(-1.05,1.05),z+side*rng.randf_range(.5,1.6))
+				if p.y>1.31:
+					sedges.append(p)
+		habitat_floor.append(BOTANY.grass_batch(self,sedges,503 if side<0 else 705,76.0,.32,1.43,true))
 
 func bridge_top(z: float) -> float:
 	var t := clampf((z-65.76)/16.44,0,1)
@@ -381,6 +441,9 @@ func build_understory() -> void:
 		habitat_floor.append(layer)
 
 func set_season_palette(season: int) -> void:
+	current_season = season
+	if get_parent().superworld != null:
+		get_parent().superworld.set_season(season)
 	var meadow := get_parent().get_node_or_null("CuratedGroundCover/DenseMeadow") as Node3D
 	if meadow != null:
 		meadow.visible = season != 3

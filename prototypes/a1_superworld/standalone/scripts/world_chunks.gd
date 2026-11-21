@@ -110,6 +110,17 @@ func _process(delta:float) -> void:
 			var n:Node3D=chunks[coord]
 			if is_instance_valid(n): n.queue_free()
 			chunks.erase(coord)
+	# Keep the entire near physics ring ready before filling more scenery.
+	for coord: Vector2i in chunks.keys():
+		var offset := coord-center
+		var node: Node3D = chunks[coord]
+		var collider := node.get_node_or_null("TerrainBody")
+		var nearby := maxi(absi(offset.x),absi(offset.y))<=PHYSICS_RADIUS
+		if nearby and collider==null:
+			enable_collision(node)
+		elif not nearby and collider!=null:
+			node.remove_child(collider)
+			collider.queue_free()
 	var added := 0
 	for radius in range(ACTIVE_RADIUS+1):
 		for x in range(-radius,radius+1):
@@ -119,19 +130,15 @@ func _process(delta:float) -> void:
 				var coord := center+Vector2i(x,z)
 				if chunks.has(coord): continue
 				if make_chunk(coord,radius<=PHYSICS_RADIUS): added+=1
-	# Upgrade distant LOD chunks to collidable if player approaches.
-	for coord in chunks.keys():
-		var delta_coord:Vector2i=coord-center
-		if maxi(absi(delta_coord.x),absi(delta_coord.y))<=PHYSICS_RADIUS:
-			var c:Node3D=chunks[coord]
-			if not c.has_meta("solid"):
-				c.set_meta("solid",true)
-				var mesh_node:MeshInstance3D=c.get_node("Terrain")
-				var body := StaticBody3D.new()
-				var collision := CollisionShape3D.new()
-				collision.shape=mesh_node.mesh.create_trimesh_shape()
-				body.add_child(collision)
-				c.add_child(body)
+
+func enable_collision(chunk: Node3D) -> void:
+	var terrain: MeshInstance3D = chunk.get_node("Terrain")
+	var body := StaticBody3D.new()
+	body.name = "TerrainBody"
+	var shape := CollisionShape3D.new()
+	shape.shape = terrain.mesh.create_trimesh_shape()
+	body.add_child(shape)
+	chunk.add_child(body)
 
 func make_chunk(coord:Vector2i,solid:bool) -> bool:
 	if chunks.has(coord): return false
@@ -172,14 +179,8 @@ func make_chunk(coord:Vector2i,solid:bool) -> bool:
 	render.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	chunk.add_child(render)
 	if solid:
-		chunk.set_meta("solid",true)
-		var body:=StaticBody3D.new()
-		var shape:=CollisionShape3D.new()
-		shape.shape=mesh.create_trimesh_shape()
-		body.add_child(shape)
-		chunk.add_child(body)
-	if maxi(absi(coord.x),absi(coord.y)) < 9999:
-		place_vegetation(chunk,coord)
+		enable_collision(chunk)
+	place_vegetation(chunk,coord)
 	return true
 
 func ground_color(x:float,z:float,y:float) -> Color:
@@ -193,7 +194,7 @@ func ground_color(x:float,z:float,y:float) -> Color:
 	return c
 
 func place_vegetation(node:Node3D,coord:Vector2i) -> void:
-	var seed:=abs(coord.x*73856093 ^ coord.y*19349663) % 2147483647
+	var seed:=absi(coord.x*73856093 ^ coord.y*19349663) % 2147483647
 	var rng := RandomNumberGenerator.new()
 	rng.seed=seed+12345
 	var wood_poses:=[]

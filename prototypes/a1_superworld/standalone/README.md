@@ -63,4 +63,4 @@ Superworld
 
 ## Lưu ý kiểm thử
 
-Bản đồ và project đã được tạo, đối chiếu file, nhưng **chưa chạy kiểm thử trong Godot ở môi trường tạo file** vì container không có Godot binary. Có thể cần điều chỉnh nhỏ về GDScript/renderer trên máy của bạn. Không tuyên bố FPS, collision hay bơi đã được xác nhận bằng chạy thật.
+Đã kiểm tra khởi chạy project độc lập bằng Godot 4.6.3 Compatibility sau khi sửa GDScript, vị trí spawn và vòng collider. Kiểm thử lộ trình, bơi và benchmark ở project game gốc được ghi trong [báo cáo prototype tích hợp](../../../docs/world/A1_SUPERWORLD_SLICE.md).

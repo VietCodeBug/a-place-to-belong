@@ -6,6 +6,7 @@ extends Camera3D
 const PLAN = preload("res://scripts/world/village_a_layout.gd")
 
 @export var target: Node3D
+var superworld: Node3D
 var distance := 21.0
 var aim := Vector3.ZERO
 var scenic_mode := false
@@ -22,10 +23,26 @@ func village_camera_blend() -> float:
 func house_camera_blend() -> float:
 	return 1.0 - smoothstep(3.0,10.0,Vector2(target.position.x,target.position.z).distance_to(PLAN.HOUSE_APPROACH[0]))
 
+func swim_blend() -> float:
+	if superworld == null or not superworld.lake.contains(target.position):
+		return 0.0
+	return smoothstep(.85,2.8,5.0-target.position.y)
+
+func lakeside_blend() -> float:
+	if superworld == null:
+		return 0.0
+	var at := Vector2(target.position.x,target.position.z)
+	var ratio: float = superworld.field.lake_ratio(at)
+	return (1.0-smoothstep(.99,1.21,ratio)) if at.x < 650.0 else .0
+
 func focus_position() -> Vector3:
+	var diving := swim_blend()
+	if diving > .0:
+		return target.position+Vector3(1.45,lerpf(1.55,.63,diving),-.30)
 	if near_lodge():
 		return target.position + Vector3(-1.15, 2.65, -5.8)
-	return target.position + Vector3(0.0, 1.55, lerpf(-0.8, 7.5, village_camera_blend())).lerp(Vector3(3.0,2.3,-.5),house_camera_blend())
+	var focus := Vector3(0.0,1.55,lerpf(-.8,7.5,village_camera_blend())).lerp(Vector3(3.0,2.3,-.5),house_camera_blend())
+	return target.position + focus.lerp(Vector3(3.7,1.4,0),lakeside_blend())
 
 func desired_position() -> Vector3:
 	var length := distance + (1.2 if near_lodge() else 0.0)
@@ -35,8 +52,14 @@ func desired_position() -> Vector3:
 	length = lerpf(length, length*.41, village)
 	offset_dir = offset_dir.lerp(Vector3(-.79,.43,-.44),house_camera_blend()).normalized()
 	length = lerpf(length,length*.52,house_camera_blend())
-	var p := target.position + Vector3.UP * 1.45 + offset_dir * length
-	p.y = maxf(p.y, ForestLandscape.height_at(p.x, p.z) + 2.0)
+	var diving := swim_blend()
+	var shore := lakeside_blend()
+	length = lerpf(lerpf(length,length*.58,shore),4.1,diving)
+	offset_dir = offset_dir.lerp(Vector3(-.87,.33,.43).normalized(),shore)
+	offset_dir = offset_dir.lerp(Vector3(-.73,.10,.67).normalized(),diving)
+	var p := target.position + Vector3.UP*lerpf(1.45,.60,diving) + offset_dir*length
+	var y: float = superworld.terrain_height(p.x,p.z) if superworld != null else ForestLandscape.height_at(p.x,p.z)
+	p.y = maxf(p.y,y + lerpf(2.0,1.30,diving))
 	return p
 
 func scenic_pose() -> Dictionary:
@@ -65,6 +88,8 @@ func set_scenic_mode(enabled: bool, instant := false) -> void:
 
 func _ready() -> void:
 	fov = 43.0
+	if superworld != null:
+		far = 4300.0
 	if scenic_mode:
 		var sp := scenic_pose()
 		position = sp.eye
