@@ -100,7 +100,11 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 
 Làng A không được biến thành nơi gói hết gameplay. **Đường sang những làng khác phải là không gian có thể khám phá**, không chỉ một nút teleport. Những chuyến hàng của Ada là một động lực xã hội để đi tới làng kế tiếp; ngoài ra người chơi vẫn có thể **tự đi không cần nhận việc**. Hoạt động săn bắn tạo thêm lựa chọn khi khám phá **các vùng rừng thích hợp**, tách biệt với hệ giao hàng. **Chưa đặt tên Làng B** hoặc loài thú mới.
 
-## Quy tắc cho các cảnh tiếp theo**Chi tiết đã viết sâu:** [Hazel](../quests/village-a-hazel-playable-v1.md), [Owen](../quests/village-a-owen-playable-v1.md), [Clara](../quests/village-a-clara-playable-v1.md), [Rowan](../quests/village-a-rowan-playable-v1.md). Mỗi người có **3 nhiệm vụ**, các cuộc gặp bình thường giữa chặng, việc làm thật và nhánh NPC tự giải quyết nếu A bỏ qua. **Đã triển khai nội dung chi tiết 12/24 nhiệm vụ khung**, còn lại vẫn ở bản phác. Chưa tự chốt bối cảnh thành 3D asset hay game logic.
+## Quy tắc cho các cảnh tiếp theo
+
+**Kịch bản gameplay chi tiết (6 tuyến, 18/24 nhiệm vụ khung):** [Hazel](../quests/village-a-hazel-playable-v1.md), [Owen](../quests/village-a-owen-playable-v1.md), [Clara](../quests/village-a-clara-playable-v1.md), [Rowan](../quests/village-a-rowan-playable-v1.md), [Maeve](../quests/village-a-maeve-playable-v1.md), [Evelyn](../quests/village-a-evelyn-playable-v1.md). Có việc thực sự làm, cuộc gặp bình thường giữa các chặng và nhánh tự giải quyết khi A không giúp. **Không tự xem các đạo cụ/thoại mới là model hay code đã làm.**
+
+**Đã cập nhật địa lý:** Làng A có khu thủ công mái che ở phía đông, sân chung và vườn phía tây; bên ngoài có hồ A1 **được m duyệt làm địa điểm khám phá**. Ghi nhận địa hình trong [đối chiếu A1](a1-approved-exploration-v0.md). Maeve có cuộc gặp ven hồ tùy chọn; Evelyn có nhánh khám phá hồ ở Q2, không yêu cầu bơi hoặc lặn.
 
 ## Tuyến nhiệm vụ dài hạn — không gặp một lần rồi hết
 
