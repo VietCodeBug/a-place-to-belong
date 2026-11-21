@@ -90,6 +90,22 @@ func run() -> void:
 	ui.add_child(caption)
 	hub.ui.controls_hint_panel.hide()
 
+	if "--biome-shots-only" in OS.get_cmdline_user_args():
+		hub.ui.hide()
+		actor.hide()
+		var eye := Camera3D.new()
+		eye.far = 4300.0
+		eye.fov = 57.0
+		hub.add_child(eye)
+		await art_shot(eye,"cao-nguyen",FIELD.OVERLOOK+Vector2(13,14),FIELD.LAKE,2.0,7.0)
+		place(FIELD.MEADOW)
+		await wait_frames(3)
+		var pocket := meadow_focus()
+		await art_shot(eye,"dong-co-hoa",pocket+Vector2(-2.1,3.0),pocket+Vector2(7.3,-8.2),1.54,1.5)
+		hub.queue_free()
+		await process_frame
+		quit()
+		return
 	if "--surface-only" in OS.get_cmdline_user_args():
 		place(Vector2(294,-472))
 		title("Rời vòm đá  ·  Giữ Space để nổi lên")
@@ -179,3 +195,18 @@ func art_shot(review_camera: Camera3D, id: String, eye: Vector2, aim: Vector2, e
 	review_camera.look_at(Vector3(aim.x,world.field.height(aim)+focus_height,aim.y))
 	await wait_frames(4)
 	await save_image(id)
+
+
+func meadow_focus() -> Vector2:
+	var nearest := FIELD.MEADOW + Vector2(12,11)
+	var distance := INF
+	for node in world.streamer.find_children("MeadowFlowers","MultiMeshInstance3D",true,false):
+		var flowers := node as MultiMeshInstance3D
+		for i in flowers.multimesh.instance_count:
+			var at := flowers.multimesh.get_instance_transform(i).origin
+			var p := Vector2(at.x,at.z)
+			var d := p.distance_squared_to(FIELD.MEADOW)
+			if d < distance:
+				nearest = p
+				distance = d
+	return nearest

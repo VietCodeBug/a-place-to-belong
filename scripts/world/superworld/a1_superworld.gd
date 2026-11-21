@@ -12,6 +12,8 @@ var weather: Node
 var wetness := 0.0
 var swim_hint: Label
 var trail_material: ShaderMaterial
+var ridge_camera: Camera3D
+var ridge_environment: Environment
 
 func start(actor: CharacterBody3D, climate: Node, initial_season: int) -> void:
 	player = actor
@@ -49,6 +51,7 @@ func _process(_delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if camera != null:
 		lake.update_view(camera)
+		update_ridge_view(camera)
 	swim_hint.visible = not player.blocked and lake.contains(player.position)
 	if swim_hint.visible:
 		lake.depth = maxf(0.0,FIELD.WATER-player.position.y-1.2)
@@ -59,6 +62,24 @@ func _process(_delta: float) -> void:
 		wetness = weather.wetness
 		streamer.material.set_shader_parameter("wetness",wetness)
 		trail_material.set_shader_parameter("wetness",wetness)
+
+func update_ridge_view(camera: Camera3D) -> void:
+	var eye := Vector2(camera.global_position.x,camera.global_position.z)
+	var at_ridge := eye.distance_squared_to(FIELD.OVERLOOK)<76.0*76.0
+	if at_ridge and not lake.underwater:
+		if ridge_camera != camera or camera.environment != ridge_environment:
+			clear_ridge_view()
+			ridge_camera = camera
+			ridge_environment = camera.get_world_3d().environment.duplicate() as Environment
+			camera.environment = ridge_environment
+		ridge_environment.fog_density = lerpf(.00055,.004,weather.weather_value.y)
+	elif ridge_camera != null:
+		clear_ridge_view()
+
+func clear_ridge_view() -> void:
+	if is_instance_valid(ridge_camera) and ridge_camera.environment==ridge_environment:
+		ridge_camera.environment = null
+	ridge_camera = null
 
 func prepare_at(p: Vector2) -> void:
 	streamer.prepare_at(p)

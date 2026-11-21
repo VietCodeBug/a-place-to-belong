@@ -98,6 +98,14 @@ func outside_shape(p: Vector2) -> float:
 	# A traversable, wide crest on the lake-facing side of the ridge.
 	var plateau := 1.0-smoothstep(19.0,88.0,p.distance_to(OVERLOOK))
 	h = lerpf(h,61.0+(p.y-OVERLOOK.y)*.032,plateau)
+	if p.distance_squared_to(OVERLOOK)<420.0*420.0:
+		var downhill := (LAKE-OVERLOOK).normalized()
+		var at := p-OVERLOOK
+		var lead := at.dot(downhill)
+		var flank := absf(at.cross(downhill))
+		var face := smoothstep(6.0,22.0,lead)*(1.0-smoothstep(215.0,390.0,lead))
+		face *= 1.0-smoothstep(42.0,105.0,flank)
+		h = lerpf(h,minf(h,61.0-.29*maxf(0.0,lead-12.0)),face)
 	var d := lake_ratio(p)
 	if d < 1.20:
 		# Shore is the zero contour of the bathymetry. A shallow western shelf

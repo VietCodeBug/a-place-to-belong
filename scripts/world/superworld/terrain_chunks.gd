@@ -206,6 +206,11 @@ func plant_trees(chunk: MeshInstance3D, id: Vector2i) -> void:
 		var y := field.height(p)
 		if y > 135.0 or y < FIELD.WATER+1.2 or field.trail_distance(p)<5.0 or field.lake_ratio(p)<1.022:
 			continue
+		var ledge := p-FIELD.OVERLOOK
+		if ledge.length_squared()<90.0*90.0:
+			var sight := (FIELD.LAKE-FIELD.OVERLOOK).normalized()
+			if ledge.dot(sight)>4.0 and absf(ledge.cross(sight))<17.0:
+				continue
 		var meadow := p.distance_to(FIELD.MEADOW)<113.0
 		if meadow and i%6!=0:
 			continue
