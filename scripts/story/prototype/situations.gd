@@ -143,6 +143,9 @@ func _process(delta: float) -> void:
 		if clara.active and clara.task=="WORK" and grace.task=="WORK" and clara.point.distance_to(grace.point)<8.0:
 			stage.session.object_state(MEAL,"available")
 	for id in [WOOD,MEAL]:
+		var place := LOG_STACK if id==WOOD else MEAL_TABLE
+		if status(id) in ["accepted","carried"] and (stage.inside or stage.exterior_observer().distance_to(place)>18.0):
+			decline(id)
 		if status(id) in ["available","accepted","carried"] and not stage.conversation.is_open():
 			local_time[id] = float(local_time.get(id,0.0))+elapsed
 			if local_time[id]>62.0 and status(id)=="available":

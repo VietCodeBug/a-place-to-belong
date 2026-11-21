@@ -69,6 +69,13 @@ func open(person: Node3D) -> void:
 		present("after_help",resident_lines("after_help"))
 	elif returning_home:
 		present("busy",resident_lines("busy"))
+	elif actor_id==WORK.OWEN and stage.session.objects.get(WORK.OWEN+"_result","")=="player":
+		last_group = "repair_outcome"
+		var wedged: bool = stage.session.objects.get("wooden_latch")=="wedged"
+		card("Miếng nêm cậu chọn vẫn giữ chốt chắc đấy." if wedged else "Chỗ chốt mình chỉnh lại vẫn chắc đấy.")
+	elif actor_id==WORK.OWEN and stage.session.objects.get(WORK.OWEN+"_result","")=="self":
+		last_group = "repair_outcome"
+		card("Tôi đã kê lại cái chốt. Giờ nó đứng yên rồi.")
 	else:
 		present("revisit",resident_lines("revisit"))
 

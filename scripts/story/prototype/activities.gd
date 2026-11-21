@@ -106,17 +106,19 @@ func abandon(id: String) -> void:
 	wait_for_npc[id] = 9.0
 	if id==HAZEL:
 		stage.session.object_state("watering_can","by_garden")
-		for index in soil.size():
-			stage.session.object_state("garden_%d" % index,"dry")
 	else:
 		stage.session.object_state("wooden_latch","loose")
+		stage.session.objects.erase("repair_approach")
 	refresh()
 
 func take_can() -> void:
 	if progress(HAZEL)==1:
-		stage.session.activities[HAZEL] = 2
+		var watered := 0
+		for index in soil.size():
+			watered += int(stage.session.objects.get("garden_%d" % index)=="watered")
+		stage.session.activities[HAZEL] = 2+watered
 		stage.session.object_state("watering_can","carried")
-		stage.hub.ui.story_notice("Mang bình tới hai luống cây non.")
+		stage.hub.ui.story_notice("Hai luống đã được tưới. Đặt bình lại." if watered==soil.size() else "Mang bình tới luống còn khô.")
 	elif progress(HAZEL)==4:
 		stage.session.object_state("watering_can","returned")
 		finish(HAZEL,"gardener_helped")
@@ -214,17 +216,26 @@ func _process(delta: float) -> void:
 	ambient_clock = 0.0
 	for id in [HAZEL,OWEN]:
 		var actor: Node3D = stage.actor(id)
-		if actor==null or not actor.active or actor.talking or not can_offer(id) or in_progress(id):
+		var workplace := CAN if id==HAZEL else BENCH
+		var nearby: bool = not stage.inside and stage.exterior_observer().distance_to(workplace)<18.0
+		if in_progress(id) and not nearby:
+			abandon(id)
+		if actor==null or actor.talking or not can_offer(id) or in_progress(id):
+			continue
+		if not nearby and not wait_for_npc.has(id):
 			continue
 		wait_for_npc[id] = float(wait_for_npc.get(id,0.0))+elapsed
 		if wait_for_npc[id]>45.0:
 			stage.session.object_state(id+"_result","self")
 			if id==HAZEL:
 				for index in soil.size():
+					if nearby and stage.session.objects.get("garden_%d" % index)!="watered":
+						splash(PATCHES[index]+Vector2(-1.04,.21))
 					stage.session.object_state("garden_%d" % index,"watered")
-					splash(PATCHES[index]+Vector2(-1.04,.21))
-				stage.sound("water",ground(PATCHES[0]))
+				if nearby:
+					stage.sound("water",ground(PATCHES[0]))
 			else:
 				stage.session.object_state("wooden_latch","fixed")
-				stage.sound("tap",loose_latch.global_position)
+				if nearby:
+					stage.sound("tap",loose_latch.global_position)
 			refresh()
