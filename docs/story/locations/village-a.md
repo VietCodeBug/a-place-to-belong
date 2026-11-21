@@ -100,7 +100,7 @@ Từ cổng lối mòn nhìn vào, đây không phải 30 người đứng sẵn
 
 Làng A không được biến thành nơi gói hết gameplay. **Đường sang những làng khác phải là không gian có thể khám phá**, không chỉ một nút teleport. Những chuyến hàng của Ada là một động lực xã hội để đi tới làng kế tiếp; ngoài ra người chơi vẫn có thể **tự đi không cần nhận việc**. Hoạt động săn bắn tạo thêm lựa chọn khi khám phá **các vùng rừng thích hợp**, tách biệt với hệ giao hàng. **Chưa đặt tên Làng B** hoặc loài thú mới.
 
-## Quy tắc cho các cảnh tiếp theo**Chi tiết đã viết sâu:** [Hazel — kịch bản chơi ba chặng](../quests/village-a-hazel-playable-v1.md) và [Owen — kịch bản chơi ba chặng](../quests/village-a-owen-playable-v1.md). Có tình huống ngoài quest, việc thực sự làm và nhánh NPC tự giải quyết khi A bỏ qua. Chưa tự chốt những đề xuất thành 3D asset hay game logic.
+## Quy tắc cho các cảnh tiếp theo**Chi tiết đã viết sâu:** [Hazel](../quests/village-a-hazel-playable-v1.md), [Owen](../quests/village-a-owen-playable-v1.md), [Clara](../quests/village-a-clara-playable-v1.md), [Rowan](../quests/village-a-rowan-playable-v1.md). Mỗi người có **3 nhiệm vụ**, các cuộc gặp bình thường giữa chặng, việc làm thật và nhánh NPC tự giải quyết nếu A bỏ qua. **Đã triển khai nội dung chi tiết 12/24 nhiệm vụ khung**, còn lại vẫn ở bản phác. Chưa tự chốt bối cảnh thành 3D asset hay game logic.
 
 ## Tuyến nhiệm vụ dài hạn — không gặp một lần rồi hết
 
