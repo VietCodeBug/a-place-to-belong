@@ -1,0 +1,746 @@
+{
+  "schema": "apb.playable_character_script.v1",
+  "character_id": "VLA-09",
+  "name_en_draft": "Rowan",
+  "status": "draft_pending_creator_review",
+  "language": "vi",
+  "sources": {
+    "arc": "docs/story/quests/village-a-relationship-arcs-v0.json",
+    "base_dialogue": "docs/story/dialogue/village-a-dialogues-v0.json",
+    "roster": "docs/story/characters/village-a-roster.json"
+  },
+  "scope": {
+    "village": "VILLAGE_A",
+    "is_cutscene": false,
+    "quests_optional": true,
+    "level_design_not_authorized": true,
+    "game_engine_not_implemented": true,
+    "no_hunting_master_assumption": true,
+    "no_new_village_area": true
+  },
+  "npc_ordinary_routine_vi": "Rowan đi kiểm lối rừng quanh làng, dời vật cản nhỏ, quan sát cây/hoa và nghỉ; vẫn sinh hoạt nếu A không tương tác.",
+  "gate_contract": {
+    "friendship_thresholds_proposed": [
+      20,
+      50,
+      80
+    ],
+    "requires_previous_stage_or_self_resolution": true,
+    "distinct_nonquest_visits_between_quests": true,
+    "bond_before_final": true,
+    "player_explicit_acceptance": true,
+    "score_alone_never_triggers_quest": true,
+    "no_same_encounter_chain": true
+  },
+  "quests": [
+    {
+      "quest_id": "VLA09-Q1",
+      "title_vi": "Lối đi sau vạt cỏ",
+      "context_vi": "Đoạn đường đất sẵn có ở rìa Làng A, sát một vạt cỏ và hoa dại; không mở đường hoặc địa điểm mới",
+      "ambient_cue_vi": "Rowan nhìn một nhánh khô chắn nửa vệt đi qua, còn cỏ mọc ở mép. Ông đang tự xem cách đi, không đứng chờ A.",
+      "story_source_summary_vi": "Sau khi đã cùng dọn nhánh cây, Rowan muốn A quan sát một đoạn đường khác khó nhìn mép lối.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA09-Q1-O1",
+        "player_acceptance": "VLA09-Q1-A1",
+        "completion_after_real_action": "VLA09-Q1-C1",
+        "refusal": "VLA09-Q1-D1"
+      },
+      "gating": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_approved": false,
+        "player_initiates": true,
+        "needs_npc_available_context": true,
+        "not_same_visit_as_last_quest": true
+      },
+      "beats": [
+        {
+          "id": "READ_PATH",
+          "action_vi": "A đi bộ quan sát hai mép lối mòn, tìm vệt chân người đi và nơi nhánh khô thực sự vướng; có thể thử lối vòng ở ngay cạnh.",
+          "result_vi": "Hiện hai dấu hiệu trực quan: vệt đi lại ở giữa và hoa ở mép; không hiện dấu X nhiệm vụ trên mọi bụi cây.",
+          "talk": [
+            "R:Người đi qua đoạn này cứ né ra ngoài.",
+            "A:Vì cành khô nằm ngang lối à?",
+            "R:Ừ. Để ý xem họ dẫm vào đâu khi tránh."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-Q1-READ_PATH-X01",
+              "speaker_id": "VLA-09",
+              "text_vi": "Người đi qua đoạn này cứ né ra ngoài.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q1-READ_PATH-X02",
+              "speaker_id": "A",
+              "text_vi": "Vì cành khô nằm ngang lối à?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q1-READ_PATH-X03",
+              "speaker_id": "VLA-09",
+              "text_vi": "Ừ. Để ý xem họ dẫm vào đâu khi tránh.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "CLEAR_MINIMAL",
+          "action_vi": "Chọn dời nhánh khô duy nhất đang cản bước vào chỗ an toàn; nếu chọn dọn cả bụi cỏ, Rowan ngăn lại và hỏi liệu có thật cần không.",
+          "result_vi": "Nhánh được dời; vạt hoa giữ nguyên. Lựa chọn dọn quá rộng chỉ kích hoạt trao đổi rồi được điều chỉnh, không cho xóa sinh cảnh bằng một nút bấm.",
+          "talk": [
+            "A:Chỉ dời cành này là đủ chỗ đi.",
+            "R:Đúng. Cỏ bên kia không ngăn ai cả.",
+            "A:Vậy cứ để nó mọc."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-Q1-CLEAR_MINIMAL-X01",
+              "speaker_id": "A",
+              "text_vi": "Chỉ dời cành này là đủ chỗ đi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q1-CLEAR_MINIMAL-X02",
+              "speaker_id": "VLA-09",
+              "text_vi": "Đúng. Cỏ bên kia không ngăn ai cả.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q1-CLEAR_MINIMAL-X03",
+              "speaker_id": "A",
+              "text_vi": "Vậy cứ để nó mọc.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "WALK_TEST",
+          "action_vi": "Đi thử qua lối vừa sửa từ hai đầu đường, kiểm có đủ chỗ tránh một vật cản nhỏ; quay lại trao đổi với Rowan.",
+          "result_vi": "Lối vẫn nối rừng và làng, người chơi có thể đi bình thường; hoàn thành chỉ sau khi đã thử đường.",
+          "talk": [
+            "R:Giờ đi thử đi.",
+            "A:Qua được rồi, không phải giẫm lên hoa.",
+            "R:Vậy là đủ rồi."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-Q1-WALK_TEST-X01",
+              "speaker_id": "VLA-09",
+              "text_vi": "Giờ đi thử đi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q1-WALK_TEST-X02",
+              "speaker_id": "A",
+              "text_vi": "Qua được rồi, không phải giẫm lên hoa.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q1-WALK_TEST-X03",
+              "speaker_id": "VLA-09",
+              "text_vi": "Vậy là đủ rồi.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "clear_only_branch",
+          "label_vi": "Chỉ dọn thứ chắn lối",
+          "consequence_vi": "Rowan nhận ra A cân nhắc sự sống quanh đường."
+        },
+        {
+          "id": "suggest_wide_clear",
+          "label_vi": "Đề nghị dọn rộng hơn",
+          "consequence_vi": "Rowan giải thích vì sao chưa cần; A vẫn có thể chọn cách phù hợp và hoàn thành, không bị trừ điểm nặng."
+        },
+        {
+          "id": "walk_round_first",
+          "label_vi": "Thử đi vòng trước khi dọn",
+          "consequence_vi": "Nếu đoạn vòng không tiện, dời cành vẫn là cách tối thiểu."
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "environment_vi": "Một đoạn lối đi rõ hơn nhưng không trơ đất.",
+          "return_line_vi": "Đoạn hôm trước cậu cùng xem vẫn dễ đi. Hoa cũng không bị giẫm thêm."
+        },
+        "resolved_without_player": {
+          "environment_vi": "Rowan tự dọn phần vướng nhỏ nhất.",
+          "return_line_vi": "Tôi tự dời cành hôm đó. Đường thông là được."
+        },
+        "declined": {
+          "npc_continues_life": true,
+          "may_reoffer_if_context_remains": true
+        },
+        "in_progress": {
+          "can_leave_and_return": true,
+          "do_not_credit_before_completion": true
+        }
+      },
+      "ordinary_routine_after_vi": "Rowan lại tuần đường, xem cây, nghỉ chân; không tự bật nhiệm vụ mới khi A vừa quay lại.",
+      "required_completion": [
+        "quest_accepted_by_player",
+        "three_gameplay_beats_or_equivalent_actions_done",
+        "npc_confirmed_success"
+      ],
+      "no_deadline": true
+    },
+    {
+      "quest_id": "VLA09-Q2",
+      "title_vi": "Một đường vòng nhỏ",
+      "context_vi": "Khúc đường rìa Làng A có một góc đất ẩm và vạt hoa dại, đều nằm trong vùng đã được mở đi lại",
+      "ambient_cue_vi": "Rowan quan sát dấu chân đã đi lệch sang chỗ hoa vì tránh một vệt đất ẩm; ông chưa đặt biển cấm hay đóng lối.",
+      "story_source_summary_vi": "Người đi thường tránh một góc ẩm, làm đất cạnh vạt hoa dại bị giẫm.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA09-Q2-O1",
+        "player_acceptance": "VLA09-Q2-A1",
+        "completion_after_real_action": "VLA09-Q2-C1",
+        "refusal": "VLA09-Q2-D1"
+      },
+      "gating": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA09-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_approved": false,
+        "player_initiates": true,
+        "needs_npc_available_context": true,
+        "not_same_visit_as_last_quest": true
+      },
+      "beats": [
+        {
+          "id": "COMPARE",
+          "action_vi": "A đi thử/quan sát hai lựa chọn đã có: đường ngắn gần vệt ẩm và đường vòng khô hơn; kiểm xem hướng nào an toàn mà ít đụng hoa.",
+          "result_vi": "Thấy dấu giày trượt ở mép đất ẩm và vùng hoa dại dễ bị dẫm. Không đặt bẫy khiến A bắt buộc trượt ngã.",
+          "talk": [
+            "R:Chỗ đất này cứ mềm ra khi có người đi nhiều.",
+            "A:Nên họ tránh sang phía hoa.",
+            "R:Ừ. Cần một lối dễ hiểu hơn, không phải chặn hết đường."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-Q2-COMPARE-X01",
+              "speaker_id": "VLA-09",
+              "text_vi": "Chỗ đất này cứ mềm ra khi có người đi nhiều.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-COMPARE-X02",
+              "speaker_id": "A",
+              "text_vi": "Nên họ tránh sang phía hoa.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-COMPARE-X03",
+              "speaker_id": "VLA-09",
+              "text_vi": "Ừ. Cần một lối dễ hiểu hơn, không phải chặn hết đường.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "CHOOSE_ROUTE",
+          "action_vi": "Chọn dẫn người đi theo dải đất khô (dù vòng một chút) hoặc giữ lối ngắn khi điều kiện đủ an toàn và làm rõ phần mép cần tránh. Nếu chọn lối không an toàn, Rowan gợi ý xem lại.",
+          "result_vi": "Đường đi có dấu định hướng nhẹ, không mở khóa khu bản đồ hay tự sinh tuyến giao hàng.",
+          "talk": [
+            "A:Phía này khô hơn. Đi vòng một đoạn thôi.",
+            "R:Không hẳn ai cũng thích đường dài.",
+            "A:Nhưng người ta sẽ nhìn ra nơi nên đặt chân.",
+            "R:Ừ, thế quan trọng hơn."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-Q2-CHOOSE_ROUTE-X01",
+              "speaker_id": "A",
+              "text_vi": "Phía này khô hơn. Đi vòng một đoạn thôi.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-CHOOSE_ROUTE-X02",
+              "speaker_id": "VLA-09",
+              "text_vi": "Không hẳn ai cũng thích đường dài.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-CHOOSE_ROUTE-X03",
+              "speaker_id": "A",
+              "text_vi": "Nhưng người ta sẽ nhìn ra nơi nên đặt chân.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-CHOOSE_ROUTE-X04",
+              "speaker_id": "VLA-09",
+              "text_vi": "Ừ, thế quan trọng hơn.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "MARK",
+          "action_vi": "Cùng Rowan đặt một dấu chỉ hướng tạm bằng vật liệu đã có/được phép hoặc chỉ chỉnh lại nhánh cây báo mép, rồi thử đi từ hai đầu.",
+          "result_vi": "Giữ vạt hoa, lối dùng được. Không gọi đây là biển báo của cả làng nếu chưa được chốt vật liệu.",
+          "talk": [
+            "R:Đứng ở đầu kia nhìn xem có hiểu hướng đi không.",
+            "A:Thấy rồi. Không cần làm dấu to quá.",
+            "R:Đúng. Chỉ cần người đi chú ý chút."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-Q2-MARK-X01",
+              "speaker_id": "VLA-09",
+              "text_vi": "Đứng ở đầu kia nhìn xem có hiểu hướng đi không.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-MARK-X02",
+              "speaker_id": "A",
+              "text_vi": "Thấy rồi. Không cần làm dấu to quá.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-Q2-MARK-X03",
+              "speaker_id": "VLA-09",
+              "text_vi": "Đúng. Chỉ cần người đi chú ý chút.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "dry_detour",
+          "label_vi": "Chọn lối khô vòng nhẹ",
+          "consequence_vi": "Vạt hoa được giữ, ít có nguy cơ đi lạc mép đất ẩm."
+        },
+        {
+          "id": "short_safe_edge",
+          "label_vi": "Giữ đường ngắn nhưng chỉ rõ mép an toàn",
+          "consequence_vi": "Cần Rowan xác nhận mặt đất đủ vững; nếu không đủ thì chọn lại, không xem đó là lựa chọn sai đạo đức."
+        },
+        {
+          "id": "ask_rowan_about_wildflowers",
+          "label_vi": "Hỏi vì sao nên giữ hoa",
+          "consequence_vi": "Rowan chia sẻ suy nghĩ thực tế về sinh cảnh, không mở bí mật giấc mơ hay hệ săn bắn."
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "environment_vi": "Dấu lối đi tự nhiên thay đổi nhẹ, không cần phá cây hàng loạt.",
+          "return_line_vi": "Dấu rẽ hôm trước vẫn đủ để mọi người chọn đường khô. Hoa không bị đạp thành lối mới nữa."
+        },
+        "resolved_without_player": {
+          "environment_vi": "Rowan tự hướng người qua đoạn khô và chờ đất hồi phục.",
+          "return_line_vi": "Tôi tự gợi một lối qua đoạn khô. Cứ để đất ẩm hồi lại đã."
+        },
+        "declined": {
+          "npc_continues_life": true,
+          "may_reoffer_if_context_remains": true
+        },
+        "in_progress": {
+          "can_leave_and_return": true,
+          "do_not_credit_before_completion": true
+        }
+      },
+      "ordinary_routine_after_vi": "Rowan đi kiểm lại con đường như thường. Không biến mọi lần mưa thành nhiệm vụ sửa đường; chưa quy định hệ thời tiết cho vùng.",
+      "required_completion": [
+        "quest_accepted_by_player",
+        "three_gameplay_beats_or_equivalent_actions_done",
+        "npc_confirmed_success"
+      ],
+      "no_deadline": true
+    },
+    {
+      "quest_id": "VLA09-QF",
+      "title_vi": "Con đường mọi người cùng giữ",
+      "context_vi": "Một góc quen cạnh lối đi chung với ba điểm nhỏ cần bảo dưỡng, không phải bảng nhiệm vụ vô tận",
+      "ambient_cue_vi": "Rowan xem ba dấu ghi chép: cành chắn lối, đất mềm và hoa mọc sát vệt đi. Ông muốn cách để mọi người tự chú ý mà không làm người khác phụ thuộc vào ông.",
+      "story_source_summary_vi": "Rowan muốn để người dân tự chăm con đường thay vì cứ đợi một mình ông.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA09-QF-O1",
+        "player_acceptance": "VLA09-QF-A1",
+        "completion_after_real_action": "VLA09-QF-C1",
+        "refusal": "VLA09-QF-D1"
+      },
+      "gating": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA09-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_approved": false,
+        "player_initiates": true,
+        "needs_npc_available_context": true,
+        "not_same_visit_as_last_quest": true
+      },
+      "beats": [
+        {
+          "id": "SURVEY",
+          "action_vi": "A cùng Rowan đi xem ba điểm nằm trong vùng quen thuộc, xác định điểm cần can thiệp sớm và điểm chỉ cần quan sát.",
+          "result_vi": "Ba điểm được đánh dấu trạng thái tương ứng; không yêu cầu dọn sạch cả con đường.",
+          "talk": [
+            "R:Tôi cứ đi một vòng rồi lại thấy mình phải làm hết.",
+            "A:Mấy điểm này đâu có giống nhau.",
+            "R:Ừ. Có chỗ cần dọn, có chỗ chỉ cần để mắt."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-QF-SURVEY-X01",
+              "speaker_id": "VLA-09",
+              "text_vi": "Tôi cứ đi một vòng rồi lại thấy mình phải làm hết.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-SURVEY-X02",
+              "speaker_id": "A",
+              "text_vi": "Mấy điểm này đâu có giống nhau.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-SURVEY-X03",
+              "speaker_id": "VLA-09",
+              "text_vi": "Ừ. Có chỗ cần dọn, có chỗ chỉ cần để mắt.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "DESCRIBE",
+          "action_vi": "Chọn cách ghi hướng dẫn thật ngắn theo tình huống: 'dời cành chắn lối', 'đi qua chỗ khô', 'chừa hoa dại'. Có thể chọn ký hiệu tối giản thay cho bảng to.",
+          "result_vi": "Ghi chú/ký hiệu xuất hiện ở góc chung nếu địa điểm được duyệt; không mọc bảng quest tự động trên đầu dân làng.",
+          "talk": [
+            "A:Không cần ghi ai phải làm cả. Chỉ ghi điều nên chú ý.",
+            "R:Cậu nghĩ người khác sẽ xem chứ?",
+            "A:Nếu dễ hiểu và không bắt buộc thì có người sẽ xem.",
+            "R:Vậy thử như thế."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-QF-DESCRIBE-X01",
+              "speaker_id": "A",
+              "text_vi": "Không cần ghi ai phải làm cả. Chỉ ghi điều nên chú ý.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-DESCRIBE-X02",
+              "speaker_id": "VLA-09",
+              "text_vi": "Cậu nghĩ người khác sẽ xem chứ?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-DESCRIBE-X03",
+              "speaker_id": "A",
+              "text_vi": "Nếu dễ hiểu và không bắt buộc thì có người sẽ xem.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-DESCRIBE-X04",
+              "speaker_id": "VLA-09",
+              "text_vi": "Vậy thử như thế.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "DO_ONE",
+          "action_vi": "A chủ động dời một nhánh nhỏ chắn bước hoặc chỉnh lại dấu lối ở một điểm; Rowan tự xử lý phần còn lại và không giao hàng loạt việc cho người chơi.",
+          "result_vi": "Một thay đổi thực ở đường và một hướng dẫn cộng đồng nhỏ. Rowan không cần lúc nào cũng đứng canh đường.",
+          "talk": [
+            "R:Cậu chọn làm một điểm thôi à?",
+            "A:Ừ. Còn lại để ai thấy cần thì góp tay.",
+            "R:Tôi đã quen tự mình lo nhiều quá.",
+            "A:Nhưng đường này đâu phải của riêng ông."
+          ],
+          "lines": [
+            {
+              "id": "VLA09-QF-DO_ONE-X01",
+              "speaker_id": "VLA-09",
+              "text_vi": "Cậu chọn làm một điểm thôi à?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-DO_ONE-X02",
+              "speaker_id": "A",
+              "text_vi": "Ừ. Còn lại để ai thấy cần thì góp tay.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-DO_ONE-X03",
+              "speaker_id": "VLA-09",
+              "text_vi": "Tôi đã quen tự mình lo nhiều quá.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA09-QF-DO_ONE-X04",
+              "speaker_id": "A",
+              "text_vi": "Nhưng đường này đâu phải của riêng ông.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "simple_signs",
+          "label_vi": "Chỉ ghi những điều cần nhớ",
+          "consequence_vi": "Rowan thấy hướng dẫn dễ hiểu, không biến đường rừng thành bảng quảng cáo."
+        },
+        {
+          "id": "clear_one_urgent_point",
+          "label_vi": "Ưu tiên chỗ dễ vấp",
+          "consequence_vi": "Một điểm được sửa, hai điểm còn lại chỉ ghi nhận; không khóa tiến trình."
+        },
+        {
+          "id": "observe_before_clearing",
+          "label_vi": "Giữ nguyên nơi cây không chắn đường",
+          "consequence_vi": "Rowan tin A phân biệt giữa cần chăm và cần để yên."
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "environment_vi": "Đường rừng có dấu chăm sóc nhỏ từ cộng đồng; Rowan không còn thấy mình phải làm mọi việc.",
+          "return_line_vi": "Tôi thấy có người tự dời một nhánh vướng. Cái ghi chú nhỏ có ích đấy."
+        },
+        "resolved_without_player": {
+          "environment_vi": "Rowan ghi lại các điểm cần chăm, nhờ ai rảnh tự nguyện tham gia.",
+          "return_line_vi": "Tôi đã ghi lại vài chỗ cần chăm. Có người rảnh thì họ tự giúp, không phải chờ tôi."
+        },
+        "declined": {
+          "npc_continues_life": true,
+          "may_reoffer_if_context_remains": true
+        },
+        "in_progress": {
+          "can_leave_and_return": true,
+          "do_not_credit_before_completion": true
+        }
+      },
+      "ordinary_routine_after_vi": "Rowan tiếp tục giữ lối đi, quan sát thiên nhiên, thỉnh thoảng nghỉ; không trở thành người quản lý săn bắn hoặc lãnh đạo làng.",
+      "required_completion": [
+        "quest_accepted_by_player",
+        "three_gameplay_beats_or_equivalent_actions_done",
+        "npc_confirmed_success"
+      ],
+      "no_deadline": true
+    }
+  ],
+  "interludes": [
+    {
+      "id": "VLA09-IL1",
+      "between": "Q1_to_Q2",
+      "trigger": "first_distinct_nonquest_return_after_Q1_resolution",
+      "topic": "Đi qua lối quen",
+      "talk": [
+        "R:Đi qua đoạn đường ấy rồi à?",
+        "A:Ừ, không còn phải bước vòng.",
+        "R:Tốt. Để xem cây ở mép đường hồi lại thế nào."
+      ],
+      "flag": "VLA09.nonquest_meetups_after_Q1",
+      "lines": [
+        {
+          "id": "VLA09-IL1-X01",
+          "speaker_id": "VLA-09",
+          "text_vi": "Đi qua đoạn đường ấy rồi à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-IL1-X02",
+          "speaker_id": "A",
+          "text_vi": "Ừ, không còn phải bước vòng.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-IL1-X03",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tốt. Để xem cây ở mép đường hồi lại thế nào.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA09-IL2",
+      "between": "Q2_to_QF",
+      "trigger": "first_distinct_nonquest_return_after_Q2_resolution",
+      "topic": "Sau một lượt kiểm đường",
+      "talk": [
+        "A:Hôm nay ông đi xem đường à?",
+        "R:Ừ. Có vài chỗ cứ để nguyên là tốt nhất.",
+        "A:Không phải cái gì cũng cần dọn nhỉ."
+      ],
+      "flag": "VLA09.nonquest_meetups_after_Q2",
+      "lines": [
+        {
+          "id": "VLA09-IL2-X01",
+          "speaker_id": "A",
+          "text_vi": "Hôm nay ông đi xem đường à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-IL2-X02",
+          "speaker_id": "VLA-09",
+          "text_vi": "Ừ. Có vài chỗ cứ để nguyên là tốt nhất.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-IL2-X03",
+          "speaker_id": "A",
+          "text_vi": "Không phải cái gì cũng cần dọn nhỉ.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA09-IL3",
+      "between": "Q2_to_QF",
+      "trigger": "second_distinct_nonquest_return_after_Q2_resolution",
+      "topic": "Đứng ngắm hoa",
+      "talk": [
+        "R:Hoa ở mép này bắt đầu mở rồi.",
+        "A:Tôi suýt không để ý.",
+        "R:Vì người ta hay chỉ nhìn nơi mình định bước. Tôi cũng từng thế."
+      ],
+      "flag": "VLA09.nonquest_meetups_after_Q2",
+      "lines": [
+        {
+          "id": "VLA09-IL3-X01",
+          "speaker_id": "VLA-09",
+          "text_vi": "Hoa ở mép này bắt đầu mở rồi.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-IL3-X02",
+          "speaker_id": "A",
+          "text_vi": "Tôi suýt không để ý.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-IL3-X03",
+          "speaker_id": "VLA-09",
+          "text_vi": "Vì người ta hay chỉ nhìn nơi mình định bước. Tôi cũng từng thế.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA09-BOND",
+      "between": "Q2_to_QF",
+      "trigger": "player_selects_personal_topic_after_Q2_resolved_on_nonquest_visit",
+      "topic": "Một chuyện Rowan từng làm",
+      "talk": [
+        "R:Hồi trước tôi cứ nghĩ đường càng sạch càng tốt.",
+        "A:Rồi ông đổi ý à?",
+        "R:Tôi dọn cả những bụi hoa không chắn ai. Sau mới thấy đường vắng vẻ hẳn.",
+        "A:Bây giờ ông chỉ dọn phần cần thiết.",
+        "R:Ừ. Phải đi chậm lại mới biết nên giữ thứ gì."
+      ],
+      "flag": "VLA09.personal_bond_event_seen",
+      "lines": [
+        {
+          "id": "VLA09-BOND-X01",
+          "speaker_id": "VLA-09",
+          "text_vi": "Hồi trước tôi cứ nghĩ đường càng sạch càng tốt.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-BOND-X02",
+          "speaker_id": "A",
+          "text_vi": "Rồi ông đổi ý à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-BOND-X03",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tôi dọn cả những bụi hoa không chắn ai. Sau mới thấy đường vắng vẻ hẳn.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-BOND-X04",
+          "speaker_id": "A",
+          "text_vi": "Bây giờ ông chỉ dọn phần cần thiết.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-BOND-X05",
+          "speaker_id": "VLA-09",
+          "text_vi": "Ừ. Phải đi chậm lại mới biết nên giữ thứ gì.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": true,
+      "not_a_quest": true
+    },
+    {
+      "id": "VLA09-POST",
+      "between": "after_QF",
+      "trigger": "normal_return_after_final_quest_resolved",
+      "topic": "Công việc vẫn tiếp tục",
+      "talk": [
+        "R:Cậu đi về phía rừng à?",
+        "A:Ừ, tôi muốn nhìn thêm chút.",
+        "R:Đường vẫn thông. Cứ nhìn hai bên, có nhiều thứ đáng xem."
+      ],
+      "flag": null,
+      "lines": [
+        {
+          "id": "VLA09-POST-X01",
+          "speaker_id": "VLA-09",
+          "text_vi": "Cậu đi về phía rừng à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-POST-X02",
+          "speaker_id": "A",
+          "text_vi": "Ừ, tôi muốn nhìn thêm chút.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA09-POST-X03",
+          "speaker_id": "VLA-09",
+          "text_vi": "Đường vẫn thông. Cứ nhìn hai bên, có nhiều thứ đáng xem.",
+          "status": "draft"
+        }
+      ],
+      "once_per_distinct_visit": false,
+      "not_a_quest": true
+    }
+  ]
+}
