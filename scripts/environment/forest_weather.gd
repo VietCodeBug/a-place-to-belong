@@ -222,7 +222,7 @@ func update_environment(delta: float) -> void:
 			var focus: Vector3 = camera.global_position - camera.global_basis.z * 11.5
 			var lateral_limit := 22.0 if focus.z < 24.0 else ForestLandscape.VALLEY_HALF_WIDTH - 2.0
 			var x := clampf(focus.x,-lateral_limit,lateral_limit)
-			var z := clampf(focus.z,-22.0,ForestLandscape.VALLEY_END-2.0)
+			var z := clampf(focus.z,ForestLandscape.WOODLAND_START+2.0,ForestLandscape.VALLEY_END-2.0)
 			var floor_y := ForestLandscape.height_at(x,z)
 			var clamped := Vector3(x,floor_y+9.2,z)
 			rain.global_position = clamped

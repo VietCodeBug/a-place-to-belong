@@ -1,6 +1,7 @@
 extends Node3D
 
 const BOTANY = preload("res://scripts/world/a1_botany.gd")
+const VILLAGE_PLAN = preload("res://scripts/world/village_a_layout.gd")
 const VILLAGE = preload("res://scripts/world/village_a.gd")
 const L = preload("res://scripts/world/landscape.gd")
 const S = preload("res://scripts/world/shapes.gd")
@@ -203,13 +204,20 @@ func build_bridge() -> void:
 			S.beam(bridge, Vector3(x,y,z), Vector3(x,next_y,z+0.81), 0.28, "795738")
 
 func build_house_grove() -> void:
-	# Three groups frame the private clearing and leave the front path open.
-	for entry in [["BirchTree_2",7.3,8.5,9.8],["BirchTree_5",8.8,7.1,7.3],
-		["NormalTree_3",17.3,9.9,9.7],["PineTree_1",18.3,15.6,13.4],
-		["PineTree_2",20.1,18.6,11.6],["PineTree_5",17.2,19.6,9.4],
-		["NormalTree_4",11.5,20.7,8.5],["BirchTree_3",9.7,21.5,7.4]]:
+	for entry in [["BirchTree_2",12.0,-90.2,9.8],["NormalTree_3",20.3,-89,9.7],
+		["PineTree_1",21,-82,13.4],["PineTree_2",19.5,-77.5,11.6],
+		["NormalTree_4",13.5,-76,11.8],["BirchTree_3",3.0,-80,10.4]]:
 		habitat_trees.append(BOTANY.place_tree(self,entry[0],ground(entry[1],entry[2]),entry[3],entry[1]))
-	for entry in [[7.1,11.6,1.28],[7.7,11.15,.67],[13.1,19.4,1.82],[14.1,19.65,.96],[16.9,11.5,1.28]]:
+	for i in range(1,11):
+		var center: Vector2 = VILLAGE_PLAN.HOUSE_APPROACH[i]
+		for j in range(4):
+			var side := -1.0 if j<2 else 1.0
+			var spot := center + Vector2(side*(3.4+j%2*3.1),sin(i*2.2+j)*2.5)
+			if ForestFloorDesign.reserved(spot,1.4) or absf(spot.x)>=23.2:
+				continue
+			var id: String = ["PineTree_2","BirchTree_2","NormalTree_3","PineTree_5"][(i+j)%4]
+			habitat_trees.append(BOTANY.place_tree(self,id,ground(spot.x,spot.y),8.7+float((i+j)%5),i+j))
+	for entry in [[11.4,-87.1,1.28],[12.2,-87.6,.67],[16.2,-77.6,1.82],[17.1,-77.9,.96]]:
 		BOTANY.place_stone(self,ground(entry[0],entry[1]),entry[2],entry[0],entry[2]>1.5)
 
 func build_groves() -> void:

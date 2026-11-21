@@ -50,7 +50,8 @@ func _ready() -> void:
 	player.name = "Player"
 	add_child(player)
 	place_house_a()
-	player.position = ground(9.5,14.2,0.15)
+	var spawn: Vector2 = VILLAGE.HOUSE_APPROACH[0]
+	player.position = ground(spawn.x,spawn.y,0.15)
 	player.floor_snap_length = 0.45
 	var valley := preload("res://scripts/world/a1_valley.gd").new()
 	valley.name = "A1RiverValley"

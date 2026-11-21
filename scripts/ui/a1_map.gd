@@ -3,7 +3,7 @@ extends Control
 const L = preload("res://scripts/world/landscape.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
 const VILLAGE = preload("res://scripts/world/village_a_layout.gd")
-const MAP_CENTER_Z := (L.VALLEY_END - 24.0) * .5
+const MAP_CENTER_Z := (L.VALLEY_END + L.WOODLAND_START) * .5
 const PLACES := [
 	[VILLAGE.HOUSE_A, "House A", "Nhà A"],
 	[Vector2(0, -3), "Forest clearing", "Khoảng rừng"],
@@ -36,7 +36,7 @@ func point(at: Vector2) -> Vector2:
 	return size * 0.5 + pan + Vector2(at.x, MAP_CENTER_Z - at.y) * map_scale()
 
 func map_scale() -> float:
-	return minf(size.x / 150.0, size.y / 263.0) * zoom
+	return minf(size.x / 150.0, size.y / 330.0) * zoom
 
 func center_on_player() -> void:
 	pan = -Vector2(player.position.x, MAP_CENTER_Z - player.position.z) * map_scale()
@@ -56,7 +56,7 @@ func _gui_input(event: InputEvent) -> void:
 func _draw() -> void:
 	var paper := Color("e6d7ad")
 	draw_rect(Rect2(Vector2.ZERO, size), paper)
-	for z in range(-24, L.VALLEY_END, 4):
+	for z in range(L.WOODLAND_START, L.VALLEY_END, 4):
 		var span := 24 if z < 24 else L.VALLEY_HALF_WIDTH
 		for x in range(-span, span, 4):
 			var elevation := L.height_at(x + 2.0, z + 2.0)

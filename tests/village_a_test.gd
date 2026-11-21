@@ -73,7 +73,7 @@ func run() -> void:
 		var right := LAND.height_at(spot.x+2.0,spot.y)
 		check(LAND.height_at(spot.x,spot.y) < (left+right)*.5-.045,"Road hollow must depress the collision surface.")
 
-	check(hub.has_node("ForestHouseA") and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 100.0, "House A should precede the village.")
+	check(hub.has_node("ForestHouseA") and PLAN.HOUSE_A.distance_to(PLAN.COMMON) > 200.0, "House A should precede the village.")
 	for season in range(4):
 		valley.set_season_palette(season)
 		check(meadow.visible == (season != 3), "The original meadow must follow winter visibility.")

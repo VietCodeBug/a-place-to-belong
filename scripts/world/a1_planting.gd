@@ -7,6 +7,12 @@ const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const DIR := "res://assets/vegetation/a1_gardens/"
 const KENNEY := "res://assets/vendor/kenney/nature/"
 const WILD := [
+	[Vector2(12.4,-85.5),["Flower_1","Flower_5_Clump","Bush_Small_Flowers"]],
+	[Vector2(9.4,-86.0),["Flower_2","Flower_3_Clump","Flower_5_Clump"]],
+	[Vector2(8.3,-75.1),["Flower_1","flower_yellowA","Plant_Flowers"]],
+	[Vector2(8.6,-64.2),["Flower_3_Clump","Flower_5_Clump","flower_purpleB"]],
+	[Vector2(19.5,-52.7),["Flower_2","Flower_3_Clump","Flower_4_Clump"]],
+
 	[Vector2(7.35,12.45),["Flower_1","Flower_3_Clump","Bush_Small_Flowers"]],
 	[Vector2(11.55,17.0),["Flower_2","Flower_5_Clump","Flower_3_Clump"]],
 	[Vector2(-6.35,16.2),["Plant_Flowers","flower_yellowA","flower_purpleB"]],
@@ -50,13 +56,31 @@ func build_verge_cover() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 27184
 	var village := get_parent().get_node("VillageA")
+	for segment in range(PLAN.HOUSE_APPROACH.size()-1):
+		var a: Vector2 = PLAN.HOUSE_APPROACH[segment]
+		var b: Vector2 = PLAN.HOUSE_APPROACH[segment+1]
+		var side := (b-a).normalized().orthogonal()
+		var carpet: Array[Vector3] = []
+		for i in range(ceili(a.distance_to(b)*28.0)):
+			var offset := rng.randf_range(1.53,4.25) * (-1.0 if i%2==0 else 1.0)
+			var p := a.lerp(b,rng.randf())+side*offset
+			if absf(p.x)<23.3 and p.y>L.WOODLAND_START and not ForestFloorDesign.reserved(p,.19):
+				carpet.append(position_on_ground(p,-.008))
+		var patch := A.grass_batch(self,carpet,segment+803,42.0,.16)
+		verge_cover.append(patch)
+	var house_carpet: Array[Vector3] = []
+	for i in range(720):
+		var p := PLAN.HOUSE_A + Vector2(rng.randf_range(-8.4,6.3),rng.randf_range(-6.8,7.1))
+		if not ForestFloorDesign.reserved(p,.13):
+			house_carpet.append(position_on_ground(p,-.006))
+	verge_cover.append(A.grass_batch(self,house_carpet,6701,40.0,.12))
 	for band in [32,52,71,90,107,128,148,169]:
 		var cover: Array[Vector3] = []
-		for i in range(196):
+		for i in range(240):
 			var z: float = band + rng.randf_range(-6.2,7.0)
 			var offset := rng.randf_range(2.75,5.30) * (-1.0 if i%2==0 else 1.0)
 			var p := Vector2(L.valley_path(z)+offset,z)
-			if sin(z*.75 + offset*.9)+cos(z*.28-offset*1.9) < -.07:
+			if sin(z*.29 + offset*.46)+cos(z*.15-offset*.51) < -1.13:
 				continue
 			if absf(p.y-L.river_center(p.x))<6.4:
 				continue
@@ -77,7 +101,7 @@ func flowers(parent: Node3D, season: int) -> void:
 		var center: Vector2 = cluster[0]
 		var id: String = cluster[1][[2,0,1][season]]
 		var poses: Array[Transform3D] = []
-		for i in range(3 if season==0 else 5):
+		for i in range(5 if season==0 else 8):
 			var p := center+Vector2(rng.randfn(0,.34),rng.randfn(0,.32))
 			if absf(p.x)>38.0 or p.y<23 and ForestFloorDesign.reserved(p,.16):
 				continue
@@ -88,7 +112,7 @@ func flowers(parent: Node3D, season: int) -> void:
 			poses.append(pose(p,.007,rng.randf_range(.70,1.19),rng.randf()*TAU))
 		var kenney := id.begins_with("flower_")
 		var folder := KENNEY if kenney else A.DIR if id=="Flower_4_Clump" else DIR
-		batch(parent,id,folder,.23 if season!=2 else .32,poses,not kenney,38.0)
+		batch(parent,id,folder,.29 if season!=2 else .39,poses,not kenney,38.0)
 
 func crops(parent: Node3D, season: int) -> void:
 	var garden := Node3D.new()

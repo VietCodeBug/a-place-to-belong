@@ -3,6 +3,8 @@ extends Camera3D
 ## the café, winding path, character, woodland crowns, stylized sky, and distant ridges.
 ## Also supports seamless live 3D scenic framing for the Title Menu.
 
+const PLAN = preload("res://scripts/world/village_a_layout.gd")
+
 @export var target: Node3D
 var distance := 21.0
 var aim := Vector3.ZERO
@@ -18,12 +20,12 @@ func village_camera_blend() -> float:
 	return smoothstep(79.0, 100.0, target.position.z)
 
 func house_camera_blend() -> float:
-	return 1.0 - smoothstep(3.0,10.0,Vector2(target.position.x-10.0,target.position.z-14.2).length())
+	return 1.0 - smoothstep(3.0,10.0,Vector2(target.position.x,target.position.z).distance_to(PLAN.HOUSE_APPROACH[0]))
 
 func focus_position() -> Vector3:
 	if near_lodge():
-		return target.position + Vector3(-1.15, 2.65, -5.8).lerp(Vector3(3.0,2.3,-.5),house_camera_blend())
-	return target.position + Vector3(0.0, 1.55, lerpf(-0.8, 7.5, village_camera_blend()))
+		return target.position + Vector3(-1.15, 2.65, -5.8)
+	return target.position + Vector3(0.0, 1.55, lerpf(-0.8, 7.5, village_camera_blend())).lerp(Vector3(3.0,2.3,-.5),house_camera_blend())
 
 func desired_position() -> Vector3:
 	var length := distance + (1.2 if near_lodge() else 0.0)

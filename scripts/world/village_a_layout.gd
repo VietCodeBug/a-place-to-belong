@@ -18,10 +18,15 @@ const GARDEN := Vector2(-7.8,120)
 const COMMON := Vector2(5.2,128)
 const CRAFT := Vector2(16.1,128.1)
 const EXIT := Vector2(6.6,180.0)
-const HOUSE_A := Vector2(13.1,13.7)
+const HOUSE_A := Vector2(16,-84)
 const THOMAS := Vector2(-6.85,17.8)
 const THOMAS_APPROACH := [Vector2(-2.55,17.6),Vector2(-4.3,17.35),Vector2(-6.05,17.8)]
-const HOUSE_APPROACH := [Vector2(9.5,14.2), Vector2(6.9,14.9), Vector2(3.1,16.7), Vector2(-2.55,17.6)]
+const HOUSE_APPROACH := [
+	Vector2(12.4,-83.5), Vector2(8,-81), Vector2(6,-73), Vector2(11,-64),
+	Vector2(17,-54), Vector2(16,-44), Vector2(12,-36), Vector2(13,-26),
+	Vector2(15,-17), Vector2(14,-8), Vector2(12,2), Vector2(9,9),
+	Vector2(6.9,14.9), Vector2(3.1,16.7), Vector2(-2.55,17.6),
+]
 const LANES := [
 	[Vector2(3.1,110),Vector2(-3.2,111),Vector2(-9.2,113.3),Vector2(-10.4,117.8),Vector2(-9,123),Vector2(4.8,124)],
 	[Vector2(5.1,117),Vector2(10.3,117.2),Vector2(12.6,121.3),Vector2(14.2,126.4),Vector2(17.3,130.8),Vector2(14.2,137.8),Vector2(6,141)],
