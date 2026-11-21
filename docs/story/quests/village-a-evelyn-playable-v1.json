@@ -1,0 +1,647 @@
+{
+  "schema": "apb.playable_character_script.v1",
+  "character_id": "VLA-15",
+  "name_en_draft": "Evelyn",
+  "status": "draft_pending_creator_approval",
+  "geography": {
+    "village_source": "feature/village-a-world@9cf0f45",
+    "west_garden": "VILLAGE_A_WEST_GARDEN",
+    "lake_source": "feature/a1-superworld-slice@ab420bf",
+    "lake_status": "creator_approved",
+    "route": "village_to_lake_walkable",
+    "no_forced_swim": true,
+    "lake_side_npc_dialogue_status": "script_proposal_not_spawned"
+  },
+  "scope": "story_only",
+  "rules": {
+    "no_first_hello_quest": true,
+    "friendship_thresholds_proposed": [
+      20,
+      50,
+      80
+    ],
+    "requires_distinct_nonquest_meetups": true,
+    "requires_bond_before_final": true,
+    "explicit_acceptance_required": true,
+    "decline_or_self_resolution_allowed": true,
+    "lake_visit_optional_for_quest": true,
+    "no_required_new_items": true
+  },
+  "quests": [
+    {
+      "quest_id": "VLA15-Q1",
+      "title_vi": "Nhãn hạt còn thiếu",
+      "place_vi": "Vườn chung phía tây Làng A; hũ hạt và chỗ nhãn ngoài hiên gần vườn là đạo cụ gợi ý",
+      "ambient_vi": "Evelyn kiểm hai hũ cùng loại nắp; nhãn một hũ bị thiếu thông tin.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA15-Q1-O1",
+        "player_acceptance": "VLA15-Q1-A1",
+        "completion_after_real_action": "VLA15-Q1-C1",
+        "refusal": "VLA15-Q1-D1"
+      },
+      "gating": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_min_is_proposal": true,
+        "not_same_encounter_as_prior_quest": true
+      },
+      "beats": [
+        {
+          "id": "OBSERVE",
+          "action_vi": "Quan sát hai hũ, đối chiếu dạng hạt và nhãn đang có, không mở cùng lúc hay trộn giống.",
+          "dialogue": [
+            {
+              "id": "VLA15-Q1-OBSERVE-X1",
+              "speaker_id": "VLA-15",
+              "text_vi": "Hũ này thiếu một dòng, nên tôi chưa cất chung.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q1-OBSERVE-X2",
+              "speaker_id": "A",
+              "text_vi": "Bà có chắc hai hũ là một loại không?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q1-OBSERVE-X3",
+              "speaker_id": "VLA-15",
+              "text_vi": "Ta phải so trước, đừng dựa vào màu nắp.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "CHECK",
+          "action_vi": "Chọn xem nhãn hũ mẫu, hỏi lại Evelyn khi chưa rõ; nếu chọn đoán, bà hướng dẫn kiểm lại thay vì phạt.",
+          "dialogue": [
+            {
+              "id": "VLA15-Q1-CHECK-X1",
+              "speaker_id": "A",
+              "text_vi": "Tôi chưa biết ký hiệu này nghĩa là gì.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q1-CHECK-X2",
+              "speaker_id": "VLA-15",
+              "text_vi": "Thế thì hỏi. Ghi sai còn khổ hơn để trống.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q1-CHECK-X3",
+              "speaker_id": "A",
+              "text_vi": "Vậy tôi đối chiếu lại hũ bên cạnh.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "LABEL",
+          "action_vi": "Chọn thông tin đã xác nhận, gắn nhãn vào đúng một hũ rồi để Evelyn kiểm và cất lại.",
+          "dialogue": [
+            {
+              "id": "VLA15-Q1-LABEL-X1",
+              "speaker_id": "VLA-15",
+              "text_vi": "Đọc lại cho tôi nghe thử.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q1-LABEL-X2",
+              "speaker_id": "A",
+              "text_vi": "Tên giống và ngày ghi theo mẫu, còn phần chưa chắc tôi để trống.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q1-LABEL-X3",
+              "speaker_id": "VLA-15",
+              "text_vi": "Được. Một dòng đúng còn quý hơn đầy giấy đoán.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "verify",
+          "label_vi": "Đọc nhãn mẫu rồi ghi",
+          "effect_vi": "Evelyn nhớ A làm việc có căn cứ"
+        },
+        {
+          "id": "ask",
+          "label_vi": "Hỏi điều chưa biết",
+          "effect_vi": "Củng cố tin cậy vì không phỏng đoán"
+        },
+        {
+          "id": "guess",
+          "label_vi": "Đoán và sửa lại",
+          "effect_vi": "Evelyn gợi kiểm nhãn; không mất thiện cảm nặng"
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "result_vi": "Hũ có nhãn rõ; Evelyn đánh giá A biết không phỏng đoán.",
+          "return_vi": "Nhãn hũ cậu giúp ghi vẫn đọc rõ. Tôi đã để nó đúng chỗ."
+        },
+        "resolved_without_player": {
+          "result_vi": "Evelyn ghi lại sau khi tự kiểm.",
+          "return_vi": "Tôi đã tự đối chiếu rồi bổ sung nhãn. May mà không ghi vội."
+        }
+      },
+      "normal_life_after_vi": "Evelyn vẫn phân loại hạt và đi quan sát vườn; không tự phát Q2.",
+      "completion_requires": [
+        "player_accepts",
+        "gameplay_actions_done",
+        "npc_confirms"
+      ],
+      "can_pause_and_return": true
+    },
+    {
+      "quest_id": "VLA15-Q2",
+      "title_vi": "Trang ghi chép từ vườn",
+      "place_vi": "Vườn phía tây Làng A là điểm bắt buộc; bờ hồ A1 là nhánh quan sát tự chọn đã được người sáng tạo duyệt",
+      "ambient_vi": "Evelyn mở sổ, nhận ra phần ghi chép ngoài vườn đã cũ; A có thể xin ghi giúp. Nếu đã tìm được hồ, cô gợi ý quan sát so sánh ở bờ.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA15-Q2-O1",
+        "player_acceptance": "VLA15-Q2-A1",
+        "completion_after_real_action": "VLA15-Q2-C1",
+        "refusal": "VLA15-Q2-D1"
+      },
+      "gating": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA15-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_min_is_proposal": true,
+        "not_same_encounter_as_prior_quest": true
+      },
+      "beats": [
+        {
+          "id": "GARDEN",
+          "action_vi": "A ra vườn phía tây, chọn một luống công cộng, quan sát màu lá, độ ẩm đất và giai đoạn cây; ghi lại dữ kiện nhìn thấy.",
+          "dialogue": [
+            {
+              "id": "VLA15-Q2-GARDEN-X1",
+              "speaker_id": "A",
+              "text_vi": "Luống này đất ẩm, vài lá đã lớn hơn đợt trước.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-GARDEN-X2",
+              "speaker_id": "VLA-15",
+              "text_vi": "Ghi điều cậu thấy thôi. Đừng vội cho rằng mọi luống đều giống nhau.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-GARDEN-X3",
+              "speaker_id": "A",
+              "text_vi": "Được, tôi để phần suy đoán riêng.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "CHOOSE_ROUTE",
+          "action_vi": "Sau ghi vườn, A tự chọn quay lại Evelyn hoặc tiếp tục theo nhánh đã có sang bờ hồ. Không yêu cầu bơi/lặn, không mở khóa đường mới, không bắt lấy mẫu sinh vật.",
+          "dialogue": [
+            {
+              "id": "VLA15-Q2-CHOOSE_ROUTE-X1",
+              "speaker_id": "A",
+              "text_vi": "Tôi thấy trong bản đồ còn có bờ hồ.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-CHOOSE_ROUTE-X2",
+              "speaker_id": "VLA-15",
+              "text_vi": "Nếu cậu đã biết đường và muốn đi, thử ghi xem cỏ ven nước khác gì ở vườn.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-CHOOSE_ROUTE-X3",
+              "speaker_id": "A",
+              "text_vi": "Không cần mang gì về ạ?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-CHOOSE_ROUTE-X4",
+              "speaker_id": "VLA-15",
+              "text_vi": "Không. Một dòng quan sát đủ rồi.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "REPORT",
+          "action_vi": "A quay về qua tuyến tự chọn, đưa Evelyn bản ghi. Nếu đã ra hồ: thêm dữ kiện bờ cỏ/đá và nước nông, không khẳng định loài cụ thể. Nếu không: chỉ ghi vườn, quest vẫn hoàn thành.",
+          "dialogue": [
+            {
+              "id": "VLA15-Q2-REPORT-X1",
+              "speaker_id": "VLA-15",
+              "text_vi": "Cậu về rồi à? Có điều gì đáng nhớ?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-REPORT-X2",
+              "speaker_id": "A",
+              "text_vi": "Trong vườn cây mọc thành luống; ven nước thì đất và cỏ trông khác hẳn.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-Q2-REPORT-X3",
+              "speaker_id": "VLA-15",
+              "text_vi": "Cứ ghi thế. Đúng thứ cậu nhìn thấy là được.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "garden_only",
+          "label_vi": "Chỉ quan sát vườn rồi trở về",
+          "effect_vi": "Hoàn thành Q2, không ép khám phá hồ"
+        },
+        {
+          "id": "lake_extension",
+          "label_vi": "Đi thêm ra bờ hồ và ghi chép",
+          "effect_vi": "Evelyn nhớ A tò mò và tự tìm đường; mở lời thoại về hồ"
+        },
+        {
+          "id": "observe_no_collect",
+          "label_vi": "Quan sát ở bờ, không hái cây",
+          "effect_vi": "Không tạo vật phẩm/phá sinh cảnh hay yêu cầu xuống nước"
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "result_vi": "Sổ có một dòng quan sát mới, không xác định quy luật siêu nhiên hay lịch sử làng.",
+          "return_vi": "Trang cậu ghi làm tôi muốn ra vườn thêm một lượt. Nếu đã tới hồ, tôi còn muốn nghe chuyện bờ nước."
+        },
+        "resolved_without_player": {
+          "result_vi": "Evelyn tự đi kiểm một luống khi có thời gian.",
+          "return_vi": "Tôi đã tự ra vườn nhìn lại một luống. Ghi chép mới cũng đủ dùng."
+        }
+      },
+      "normal_life_after_vi": "Evelyn tiếp tục ghi mùa vụ; lời gặp lại có biến thể nếu A từng ghé hồ, và hồ vẫn mở cho người chơi dù không nhận nhiệm vụ.",
+      "completion_requires": [
+        "player_accepts",
+        "gameplay_actions_done",
+        "npc_confirms"
+      ],
+      "can_pause_and_return": true
+    },
+    {
+      "quest_id": "VLA15-QF",
+      "title_vi": "Một trang ai cũng có thể học",
+      "place_vi": "Kệ hạt và chỗ ghi nhãn cạnh vườn Làng A; không tự dựng thư viện hoặc phòng nghiên cứu mới",
+      "ambient_vi": "Evelyn muốn để lại một hướng dẫn ngắn giúp người khác tự phân loại hũ hạt mà không cần đợi bà.",
+      "base_dialogue_refs": {
+        "request_offered": "VLA15-QF-O1",
+        "player_acceptance": "VLA15-QF-A1",
+        "completion_after_real_action": "VLA15-QF-C1",
+        "refusal": "VLA15-QF-D1"
+      },
+      "gating": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA15-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_min_is_proposal": true,
+        "not_same_encounter_as_prior_quest": true
+      },
+      "beats": [
+        {
+          "id": "SELECT",
+          "action_vi": "Cùng Evelyn chọn ba điều thật sự hữu ích đã được kiểm: đọc nhãn trước khi mở, quan sát hạt trước khi cất và ghi điều chắc chắn.",
+          "dialogue": [
+            {
+              "id": "VLA15-QF-SELECT-X1",
+              "speaker_id": "VLA-15",
+              "text_vi": "Mấy cuốn ghi chép dày của tôi có lẽ làm người mới ngại đọc.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-SELECT-X2",
+              "speaker_id": "A",
+              "text_vi": "Vậy chọn ba việc họ có thể thử ngay.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-SELECT-X3",
+              "speaker_id": "VLA-15",
+              "text_vi": "Ừ. Không cần kể hết mọi thứ tôi từng làm.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "WRITE",
+          "action_vi": "A xếp thứ tự ba hướng dẫn ngắn và đối chiếu với hũ thực tế; nếu đã từng quan sát hồ, có thể thêm ví dụ phân biệt môi trường nhưng không xem quan sát hồ là kiến thức hạt giống.",
+          "dialogue": [
+            {
+              "id": "VLA15-QF-WRITE-X1",
+              "speaker_id": "A",
+              "text_vi": "Đầu tiên là đọc nhãn, rồi mới mở hũ.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-WRITE-X2",
+              "speaker_id": "VLA-15",
+              "text_vi": "Đúng. Còn khi không chắc?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-WRITE-X3",
+              "speaker_id": "A",
+              "text_vi": "Để riêng và hỏi lại. Không đoán.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-WRITE-X4",
+              "speaker_id": "VLA-15",
+              "text_vi": "Thế là rõ rồi.",
+              "status": "draft"
+            }
+          ]
+        },
+        {
+          "id": "TRY",
+          "action_vi": "Evelyn cùng A thử làm đúng ba bước với hũ mẫu, đặt tờ hướng dẫn vào kệ chung; không buộc NPC mới xuất hiện để kiểm thử.",
+          "dialogue": [
+            {
+              "id": "VLA15-QF-TRY-X1",
+              "speaker_id": "VLA-15",
+              "text_vi": "Cậu có thể làm theo tờ giấy mà không hỏi tôi không?",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-TRY-X2",
+              "speaker_id": "A",
+              "text_vi": "Được. Nó ghi rõ phải xem gì trước.",
+              "status": "draft"
+            },
+            {
+              "id": "VLA15-QF-TRY-X3",
+              "speaker_id": "VLA-15",
+              "text_vi": "Vậy là người khác cũng có thể tự học được.",
+              "status": "draft"
+            }
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "concise",
+          "label_vi": "Chỉ ghi ba bước dễ làm",
+          "effect_vi": "Hướng dẫn dễ đọc"
+        },
+        {
+          "id": "detailed",
+          "label_vi": "Viết dài rồi rút gọn khi thử",
+          "effect_vi": "Evelyn nhắc chia nhỏ thông tin"
+        },
+        {
+          "id": "mention_lake",
+          "label_vi": "Nếu đã đi hồ, thêm ghi chú so sánh vườn và bờ hồ ngoài phần hướng dẫn hạt",
+          "effect_vi": "Ghi nhận khám phá, không đổi điều kiện hoàn thành"
+        }
+      ],
+      "outcomes": {
+        "player_completed": {
+          "result_vi": "Kệ hạt có trang hướng dẫn dễ đọc, Evelyn tự tin trao lại kỹ năng chứ không giữ riêng.",
+          "return_vi": "Tờ hướng dẫn ở kệ vẫn có người xem. Có lẽ họ chẳng cần chờ tôi rảnh nữa."
+        },
+        "resolved_without_player": {
+          "result_vi": "Evelyn vẫn viết bản đơn giản để ở kệ.",
+          "return_vi": "Tôi tự viết bản ngắn và thử với một hũ. Hóa ra chừng ấy đã đủ."
+        }
+      },
+      "normal_life_after_vi": "Evelyn vẫn chăm hạt, dạo vườn, ngồi ghi chép; sau QF có thể trò chuyện về hồ hoặc mùa nếu người chơi chủ động.",
+      "completion_requires": [
+        "player_accepts",
+        "gameplay_actions_done",
+        "npc_confirms"
+      ],
+      "can_pause_and_return": true
+    }
+  ],
+  "interludes": [
+    {
+      "id": "VLA15-IL1",
+      "after": "after_Q1",
+      "location": "west_garden",
+      "condition": "distinct_nonquest_return_visit",
+      "flag": "nonquest_meetups_after_Q1",
+      "quest": false,
+      "dialogue": [
+        {
+          "id": "VLA15-IL1-X1",
+          "speaker_id": "VLA-15",
+          "text_vi": "Hôm qua tôi thấy một hũ bị đặt nhầm chỗ.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-IL1-X2",
+          "speaker_id": "A",
+          "text_vi": "Bà lại phải sửa nhãn ạ?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-IL1-X3",
+          "speaker_id": "VLA-15",
+          "text_vi": "Không. Chỉ cần nhìn rồi đặt đúng chỗ thôi.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA15-IL2",
+      "after": "after_Q2",
+      "location": "west_garden",
+      "condition": "distinct_nonquest_return_visit",
+      "flag": "nonquest_meetups_after_Q2",
+      "quest": false,
+      "dialogue": [
+        {
+          "id": "VLA15-IL2-X1",
+          "speaker_id": "A",
+          "text_vi": "Những luống ở vườn đổi khác nhanh thật.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-IL2-X2",
+          "speaker_id": "VLA-15",
+          "text_vi": "Mỗi lần quay lại cứ thử tìm một điều nhỏ khác hôm trước.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-IL2-X3",
+          "speaker_id": "A",
+          "text_vi": "Tôi sẽ nhìn chậm hơn.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA15-IL3",
+      "after": "after_Q2",
+      "location": "west_garden",
+      "condition": "distinct_nonquest_return_visit",
+      "flag": "nonquest_meetups_after_Q2",
+      "quest": false,
+      "dialogue": [
+        {
+          "id": "VLA15-IL3-X1",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi đang thử ghi ngắn hơn. Có lẽ người khác dễ đọc hơn.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-IL3-X2",
+          "speaker_id": "A",
+          "text_vi": "Bà vốn viết rất kỹ mà.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-IL3-X3",
+          "speaker_id": "VLA-15",
+          "text_vi": "Kỹ không nhất thiết phải dài.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA15-BOND",
+      "after": "after_Q2",
+      "location": "west_garden",
+      "condition": "player_initiates_personal_topic",
+      "flag": "personal_bond_event_seen",
+      "quest": false,
+      "dialogue": [
+        {
+          "id": "VLA15-BOND-X1",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi không muốn ai phải nhớ mọi điều trong đầu như tôi từng làm.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-BOND-X2",
+          "speaker_id": "A",
+          "text_vi": "Vậy bà viết để người khác dùng được?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-BOND-X3",
+          "speaker_id": "VLA-15",
+          "text_vi": "Ừ. Điều mình biết chỉ có ích nếu có người thử rồi hiểu.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-BOND-X4",
+          "speaker_id": "A",
+          "text_vi": "Cả lúc họ làm khác cách của bà?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-BOND-X5",
+          "speaker_id": "VLA-15",
+          "text_vi": "Miễn họ quan sát cẩn thận và biết sửa điều chưa đúng.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA15-POST",
+      "after": "after_QF",
+      "location": "west_garden",
+      "condition": "distinct_nonquest_return_visit",
+      "flag": null,
+      "quest": false,
+      "dialogue": [
+        {
+          "id": "VLA15-POST-X1",
+          "speaker_id": "VLA-15",
+          "text_vi": "Chào cậu. Hôm nay muốn xem hạt hay chỉ đi dạo?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-POST-X2",
+          "speaker_id": "A",
+          "text_vi": "Chỉ đi ngang qua thôi.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-POST-X3",
+          "speaker_id": "VLA-15",
+          "text_vi": "Thế cứ đi. Đường quanh đây cũng đáng nhìn.",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA15-LAKE_OPTIONAL",
+      "after": "after_Q2",
+      "location": "approved_A1_lake_shore",
+      "condition": "lake_discovered_npc_encounter_available",
+      "flag": null,
+      "quest": false,
+      "dialogue": [
+        {
+          "id": "VLA15-LAKE_OPTIONAL-X1",
+          "speaker_id": "A",
+          "text_vi": "Ngoài này nghe tiếng nước rõ hơn ở làng.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-LAKE_OPTIONAL-X2",
+          "speaker_id": "VLA-15",
+          "text_vi": "Cứ ngồi nhìn cũng được. Không phải ghi chép nào cũng cần mang theo giấy.",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-LAKE_OPTIONAL-X3",
+          "speaker_id": "A",
+          "text_vi": "Bà cũng có lúc không ghi gì à?",
+          "status": "draft"
+        },
+        {
+          "id": "VLA15-LAKE_OPTIONAL-X4",
+          "speaker_id": "VLA-15",
+          "text_vi": "Có chứ. Chỉ cần nhớ mình đã thấy một ngày đẹp.",
+          "status": "draft"
+        }
+      ]
+    }
+  ]
+}
