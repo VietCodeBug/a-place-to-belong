@@ -28,6 +28,7 @@ func start(actor: CharacterBody3D, climate: Node, initial_season: int) -> void:
 	lake.setup(field)
 	player.superworld = self
 	build_trails()
+	build_rest_stops()
 	set_season(initial_season)
 	var overlay := CanvasLayer.new()
 	add_child(overlay)
@@ -58,6 +59,8 @@ func _process(_delta: float) -> void:
 		swim_hint.text = "%s %.1f m   ·   SPACE %s   ·   CTRL %s" % [
 			FLOW.text("Depth","Độ sâu"),lake.depth,
 			FLOW.text("surface","nổi"),FLOW.text("dive","lặn")]
+	streamer.cover.weather(weather.wetness,weather.wind_direction,weather.clock)
+	lake.update_weather(weather)
 	if not is_equal_approx(wetness,weather.wetness):
 		wetness = weather.wetness
 		streamer.material.set_shader_parameter("wetness",wetness)
@@ -66,13 +69,17 @@ func _process(_delta: float) -> void:
 func update_ridge_view(camera: Camera3D) -> void:
 	var eye := Vector2(camera.global_position.x,camera.global_position.z)
 	var at_ridge := eye.distance_squared_to(FIELD.OVERLOOK)<76.0*76.0
-	if at_ridge and not lake.underwater:
+	var coast := field.lake_ratio(eye)
+	var at_shore := coast > .94 and coast < 1.13 and camera.global_position.y > FIELD.WATER
+	if (at_ridge or at_shore) and not lake.underwater:
 		if ridge_camera != camera or camera.environment != ridge_environment:
 			clear_ridge_view()
 			ridge_camera = camera
 			ridge_environment = camera.get_world_3d().environment.duplicate() as Environment
+			ridge_environment.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 			camera.environment = ridge_environment
-		ridge_environment.fog_density = lerpf(.00055,.004,weather.weather_value.y)
+		ridge_environment.fog_light_color = camera.get_world_3d().environment.fog_light_color
+		ridge_environment.fog_density = lerpf(.00061,.0027,weather.weather_value.y)
 	elif ridge_camera != null:
 		clear_ridge_view()
 
@@ -122,3 +129,23 @@ func build_trails() -> void:
 	trails.material_override = trail_material
 	trails.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(trails)
+
+
+func build_rest_stops() -> void:
+	const BOTANY = preload("res://scripts/world/a1_botany.gd")
+	const S = preload("res://scripts/world/shapes.gd")
+	var group := Node3D.new()
+	group.name = "ScenicRestPoints"
+	add_child(group)
+	for i in FIELD.RESTS.size():
+		var mark: Vector2 = FIELD.RESTS[i]
+		var base := Vector3(mark.x,field.height(mark),mark.y)
+		BOTANY.place_stone(group,base-Vector3(1.5,.15,-1.8),2.0+i*.54,.75+i,true)
+		BOTANY.place_stone(group,base+Vector3(1.7,-.09,-1.0),1.18+i*.15,-.7)
+		var angle := .34+i*.42
+		var platform := S.box(group,base+Vector3.UP*.51,Vector3(1.9,.18,.50),"735639")
+		platform.rotation.y = angle
+		for side in [-.62,.62]:
+			var p := base+Vector3(side*cos(angle),0,-side*sin(angle))
+			p.y = field.height(Vector2(p.x,p.z))+.18
+			S.box(group,p,Vector3(.17,.40,.37),"493C2E").rotation.y = angle

@@ -26,9 +26,21 @@ const TRAILS := [
 	[Vector2(162,119),Vector2(224,142),Vector2(272,151),MEADOW,Vector2(391,114),
 		Vector2(381,62),Vector2(326,28),Vector2(256,29),Vector2(186,62)],
 	[SHORE,Vector2(187,-476),Vector2(183,-547),Vector2(201,-620),Vector2(230,-688),
-		Vector2(223,-746),Vector2(239,-796),OVERLOOK]
+		Vector2(223,-746),Vector2(239,-796),OVERLOOK],
+	[Vector2(381,62),Vector2(410,44),Vector2(428,16),Vector2(425,-21),
+		Vector2(390,-61),Vector2(340,-81),Vector2(298,-87),Vector2(247,-67),Vector2(213,-31),Vector2(176,-2)],
+	[Vector2(204,-420),Vector2(185,-408),Vector2(165,-423),Vector2(164,-447),
+		Vector2(174,-472),Vector2(187,-476)]
 ]
 const STEP := 8.0
+enum Habitat { OLD_GROVE, CONIFER, BROADLEAF, FLOWER_MEADOW, GLADE, SHORE, ROCK, HIGHLAND }
+const PEAKS := [
+	Vector4(-1280,-1310,590,136),Vector4(-745,-1595,470,165),Vector4(440,-1600,540,155),
+	Vector4(1070,-1310,480,122),Vector4(1530,-885,490,151),Vector4(1530,410,640,132),
+	Vector4(-1390,790,670,180),Vector4(-640,1560,680,127)
+]
+const RESTS := [Vector2(422,10),Vector2(299,-80),Vector2(172,-452),Vector2(271,-829)]
+const MEADOW_COURSE := Vector2(325,114)
 var bounds: Rect2
 var chunk_size: int
 var regions: Array
@@ -36,6 +48,8 @@ var legacy_height: Callable
 var broad := FastNoiseLite.new()
 var folds := FastNoiseLite.new()
 var detail := FastNoiseLite.new()
+var ecology := FastNoiseLite.new()
+var trail_segments: Array[Vector4] = []
 
 func _init(sample_core: Callable) -> void:
 	legacy_height = sample_core
@@ -50,9 +64,48 @@ func _init(sample_core: Callable) -> void:
 	folds.frequency = .0031
 	detail.seed = a1.seed + 360
 	detail.frequency = .012
+	ecology.seed = a1.seed+744
+	ecology.frequency = .007
+	for path in TRAILS:
+		for i in range(path.size()-1):
+			var a: Vector2 = path[i]
+			var b: Vector2 = path[i+1]
+			trail_segments.append(Vector4(a.x,a.y,b.x,b.y))
 
 func lake_ratio(p: Vector2) -> float:
-	return ((p-LAKE)/RADII).length()
+	var axis := (p-LAKE)/RADII
+	return axis.length()/shore_shape(axis.angle())
+
+func shore_shape(angle: float) -> float:
+	# Keep the western swimming ramp stable while carving headlands elsewhere.
+	var coast := .055*sin(3.0*angle+.65)+.038*sin(7.0*angle-.75)+.019*cos(11.0*angle)
+	return 1.0+coast*smoothstep(-.97,-.62,cos(angle))
+
+func lake_outline(angle: float) -> Vector2:
+	return LAKE+Vector2.from_angle(angle)*RADII*shore_shape(angle)
+
+func forest_cover(p: Vector2) -> float:
+	var hills := ecology.get_noise_2d(p.x,p.y)
+	var lobes := broad.get_noise_2d(p.x+1440,p.y-272)
+	return clampf(.58+hills*.56+lobes*.46,.06,.96)
+
+func habitat(p: Vector2, height_m: float, slope: float = 0.0) -> Habitat:
+	var shore := lake_ratio(p)
+	if shore >= .997 and shore < 1.073:
+		return Habitat.SHORE
+	if p.distance_squared_to(MEADOW_COURSE)<166.0*166.0:
+		return Habitat.FLOWER_MEADOW
+	if p.distance_squared_to(OVERLOOK)<111.0*111.0:
+		return Habitat.HIGHLAND
+	if slope > .77 or height_m > 151.0:
+		return Habitat.ROCK
+	if p.y < -185.0 and p.y > -470.0 and absf(p.x)<230.0:
+		return Habitat.OLD_GROVE
+	if forest_cover(p) < .39:
+		return Habitat.GLADE
+	if height_m > 52.0 or (p.y < -750.0 and p.x<420.0):
+		return Habitat.CONIFER
+	return Habitat.BROADLEAF
 
 func tile(p: Vector2) -> Vector2i:
 	return Vector2i(floori(p.x/chunk_size),floori(p.y/chunk_size))
@@ -67,18 +120,19 @@ func tile_valid(id: Vector2i) -> bool:
 	return bounds.has_point(Vector2(id)*chunk_size+Vector2.ONE)
 
 func trail_distance(p: Vector2) -> float:
-	if p.x > 414.0 or p.x < 20.0 or p.y < -854.0 or p.y > 201.0:
+	if p.x > 452.0 or p.x < 18.0 or p.y < -854.0 or p.y > 201.0:
 		return INF
-	var distance := INF
-	for path in TRAILS:
-		for i in range(path.size()-1):
-			var a: Vector2 = path[i]
-			var b: Vector2 = path[i+1]
-			if p.y < minf(a.y,b.y)-23 or p.y > maxf(a.y,b.y)+23:
-				continue
-			var nearest := Geometry2D.get_closest_point_to_segment(p,a,b)
-			distance = minf(distance,p.distance_to(nearest))
-	return distance
+	var nearest_squared := INF
+	for seam in trail_segments:
+		if p.y < minf(seam.y,seam.w)-23.0 or p.y > maxf(seam.y,seam.w)+23.0:
+			continue
+		if p.x < minf(seam.x,seam.z)-23.0 or p.x > maxf(seam.x,seam.z)+23.0:
+			continue
+		var a := Vector2(seam.x,seam.y)
+		var b := Vector2(seam.z,seam.w)
+		var nearest := Geometry2D.get_closest_point_to_segment(p,a,b)
+		nearest_squared = minf(nearest_squared,p.distance_squared_to(nearest))
+	return sqrt(nearest_squared)
 
 func outside_shape(p: Vector2) -> float:
 	var roll := broad.get_noise_2d(p.x,p.y)
@@ -86,15 +140,24 @@ func outside_shape(p: Vector2) -> float:
 	var ridges := smoothstep(360.0,1800.0,absf(p.x+75.0)) * .8
 	ridges = maxf(ridges,smoothstep(460.0,1920.0,absf(p.y)))
 	var h := 17.0 + 21.0*roll + 12.0*fold + detail.get_noise_2d(p.x,p.y)*2.1
-	h += ridges*ridges*(110.0+98.0*absf(fold))
+	h += ridges*ridges*(58.0+52.0*absf(fold))
+	var crest := 0.0
+	for massif: Vector4 in PEAKS:
+		var local := Vector2(p.x-massif.x,p.y-massif.y)
+		var extent := local.length_squared()/(massif.z*massif.z)
+		if extent < 3.0:
+			var striation := .84+.13*fold+.095*sin(local.x*.018-local.y*.013)
+			crest = maxf(crest,massif.w*exp(-extent*1.65)*striation)
+	h += crest
 	var pass_weight := 1.0 - smoothstep(4.0,23.0,trail_distance(p))
 	var highland := (1.0-smoothstep(0.0,180.0,p.distance_to(OVERLOOK)))
 	h += 52.0*highland
 	var meadow := 1.0-smoothstep(30.0,125.0,p.distance_to(MEADOW))
-	h = lerpf(h,12.0 + 8.0*roll + 3.5*fold,meadow*.72)
+	var meadow_rise := 13.0 + 4.8*sin(p.x*.041+p.y*.018) + 2.9*cos(p.y*.049)+roll*5.5
+	h = lerpf(h,meadow_rise,meadow*.83)
 	var pass_grade := 7.0 + 9.0*sin(clampf((p.y+455.0)/635.0,0,1)*PI)
 	pass_grade += 53.0*(1.0-smoothstep(-825.0,-520.0,p.y))
-	h = lerpf(h,pass_grade,pass_weight)
+	h = lerpf(h,pass_grade,pass_weight*.87)
 	# A traversable, wide crest on the lake-facing side of the ridge.
 	var plateau := 1.0-smoothstep(19.0,88.0,p.distance_to(OVERLOOK))
 	h = lerpf(h,61.0+(p.y-OVERLOOK.y)*.032,plateau)
@@ -114,7 +177,9 @@ func outside_shape(p: Vector2) -> float:
 		var depth := 30.0*pow(maxf(0.0,1.0-d),.88)
 		depth *= 1.0 - shelf*.50*smoothstep(.45,.98,d)
 		var waterbed := WATER - depth + maxf(0.0,d-1.0)*56.0
-		var ripple := detail.get_noise_2d(p.x,p.y)*1.1
+		var ripple := detail.get_noise_2d(p.x,p.y)*1.0
+		var cauldron := smoothstep(322.0,426.0,p.x)*(1.0-smoothstep(705.0,880.0,p.x))
+		ripple += cauldron*(1.55*sin(p.y*.048 + .52*sin(p.x*.044))+fold*2.4)
 		waterbed += ripple*smoothstep(0.0,.13,absf(d-1.0))
 		h = lerpf(waterbed,h,smoothstep(1.055,1.20,d))
 	return h
@@ -156,13 +221,19 @@ func height(p: Vector2) -> float:
 
 func ground_color(p: Vector2, y: float) -> Color:
 	var d := lake_ratio(p)
-	if d < 1.043:
-		var silt := Color("8C8265").lerp(Color("395950"),smoothstep(1.5,19.0,WATER-y))
-		return silt.lerp(Color("65754F"),smoothstep(.998,1.043,d))
-	var noise := (folds.get_noise_2d(p.x,p.y)+1.0)*.5
-	var grassy := Color("608163").lerp(Color("A2AB73"),noise)
-	grassy = grassy.lerp(Color("8D948B"),smoothstep(68.0,140.0,y))
-	return grassy
+	var n := clampf(ecology.get_noise_2d(p.x,p.y)*1.15+.5,0,1)
+	if d < 1.056:
+		var bank := Color("9C8460").lerp(Color("675E46"),n)
+		var silt := bank.lerp(Color("47594B"),smoothstep(1.2,12.0,WATER-y))
+		silt = silt.lerp(Color("293E39"),smoothstep(11.0,28.0,WATER-y))
+		return silt.lerp(Color("626B3E"),smoothstep(1.005,1.056,d))
+	var band := habitat(p,y)
+	var color := [Color("4D6039"),Color("435941"),Color("557243"),Color("788444"),
+		Color("76834F"),Color("6B7147"),Color("686961"),Color("666C49")][band] as Color
+	var cover := forest_cover(p)
+	color = color.lerp(Color("293F34"),smoothstep(.50,.86,cover)*.48)
+	color = color.lerp(Color("857461"),smoothstep(65.0,161.0,y)*.47)
+	return color.darkened(n*.18).lightened((1.0-n)*.12)
 
 func map_color(p: Vector2, y: float) -> Color:
 	if lake_ratio(p)<1.0:

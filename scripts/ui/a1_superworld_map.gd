@@ -131,6 +131,12 @@ func _draw() -> void:
 			var clipped := clip_segment(a,b,rect)
 			if clipped.size()==2:
 				draw_line(clipped[0],clipped[1],Color("F2D298"),2.0,true)
+	if zoom>=3.0:
+		for rest in FIELD.RESTS:
+			var waypoint := point(rest,rect,view)
+			if rect.has_point(waypoint):
+				draw_circle(waypoint,4.0,INK)
+				draw_circle(waypoint,2.25,Color("F4DFAB"))
 	var markers := MARKERS.duplicate()
 	for biome in FIELD.BIOMES:
 		markers.append([biome[1],biome[2],biome[3]])

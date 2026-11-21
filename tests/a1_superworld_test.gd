@@ -10,6 +10,7 @@ var world: Node3D
 var actor: CharacterBody3D
 var field: FIELD
 var stream_samples: Array[int] = []
+var cover_samples: Array[int] = []
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -43,6 +44,8 @@ func walk(destination: Vector2) -> bool:
 		await physics_frame
 		if world.streamer.frame_tiles_changed>0:
 			stream_samples.append(world.streamer.frame_build_usec)
+		if world.streamer.frame_cover_jobs>0:
+			cover_samples.append(world.streamer.frame_cover_usec)
 	return false
 
 func release() -> void:
@@ -152,8 +155,39 @@ func run() -> void:
 	check(await walk(FIELD.MEADOW),"Meadow path could not be walked")
 	release()
 	var meadow_tile: Node3D = world.streamer.chunks[field.tile(FIELD.MEADOW)]
-	var flowers := meadow_tile.get_node_or_null("MeadowFlowers") as MultiMeshInstance3D
+	for i in 100:
+		if meadow_tile.has_node("Verge3"):
+			break
+		await process_frame
+	var flowers := meadow_tile.find_child("MeadowFlowers",true,false) as MultiMeshInstance3D
 	check(flowers!=null and flowers.visible,"Spring meadow has no flower groups")
+	# Walk and close the two optional loops from their published trail vertices.
+	var stops := world.get_node("ScenicRestPoints")
+	check(stops.get_child_count()>=FIELD.RESTS.size(),"Exploration stops are missing")
+	for index in [4,5]:
+		var loop: Array = FIELD.TRAILS[index]
+		await put(loop[0])
+		Input.action_press("jog")
+		for destination: Vector2 in loop.slice(1):
+			var reached := await walk(destination)
+			check(reached,"Exploration loop %d blocked near %s" % [index,destination])
+			if not reached:
+				break
+		release()
+	await put(FIELD.MEADOW)
+	for i in 100:
+		meadow_tile = world.streamer.chunks[field.tile(FIELD.MEADOW)]
+		if meadow_tile.has_node("Verge3"):
+			break
+		await process_frame
+	flowers = meadow_tile.find_child("MeadowFlowers",true,false) as MultiMeshInstance3D
+	var climate := hub.get_node("ForestWeather")
+	climate.set_weather("heavy_rain",true)
+	for i in 3:
+		await process_frame
+	check(world.streamer.material.get_shader_parameter("wetness")>.2,"Rain did not reach new terrain")
+	check(world.lake.water_material.get_shader_parameter("rain")>.2,"Rain did not reach lake surface")
+	climate.set_weather("clear",true)
 	hub.get_node("A1RiverValley").set_season_palette(3)
 	check(flowers!=null and not flowers.visible,"Snow season must remove meadow flowers")
 	await put(Vector2(223,-746))
@@ -165,6 +199,10 @@ func run() -> void:
 	check(world.streamer.material.get_shader_parameter("season")==3,"Streamed terrain did not follow seasons")
 	print("tiles=",world.streamer.chunks.size()," physical=",world.streamer.solid.size()," total_created=",world.streamer.built_count,
 		" far=",world.streamer.far_count," reached_waypoint_tiles=",encountered.size()," final_player=",actor.position)
+	cover_samples.sort()
+	if not cover_samples.is_empty():
+		print("cover_jobs=",cover_samples.size()," cover_p50_us=",cover_samples[cover_samples.size()>>1],
+			" cover_p95_us=",cover_samples[floori(cover_samples.size()*.95)]," cover_max_us=",cover_samples.back())
 	stream_samples.sort()
 	if not stream_samples.is_empty():
 		print("stream_frames=",stream_samples.size()," stream_p50_us=", stream_samples[stream_samples.size()>>1],
