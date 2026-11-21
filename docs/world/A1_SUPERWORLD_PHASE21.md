@@ -16,6 +16,8 @@ Baseline của lượt review là `9396d41`. A1 vẫn rộng **4.096 × 4.096 m*
 
 Đàn cá vẫn là cá cảnh theo nhóm. Mặt nước có phản xạ bầu trời theo mô hình thủ tục. Phản xạ trực tiếp hình cây, địa hình và công trình trên bờ còn thiếu. Vòm, terrain, cầu và bến có collider theo tuyến. Đá trang trí nhỏ, cây và rong chủ yếu phục vụ cảnh quan. Mỹ thuật vẫn chờ duyệt.
 
+Trong lượt quay, một cạnh của vòm che người chơi thoáng qua khi camera bám sau lưng, khoảng 3:16. Collider vẫn cho người chơi bơi xuyên vòm và trở lại mặt nước. Tư thế nhân vật khi bơi là tư thế sẵn có của prototype.
+
 ## Hiệu năng ở bờ tây
 
 Godot 4.6.3 Compatibility, Mesa 25.0.7 llvmpipe, 960 × 540, VSync tắt. Cùng camera gameplay tại X/Z `(214, −466)`, trời quang lúc 13:48. Lấy 32 khung mẫu sau 28 khung khởi động. FPS dưới đây quy đổi từ frame time P50.
@@ -46,7 +48,7 @@ Lượt cuối đi qua 11 chunk mốc giữa hồ và làng. Chi phí CPU của 
 ## Ảnh và video
 
 - [Ảnh Godot Full HD và bốn cặp trước/sau](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-superworld-phase21/docs/world/review-a1-superworld-phase21/README.md)
-- [Video quay liền mạch từ Làng A đến hồ, bơi, lặn qua vòm và trở lại](https://raw.githubusercontent.com/VietCodeBug/a-place-to-belong/refs/tags/preview/a1-superworld-phase21-video/docs/world/review-a1-superworld-phase21/lang-a-ho-va-quay-lai.mp4)
+- Video dài **6:42,5**, ghi liền mạch từ Làng A đến hồ, bơi, lặn qua vòm và trở lại. Bản ghi 576 × 324, 8 FPS, tốc độ chơi bình thường. [Mở video MP4](https://raw.githubusercontent.com/VietCodeBug/a-place-to-belong/refs/tags/preview/a1-superworld-phase21-video/docs/world/review-a1-superworld-phase21/lang-a-ho-va-quay-lai.mp4) · [Mốc xem và nhật ký Godot](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-superworld-phase21-video/docs/world/review-a1-superworld-phase21/README.md)
 
 ## Phương pháp kiểm
 
@@ -55,6 +57,7 @@ Lượt cuối đi qua 11 chunk mốc giữa hồ và làng. Chi phí CPU của 
 - `tests/village_a_test.gd -- --a1-superworld` kiểm đi–về qua hành lang cũ và bốn lối làng. `tests/smoke_test.gd` kiểm chế độ mặc định.
 - `tests/imported_assets_test.gd` chạy với màn hình Linux và hoàn tất không lỗi. `tools/verify_vendor_assets.py` xác minh lại các GLB gốc Kenney và Quaternius.
 - `tools/capture_a1_lake_roundtrip.gd` chạy cùng tuyến kiểm thực tế. Đặt người chơi ở lối ra làng một lần đầu, sau đó dùng input bình thường suốt đường đi, bơi và đường về. Godot Movie Maker ghi bước thời gian cố định. Bản ghi dùng giảm bóng và SSAO để ghi trên Mesa.
+- Hai thông báo texture OpenGL 349.524 byte khi thoát đã xuất hiện trên baseline lẫn bản sau.
 
 ## Chạy lại
 
