@@ -1,7 +1,9 @@
 float lake_caustic(vec2 p, float t) {
-	vec2 curve = vec2(sin(p.x*.26+p.y*.31-t*.48),cos(p.y*.30-p.x*.24+t*.57));
-	vec2 waves = p * 3.65 + curve*.46;
-	float a = abs(sin(waves.x + cos(waves.y*.87 + t*.51)*1.29 + t*.55));
-	float b = abs(cos(waves.y + sin(waves.x*.71-t*.43)*.93 - t*.47));
-	return smoothstep(.66,.99,1.0-min(a,b))*(.35+.65*smoothstep(-.4,.74,curve.x));
+	// Closely spaced highlights break up under broad moving shadows.
+	vec2 bend = vec2(sin(p.x*.51+p.y*.41-t*.49),cos(p.y*.37-p.x*.46+t*.58));
+	vec2 wave = p * 6.45 + bend*.51;
+	float a = abs(sin(wave.x+cos(wave.y*.79+t*.47)*1.41+t*.55));
+	float b = abs(cos(wave.y+sin(wave.x*.68-t*.46)*1.17-t*.43));
+	float fine = 1.0-smoothstep(.10,1.25,max(length(dFdx(wave)),length(dFdy(wave))));
+	return smoothstep(.79,.99,1.0-min(a,b))*smoothstep(-.62,.85,bend.x)*fine;
 }

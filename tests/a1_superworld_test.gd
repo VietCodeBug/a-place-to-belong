@@ -105,6 +105,7 @@ func run() -> void:
 	check(await walk(Vector2(274,-462)),"Underwater swim blocked")
 	release()
 	check(actor.position.y<FIELD.WATER-2.0 and world.lake.underwater,"Dive/camera never went underwater")
+	check(world.lake.underside.visible,"Dive did not reveal the underside of the lake")
 	probe(Vector2(271,-463))
 	Input.action_press("a1_surface")
 	for i in 210:
@@ -114,6 +115,9 @@ func run() -> void:
 	check(actor.position.y>FIELD.WATER-1.12,"Surfacing from depth failed")
 	check(await walk(Vector2(208,-462)) and actor.state!="swimming","Could not leave lake")
 	release()
+	for i in 3:
+		await process_frame
+	check(not world.lake.underside.visible,"Submerged surface remained visible on shore")
 
 	await put(Vector2(299,-471))
 	check(world.lake.get_node("UnderwaterArch").find_children("*","CollisionShape3D",true,false).size()==1,"Underwater arch collision is missing")
@@ -186,7 +190,9 @@ func run() -> void:
 	for i in 3:
 		await process_frame
 	check(world.streamer.material.get_shader_parameter("wetness")>.2,"Rain did not reach new terrain")
+	check(world.streamer.panorama_material.get_shader_parameter("wetness")>.2,"Rain did not reach the panorama")
 	check(world.lake.water_material.get_shader_parameter("rain")>.2,"Rain did not reach lake surface")
+	check(world.lake.outer_water.get_shader_parameter("rain")>.2,"Rain did not reach shallow water")
 	climate.set_weather("clear",true)
 	hub.get_node("A1RiverValley").set_season_palette(3)
 	check(flowers!=null and not flowers.visible,"Snow season must remove meadow flowers")
@@ -197,6 +203,7 @@ func run() -> void:
 	release()
 	check(actor.position.y > slope_base+7.0,"Overlook route did not climb the terrain")
 	check(world.streamer.material.get_shader_parameter("season")==3,"Streamed terrain did not follow seasons")
+	check(world.streamer.panorama_material.get_shader_parameter("season")==3,"Panorama did not follow seasons")
 	print("tiles=",world.streamer.chunks.size()," physical=",world.streamer.solid.size()," total_created=",world.streamer.built_count,
 		" far=",world.streamer.far_count," reached_waypoint_tiles=",encountered.size()," final_player=",actor.position)
 	cover_samples.sort()

@@ -5,9 +5,10 @@ const BOTANY = preload("res://scripts/world/a1_botany.gd")
 const MEADOW = preload("res://environment/vegetation/scripts/meadow_meshes.gd")
 const GARDENS := "res://assets/vegetation/a1_gardens/"
 const IDS := ["NormalTree_3","NormalTree_4","BirchTree_2","MapleTree_3","PineTree_1","PineTree_3"]
-const MID := ["tree_oak_fall","tree_oak_fall","tree_oak_fall","tree_oak_fall","tree_pineRoundC","tree_pineRoundC"]
+const PROXIES := ["tree_oak_fall","tree_pineRoundC","tree_pineTallA_detailed","tree_pineTallC_detailed"]
+const MID := [0,0,0,0,2,3]
 const FLOWERS := ["Flower_1","Flower_2","Flower_3_Clump","Flower_5_Clump"]
-const DETAIL_RANGE := 116.0
+const DETAIL_RANGE := 94.0
 var field: FIELD
 var season := 1
 var parts: Dictionary = {}
@@ -16,6 +17,7 @@ var proxy_material := ShaderMaterial.new()
 var far_material := ShaderMaterial.new()
 var grass_material := ShaderMaterial.new()
 var grass: ArrayMesh
+var short_grass: ArrayMesh
 var rocks: Array[Array] = []
 var winter_layers: Array[MultiMeshInstance3D] = []
 var deciduous_layers: Array[MultiMeshInstance3D] = []
@@ -27,6 +29,7 @@ func setup(source: FIELD) -> void:
 	far_material.shader = proxy_material.shader
 	far_material.set_shader_parameter("panorama",true)
 	grass = meadow_tuft()
+	short_grass = MEADOW.grass(0,2,true)
 	grass_material.shader = preload("res://environment/vegetation/shaders/dense_meadow.gdshader")
 	grass_material.set_shader_parameter("lod_level",-1)
 	grass_material.set_shader_parameter("wind_strength",.061)
@@ -37,7 +40,15 @@ func setup(source: FIELD) -> void:
 		node.free()
 	for id in FLOWERS:
 		var node := BOTANY.instance(id,1.0,GARDENS)
-		parts[id] = extract_parts(node)
+		var floral := extract_parts(node)
+		for part in floral:
+			var previous: StandardMaterial3D = part[1]
+			var soft := ShaderMaterial.new()
+			soft.shader = preload("res://shaders/a1_meadow_flowers.gdshader")
+			soft.set_shader_parameter("petals",previous.albedo_texture)
+			soft.set_shader_parameter("tint",Color("EFDDD1") if id=="Flower_1" else Color("E3E0C6"))
+			part[1] = soft
+		parts[id] = floral
 		node.free()
 	var shrub := BOTANY.instance("Bush_Large",1.0)
 	parts["Bush_Large"] = extract_parts(shrub)
@@ -53,7 +64,7 @@ func setup(source: FIELD) -> void:
 			part[1] = strata
 		rocks.append(model)
 		node.free()
-	for id in ["tree_oak_fall","tree_pineRoundC"]:
+	for id in PROXIES:
 		var node := FieldAssets.model("nature",id,1.0)
 		var builder := SurfaceTool.new()
 		builder.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -263,19 +274,24 @@ func decorate(tile: MeshInstance3D,id: Vector2i,quarter: int) -> void:
 		if not proxies.has(MID[i]):
 			var merged: Array[Transform3D] = []
 			proxies[MID[i]] = merged
-		proxies[MID[i]].append_array(trees)
+		for tree in trees:
+			var silhouette: Vector3 = [Vector3(1.10,.89,1.03),Vector3(.98,.94,1.10),Vector3(.60,1.12,.61),
+				Vector3(1.14,.93,1.12),Vector3(1,.98,1),Vector3(.83,1.06,.88)][i]
+			tree.basis = tree.basis.scaled_local(silhouette)
+			proxies[MID[i]].append(tree)
 	for id_proxy in proxies:
 		var proxy_poses: Array[Transform3D] = proxies[id_proxy]
 		var colors := PackedColorArray()
-		var tint := Color("43634D") if id_proxy=="tree_pineRoundC" else Color("5F7645")
+		var tint := Color("43634D") if id_proxy != 0 else Color("627145")
 		for i in proxy_poses.size():
 			colors.append(tint.lightened(rng.randf_range(0,.22)))
-		make_batch(patch,"TreeProxy",proxy_meshes[id_proxy],proxy_material,proxy_poses,DETAIL_RANGE,365,Transform3D.IDENTITY,colors)
+		make_batch(patch,"TreeProxy",proxy_meshes[PROXIES[id_proxy]],proxy_material,proxy_poses,DETAIL_RANGE,270,Transform3D.IDENTITY,colors)
 
 func plant_ground(parent: Node3D, origin: Vector2, start: Vector2, center: Vector2, width: float, grid: PackedVector3Array, rng: RandomNumberGenerator) -> void:
 	var meadow := center.distance_squared_to(FIELD.MEADOW_COURSE) < 220.0*220.0
 	var upland := center.distance_squared_to(FIELD.OVERLOOK) < 245.0*245.0
 	var ground: Array[Transform3D] = []
+	var low_growth: Array[Transform3D] = []
 	var shrubs: Array[Transform3D] = []
 	var boulders: Array[Transform3D] = []
 	var flowers := []
@@ -290,12 +306,22 @@ func plant_ground(parent: Node3D, origin: Vector2, start: Vector2, center: Vecto
 		var trail := field.trail_distance(p)
 		if trail<1.92:
 			continue
-		var ribbons := sin((p.x-p.y*.37)*.13+.92*sin(p.y*.072))*.52 + cos(p.y*.083)*.43
+		var ribbons := sin((p.x-p.y*.44)*.103+1.15*sin(p.y*.060))*.54 + cos(p.y*.061+p.x*.019)*.46
+		var skirts := sin(p.x*.063+p.y*.042)*.32
+		var short := ribbons+skirts<-.21
 		var size := rng.randf_range(1.1,2.7)*(1.25 if meadow else .89)
 		var spread := size * (1.42 if ribbons>.1 else 1.06)
-		ground.append(pose(p,h-.027,center,Vector3(spread,size*.75,spread),rng.randf()*TAU))
-		if meadow and (ribbons>.15 or (ribbons<-.42 and trail<9.9)) and rng.randf()<.66:
-			var style := posmod(floori((p.x+p.y*.77)*.097),FLOWERS.size())
+		var tuft := pose(p,h-.027,center,Vector3(spread,size*.76,spread),rng.randf()*TAU)
+		if short and meadow:
+			low_growth.append(tuft)
+		else:
+			ground.append(tuft)
+		var shoulder_band := trail<9.2 and ribbons>-.04 and sin(p.x*.20+p.y*.082)>.26
+		var flowering := ribbons+skirts>.215 or shoulder_band
+		if meadow and flowering and rng.randf()<.69:
+			var style := posmod(floori((p.x+p.y*.63)*.078),FLOWERS.size())
+			if rng.randf()<.21:
+				style = (style+1)%FLOWERS.size()
 			var tall := rng.randf_range(.34,.75) if style!=1 else rng.randf_range(.52,.87)
 			flowers[style].append(pose(p,h+.012,center,Vector3(tall*1.28,tall,tall*1.28),rng.randf()*TAU))
 		elif i < (22 if upland else 5) and trail>3.0:
@@ -305,49 +331,66 @@ func plant_ground(parent: Node3D, origin: Vector2, start: Vector2, center: Vecto
 			elif rng.randf()<(.45 if upland else .22):
 				var radius := rng.randf_range(.57,2.15) * (1.5 if upland else 1.0)
 				boulders.append(pose(p,h-radius*.24,center,Vector3(radius*1.2,radius,radius*.86),rng.randf()*TAU))
-	draw_parts(parent,"Grass",[[grass,grass_material,Transform3D.IDENTITY,""]],ground,91.0 if meadow else 68.0)
+	draw_parts(parent,"Grass",[[grass,grass_material,Transform3D.IDENTITY,""]],ground,78.0 if meadow else 63.0)
+	draw_parts(parent,"Grass",[[short_grass,grass_material,Transform3D.IDENTITY,""]],low_growth,71.0)
 	draw_parts(parent,"Shrubs",parts["Bush_Large"],shrubs,105.0)
 	draw_parts(parent,"Boulders",rocks[0 if meadow else 1],boulders,155.0)
 	for i in FLOWERS.size():
-		draw_parts(parent,"MeadowFlowers",parts[FLOWERS[i]],flowers[i],92.0)
+		draw_parts(parent,"MeadowFlowers",parts[FLOWERS[i]],flowers[i],83.0)
 
 func populate_macro(parent: Node3D, start: Vector2, width: int, step: int, heights: PackedVector3Array) -> void:
 	var center := start+Vector2.ONE*width*.5
 	var holder := Node3D.new()
+	holder.name = "PanoramaGroves"
 	holder.position = Vector3(center.x,0,center.y)
 	parent.add_child(holder)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(start.x)*7391 ^ int(start.y)*1307
-	var groups := [[],[]]
+	var groups := [[],[],[],[]]
 	var side := int(width/float(step))+1
 	for z in range(side-1):
 		for x in range(side-1):
-			var p := start+Vector2(x+rng.randf_range(.12,.88),z+rng.randf_range(.12,.88))*step
-			if FIELD.CORE.grow(24).has_point(p) or open_sight(p):
+			var anchor := Vector2(x+rng.randf_range(.19,.81),z+rng.randf_range(.19,.81))
+			var coordinates := start+anchor*step
+			var cover := field.forest_cover(coordinates)
+			if cover<.41 or not field.bounds.has_point(coordinates):
 				continue
-			var a := z*side+x
-			var offset := (p-start)/step-Vector2(x,z)
-			var h := heights[a].y+(heights[a+1].y-heights[a].y)*offset.x+(heights[a+side].y-heights[a].y)*offset.y
-			if offset.x+offset.y>1.0:
-				var y := heights[a+side+1].y
-				h = y+(heights[a+side].y-y)*(1.0-offset.x)+(heights[a+1].y-y)*(1.0-offset.y)
-			if h < FIELD.WATER-5.0 or h>143.0 or field.lake_ratio(p)<1.021:
-				continue
-			var zone := field.habitat(p,h+8.0)
-			var density: float = [.92,.85,.82,.10,.18,.52,.15,.42][zone]
-			if rng.randf()>density*lerpf(.24,1.22,smoothstep(.25,.8,field.forest_cover(p))):
-				continue
-			var group := 1 if tree_group(zone,rng.randf())>=4 else 0
-			var size := rng.randf_range(8.0,17.0)
-			groups[group].append(pose(p,h+.25,center,Vector3(size*.95,size,size*.95),rng.randf()*TAU))
-	for group in 2:
+			var number := 3 if cover>.87 else 2 if cover>.73 else 1
+			for i in number:
+				var at := (anchor+Vector2.from_angle(rng.randf()*TAU)*rng.randf_range(.01,.26)).clamp(
+					Vector2(x+.013,z+.013),Vector2(x+.987,z+.987))
+				var p := start+at*step
+				if FIELD.CORE.grow(24).has_point(p) or open_sight(p) or field.lake_ratio(p)<1.015:
+					continue
+				var f := at-Vector2(x,z)
+				var a := z*side+x
+				var lower := heights[a+side].y
+				var right := heights[a+1].y
+				var base := heights[a].y
+				var h := base+(right-base)*f.x+(lower-base)*f.y
+				if f.x+f.y>1.0:
+					var y := heights[a+side+1].y
+					h = y+(lower-y)*(1.0-f.x)+(right-y)*(1.0-f.y)
+				if h<FIELD.WATER-5.0 or h>167.0:
+					continue
+				var zone := field.habitat(p,h+8.0)
+				var density: float = [.82,.81,.77,.03,.12,.59,.095,.33][zone]
+				if rng.randf()>density:
+					continue
+				var tree := tree_group(zone,rng.randf())
+				var variant: int = MID[tree] if tree!=2 else 0
+				if tree>=4 and rng.randf()<.26:
+					variant = 1
+				var size := rng.randf_range(6.2,16.4)
+				var spread := rng.randf_range(.73,1.16)*(1.21 if tree in [0,1,3] else .74)
+				groups[variant].append(pose(p,h+.25,center,Vector3(size*spread,size,size*spread),rng.randf()*TAU))
+	for group in groups.size():
 		var poses: Array[Transform3D] = []
 		poses.assign(groups[group])
 		if poses.is_empty():
 			continue
 		var colors := PackedColorArray()
-		var tint := Color("416454") if group==1 else Color("5F774D")
+		var tint: Color = [Color("60734A"),Color("476353"),Color("385747"),Color("3C6250")][group]
 		for i in poses.size():
-			colors.append(tint.lightened(rng.randf_range(0,.24)))
-		var id := "tree_pineRoundC" if group==1 else "tree_oak_fall"
-		make_batch(holder,"FarGrove",proxy_meshes[id],far_material,poses,0,0,Transform3D.IDENTITY,colors)
+			colors.append(tint.lightened(rng.randf_range(0,.20)))
+		make_batch(holder,"FarGrove",proxy_meshes[PROXIES[group]],far_material,poses,0,0,Transform3D.IDENTITY,colors)

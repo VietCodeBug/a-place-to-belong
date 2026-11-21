@@ -25,7 +25,7 @@ func start(actor: CharacterBody3D, climate: Node, initial_season: int) -> void:
 	lake = LAKE.new()
 	lake.name = "ExplorableLake"
 	add_child(lake)
-	lake.setup(field)
+	lake.setup(field,streamer.cover)
 	player.superworld = self
 	build_trails()
 	build_rest_stops()
@@ -63,7 +63,7 @@ func _process(_delta: float) -> void:
 	lake.update_weather(weather)
 	if not is_equal_approx(wetness,weather.wetness):
 		wetness = weather.wetness
-		streamer.material.set_shader_parameter("wetness",wetness)
+		streamer.set_wetness(wetness)
 		trail_material.set_shader_parameter("wetness",wetness)
 
 func update_ridge_view(camera: Camera3D) -> void:
@@ -149,3 +149,19 @@ func build_rest_stops() -> void:
 			var p := base+Vector3(side*cos(angle),0,-side*sin(angle))
 			p.y = field.height(Vector2(p.x,p.z))+.18
 			S.box(group,p,Vector3(.17,.40,.37),"493C2E").rotation.y = angle
+	for point: Vector2 in [Vector2(296,-806),Vector2(283,-796),Vector2(277,-819)]:
+		var direction := (point-FIELD.OVERLOOK).normalized()
+		for i in 3:
+			var at := point+direction*i*2.14+direction.orthogonal()*sin(i*2.1)*.53
+			if field.trail_distance(at)<2.3:
+				continue
+			var grounded := Vector3(at.x,field.height(at)-.21,at.y)
+			var ledge := BOTANY.place_stone(group,grounded,3.8-i*.93,direction.angle()+.18*i,true)
+			ledge.scale.y = 1.20-.13*i
+	for point: Vector2 in [Vector2(314,149),Vector2(340,126),Vector2(356,121)]:
+		if field.trail_distance(point)<3.25:
+			continue
+		var h := field.height(point)
+		BOTANY.place_stone(group,Vector3(point.x,h-.15,point.y),1.17,point.x)
+		if point.x<340:
+			BOTANY.place(group,"NormalTree_4",Vector3(point.x,h,point.y),9.2,point.y)

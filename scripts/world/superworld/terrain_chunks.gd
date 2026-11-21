@@ -19,6 +19,7 @@ var frame_tiles_changed := 0
 var current_season := 1
 var far_count := 0
 var material := ShaderMaterial.new()
+var panorama_material: ShaderMaterial
 var cover: COVER
 var frame_cover_jobs := 0
 var frame_cover_usec := 0
@@ -29,6 +30,8 @@ func setup(source: FIELD, player: Node3D) -> void:
 	material.shader = preload("res://shaders/a1_streamed_land.gdshader")
 	material.set_shader_parameter("lake_center",FIELD.LAKE)
 	material.set_shader_parameter("lake_radii",FIELD.RADII)
+	panorama_material = material.duplicate()
+	panorama_material.set_shader_parameter("coarse_land",true)
 	for r in range(NEAR+1):
 		for x in range(-r,r+1):
 			for z in range(-r,r+1):
@@ -47,7 +50,7 @@ func build_panorama() -> void:
 		for z in range(int(field.bounds.position.y),int(field.bounds.end.y),MACRO):
 			var visual := MeshInstance3D.new()
 			visual.mesh = make_mesh(Vector2(x,z),MACRO,COARSE,8.0)
-			visual.material_override = material
+			visual.material_override = panorama_material
 			visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			add_child(visual)
 			var grid: PackedVector3Array = visual.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
@@ -200,4 +203,9 @@ func enable_collision(id: Vector2i) -> void:
 func set_season(index: int) -> void:
 	current_season = index
 	material.set_shader_parameter("season",index)
+	panorama_material.set_shader_parameter("season",index)
 	cover.set_season(index)
+
+func set_wetness(wetness: float) -> void:
+	material.set_shader_parameter("wetness",wetness)
+	panorama_material.set_shader_parameter("wetness",wetness)

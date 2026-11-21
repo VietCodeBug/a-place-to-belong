@@ -22,7 +22,7 @@ const TRAILS := [
 	[Vector2(4,-274),Vector2(28,-293),Vector2(64,-309),Vector2(96,-330),Vector2(124,-360),Vector2(159,-407),Vector2(187,-439),SHORE],
 	[Vector2(6.6,178),Vector2(47,177),Vector2(83,172),Vector2(123,158),Vector2(162,119),
 		Vector2(186,62),Vector2(176,-2),Vector2(170,-91),Vector2(177,-181),Vector2(194,-276),
-		Vector2(195,-355),Vector2(204,-420),SHORE],
+		Vector2(195,-355),Vector2(204,-420),Vector2(206,-442),Vector2(206,-455),SHORE],
 	[Vector2(162,119),Vector2(224,142),Vector2(272,151),MEADOW,Vector2(391,114),
 		Vector2(381,62),Vector2(326,28),Vector2(256,29),Vector2(186,62)],
 	[SHORE,Vector2(187,-476),Vector2(183,-547),Vector2(201,-620),Vector2(230,-688),
@@ -77,12 +77,18 @@ func lake_ratio(p: Vector2) -> float:
 	return axis.length()/shore_shape(axis.angle())
 
 func shore_shape(angle: float) -> float:
-	# Keep the western swimming ramp stable while carving headlands elsewhere.
-	var coast := .055*sin(3.0*angle+.65)+.038*sin(7.0*angle-.75)+.019*cos(11.0*angle)
-	return 1.0+coast*smoothstep(-.97,-.62,cos(angle))
+	# Retain the west landing and the existing swim corridor. Wide lobes shape the far shore.
+	var west := smoothstep(-.97,-.66,cos(angle))
+	var coves := .090*sin(angle*2.0+.9)+.048*sin(angle*5.0-.7)+.027*cos(angle*8.0)
+	return 1.0+coves*west
 
 func lake_outline(angle: float) -> Vector2:
 	return LAKE+Vector2.from_angle(angle)*RADII*shore_shape(angle)
+
+func shore_rockiness(p: Vector2) -> float:
+	var wetland := sin((p.y+455.0)*.034 + p.x*.009)*.42
+	var grain := ecology.get_noise_2d(p.x+73,p.y-520)*.66
+	return clampf(.40+wetland+grain,0.0,1.0)
 
 func forest_cover(p: Vector2) -> float:
 	var hills := ecology.get_noise_2d(p.x,p.y)
@@ -179,7 +185,12 @@ func outside_shape(p: Vector2) -> float:
 		var waterbed := WATER - depth + maxf(0.0,d-1.0)*56.0
 		var ripple := detail.get_noise_2d(p.x,p.y)*1.0
 		var cauldron := smoothstep(322.0,426.0,p.x)*(1.0-smoothstep(705.0,880.0,p.x))
-		ripple += cauldron*(1.55*sin(p.y*.048 + .52*sin(p.x*.044))+fold*2.4)
+		ripple += cauldron*(1.7*sin(p.y*.043+.75*sin(p.x*.033))+fold*2.8)
+		var channel := smoothstep(346.0,450.0,p.x)*(1.0-smoothstep(810.0,935.0,p.x))
+		var axis := p.y+468.0-22.0*sin(p.x*.015)
+		ripple -= channel*3.8*exp(-axis*axis/3550.0)
+		var bank := shore_rockiness(p)*(1.0-smoothstep(.025,.13,absf(d-1.0)))
+		ripple += bank*2.65*smoothstep(1.005,1.07,d)
 		waterbed += ripple*smoothstep(0.0,.13,absf(d-1.0))
 		h = lerpf(waterbed,h,smoothstep(1.055,1.20,d))
 	return h
@@ -223,10 +234,12 @@ func ground_color(p: Vector2, y: float) -> Color:
 	var d := lake_ratio(p)
 	var n := clampf(ecology.get_noise_2d(p.x,p.y)*1.15+.5,0,1)
 	if d < 1.056:
-		var bank := Color("9C8460").lerp(Color("675E46"),n)
+		var shore := shore_rockiness(p)
+		var sand := Color("B2A17A").lerp(Color("7F6B4B"),n*.63)
+		var bank := sand.lerp(Color("6B7063").lerp(Color("535647"),n),smoothstep(.29,.82,shore))
 		var silt := bank.lerp(Color("47594B"),smoothstep(1.2,12.0,WATER-y))
 		silt = silt.lerp(Color("293E39"),smoothstep(11.0,28.0,WATER-y))
-		return silt.lerp(Color("626B3E"),smoothstep(1.005,1.056,d))
+		return silt.lerp(Color("4D6537").lerp(Color("65634A"),shore),smoothstep(1.008,1.056,d))
 	var band := habitat(p,y)
 	var color := [Color("4D6039"),Color("435941"),Color("557243"),Color("788444"),
 		Color("76834F"),Color("6B7147"),Color("686961"),Color("666C49")][band] as Color
