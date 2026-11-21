@@ -163,6 +163,9 @@ func control_instructions() -> String:
 			"WASD  ·  Walk\nShift  ·  Jog\nMouse  ·  Look around\nE  ·  Interact\nF  ·  Sit or stand\nQ  ·  Check phone\nEsc  ·  Pause or go back",
 			"WASD  ·  Đi lại\nShift  ·  Chạy nhẹ\nChuột  ·  Nhìn xung quanh\nE  ·  Tương tác\nF  ·  Ngồi hoặc đứng\nQ  ·  Xem điện thoại\nEsc  ·  Tạm dừng hoặc quay lại"
 		)
+	if "player" in ui and ui.player!=null and "eyes" in ui.player and ui.player.eyes!=null:
+		return MAPS.text("WASD · Walk\nMouse · Look\nShift · Jog\nE · Use\nM · Map outside\nEsc · Close or pause",
+			"WASD · Đi\nChuột · Nhìn\nShift · Chạy\nE · Tương tác\nM · Bản đồ ngoài trời\nEsc · Đóng hoặc tạm dừng")
 	return MAPS.text(
 		"WASD  ·  Walk\nShift  ·  Jog\nMouse wheel  ·  Camera distance\nE  ·  Read, talk or interact\nEsc  ·  Pause or go back",
 		"WASD  ·  Đi lại\nShift  ·  Chạy nhẹ\nCuộn chuột  ·  Đổi khoảng cách camera\nE  ·  Đọc, trò chuyện hoặc tương tác\nEsc  ·  Tạm dừng hoặc quay lại"
@@ -277,6 +280,31 @@ func build_settings() -> void:
 			ui.camera.head_bob = on
 			ui.get_tree().set_meta(MAPS.HEAD_BOB, on)
 		)
+
+	elif "player" in ui and ui.player!=null and "eyes" in ui.player and ui.player.eyes!=null:
+		var eyes: RefCounted = ui.player.eyes
+		for row in [["Độ nhạy chuột",&"sensitivity",&"a1_sensitivity",.30,2.4,.05],
+			["Góc nhìn dọc (FOV)",&"fov",&"a1_fov",55.0,88.0,1.0]]:
+			var line := HBoxContainer.new()
+			line.add_child(T.label(row[0],15))
+			var slider := HSlider.new()
+			slider.min_value = row[3]
+			slider.max_value = row[4]
+			slider.step = row[5]
+			slider.value = eyes.get(row[1])
+			slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			slider.value_changed.connect(func(value: float):
+				eyes.set(row[1],value)
+				ui.get_tree().set_meta(row[2],value))
+			line.add_child(slider)
+			controls.add_child(line)
+		var bob := CheckButton.new()
+		bob.text = "Nhún đầu nhẹ khi đi"
+		bob.button_pressed = eyes.head_bob
+		bob.toggled.connect(func(on: bool):
+			eyes.head_bob = on
+			ui.get_tree().set_meta(&"a1_head_bob",on))
+		controls.add_child(bob)
 
 	var access := column(tabs)
 	access.name = MAPS.text("Accessibility", "Trợ năng")

@@ -12,6 +12,10 @@ const CozyIcon = preload("res://scripts/ui/cozy_ui_icons.gd")
 
 signal story_closed
 var story_choices: VBoxContainer
+var story_card: PanelContainer
+var story_title: Label
+var story_text: Label
+var crosshair: Label
 var story_open := false
 
 var player: CharacterBody3D
@@ -77,6 +81,7 @@ func _ready() -> void:
 	build_hud()
 	build_interaction_prompt()
 	build_letter_modal()
+	build_story_card()
 	if hub.superworld == null:
 		valley_map = preload("res://scripts/ui/a1_map.gd").new()
 	else:
@@ -164,7 +169,8 @@ func build_hud() -> void:
 	controls_hint_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	controls_hint_panel.add_theme_stylebox_override("panel", make_card_style(Color(0.13, 0.21, 0.17, 0.74), Color(0.72, 0.51, 0.33, 0.55), 10, 1, 12, 6))
 	var hint_lbl := Label.new()
-	hint_lbl.text = "WASD Move   •   Shift Jog   •   E Interact   •   Wheel Zoom   •   Esc Menu"
+	hint_lbl.text = "WASD Đi · Chuột Nhìn · E Dùng · Shift Chạy · Esc Menu" if player.eyes!=null else \
+		"WASD Move   •   Shift Jog   •   E Interact   •   Wheel Zoom   •   Esc Menu"
 	hint_lbl.add_theme_font_size_override("font_size", 12)
 	hint_lbl.add_theme_color_override("font_color", Color("EAE0CE"))
 	controls_hint_panel.add_child(hint_lbl)
@@ -263,9 +269,6 @@ func build_letter_modal() -> void:
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size = Vector2(540, 90)
 	column.add_child(body)
-	story_choices = VBoxContainer.new()
-	column.add_child(story_choices)
-	story_choices.hide()
 
 	var footer := HBoxContainer.new()
 	footer.alignment = BoxContainer.ALIGNMENT_END
@@ -282,6 +285,38 @@ func build_letter_modal() -> void:
 	panel.hide()
 	envelope=preload("res://scripts/ui/envelope_reveal.gd").new()
 	envelope.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);envelope.hide();root_ui.add_child(envelope)
+
+func build_story_card() -> void:
+	story_card = PanelContainer.new()
+	story_card.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	story_card.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	story_card.offset_left = 32
+	story_card.offset_right = 460
+	story_card.offset_bottom = -25
+	story_card.add_theme_stylebox_override("panel",make_card_style(Color(.10,.17,.14,.94),Color("BFA279"),9,1,18,12))
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation",7)
+	story_card.add_child(column)
+	story_title = T.label("",20,Color("F7DCB7"))
+	column.add_child(story_title)
+	story_text = T.label("",16,Color("ECE8D8"))
+	story_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(story_text)
+	story_choices = VBoxContainer.new()
+	column.add_child(story_choices)
+	root_ui.add_child(story_card)
+	story_card.hide()
+	crosshair = T.label("·",28,Color("F6E7CA"))
+	crosshair.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	crosshair.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	crosshair.set_anchors_preset(Control.PRESET_CENTER)
+	crosshair.offset_left = -15
+	crosshair.offset_right = 15
+	crosshair.offset_top = -18
+	crosshair.offset_bottom = 18
+	crosshair.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root_ui.add_child(crosshair)
+	crosshair.hide()
 
 func build_title_menu() -> void:
 	storybook.build_title()
@@ -377,8 +412,18 @@ func _process(delta: float) -> void:
 		if walk_timer > 7.5:
 			controls_hint_panel.modulate.a = move_toward(controls_hint_panel.modulate.a, 0.0, delta * 0.45)
 
+	var looking: bool = player!=null and player.eyes!=null and not player.blocked and not story_open and not in_title_menu and not in_pause_menu
+	crosshair.visible = looking
+	if player!=null and player.eyes!=null and DisplayServer.get_name()!="headless":
+		var mode := Input.MOUSE_MODE_CAPTURED if looking else Input.MOUSE_MODE_VISIBLE
+		if mode!=Input.mouse_mode:
+			Input.mouse_mode = mode
 	active = null
-	if player != null and not player.blocked and not in_title_menu and not in_pause_menu:
+	if looking:
+		var camera_now := player.get_viewport().get_camera_3d()
+		if camera_now!=null:
+			active = player.eyes.select(camera_now,player)
+	elif player != null and not player.blocked and not in_title_menu and not in_pause_menu:
 		var nearest := INF
 		for item in get_tree().get_nodes_in_group("interactables"):
 			if item.get_viewport()!=player.get_viewport():
@@ -388,7 +433,7 @@ func _process(delta: float) -> void:
 				active = item
 				nearest = d
 
-	var show_prompt := active != null and not valley_map.visible and not panel.visible and not in_title_menu and not in_pause_menu
+	var show_prompt := active != null and not valley_map.visible and not (panel.visible or story_open) and not in_title_menu and not in_pause_menu
 	prompt.text = "E  •  " + active.interaction_name if show_prompt else ""
 	prompt_card.visible = show_prompt
 	if show_prompt:
@@ -446,6 +491,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			prototype.skip_intro()
 		get_viewport().set_input_as_handled()
 		return
+	if event is InputEventMouseMotion and player.eyes!=null and not player.blocked and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED:
+		player.eyes.turn(event.screen_relative)
+		get_viewport().set_input_as_handled()
+		return
 	var map_key: bool = event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_M
 	if valley_map.visible:
 		if map_key or event.is_action_pressed("ui_cancel"):
@@ -460,7 +509,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				valley_map.toggle_chunks()
 		get_viewport().set_input_as_handled()
 		return
-	if map_key and (prototype==null or not prototype.inside) and not in_title_menu and not in_pause_menu and not panel.visible:
+	if map_key and (prototype==null or not prototype.inside) and not in_title_menu and not in_pause_menu and not panel.visible and not story_open:
 		player.blocked = true
 		valley_map.show()
 		get_viewport().set_input_as_handled()
@@ -468,13 +517,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		if storybook.shade.visible:
 			storybook.back()
-		elif panel.visible:
+		elif panel.visible or story_open:
 			close()
 		elif in_pause_menu:
 			set_pause_menu(false)
 		elif not in_title_menu:
 			set_pause_menu(true)
-	elif event.is_action_pressed("interact") and not event.is_echo() and active != null and not panel.visible and not in_title_menu and not in_pause_menu:
+	elif event.is_action_pressed("interact") and not event.is_echo() and active != null and not player.blocked and not panel.visible and not story_open and not in_title_menu and not in_pause_menu:
 		active.interact()
 
 func show_message(title: String, message: String, source_item: Node = null) -> void:
@@ -521,14 +570,8 @@ func show_message(title: String, message: String, source_item: Node = null) -> v
 
 func show_story(title: String, message: String, options: Array) -> void:
 	story_open = true
-	heading.text = title
-	body.text = message
-	body.visible_ratio = 1.0
-	panel.scale = Vector2.ONE
-	category_label.text = "CHƯƠNG 01"
-	if letter_tween!=null: letter_tween.kill()
-	if envelope_tween!=null: envelope_tween.kill()
-	envelope.hide()
+	story_title.text = title
+	story_text.text = message
 	for child in story_choices.get_children():
 		story_choices.remove_child(child)
 		child.queue_free()
@@ -536,16 +579,11 @@ func show_story(title: String, message: String, options: Array) -> void:
 		var button := make_cozy_button(option.label,false)
 		button.pressed.connect(option.action)
 		story_choices.add_child(button)
-	story_choices.visible = not options.is_empty()
-	close_button.text = "Khép lại"
-	close_button.tooltip_text = "Khép lại [Esc]"
-	modal_backdrop.show()
-	panel.show()
+	story_choices.show()
+	story_card.show()
 	player.blocked = true
 	if story_choices.get_child_count()>0:
 		story_choices.get_child(0).grab_focus()
-	else:
-		close_button.grab_focus()
 
 func story_notice(message: String) -> void:
 	notice.text = message
@@ -560,11 +598,7 @@ func close() -> void:
 	var was_open:=panel.visible
 	if story_open:
 		story_open = false
-		story_choices.hide()
-		panel.hide()
-		modal_backdrop.hide()
-		close_button.text = "Put away"
-		close_button.tooltip_text = "Put away letter [Esc]"
+		story_card.hide()
 		if not in_pause_menu and not in_title_menu:
 			player.blocked = false
 		story_closed.emit()
@@ -620,3 +654,7 @@ func make_cozy_button(label_text: String, primary: bool) -> Button:
 	b.add_theme_stylebox_override("pressed", make_card_style(normal_bg.darkened(0.12), Color("F6E8D0"), 10, 2, 16, 9))
 	b.add_theme_stylebox_override("focus", make_card_style(hover_bg, Color("F6E8D0"), 10, 2, 16, 9))
 	return b
+
+func _exit_tree() -> void:
+	if is_instance_valid(player) and player.eyes!=null and DisplayServer.get_name()!="headless":
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

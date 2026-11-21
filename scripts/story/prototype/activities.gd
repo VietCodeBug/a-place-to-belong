@@ -8,6 +8,7 @@ const CAN := Vector2(-4.1,121.7)
 const PATCHES := [Vector2(-4.8,118.8),Vector2(-4.8,120.2)]
 const BENCH := Vector2(16.3,126.4)
 const REPAIR := Vector2(15.52,126.44)
+const WEDGE := Vector2(15.86,125.27)
 var stage: Node
 var targets: Dictionary = {}
 var watering_can: Node3D
@@ -15,6 +16,10 @@ var carried_can: Node3D
 var soil: Array[MeshInstance3D] = []
 var wooden_piece: MeshInstance3D
 var loose_latch: MeshInstance3D
+var fitted_wedge: MeshInstance3D
+var spare_wedge: MeshInstance3D
+var wait_for_npc: Dictionary = {}
+var ambient_clock := 0.0
 
 func setup(owner_stage: Node) -> void:
 	stage = owner_stage
@@ -54,6 +59,10 @@ func setup(owner_stage: Node) -> void:
 	point("watering_can","Lấy bình tưới",CAN,take_can)
 	for i in PATCHES.size():
 		point("garden_%d" % i,"Tưới luống %d" % (i+1),PATCHES[i],water.bind(i))
+	fitted_wedge = S.box(self,bench+Vector3(.17,.91,.09),Vector3(.15,.041,.10),"B69256")
+	spare_wedge = S.box(self,ground(WEDGE)+Vector3.UP*.65,Vector3(.15,.05,.10),"C5965C")
+	S.box(self,ground(WEDGE)+Vector3.UP*.30,Vector3(.39,.60,.39),"8D6748")
+	point("spare_wedge","Lấy miếng nêm",WEDGE,take_wedge)
 	point("repair_piece","Giữ chi tiết gỗ",REPAIR,repair)
 	refresh()
 
@@ -65,7 +74,9 @@ func point(id: String, label: String, p: Vector2, command: Callable) -> void:
 	target.name = id
 	target.position = ground(p)
 	target.interaction_name = label
-	target.interaction_radius = .91
+	target.interaction_radius = 1.65
+	target.set_meta("focus_at",Vector3.UP*(.86 if id=="repair_piece" else .64 if id=="spare_wedge" else .20))
+	target.set_meta("focus_radius",.50 if id.begins_with("garden") else .34)
 	target.action = command
 	add_child(target)
 	targets[id] = target
@@ -79,17 +90,20 @@ func progress(id: String) -> int:
 func in_progress(id: String) -> bool:
 	return progress(id)>0 and not stage.session.memory(id).activity_done if supports(id) else false
 
-func begin(id: String) -> void:
-	if not supports(id) or stage.session.memory(id).activity_done or progress(id)>0:
+func begin(id: String, approach: String = "hold") -> void:
+	if not supports(id) or stage.session.memory(id).activity_done or progress(id)>0 or stage.session.objects.get(id+"_result")=="self":
 		return
 	stage.session.activities[id] = 1
+	if id==OWEN:
+		stage.session.object_state("repair_approach",approach)
 	refresh()
-	stage.hub.ui.story_notice("Lấy bình ở mép vườn, tưới hai luống rồi trả bình." if id==HAZEL else "Tới bàn sửa và giữ chi tiết gỗ.")
+	stage.hub.ui.story_notice("Lấy bình ở mép vườn, tưới hai luống rồi trả bình." if id==HAZEL else "Lấy miếng nêm ở ghế cạnh bàn." if approach=="wedge" else "Tới bàn sửa và giữ chi tiết gỗ.")
 
 func abandon(id: String) -> void:
 	if not in_progress(id):
 		return
 	stage.session.activities.erase(id)
+	wait_for_npc[id] = 9.0
 	if id==HAZEL:
 		stage.session.object_state("watering_can","by_garden")
 		for index in soil.size():
@@ -115,8 +129,16 @@ func water(index: int) -> void:
 	stage.session.object_state(id,"watered")
 	stage.session.activities[HAZEL] = progress(HAZEL)+1
 	splash(PATCHES[index]+Vector2(-1.04,.21))
+	stage.sound("water",ground(PATCHES[index]))
 	stage.hub.ui.story_notice("Đã tưới đủ hai luống. Trả bình ở mép vườn." if progress(HAZEL)==4 else "Một luống đã được tưới.")
 	refresh()
+
+func take_wedge() -> void:
+	if progress(OWEN)==1 and stage.session.objects.get("repair_approach")=="wedge":
+		stage.session.activities[OWEN] = 2
+		stage.session.object_state("wooden_latch","wedging")
+		stage.hub.ui.story_notice("Đặt miếng nêm vào chốt trên bàn sửa.")
+		refresh()
 
 func repair() -> void:
 	if progress(OWEN)==1:
@@ -124,12 +146,16 @@ func repair() -> void:
 		stage.session.activities[OWEN] = 2
 		stage.hub.ui.story_notice("Đã giữ miếng gỗ. Chỉnh chốt rồi thử lại.")
 	elif progress(OWEN)==2:
-		stage.session.object_state("wooden_latch","fixed")
+		var wedge: bool = stage.session.objects.get("repair_approach")=="wedge"
+		stage.session.object_state("wooden_latch","wedged" if wedge else "fixed")
+		create_tween().tween_property(loose_latch,"rotation:y",.15 if wedge else 0.0,.24)
+		stage.sound("tap",loose_latch.global_position)
 		finish(OWEN,"repairer_helped")
 	refresh()
 
 func finish(id: String, flag_id: String) -> void:
 	stage.session.memory(id).activity_done = true
+	stage.session.object_state(id+"_result","player")
 	stage.session.flag(flag_id)
 	stage.conversation.activity_feedback(id)
 
@@ -143,6 +169,10 @@ func splash(at: Vector2) -> void:
 		falling.tween_callback(drop.queue_free)
 
 func refresh() -> void:
+	fitted_wedge.visible = stage.session.objects.get("wooden_latch")=="wedged"
+	var wedge: bool = stage.session.objects.get("repair_approach")=="wedge"
+	targets.spare_wedge.set_available(in_progress(OWEN) and wedge and progress(OWEN)==1)
+	spare_wedge.visible = not wedge or progress(OWEN)<2
 	var garden_step := progress(HAZEL)
 	var garden_active := in_progress(HAZEL)
 	var can_target: Node3D = targets.watering_can
@@ -157,9 +187,44 @@ func refresh() -> void:
 		targets[id].set_available(garden_active and garden_step>=2 and not watered)
 	var repair_step := progress(OWEN)
 	var repair_target: Node3D = targets.repair_piece
-	repair_target.interaction_name = "Chỉnh và thử chốt" if repair_step==2 else "Giữ chi tiết gỗ"
-	repair_target.set_available(in_progress(OWEN))
+	repair_target.interaction_name = ("Đặt nêm và thử chốt" if wedge else "Chỉnh và thử chốt") if repair_step==2 else "Giữ chi tiết gỗ"
+	repair_target.set_available(in_progress(OWEN) and (not wedge or repair_step>=2))
 	var latch: String = stage.session.objects.get("wooden_latch","loose")
 	wooden_piece.rotation.y = -.26 if latch=="loose" else 0.0
-	loose_latch.rotation.y = 0.0 if latch=="fixed" else -.68
-	loose_latch.material_override = S.material("527352" if latch=="fixed" else "866249")
+	loose_latch.rotation.y = .15 if latch=="wedged" else 0.0 if latch=="fixed" else -.68
+	loose_latch.material_override = S.material("527352" if latch in ["fixed","wedged"] else "866249")
+
+func can_offer(id: String) -> bool:
+	if not supports(id) or stage.session.objects.has(id+"_result"):
+		return false
+	var person: Node3D = stage.actor(id)
+	return person!=null and person.task=="WORK"
+
+func defer_for_npc(id: String) -> void:
+	abandon(id)
+	wait_for_npc[id] = 9.0
+
+func _process(delta: float) -> void:
+	if stage==null or stage.village==null or not stage.village.ready_to_visit:
+		return
+	ambient_clock += delta
+	if ambient_clock<.5:
+		return
+	var elapsed := ambient_clock
+	ambient_clock = 0.0
+	for id in [HAZEL,OWEN]:
+		var actor: Node3D = stage.actor(id)
+		if actor==null or not actor.active or actor.talking or not can_offer(id) or in_progress(id):
+			continue
+		wait_for_npc[id] = float(wait_for_npc.get(id,0.0))+elapsed
+		if wait_for_npc[id]>45.0:
+			stage.session.object_state(id+"_result","self")
+			if id==HAZEL:
+				for index in soil.size():
+					stage.session.object_state("garden_%d" % index,"watered")
+					splash(PATCHES[index]+Vector2(-1.04,.21))
+				stage.sound("water",ground(PATCHES[0]))
+			else:
+				stage.session.object_state("wooden_latch","fixed")
+				stage.sound("tap",loose_latch.global_position)
+			refresh()

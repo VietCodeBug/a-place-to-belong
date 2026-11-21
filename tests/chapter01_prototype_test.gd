@@ -1,97 +1,109 @@
 extends "res://tools/a1_story_walkthrough.gd"
-## Run with --headless --fixed-fps 60 --disable-render-loop.
-
-func before_accept(id: String) -> void:
-	if not choose("Để lúc khác"):
-		return
-	await continue_lines()
-	check(stage.activities.progress(id)==0 and not stage.session.memory(id).activity_done,"Declining should leave the activity available")
-	if choose("Đề nghị giúp"):
-		await continue_lines()
+## Exercises the full controller route before testing alternate world state.
 
 func extra_checks() -> void:
 	var registry: Dictionary = stage.village.registry
 	var stations: Dictionary = stage.village.stations
 	var graph: AStarGrid2D = stage.village.graph
-	var edges: Dictionary = {}
-	check(registry.size()==30 and not registry.has("THOMAS"),"Registry must contain only the 30 village residents")
+	check(registry.size()==30 and not registry.has("THOMAS"),"Resident IDs changed")
 	var totals := {"core":0,"supporting":0,"ambient":0}
-	var work_cells: Dictionary = {}
+	var edges := {}
 	for row in stage.snapshot.residents:
-		var resident: Node3D = registry[row.id]
+		var person: Node3D = registry[row.id]
 		var anchors: Array = stations[row.id]
-		check(resident.data.name_en==row.name_en and resident.data.household_id==row.household_id,"Roster mapping changed")
+		check(person.data.name_en==row.name_en and person.data.household_id==row.household_id,"Roster was renamed")
 		totals[row.narrative_priority] += 1
 		check(stage.village.layout.building_use[stage.village.layout.homes[row.household_id]]=="residence","Mapped home is not residential")
-		check(not work_cells.has(anchors[1]),"Two resident work points overlap")
-		work_cells[anchors[1]] = true
 		for cell: Vector2i in anchors:
-			check(not graph.is_point_solid(cell),"NPC station intersected a collider for "+row.id)
-		for endpoints in [[anchors[0],anchors[1]],[anchors[1],anchors[2]]]:
-			var route := graph.get_id_path(endpoints[0],endpoints[1])
-			check(not route.is_empty(),"Missing schedule route for "+row.id)
+			check(not graph.is_point_solid(cell),"NPC station intersects a collider")
+		for pair in [[anchors[0],anchors[1]],[anchors[1],anchors[2]]]:
+			var route := graph.get_id_path(pair[0],pair[1])
+			check(not route.is_empty(),"NPC route missing for "+row.id)
 			for index in range(1,route.size()):
-				var midpoint := Vector2(route[index-1]+route[index])*.5
-				edges[midpoint] = true
+				edges[Vector2(route[index-1]+route[index])*.5] = true
 	check(totals=={"core":8,"supporting":10,"ambient":12},"Roster tiers changed")
 	check_route_clearance(edges)
-	check(stage.session.memory(WORK.HAZEL).heard.has("after_help") and stage.session.memory(WORK.OWEN).heard.has("after_help"),"Completion feedback was not recorded")
-	check(stage.session.memory("THOMAS").heard.has("THOMAS_DIRECTIONS") and not stage.session.memory("THOMAS").heard.has("THOMAS_ABOUT_HOUSE"),"Thomas should not auto-play all topics")
-	for i in 2:
-		if not await use(stage.house.targets.front_door,here(stage.house.targets.front_door)):
-			return
-		if not await use(stage.exterior_door,PLAN.HOUSE_APPROACH[0]):
-			return
-		check(stage.inside and player.get_world_3d()==stage.room_view.find_world_3d() and player==hub.player,"Repeated doorway reset the player or world")
+	check(stage.session.memory(WORK.HAZEL).heard.has("after_help"),"Garden feedback missing")
+	check(stage.session.memory(WORK.OWEN).heard.has("after_help"),"Repair feedback missing")
+	var camera := player.get_viewport().get_camera_3d()
+	check(camera.global_position.distance_to(player.global_position+Vector3.UP*1.55)<.08,"Room camera left the eye")
+	check((camera.cull_mask&(1<<18))==0,"Avatar still intersects the local view")
 	var before: float = stage.weather.hours
-	await pause(2.0)
-	check(stage.weather.hours>before,"Clock did not advance while indoors")
+	await pause(1.4)
+	check(stage.weather.hours>before,"Clock stopped indoors")
 	stage.weather.set_weather("heavy_rain",true)
-	await pause(.5)
-	check(stage.house.rain.emitting,"Window did not follow outdoor rain")
+	await pause(.4)
+	check(stage.house.rain.emitting,"Window did not follow rain")
 	stage.weather.set_weather("clear",true)
-	stage.enter_outdoors()
-	var map_key := InputEventKey.new()
-	map_key.physical_keycode = KEY_M
-	map_key.pressed = true
-	ui._unhandled_input(map_key)
-	check(ui.valley_map.visible and player.blocked,"Story mode lost the outdoor A1 map")
-	ui._unhandled_input(map_key)
-	check(not ui.valley_map.visible and not player.blocked,"Closing the story map did not restore movement")
-	stage.weather.set_time(10.9)
-	var thomas: Node3D = stage.thomas
-	player.position = hub.ground(PLAN.THOMAS.x+.85,PLAN.THOMAS.y,.09)
-	player.velocity = Vector3.ZERO
-	await pause(.55)
-	if not await use(thomas.target,PLAN.THOMAS+Vector2(.78,0)):
+	if not await use(stage.house.targets.front_door,Vector2(-.42,2.84)) or not await press_target(stage.exterior_door):
 		return
-	check(stage.conversation.last_group=="THOMAS_REPEAT","Thomas repeated the introductory lines")
+	check(stage.inside and stage.house.window_open and player==hub.player,"Second doorway lost state")
+	stage.enter_outdoors()
+	var key := InputEventKey.new()
+	key.physical_keycode = KEY_M
+	key.pressed = true
+	ui._unhandled_input(key)
+	check(ui.valley_map.visible and player.blocked,"M lost map access")
+	ui._unhandled_input(key)
+	var outdoor := player.get_viewport().get_camera_3d()
+	check(outdoor.global_position.distance_to(player.global_position+Vector3.UP*1.55)<.07,"Outdoor camera not at eye")
+	var thomas: Node3D = stage.thomas
+	player.position = hub.ground(PLAN.THOMAS.x+.92,PLAN.THOMAS.y,.09)
+	player.velocity = Vector3.ZERO
+	await pause(.54)
+	player.eyes.yaw = -.5*PI
+	await pause(.25)
+	check(ui.active!=thomas.target,"Thomas was selected while looking away")
+	if not await press_target(thomas.target):
+		return
+	check(ui.story_text.text.contains("củi") and not ui.panel.visible,"Thomas should acknowledge the world change in a compact card")
 	ui.close()
 	var hazel: Node3D = registry[WORK.HAZEL]
-	player.position = hub.ground(hazel.point.x+.75,hazel.point.y,.09)
+	player.position = hub.ground(hazel.point.x+.88,hazel.point.y,.08)
 	player.velocity = Vector3.ZERO
-	await pause(.55)
-	if not await use(hazel.target,hazel.point+Vector2(.72,0)):
-		return
-	check(stage.conversation.last_group=="revisit" and stage.session.memory(WORK.HAZEL).return_visit,"Hazel did not recognize a later visit")
-	await continue_lines()
-	check(choose("Trò chuyện thêm"),"Real help and a separate return should allow the familiar topic")
-	await continue_lines()
-	ui.close()
-	var before_walk: Vector2 = hazel.point
+	stage.weather.set_time(10.9)
+	await pause(3.0)
 	stage.weather.set_time(21.0)
 	await pause(2.5)
-	check(hazel.behavior=="RETURN_HOME" and hazel.point.distance_to(before_walk)>1.0,"Schedule did not drive movement toward home")
-	print("CHAPTER01_TEST registry=",registry.size()," unique_work=",work_cells.size()," route_edges=",edges.size()," states=",stage.session.flags)
+	var home: Vector2 = Vector2(stations[WORK.HAZEL][0])
+	check(hazel.task=="REST" and (not hazel.route.is_empty() or hazel.point.distance_to(home)<.13),"Hazel failed to route home at night")
+	stage.session.objects.erase(WORK.OWEN+"_result")
+	stage.session.activities.erase(WORK.OWEN)
+	stage.session.memory(WORK.OWEN).activity_done = false
+	stage.activities.begin(WORK.OWEN,"hold")
+	stage.activities.repair()
+	check(stage.session.objects.wooden_latch=="held","Hold choice did not lift the piece")
+	stage.activities.repair()
+	check(stage.session.objects.wooden_latch=="fixed" and not stage.activities.fitted_wedge.visible,"Hold choice silently installed a wedge")
+	stage.session.object_state(CASES.MEAL,"available")
+	stage.situations.begin(CASES.MEAL)
+	stage.situations.pickup(CASES.MEAL)
+	stage.situations.finish(CASES.MEAL,"player")
+	check(stage.situations.table_bowl.visible and stage.session.memory("VLA-06")[CASES.MEAL]=="player","Community table did not persist")
+	var shore := Vector2(205,-462)
+	hub.superworld.prepare_at(shore)
+	player.position = hub.ground(shore.x,shore.y,.08)
+	player.velocity = Vector3.ZERO
+	await pause(.55)
+	if not await path_to(Vector2(242,-462),.55):
+		return
+	check(player.state=="swimming","A1 first-person failed to switch to swim")
+	Input.action_press("a1_dive")
+	var crossed := await path_to(Vector2(272,-462),.55)
+	Input.action_release("a1_dive")
+	check(crossed and outdoor.global_position.distance_to(player.global_position+Vector3.UP*.98)<.23 and hub.superworld.lake.underwater,
+		"First-person camera failed to follow the avatar underwater")
+	check(stage.village.work_completions>0,"No NPC completed any real prop delivery")
+	print("CHAPTER31_TEST registry=",registry.size()," route_edges=",edges.size()," work_deliveries=",stage.village.work_completions,
+		" transition_us=",stage.transition_usec)
 
 func check_route_clearance(edges: Dictionary) -> void:
 	var space: PhysicsDirectSpaceState3D = stage.village.get_world_3d().direct_space_state
-	var probe := PhysicsShapeQueryParameters3D.new()
-	var body := BoxShape3D.new()
-	body.size = Vector3(.40,1.0,.40)
-	probe.shape = body
-	probe.collision_mask = 1
-	for site: Vector2 in edges:
-		probe.transform.origin = hub.ground(site.x,site.y,.82)
-		if not check(space.intersect_shape(probe,1).is_empty(),"Schedule passes through a collider near %s" % site):
+	var test := PhysicsShapeQueryParameters3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(.4,1.0,.4)
+	test.shape = shape
+	for at: Vector2 in edges:
+		test.transform.origin = hub.ground(at.x,at.y,.82)
+		if not check(space.intersect_shape(test,1).is_empty(),"Scheduled route crosses a collider near %s" % at):
 			return

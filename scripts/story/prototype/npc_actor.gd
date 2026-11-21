@@ -15,6 +15,9 @@ var talking := false
 var active := false
 var schedule_slot := -1
 var nick := ""
+var work_phase := ""
+var work_wait := 0.0
+var facing := Vector2.UP
 
 func setup(profile: Dictionary, index: int, at: Vector2, owner_stage: Node) -> void:
 	data = profile
@@ -30,6 +33,8 @@ func setup(profile: Dictionary, index: int, at: Vector2, owner_stage: Node) -> v
 	target.name = "Talk"
 	target.interaction_name = "Nói chuyện với %s" % nick
 	target.interaction_radius = 2.45
+	target.set_meta("focus_at",Vector3.UP*1.15)
+	target.set_meta("focus_radius",.43)
 	target.action = stage.conversation.open.bind(self)
 	add_child(target)
 	target.set_available(false)
@@ -47,9 +52,11 @@ func expose(value: bool) -> void:
 func face(p: Vector2) -> void:
 	var heading := p-point
 	if heading.length_squared()>.005:
-		rotation.y = atan2(-heading.x,-heading.y)
+		facing = heading.normalized()
 
 func advance(delta: float, observer: Vector2) -> void:
+	if active:
+		rotation.y = lerp_angle(rotation.y,atan2(-facing.x,-facing.y),1.0-exp(-12.0*delta))
 	if talking:
 		face(observer)
 		set_behavior("TALK_TO_PLAYER")

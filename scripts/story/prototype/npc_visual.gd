@@ -14,6 +14,7 @@ var left_leg: Node3D
 var right_leg: Node3D
 var axe: Node3D
 var work_item: Node3D
+var hauling := false
 var clock := 0.0
 var pose := "IDLE"
 var is_thomas := false
@@ -65,18 +66,49 @@ func setup(data: Dictionary, index: int) -> void:
 		S.box(axe,Vector3(0,0,-.115),Vector3(.045,.052,.49),"826144")
 		S.box(axe,Vector3(0,-.056,-.33),Vector3(.075,.135,.180),"7E837D")
 		S.box(axe,Vector3(0,-.132,-.36),Vector3(.075,.057,.140),"B4B6A6")
-	elif data.id in ["VLA-01","VLA-04","VLA-06","VLA-13","VLA-18","VLA-19"]:
+	elif data.narrative_priority!="ambient":
 		work_item = Node3D.new()
 		work_item.position = Vector3(0,-.43,-.058)
 		right_arm.add_child(work_item)
-		var tint: String = {"VLA-01":"638476","VLA-04":"9F7652","VLA-06":"B39A72","VLA-13":"8D6E85","VLA-18":"AE8057","VLA-19":"977249"}[data.id]
-		S.box(work_item,Vector3(0,-.016,0),Vector3(.18,.18,.22),tint)
+		build_work_prop(work_item,data.id)
+		batch_joint(work_item)
 	for joint in [body,head,left_arm,right_arm,left_leg,right_leg,axe]:
 		if joint!=null:
 			batch_joint(joint)
 	name_label = label_at(str(data.get("name_en","Thomas")),Vector3(0,height+.33,0),30)
 	gesture_label = label_at("",Vector3(0,height+.65,0),24)
 	visit(false)
+
+static func build_work_prop(parent: Node3D,id: String) -> void:
+	match id:
+		"VLA-01":
+			var can := CylinderMesh.new()
+			can.top_radius = .10
+			can.bottom_radius = .12
+			can.height = .20
+			can.radial_segments = 10
+			S.mesh(parent,can,Vector3.ZERO,"61877B")
+			S.beam(parent,Vector3(.075,.01,0),Vector3(.25,.108,0),.033,"789A89")
+		"VLA-04", "VLA-20":
+			S.box(parent,Vector3(-.06,-.035,0),Vector3(.43,.068,.19),"9F7652")
+		"VLA-06", "VLA-23":
+			var bowl := CylinderMesh.new()
+			bowl.top_radius = .16
+			bowl.bottom_radius = .082
+			bowl.height = .086
+			bowl.radial_segments = 10
+			S.mesh(parent,bowl,Vector3.ZERO,"B39A72")
+		"VLA-13":
+			S.box(parent,Vector3(0,-.013,0),Vector3(.25,.083,.21),"8D6E85")
+		"VLA-15":
+			var jar := CylinderMesh.new()
+			jar.top_radius = .071
+			jar.bottom_radius = .096
+			jar.height = .19
+			jar.radial_segments = 10
+			S.mesh(parent,jar,Vector3.ZERO,"9C9A79")
+		_:
+			S.box(parent,Vector3(0,-.016,0),Vector3(.18,.18,.22),"9C8465")
 
 func batch_joint(joint: Node3D) -> void:
 	# One material and one draw per moving joint, even where boots or cuffs have a different color.
@@ -167,4 +199,7 @@ func _process(delta: float) -> void:
 	if axe!=null:
 		axe.visible = work
 	if work_item!=null:
-		work_item.visible = work
+		work_item.visible = hauling
+		if hauling:
+			right_arm.rotation.x = -.87+.06*sway
+			left_arm.rotation.x = -.68-.055*sway

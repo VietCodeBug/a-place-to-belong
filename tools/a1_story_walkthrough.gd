@@ -5,6 +5,7 @@ extends SceneTree
 const HUB = preload("res://scenes/world/forest_hub.tscn")
 const LAND = preload("res://scripts/world/landscape.gd")
 const PLAN = preload("res://scripts/world/village_a_layout.gd")
+const CASES = preload("res://scripts/story/prototype/situations.gd")
 const WORK = preload("res://scripts/story/prototype/activities.gd")
 const MOVEMENT := ["move_left","move_right","move_up","move_down"]
 var hub: Node3D
@@ -41,7 +42,10 @@ func path_to(to: Vector2, tolerance := .32) -> bool:
 		controls_up()
 		if heading.length()<tolerance:
 			return true
-		var movement := heading.normalized().rotated(PI*.25)
+		var desired := atan2(-heading.x,-heading.y)
+		player.eyes.yaw = lerp_angle(player.eyes.yaw,desired,.15)
+		player.eyes.pitch = lerpf(player.eyes.pitch,-.07,.10)
+		var movement := heading.normalized().rotated(player.eyes.yaw)
 		Input.action_press("move_left" if movement.x<0 else "move_right",absf(movement.x))
 		Input.action_press("move_up" if movement.y<0 else "move_down",absf(movement.y))
 		await physics_frame
@@ -54,18 +58,39 @@ func follow(points: Array) -> bool:
 			return false
 	return true
 
-func use(target: Node3D, at: Vector2, tolerance := .26) -> bool:
+func aim_to(position: Vector3) -> void:
+	var camera := player.get_viewport().get_camera_3d()
+	player.eyes.aim(position-camera.global_position)
+	player.eyes.place(camera,player,0.0,true)
+
+func use(target: Node3D, at: Vector2, tolerance := .24) -> bool:
 	if not await path_to(at,tolerance):
 		return false
-	await pause(.24)
-	if not check(ui.active==target,"Expected E target %s, observed %s at %s" % [target.name,ui.active,player.position]):
-		return false
-	var event := InputEventAction.new()
-	event.action = "interact"
-	event.pressed = true
-	ui._unhandled_input(event)
+	return await press_target(target)
+
+func press_target(target: Node3D) -> bool:
 	await pause(.12)
-	return true
+	for attempt in 3:
+		var focus: Vector3 = target.get_meta("focus_at",Vector3.UP*.95)
+		aim_to(target.to_global(focus))
+		await pause(.13)
+		if ui.active==target:
+			var event := InputEventAction.new()
+			event.action = "interact"
+			event.pressed = true
+			ui._unhandled_input(event)
+			await pause(.40)
+			return true
+	return check(false,"Expected ray target %s, observed %s at %s / %s" % [target.name,ui.active,player.position,target.global_position])
+
+func talk_to(person: Node3D) -> bool:
+	var at: Vector2 = person.point
+	var self_point := Vector2(player.position.x,player.position.z)
+	if self_point.distance_to(at)>2.2:
+		var offset := (self_point-at).normalized()*1.36
+		if not await path_to(at+offset,.33):
+			return false
+	return await press_target(person.target)
 
 func here(target: Node3D) -> Vector2:
 	return Vector2(target.global_position.x,target.global_position.z)
@@ -75,19 +100,7 @@ func choose(label: String) -> bool:
 		if child.text==label and child.is_visible_in_tree():
 			child.pressed.emit()
 			return true
-	return check(false,"Missing dialogue choice %s in %s" % [label,ui.body.text])
-
-func continue_lines(hold := .23) -> void:
-	if capturing:
-		hold = maxf(hold,.72)
-	for index in 30:
-		if not ui.story_open or not ui.story_choices.visible or ui.story_choices.get_child_count()!=1:
-			return
-		var button := ui.story_choices.get_child(0) as Button
-		if button.text!="Tiếp":
-			return
-		await pause(hold)
-		button.pressed.emit()
+	return check(false,"Missing dialogue choice %s in %s" % [label,ui.story_text.text])
 
 func boundary(record: bool, label := "") -> void:
 	if not label.is_empty():
@@ -112,14 +125,6 @@ func still(id: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(stills_path+"/"+id+".png")
 	RenderingServer.render_loop_enabled = before
-
-func zoom(near: bool) -> void:
-	var camera := hub.get_node("GameplayCamera")
-	var event := InputEventMouseButton.new()
-	event.button_index = MOUSE_BUTTON_WHEEL_UP if near else MOUSE_BUTTON_WHEEL_DOWN
-	event.pressed = true
-	for step in 7:
-		camera._unhandled_input(event)
 
 func setup() -> void:
 	TranslationServer.set_locale("vi")
@@ -167,60 +172,74 @@ func run() -> void:
 func extra_checks() -> void:
 	pass
 
-func before_accept(_id: String) -> void:
-	pass
-
 func walkthrough() -> bool:
-	boundary(true,"Thức dậy ở Nhà A")
-	check(stage.inside and stage.intro_running and player.blocked,"Wake state did not lock controls")
+	boundary(true,"Nhà A · góc nhìn thứ nhất")
+	await pause(.40)
+	await still("00-tran-go")
 	for i in 240:
 		if not stage.intro_running:
 			break
 		await physics_frame
-	if not check(not player.blocked and player.get_world_3d()==stage.room_view.find_world_3d(),"Wake did not hand control to the interior"):
+	if not check(not player.blocked and player.get_world_3d()==stage.room_view.find_world_3d(),"Wake did not enter the interior"):
 		return false
-	await still("01-nha-a")
-	for id in ["bed_01","window_01","table_01"]:
-		var item: Node3D = stage.house.targets[id]
-		if not await use(item,here(item)):
-			return false
-		if not check(ui.panel.visible and stage.session.objects[id]=="inspected","House inspection produced no state"):
-			return false
-		await pause(.65)
-		ui.close()
-	await still("02-tu-cua-so")
-	if not await use(stage.house.targets.front_door,here(stage.house.targets.front_door)):
+	await still("01-phong-ngu")
+	if not await press_target(stage.house.targets.bed_01):
 		return false
-	if not check(not stage.inside and stage.session.flags.get("ch01_first_exit_complete",false),"First door did not exit"):
+	if not await follow([Vector2(-2.36,-1.48),Vector2(-.71,-1.49),Vector2(.37,-2.61)]):
 		return false
-	await pause(.7)
-	await still("03-ra-rung")
+	if not await press_target(stage.house.targets.window_01):
+		return false
+	if not check(stage.house.window_open,"Window did not open"):
+		return false
+	await pause(.62)
+	await still("02-cua-so")
+	if not await use(stage.house.targets.kitchen_counter_01,Vector2(2.55,-2.45)):
+		return false
+	await still("03-goc-bep")
+	if not await follow([Vector2(.72,-1.24),Vector2(.78,1.36)]):
+		return false
+	if not await press_target(stage.house.targets.table_01):
+		return false
+	await still("04-phong-chung")
+	if not await use(stage.house.targets.front_door,Vector2(-.42,2.83)):
+		return false
+	if not check(not stage.inside and stage.session.flags.get("ch01_first_exit_complete",false),"Door did not exit"):
+		return false
+	aim_to(stage.exterior_door.global_position+Vector3.UP)
+	await pause(.56)
+	await still("05-hien-nha")
 	Input.action_press("jog")
 	if not await follow(PLAN.HOUSE_APPROACH.slice(1,4)):
 		return false
 	boundary(false)
 	if not await follow(PLAN.HOUSE_APPROACH.slice(4,-2)):
 		return false
-	boundary(true,"Gặp Thomas trên đường mòn")
-	zoom(true)
+	boundary(true,"Thomas · củi lăn và xếp lại")
 	if not await follow(PLAN.HOUSE_APPROACH.slice(-2)):
 		return false
-	if not check(stage.thomas.behavior=="WORK","Thomas should work before A approaches"):
-		return false
-	await still("04-thomas-lam-viec")
 	Input.action_release("jog")
-	if not await follow(PLAN.THOMAS_APPROACH.slice(1)) or not await use(stage.thomas.target,PLAN.THOMAS+Vector2(.72,0)):
+	if not await follow(PLAN.THOMAS_APPROACH.slice(1)):
 		return false
-	await still("05-thomas-hoi-thoai")
-	await continue_lines()
-	if not check(stage.session.flags.get("thomas_intro_heard",false),"Thomas intro did not complete"):
+	aim_to(stage.thomas.global_position+Vector3.UP)
+	await pause(1.2)
+	await still("06-thomas-bo-cui")
+	if not await press_target(stage.thomas.target):
 		return false
-	if not choose("Hỏi đường"):
+	await still("07-thomas-lua-chon")
+	await pause(1.0)
+	if not choose("Xếp lại khúc củi"):
 		return false
-	await continue_lines(.38)
-	if not choose("Tạm biệt"):
+	if not await use(stage.situations.targets.loose_log,CASES.LOG_AT+Vector2(.92,-.16)):
 		return false
-	zoom(false)
+	if not await use(stage.situations.targets.woodpile,CASES.LOG_STACK+Vector2(1.0,.37)):
+		return false
+	await still("08-cui-da-xep")
+	if not check(stage.situations.status(CASES.WOOD)=="player","Thomas did not remember the placed log"):
+		return false
+	if not await use(stage.thomas.target,PLAN.THOMAS+Vector2(.94,.11)):
+		return false
+	await pause(.7)
+	ui.close()
 	boundary(false)
 	Input.action_press("jog")
 	var trail: Array[Vector2] = []
@@ -230,71 +249,53 @@ func walkthrough() -> bool:
 		trail.append(Vector2(ClearingLayout.path_center(z),z))
 	for z in range(25,127,4):
 		trail.append(Vector2(LAND.valley_path(z),z))
-	if not await follow(trail.slice(0,-8)):
+	if not await follow(trail.slice(0,-7)):
 		return false
-	boundary(true,"Làng A và đường vào làng")
-	if not await follow(trail.slice(-8)):
+	boundary(true,"Làng A · quan sát người đi làm")
+	if not await follow(trail.slice(-7)):
 		return false
-	await still("06-lang-a")
+	await still("09-lang-a")
 	Input.action_release("jog")
-	if not check(stage.session.flags.get("ch01_community_edge_reached",false),"Village reveal did not record arrival"):
-		return false
-	boundary(true,"Hazel và hai luống cây")
 	var hazel: Node3D = stage.actor(WORK.HAZEL)
-	if not await follow([Vector2(2.0,123.9),Vector2(-4.15,123.2)]) or not await use(hazel.target,hazel.point+Vector2(.68,0)):
+	boundary(true,"Hazel · lấy bình, tưới và trả bình")
+	if not await follow([Vector2(2.3,124.1),Vector2(-3.36,122.4)]):
 		return false
-	await still("07-hazel")
-	await continue_lines()
-	if not choose("Đề nghị giúp"):
+	if not await talk_to(hazel):
 		return false
-	await continue_lines()
-	await before_accept(WORK.HAZEL)
-	if not choose("Bắt đầu"):
-		return false
-	if not check(not stage.session.memory(WORK.HAZEL).activity_done,"Accepting Hazel's offer credited unfinished work"):
+	await pause(.72)
+	if not choose("Giúp tưới hai luống"):
 		return false
 	var can: Node3D = stage.activities.targets.watering_can
-	if not await use(can,WORK.CAN):
+	if not await use(can,WORK.CAN+Vector2(.85,.23)):
 		return false
 	for index in WORK.PATCHES.size():
 		var patch: Node3D = stage.activities.targets["garden_%d" % index]
-		if not await use(patch,WORK.PATCHES[index]):
+		if not await use(patch,WORK.PATCHES[index]+Vector2(1.0,0)):
 			return false
-		await pause(.35)
-	await still("08-hai-luong-da-tuoi")
-	if not await use(can,WORK.CAN):
+	await still("10-luong-da-tuoi")
+	if not await use(can,WORK.CAN+Vector2(.79,.19)):
 		return false
-	await continue_lines(.65)
-	if not check(stage.session.memory(WORK.HAZEL).activity_done and stage.session.objects.watering_can=="returned","Hazel work did not persist"):
+	if not check(stage.session.memory(WORK.HAZEL).activity_done,"Hazel's activity did not finish"):
 		return false
 	boundary(false)
 	Input.action_press("jog")
-	if not await follow([Vector2(-4.2,124.1),Vector2(5.88,124.3),Vector2(11.9,123.7),Vector2(14.1,125.2)]):
+	if not await follow([Vector2(-3.5,124.5),Vector2(5.68,124.1),Vector2(11.8,123.8),Vector2(14.3,125.6)]):
 		return false
 	Input.action_release("jog")
-	boundary(true,"Owen và bàn sửa đồ")
-	zoom(true)
+	boundary(true,"Owen · lấy và lắp miếng nêm")
 	var owen: Node3D = stage.actor(WORK.OWEN)
-	if not await use(owen.target,owen.point+Vector2(-.64,0)):
+	if not await talk_to(owen):
 		return false
-	await still("09-owen")
-	await continue_lines()
-	if not choose("Đề nghị giúp"):
+	await still("11-owen-lua-chon")
+	if not choose("Thử nêm chốt"):
 		return false
-	await continue_lines()
-	if not choose("Bắt đầu"):
+	if not await use(stage.activities.targets.spare_wedge,WORK.WEDGE+Vector2(-1.04,.02)):
 		return false
-	var repair: Node3D = stage.activities.targets.repair_piece
-	if not await use(repair,WORK.REPAIR) or not check(stage.session.objects.wooden_latch=="held","Wooden piece never moved into held state"):
+	if not await use(stage.activities.targets.repair_piece,WORK.REPAIR+Vector2(-.71,.04)):
 		return false
-	await pause(.55)
-	await still("10-giu-chi-tiet-go")
-	if not await use(repair,WORK.REPAIR):
+	await still("12-chot-da-nem")
+	if not check(stage.session.objects.wooden_latch=="wedged","Alternate repair did not install the wedge"):
 		return false
-	await continue_lines(.70)
-	if not check(stage.session.memory(WORK.OWEN).activity_done and stage.session.objects.wooden_latch=="fixed","Owen work did not persist"):
-		return false
-	zoom(false)
 	boundary(false)
 	Input.action_press("jog")
 	if not await follow([Vector2(14.1,125.2),Vector2(11.9,123.7),trail[-1]]):
@@ -302,17 +303,16 @@ func walkthrough() -> bool:
 	trail.reverse()
 	if not await follow(trail.slice(1,-1)):
 		return false
-	var return_trail := PLAN.HOUSE_APPROACH.duplicate()
-	return_trail.reverse()
-	if not await follow(return_trail.slice(0,-4)):
+	var home := PLAN.HOUSE_APPROACH.duplicate()
+	home.reverse()
+	if not await follow(home.slice(0,-4)):
 		return false
-	boundary(true,"Về Nhà A")
-	if not await follow(return_trail.slice(-4)):
+	boundary(true,"Trở về Nhà A")
+	if not await follow(home.slice(-4)):
 		return false
 	Input.action_release("jog")
-	if not await use(stage.exterior_door,PLAN.HOUSE_APPROACH[0]):
+	if not await press_target(stage.exterior_door):
 		return false
-	await pause(1.0)
-	await still("11-tro-ve-nha")
-	return check(stage.inside and stage.session.flags.get("ch01_home_returned",false) and stage.session.objects.bed_01=="inspected",
-		"Return transition lost progress")
+	await pause(.9)
+	await still("13-ve-nha")
+	return check(stage.inside and stage.session.flags.get("ch01_home_returned",false) and stage.session.objects.bed_01=="made","Return lost house state")

@@ -19,7 +19,8 @@ func walk(player: CharacterBody3D, target: Vector2) -> bool:
 		var direction := target - Vector2(player.position.x, player.position.z)
 		if direction.length() < .22:
 			return true
-		var input := direction.normalized().rotated(PI / 4.0)
+		var yaw: float = player.eyes.yaw if player.eyes!=null else PI / 4.0
+		var input := direction.normalized().rotated(yaw)
 		for action in MOVEMENT:
 			Input.action_release(action)
 		Input.action_press("move_left" if input.x < 0 else "move_right", absf(input.x))

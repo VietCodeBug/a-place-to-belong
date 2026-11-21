@@ -7,6 +7,7 @@ const PLAN = preload("res://scripts/world/village_a_layout.gd")
 
 @export var target: Node3D
 var superworld: Node3D
+var eyes: RefCounted
 var distance := 21.0
 var aim := Vector3.ZERO
 var scenic_mode := false
@@ -81,6 +82,9 @@ func set_scenic_mode(enabled: bool, instant := false) -> void:
 			fov = sp.fov
 			look_at(aim)
 		elif target != null:
+			if eyes!=null:
+				eyes.place(self,target,0.0,true)
+				return
 			aim = focus_position()
 			position = desired_position()
 			fov = 43.0 if near_lodge() else 46.0
@@ -108,13 +112,16 @@ func _process(delta: float) -> void:
 		fov = lerpf(fov, sp.fov, 1.0 - exp(-2.5 * delta))
 		look_at(aim)
 		return
+	if eyes!=null:
+		eyes.place(self,target,delta)
+		return
 	position = position.lerp(desired_position(), 1.0 - exp(-4.5 * delta))
 	aim = aim.lerp(focus_position(), 1.0 - exp(-5.0 * delta))
 	fov = lerpf(fov, 43.0 if near_lodge() else 46.0, 1.0 - exp(-3.0 * delta))
 	look_at(aim)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if scenic_mode:
+	if scenic_mode or eyes!=null:
 		return
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:

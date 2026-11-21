@@ -2,6 +2,7 @@ extends Node3D
 ## Residents share one small ground graph. Only visible actors animate per frame.
 
 const NPC = preload("res://scripts/story/prototype/npc_actor.gd")
+const VISUAL = preload("res://scripts/story/prototype/npc_visual.gd")
 const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const LAND = preload("res://scripts/world/landscape.gd")
 const AREA := Rect2i(-23,100,52,73)
@@ -23,6 +24,9 @@ var overheard_timeout := 0.0
 var exchange: Dictionary = {}
 var exchange_line := 0
 var heard_this_visit: Dictionary = {}
+var deliveries: Dictionary = {}
+var frame_cpu_usec := 0
+var work_completions := 0
 
 func setup(owner_stage: Node, draft_layout: Dictionary) -> void:
 	stage = owner_stage
@@ -86,6 +90,8 @@ func create_residents() -> void:
 		registry[id] = person
 		stations[id] = [home,work,social]
 		stage.session.memory(id)
+		if profile.narrative_priority!="ambient":
+			prepare_work(person,work,index,reserved)
 		plan(person,index)
 
 func reserve(ideal: Vector2, used: Dictionary) -> Vector2i:
@@ -118,12 +124,17 @@ func plan(person: Node3D, index: int) -> void:
 	if slot==person.schedule_slot or person.talking:
 		return
 	person.schedule_slot = slot
+	person.work_phase = "arriving"
+	person.work_wait = 1.5+float(index%5)
+	person.visual.hauling = false
 	person.task = ["REST","IDLE","WORK","SOCIALIZE"][slot]
 	var at: Vector2i = stations[id][[0,0,1,2][slot]]
+	navigate(person,at)
+
+func navigate(person: Node3D, at: Vector2i) -> void:
 	if Vector2(at).distance_to(person.point)<.065:
 		person.route.clear()
 		return
-	# If a shift changes mid-leg, finish the current grid edge before changing direction.
 	var from := Vector2i(person.route[0]) if not person.route.is_empty() else Vector2i(person.point.round())
 	var path := graph.get_id_path(from,at)
 	person.route.clear()
@@ -132,7 +143,64 @@ func plan(person: Node3D, index: int) -> void:
 		if point.distance_to(person.point)>.065:
 			person.route.append(point)
 
+func prepare_work(person: Node3D, work: Vector2i, index: int, reserved: Dictionary) -> void:
+	var id: String = person.data.id
+	var nearby := Vector2(work)+Vector2.from_angle(index*2.39)*2.6
+	if id=="VLA-01": nearby = Vector2(-4.4,122.0)
+	if id=="VLA-04": nearby = Vector2(16,123.2)
+	if id in ["VLA-18","VLA-19"]: nearby = Vector2(17.0+index%2,131.0)
+	var source := reserve(nearby,reserved)
+	var near := Vector2(source)+Vector2(.33,.25)
+	var at: Vector3 = person.grounded(near)
+	var prop := Node3D.new()
+	prop.position = at+Vector3.UP*.14
+	add_child(prop)
+	VISUAL.build_work_prop(prop,id)
+	var landed: Vector3 = person.grounded(Vector2(work)+Vector2(.42,.22))
+	var placed := prop.duplicate() as Node3D
+	placed.position = landed+Vector3.UP*.13
+	add_child(placed)
+	for unit in [prop,placed]:
+		for mesh: MeshInstance3D in unit.find_children("*","MeshInstance3D",true,false):
+			mesh.visibility_range_end = 28.0
+	placed.hide()
+	deliveries[id] = {"pickup":source,"work":work,"prop":prop,"placed":placed}
+
+func routine(person: Node3D, step: float) -> void:
+	var id: String = person.data.id
+	if not deliveries.has(id) or person.task!="WORK" or not person.active or person.talking or stage.activities.in_progress(id) or not person.route.is_empty():
+		return
+	person.work_wait -= step
+	if person.work_wait>0.0:
+		return
+	var job: Dictionary = deliveries[id]
+	match person.work_phase:
+		"arriving", "resting":
+			job.prop.show()
+			job.placed.hide()
+			person.work_phase = "collecting"
+			navigate(person,job.pickup)
+			person.work_wait = 1.15
+		"collecting":
+			job.prop.hide()
+			person.visual.hauling = true
+			person.work_phase = "carrying"
+			navigate(person,job.work)
+			person.work_wait = .84
+		"carrying":
+			person.face(Vector2(job.work)+Vector2(.42,.22))
+			person.work_phase = "using"
+			person.work_wait = 1.2
+			stage.sound("water" if id=="VLA-01" else "tap",person.global_position)
+		"using":
+			job.placed.show()
+			person.visual.hauling = false
+			person.work_phase = "resting"
+			person.work_wait = 14.0+float(int(id.get_slice("-",1))%4)*3.4
+			work_completions += 1
+
 func _physics_process(delta: float) -> void:
+	var started := Time.get_ticks_usec()
 	if not ready_to_visit:
 		bake_rows(6)
 		return
@@ -157,6 +225,7 @@ func _physics_process(delta: float) -> void:
 			if visible and not person.active:
 				person.position = person.grounded(person.point)
 			person.expose(visible)
+			routine(person,step)
 		if person.active:
 			person.advance(delta,observer)
 		elif tick:
@@ -167,6 +236,7 @@ func _physics_process(delta: float) -> void:
 		if social_elapsed>=2.0:
 			overhear(social_elapsed)
 			social_elapsed = 0.0
+	frame_cpu_usec = Time.get_ticks_usec()-started
 
 func set_nearby_label(person: Node3D) -> void:
 	if nearby_label==person:
