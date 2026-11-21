@@ -49,6 +49,8 @@
 - [characters/village-a-roster.md](characters/village-a-roster.md): 30 cư dân tên tiếng Anh **đề xuất**, mỗi người có sinh hoạt, tính cách, tuyến truyện và nhóm nhà (chưa chốt).
 - [characters/village-a-roster.json](characters/village-a-roster.json): sổ nhận dạng, mã nhân vật ổn định và phân lớp ưu tiên của 30 cư dân.
 - [production/open-world-narrative-v0.md](production/open-world-narrative-v0.md): quy ước biên kịch thế giới mở — vòng chơi, quan hệ thân thiện/tin cậy, phát sinh lời nhờ và quyền từ chối.
+- [production/narrative-dialogue-handoff-contract-v1.md](production/narrative-dialogue-handoff-contract-v1.md): **quy chuẩn để AI triển khai không đọc nhầm lời dẫn/thao tác thành lời nhân vật**, với trigger và nhánh rõ.
+- [quests/village-a-evelyn-q2-flow-v1.md](quests/village-a-evelyn-q2-flow-v1.md) và [JSON](quests/village-a-evelyn-q2-flow-v1.json): **mẫu chuyển đổi đầu tiên** của một nhiệm vụ (Evelyn Q2), tách lựa chọn chỉ đi vườn với đi thêm ra hồ; 5 ca kiểm thử.
 - [activities/inter-village-delivery-v0.md](activities/inter-village-delivery-v0.md) và [JSON](activities/inter-village-delivery-v0.json): **đã chọn hướng vận chuyển hàng sang làng khác**, giới thiệu Ada/Hugo, điều kiện và kết quả giao hàng.
 - [activities/hunting-v0.md](activities/hunting-v0.md) và [JSON](activities/hunting-v0.json): **đã chọn hướng săn bắn tùy chọn**, theo dấu, lựa chọn và tác động đến động vật rừng.
 - [characters/thomas.md](characters/thomas.md): hồ sơ nhân vật Thomas để phát triển tính cách nhất quán lâu dài.
