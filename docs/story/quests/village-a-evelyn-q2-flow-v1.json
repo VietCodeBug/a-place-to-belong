@@ -1,0 +1,436 @@
+{
+  "schema": "apb.dialogue_flow_handoff.v1",
+  "status": "draft_not_executable",
+  "quest_id": "VLA15-Q2",
+  "title_vi": "Trang ghi chép từ vườn",
+  "character_id": "VLA-15",
+  "source_files": [
+    "docs/story/quests/village-a-relationship-arcs-v0.json",
+    "docs/story/quests/village-a-evelyn-playable-v1.json"
+  ],
+  "approved_geography": "A1_lake_approved_as_location; lake_trip_optional; npc_schedule_not_approved",
+  "screen_content_policy": {
+    "speak_only": [
+      "NPC_DIALOGUE",
+      "PLAYER_LINE"
+    ],
+    "never_speak": [
+      "SCENE_CONTEXT",
+      "WORLD_ACTION",
+      "STATE_TRANSITION"
+    ],
+    "choice_is_menu_not_autospoken": true
+  },
+  "runtime_bindings": {
+    "Evelyn_present": "TO_BIND",
+    "west_garden_observation": "TO_BIND",
+    "lake_shore_observation": "TO_BIND",
+    "friendship_score": "TO_BIND",
+    "npc_nonquest_return_visits": "TO_BIND"
+  },
+  "flags": [
+    "Q2.status",
+    "garden_observed",
+    "lake_observed_during_quest"
+  ],
+  "lines": [
+    {
+      "id": "VLA15-Q2-O1",
+      "speaker_id": "VLA-15",
+      "text_vi": "Cuốn sổ của tôi thiếu một ghi chú từ ngoài vườn. Cậu muốn thử quan sát rồi kể lại không?",
+      "from": "relationship-arcs-v0.json"
+    },
+    {
+      "id": "VLA15-Q2-A1",
+      "speaker_id": "A",
+      "text_vi": "Tôi sẽ ghi điều nhìn thấy, không đoán thêm.",
+      "from": "relationship-arcs-v0.json"
+    },
+    {
+      "id": "VLA15-Q2-C1",
+      "speaker_id": "VLA-15",
+      "text_vi": "Rất tốt. Người sau đọc sẽ biết cậu đã thấy gì.",
+      "from": "relationship-arcs-v0.json"
+    },
+    {
+      "id": "VLA15-Q2-D1",
+      "speaker_id": "VLA-15",
+      "text_vi": "Ừ. Lần khác tôi tự ra vườn xem.",
+      "from": "relationship-arcs-v0.json"
+    },
+    {
+      "id": "VLA15-Q2-REPORT-X1",
+      "speaker_id": "VLA-15",
+      "text_vi": "Cậu về rồi à? Có điều gì đáng nhớ?",
+      "from": "village-a-evelyn-playable-v1.json"
+    },
+    {
+      "id": "VLA15-Q2-REPORT-X2",
+      "speaker_id": "A",
+      "text_vi": "Trong vườn cây mọc thành luống; ven nước thì đất và cỏ trông khác hẳn.",
+      "from": "village-a-evelyn-playable-v1.json"
+    },
+    {
+      "id": "VLA15-Q2-REPORT-X3",
+      "speaker_id": "VLA-15",
+      "text_vi": "Cứ ghi thế. Đúng thứ cậu nhìn thấy là được.",
+      "from": "village-a-evelyn-playable-v1.json"
+    },
+    {
+      "id": "VLA15-Q2-REPORT-GARDEN-A1",
+      "speaker_id": "A",
+      "text_vi": "Tôi chỉ quan sát luống vườn. Đất vẫn ẩm, vài chiếc lá đã lớn hơn.",
+      "from": "new_branch_fix_draft"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "START",
+      "type": "SCENE_CONTEXT",
+      "context_vi": "Evelyn đang ở khu vườn phía tây Làng A và có thời gian nói chuyện; không phát lời dẫn.",
+      "trigger": "player_selects_topic:ask_evelyn_about_notes",
+      "guards": [
+        "npc_present",
+        "npc_available_context_Q2",
+        "Q1.status in [completed,resolved_without_player]",
+        "nonquest_meetups_after_Q1>=1",
+        "friendship>=50_provisional",
+        "Q2.status in [locked,available,declined]"
+      ],
+      "next": "OFFER",
+      "is_spoken": false
+    },
+    {
+      "id": "OFFER",
+      "type": "NPC_DIALOGUE",
+      "line_id": "VLA15-Q2-O1",
+      "speaker_id": "VLA-15",
+      "trigger": "on_enter:OFFER",
+      "guards": [
+        "npc_present"
+      ],
+      "next": "ACCEPT_MENU"
+    },
+    {
+      "id": "ACCEPT_MENU",
+      "type": "PLAYER_CHOICE",
+      "trigger": "after_dialogue:OFFER",
+      "options": [
+        {
+          "id": "accept",
+          "label_vi": "Tôi giúp bà quan sát.",
+          "next": "ACCEPT_PLAYER_LINE"
+        },
+        {
+          "id": "decline",
+          "label_vi": "Hôm nay tôi không giúp được.",
+          "next": "REFUSE_NPC_LINE"
+        },
+        {
+          "id": "leave",
+          "label_vi": "Để khi khác nhé.",
+          "next": "END_NO_PROGRESS"
+        }
+      ]
+    },
+    {
+      "id": "ACCEPT_PLAYER_LINE",
+      "type": "PLAYER_LINE",
+      "line_id": "VLA15-Q2-A1",
+      "speaker_id": "A",
+      "trigger": "player_selects_choice:accept",
+      "next": "ACCEPT_STATE"
+    },
+    {
+      "id": "ACCEPT_STATE",
+      "type": "STATE_TRANSITION",
+      "trigger": "after_player_line:ACCEPT_PLAYER_LINE",
+      "set": {
+        "Q2.status": "accepted",
+        "garden_observed": false,
+        "lake_observed_during_quest": false
+      },
+      "next": "GARDEN_ACTION",
+      "is_spoken": false
+    },
+    {
+      "id": "REFUSE_NPC_LINE",
+      "type": "NPC_DIALOGUE",
+      "line_id": "VLA15-Q2-D1",
+      "speaker_id": "VLA-15",
+      "trigger": "player_selects_choice:decline",
+      "next": "DECLINE_STATE"
+    },
+    {
+      "id": "DECLINE_STATE",
+      "type": "STATE_TRANSITION",
+      "trigger": "after_dialogue:REFUSE_NPC_LINE",
+      "set": {
+        "Q2.status": "declined"
+      },
+      "next": "END_NO_PROGRESS",
+      "is_spoken": false
+    },
+    {
+      "id": "GARDEN_ACTION",
+      "type": "WORLD_ACTION",
+      "description_vi": "A tự đến luống vườn chung, quan sát màu lá và độ ẩm đất, ghi điều nhìn thấy; không phát lời Evelyn nếu bà không có mặt.",
+      "trigger": "on_quest_accepted_or_return_to_garden",
+      "guards": [
+        "Q2.status in [accepted,in_progress]"
+      ],
+      "requires_event": "player_interacts:west_garden_observation",
+      "on_event": {
+        "set": {
+          "garden_observed": true,
+          "Q2.status": "in_progress"
+        },
+        "next": "ROUTE_OPTION"
+      },
+      "can_leave_and_return": true,
+      "is_spoken": false,
+      "engine_binding": "TO_BIND"
+    },
+    {
+      "id": "ROUTE_OPTION",
+      "type": "PLAYER_CHOICE",
+      "trigger": "after_event:player_interacts:west_garden_observation",
+      "guards": [
+        "garden_observed==true"
+      ],
+      "options": [
+        {
+          "id": "return_to_evelyn",
+          "label_vi": "Mang ghi chép về cho Evelyn.",
+          "next": "REPORT_WAIT"
+        },
+        {
+          "id": "explore_lake",
+          "label_vi": "Đi dạo tới bờ hồ và ghi thêm nếu muốn.",
+          "next": "LAKE_ACTION",
+          "optional": true
+        },
+        {
+          "id": "go_elsewhere",
+          "label_vi": "Để ghi chép đó, đi việc khác trước.",
+          "next": "REPORT_WAIT"
+        }
+      ]
+    },
+    {
+      "id": "LAKE_ACTION",
+      "type": "WORLD_ACTION",
+      "description_vi": "A có thể đi bộ tới bờ hồ A1 đã duyệt và quan sát cỏ/đất ven nước. KHÔNG bắt bơi, lặn, thu mẫu hoặc có Evelyn ở đó.",
+      "trigger": "player_arrives:approved_A1_lake_shore",
+      "guards": [
+        "Q2.status==in_progress",
+        "garden_observed==true"
+      ],
+      "requires_event": "player_interacts:lake_shore_observation",
+      "on_event": {
+        "set": {
+          "lake_observed_during_quest": true
+        },
+        "next": "REPORT_WAIT"
+      },
+      "can_leave_and_return": true,
+      "is_spoken": false,
+      "engine_binding": "TO_BIND"
+    },
+    {
+      "id": "REPORT_WAIT",
+      "type": "SCENE_CONTEXT",
+      "description_vi": "Người chơi tự quay về và chủ động trò chuyện với Evelyn. Không tự teleport/voice trên đường.",
+      "trigger": "player_returns_to_village",
+      "guards": [
+        "garden_observed==true"
+      ],
+      "next": "REPORT_OPEN",
+      "is_spoken": false
+    },
+    {
+      "id": "REPORT_OPEN",
+      "type": "NPC_DIALOGUE",
+      "line_id": "VLA15-Q2-REPORT-X1",
+      "speaker_id": "VLA-15",
+      "trigger": "player_selects_topic:report_observations",
+      "guards": [
+        "npc_present",
+        "garden_observed==true",
+        "Q2.status==in_progress"
+      ],
+      "next": "REPORT_BRANCH"
+    },
+    {
+      "id": "REPORT_BRANCH",
+      "type": "STATE_TRANSITION",
+      "trigger": "after_dialogue:REPORT_OPEN",
+      "branches": [
+        {
+          "when": [
+            "lake_observed_during_quest==true"
+          ],
+          "next": "REPORT_PLAYER_LAKE"
+        },
+        {
+          "when": [
+            "lake_observed_during_quest==false"
+          ],
+          "next": "REPORT_PLAYER_GARDEN"
+        }
+      ],
+      "is_spoken": false
+    },
+    {
+      "id": "REPORT_PLAYER_LAKE",
+      "type": "PLAYER_LINE",
+      "line_id": "VLA15-Q2-REPORT-X2",
+      "speaker_id": "A",
+      "trigger": "player_selects_topic:report_observations",
+      "guards": [
+        "lake_observed_during_quest==true"
+      ],
+      "next": "REPORT_ACK"
+    },
+    {
+      "id": "REPORT_PLAYER_GARDEN",
+      "type": "PLAYER_LINE",
+      "line_id": "VLA15-Q2-REPORT-GARDEN-A1",
+      "speaker_id": "A",
+      "trigger": "player_selects_topic:report_observations",
+      "guards": [
+        "lake_observed_during_quest==false"
+      ],
+      "next": "REPORT_ACK"
+    },
+    {
+      "id": "REPORT_ACK",
+      "type": "NPC_DIALOGUE",
+      "line_id": "VLA15-Q2-REPORT-X3",
+      "speaker_id": "VLA-15",
+      "trigger": "after_player_report",
+      "guards": [
+        "npc_present"
+      ],
+      "next": "COMPLETE_NPC"
+    },
+    {
+      "id": "COMPLETE_NPC",
+      "type": "NPC_DIALOGUE",
+      "line_id": "VLA15-Q2-C1",
+      "speaker_id": "VLA-15",
+      "trigger": "on_verified_garden_report",
+      "guards": [
+        "npc_present",
+        "garden_observed==true",
+        "Q2.status==in_progress"
+      ],
+      "next": "COMPLETE_STATE"
+    },
+    {
+      "id": "COMPLETE_STATE",
+      "type": "STATE_TRANSITION",
+      "trigger": "after_dialogue:COMPLETE_NPC",
+      "set": {
+        "Q2.status": "completed",
+        "Q2.completion_reaction_heard": true
+      },
+      "next": "END_COMPLETED",
+      "is_spoken": false
+    },
+    {
+      "id": "END_COMPLETED",
+      "type": "SCENE_CONTEXT",
+      "context_vi": "Evelyn trở lại công việc. QF không được đề nghị trong cùng lần gặp; cần hai lượt gặp thường và sự kiện riêng theo arc gốc.",
+      "trigger": "on_enter",
+      "is_spoken": false
+    },
+    {
+      "id": "END_NO_PROGRESS",
+      "type": "SCENE_CONTEXT",
+      "context_vi": "Kết thúc trò chuyện. Evelyn tiếp tục quan sát/ghi chép, A được rời đi. NPC có thể tự xử lý sau này theo nhánh narrative gốc.",
+      "trigger": "on_enter",
+      "is_spoken": false
+    }
+  ],
+  "test_cases": [
+    {
+      "name": "garden_only",
+      "given": [
+        "Q2.offer_available",
+        "Evelyn_present"
+      ],
+      "actions": [
+        "accept",
+        "player_interacts:west_garden_observation",
+        "return_to_evelyn",
+        "report_observations"
+      ],
+      "expect": [
+        "Q2.status==completed",
+        "lake_observed_during_quest==false",
+        "played:VLA15-Q2-REPORT-GARDEN-A1",
+        "not_played:VLA15-Q2-REPORT-X2"
+      ]
+    },
+    {
+      "name": "lake_optional",
+      "given": [
+        "Q2.offer_available",
+        "Evelyn_present"
+      ],
+      "actions": [
+        "accept",
+        "player_interacts:west_garden_observation",
+        "explore_lake",
+        "player_interacts:lake_shore_observation",
+        "return_to_evelyn",
+        "report_observations"
+      ],
+      "expect": [
+        "Q2.status==completed",
+        "lake_observed_during_quest==true",
+        "played:VLA15-Q2-REPORT-X2",
+        "not_played:VLA15-Q2-REPORT-GARDEN-A1"
+      ]
+    },
+    {
+      "name": "decline",
+      "given": [
+        "Q2.offer_available"
+      ],
+      "actions": [
+        "decline"
+      ],
+      "expect": [
+        "Q2.status==declined",
+        "not_played:VLA15-Q2-C1",
+        "not_completed_without_actions:true"
+      ]
+    },
+    {
+      "name": "not_ready",
+      "given": [
+        "friendship<50_or_no_prior_nonquest_visit"
+      ],
+      "actions": [
+        "talk"
+      ],
+      "expect": [
+        "no_quest_offer:true"
+      ]
+    },
+    {
+      "name": "npc_absent",
+      "given": [
+        "Evelyn_present==false"
+      ],
+      "actions": [
+        "player_interacts:west_garden_observation"
+      ],
+      "expect": [
+        "no_npc_dialogue_without_presence:true"
+      ]
+    }
+  ]
+}
