@@ -16,7 +16,7 @@
 
 ## Kịch bản gameplay chi tiết đã viết tiếp
 
-Sáu tuyến Hazel, Owen, Clara, Rowan, Maeve và Evelyn đã có **bản v1 chi tiết** riêng để người thực hiện gameplay hiểu các thao tác và lựa chọn, thay vì coi bản 24 nhiệm vụ này như các cutscene tuần tự:
+Cả tám tuyến Hazel, Owen, Clara, Rowan, Maeve, Evelyn, Ada và Grace đã có **bản biên kịch nhiệm vụ chi tiết** riêng để người thực hiện gameplay hiểu các thao tác và lựa chọn, thay vì coi bản 24 nhiệm vụ này như các cutscene tuần tự:
 
 - **Hazel:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-hazel-playable-v1.md) · [JSON](village-a-hazel-playable-v1.json) — quan sát đất, chia việc chăm vườn, hình thành góc vườn chung. Có **5 tình huống gặp thường và tâm sự** xen giữa, không bắt gặp một lần xong truyện.
 - **Owen:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-owen-playable-v1.md) · [JSON](village-a-owen-playable-v1.json) — kiểm ghế, sửa cánh cửa khu làm việc, học đặt giới hạn khi nhận việc. Có **5 tình huống gặp thường và tâm sự** xen giữa.
@@ -24,8 +24,10 @@ Sáu tuyến Hazel, Owen, Clara, Rowan, Maeve và Evelyn đã có **bản v1 chi
 - **Rowan:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-rowan-playable-v1.md) · [JSON](village-a-rowan-playable-v1.json) — dọn tối thiểu lối đi, tìm đường vòng giữ hoa, hướng dẫn chung để mọi người chăm đường. Có **5 cuộc gặp/tâm sự** giữa chặng, không khóa đường rừng.
 - **Maeve:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-maeve-playable-v1.md) · [JSON](village-a-maeve-playable-v1.json) — ở sân thủ công A05, sửa vải, học giới hạn việc, chia sẻ kỹ năng. Có cuộc gặp nghỉ ngơi **ven hồ đã duyệt** tùy chọn sau tuyến cuối.
 - **Evelyn:** [kịch bản đầy đủ 3 nhiệm vụ](village-a-evelyn-playable-v1.md) · [JSON](village-a-evelyn-playable-v1.json) — ở vườn phía tây, ghi nhãn hạt và học quan sát; Q2 có nhánh **đi bộ tới bờ hồ** (tùy chọn), QF hướng dẫn người mới.
+- **Ada:** [3 nhiệm vụ có trigger rõ ràng](village-a-ada-dialogue-flow-v2.md) · [JSON](village-a-ada-dialogue-flow-v2.json) — hai mốc đường quen, kiểm kiện với Hugo, ghi hướng về. Có đoạn gặp tùy chọn ở hồ; **không tự đưa hàng sang Làng B**.
+- **Grace:** [3 nhiệm vụ có trigger rõ ràng](village-a-grace-dialogue-flow-v2.md) · [JSON](village-a-grace-dialogue-flow-v2.json) — dành chỗ ngồi cho mình, chia việc bữa ăn, ngồi dùng bữa từ đầu. A ở lại hay rời đi có câu thoại và lời nhớ khác nhau.
 
-**Mã thoại gốc `O1/A1/C1/D1` của 18 nhiệm vụ được giữ nguyên**, các bản v1 bổ sung tình huống và lời thoại mới. Sáu tuyến × ba nhiệm vụ = **18/24 nhiệm vụ khung có script chơi chi tiết**. Mốc thân thiết 20/50/80 vẫn là đề xuất. **Maeve và Evelyn thêm 99 câu thoại mới** vào các cuộc gặp và thao tác; địa điểm hồ được duyệt, **tình tiết NPC đến hồ chưa phải hành vi đã code**. Hai tuyến còn lại: Ada, Grace.
+**Tiến độ viết sâu: 8 tuyến × 3 nhiệm vụ = 24/24 nhiệm vụ khung có bản biên kịch gameplay.** Ada/Grace bổ sung 6 nhiệm vụ chi tiết với 18 bước hành động, 11 cuộc gặp/tâm sự và ID thoại mới; giữ nguyên các line gốc O1/A1/C1/D1. **Cảnh báo bàn giao:** Ada và Grace dùng schema typed v2, Evelyn Q2 đã có pilot; 18 nhiệm vụ còn lại ở định dạng v1 nên **không được đưa trực tiếp vào game như thoại chạy tuần tự**. Các mốc thân thiết 20/50/80 vẫn chỉ là đề xuất cân bằng.
 
 ## Luật giãn cách nhiệm vụ
 
