@@ -728,45 +728,63 @@
             "VLA23-QF-INVITE_TO_SERVE.done"
           ],
           "designer_feedback_vi": "Ghi chính xác lựa chọn của A; cả hai nhánh đều hoàn thành việc chuẩn bị nếu các bước đã làm thật.",
-          "dialogue_only_after_event": [
+          "dialogue_only_after_event": [],
+          "runtime_object_binding": "TO_BIND",
+          "branch_dialogue": [
             {
-              "line_id": "VLA23-QF-SIT_OR_LEAVE-L1",
-              "type": "NPC_DIALOGUE",
-              "speaker_id": "VLA-23",
-              "text_vi": "Hôm nay tôi được nghe câu chuyện của người khác từ đầu bữa rồi.",
-              "trigger": "after_event:grace_sits_for_meal",
+              "id": "stay_and_eat",
               "guards": [
-                "speaker_present_in_scene"
+                "selected_choice==stay_and_eat",
+                "Grace_present",
+                "grace_sits_for_meal"
               ],
-              "display": "speech_only",
-              "status": "draft"
+              "lines": [
+                {
+                  "line_id": "VLA23-QF-SIT-STAY-L1",
+                  "type": "NPC_DIALOGUE",
+                  "speaker_id": "VLA-23",
+                  "text_vi": "Tôi cứ tưởng phải làm xong hết mới được ngồi. Ngồi cùng cậu thế này thật dễ chịu.",
+                  "trigger": "after_event:grace_sits_for_meal",
+                  "guards": [
+                    "selected_choice==stay_and_eat",
+                    "Grace_present"
+                  ]
+                },
+                {
+                  "line_id": "VLA23-QF-SIT-STAY-L2",
+                  "type": "PLAYER_LINE",
+                  "speaker_id": "A",
+                  "text_vi": "Vậy cứ ăn thôi. Những việc khác có thể đợi.",
+                  "trigger": "after_event:grace_sits_for_meal",
+                  "guards": [
+                    "selected_choice==stay_and_eat",
+                    "player_committed_to_step"
+                  ]
+                }
+              ]
             },
             {
-              "line_id": "VLA23-QF-SIT_OR_LEAVE-L2",
-              "type": "PLAYER_LINE",
-              "speaker_id": "A",
-              "text_vi": "Vậy bữa ăn này có phần của bà thật.",
-              "trigger": "after_event:grace_sits_for_meal",
+              "id": "help_then_go",
               "guards": [
-                "player_committed_to_step"
+                "selected_choice==help_then_go",
+                "Grace_present",
+                "grace_sits_for_meal"
               ],
-              "display": "speech_only",
-              "status": "draft"
-            },
-            {
-              "line_id": "VLA23-QF-SIT_OR_LEAVE-L3",
-              "type": "NPC_DIALOGUE",
-              "speaker_id": "VLA-23",
-              "text_vi": "Ừ. Tôi thấy dễ chịu.",
-              "trigger": "after_event:grace_sits_for_meal",
-              "guards": [
-                "speaker_present_in_scene"
-              ],
-              "display": "speech_only",
-              "status": "draft"
+              "lines": [
+                {
+                  "line_id": "VLA23-QF-SIT-LEAVE-L1",
+                  "type": "NPC_DIALOGUE",
+                  "speaker_id": "VLA-23",
+                  "text_vi": "Cảm ơn cậu đã bày giúp. Cứ đi chơi đi, tôi sẽ ngồi ăn ở đây.",
+                  "trigger": "after_event:grace_sits_for_meal",
+                  "guards": [
+                    "selected_choice==help_then_go",
+                    "Grace_present"
+                  ]
+                }
+              ]
             }
-          ],
-          "runtime_object_binding": "TO_BIND"
+          ]
         }
       ],
       "choices": [
@@ -812,7 +830,11 @@
           "no_automatic_completion": true
         }
       },
-      "life_after_vi": "Grace vẫn chuẩn bị các bữa nhỏ, nhớ ai muốn ăn cùng và biết dành thời gian cho mình."
+      "life_after_vi": "Grace vẫn chuẩn bị các bữa nhỏ, nhớ ai muốn ăn cùng và biết dành thời gian cho mình.",
+      "choice_memory": {
+        "stay_and_eat": "Grace remembers A ate with her",
+        "help_then_go": "Grace remembers A helped set table but not ate with her"
+      }
     }
   ],
   "nonquest_meetings": [
