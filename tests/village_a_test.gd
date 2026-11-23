@@ -51,6 +51,35 @@ func test_tree_lod(host: Node3D) -> void:
 		"Deciduous trees should keep the original bare branches at distance in winter.")
 	tree.queue_free()
 
+func test_market(hub: Node3D, village: Node3D) -> void:
+	var pets: Node3D = hub.get_node("A1RiverValley/VillagePets")
+	var player: CharacterBody3D = hub.player
+	player.position = hub.ground(4.47,123.6,.08)
+	player.velocity = Vector3.ZERO
+	var seen_running: Dictionary = {}
+	for frame in 520:
+		await physics_frame
+		for pet in pets.pets:
+			if pet.body.visible and pet.animator.current_animation==pet.run:
+				seen_running[pet.body.name] = true
+	for pet in pets.pets:
+		check(pet.traveled>4.0 and seen_running.has(pet.body.name),"Village pet did not run on the lane: %s" % pet.body.name)
+		var length: float = pet.route.get_baked_length()
+		for sample in ceili(length/.38):
+			var at: Vector2 = pets.point_on(pet,sample*.38)
+			check(pets.clear(pet,at,at,Vector2(-400,-400),null),"Pet route intersects a village prop at %s" % at)
+	var road_probe := PhysicsShapeQueryParameters3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(.48,1.15,.48)
+	road_probe.shape = shape
+	road_probe.exclude = [player.get_rid()]
+	for z in range(123,139):
+		for side in [-1.38,0.0,1.38]:
+			road_probe.transform.origin = hub.ground(LAND.valley_path(z)+side,z,.77)
+			check(village.get_world_3d().direct_space_state.intersect_shape(road_probe,1).is_empty(),
+				"Market furniture intrudes on the main road at z=%d" % z)
+	print("VILLAGE_MARKET pets_running=",seen_running)
+
 func run() -> void:
 	var hub := preload("res://scenes/world/forest_hub.tscn").instantiate()
 	root.add_child(hub)
@@ -98,6 +127,7 @@ func run() -> void:
 	check(planting.get_node("Spring/ForestFlowers").get_child_count() >= 45,"Spring trail should have recurring flower pockets.")
 	check(not planting.has_node("Winter/ForestFlowers"),"Winter must hide flowering trail pockets.")
 	valley.set_season_palette(0)
+	await test_market(hub,village)
 
 	var walk_start: Vector2 = PLAN.HOUSE_APPROACH[0]
 	player.position = hub.ground(walk_start.x, walk_start.y, .12)

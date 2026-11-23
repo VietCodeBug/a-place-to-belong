@@ -8,6 +8,7 @@ const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
 const MAPS = preload("res://scripts/story/map_flow.gd")
 const WILDLIFE = preload("res://scripts/world/a1_wildlife.gd")
+const PETS = preload("res://scripts/world/village_a_pets.gd")
 var birds: Array[Node3D] = []
 var clock := 0.0
 var current_season := BOTANY.DEFAULT_SEASON
@@ -52,6 +53,9 @@ func _ready() -> void:
 			if season >= 0:
 				set_season_palette(season)
 	add_child(WILDLIFE.new())
+	var pets := PETS.new()
+	pets.name = "VillagePets"
+	add_child(pets)
 	for i in range(5):
 		var bird := Node3D.new()
 		add_child(bird)

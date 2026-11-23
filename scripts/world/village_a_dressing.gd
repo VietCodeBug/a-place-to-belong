@@ -3,6 +3,7 @@ extends Node3D
 
 const S = preload("res://scripts/world/shapes.gd")
 const LAND = preload("res://scripts/world/landscape.gd")
+const PLAN = preload("res://scripts/world/village_a_layout.gd")
 const WOOD := "906445"
 const END_GRAIN := "B48859"
 const FRAME := "664A39"
@@ -14,19 +15,16 @@ var base := Vector3.ZERO
 var turn := Basis.IDENTITY
 
 func setup() -> void:
-	stand(Vector2(9.12,127.35),-PI*.5)
-	awning("A6755E")
-	produce(Vector3(-.72,0,.90),"AB6549")
-	crate(Vector3(.78,0,.82),Vector3(.49,.35,.39))
-	barrel(Vector3(1.33,0,.24),.57)
-	crate(Vector3(.53,.35,.77),Vector3(.29,.19,.25))
-	stopper(Vector3(-1.47,0,.12),.36,"A77956")
-
-	stand(Vector2(3.03,125.85),1.25)
-	crate(Vector3.ZERO,Vector3(.66,.38,.46))
-	produce(Vector3(0,.38,0),"A18C4D")
-	barrel(Vector3(-.63,0,0),.55)
-	stopper(Vector3(.56,0,.12),.32,"6F8779")
+	for stall in PLAN.MARKET_STALLS:
+		stand(stall[0],stall[1])
+		awning(stall[3],stall[2])
+		crate(Vector3(.87,0,.67),Vector3(.48,.35,.39))
+		barrel(Vector3(1.35,0,.045),.54)
+		crate(Vector3(.87,.35,.67),Vector3(.32,.22,.28))
+		stopper(Vector3(-1.42,0,.09),.36,stall[3])
+	for seat in [Vector2(.34,135.41),Vector2(2.51,134.31)]:
+		stand(seat,.02 if seat.x<1.0 else PI*.5)
+		bench()
 
 	stand(Vector2(18.55,124.96),-1.55)
 	wood_rack()
@@ -40,8 +38,8 @@ func setup() -> void:
 	produce(Vector3(.90,.31,.24),"7C8A4E")
 	stopper(Vector3(-.88,0,.20),.42,"B38864")
 
-	for site in [[Vector2(8.5,108.85),-1.10],[Vector2(9.45,133.43),-1.56],
-			[Vector2(2.1,135.63),1.33],[Vector2(-10.79,145.92),1.64],[Vector2(8.51,157.97),-1.55]]:
+	for site in [[Vector2(8.5,108.85),-1.10],[Vector2(11.05,130.32),-1.56],
+			[Vector2(2.87,136.44),1.33],[Vector2(-10.79,145.92),1.64],[Vector2(8.51,157.97),-1.55]]:
 		stand(site[0],site[1])
 		barrel(Vector3.ZERO,.52)
 		stopper(Vector3(.43,0,.13),.35,"936C52")
@@ -75,7 +73,7 @@ func solid(at: Vector3,size: Vector3) -> void:
 	prop.basis = turn
 	prop.hide()
 
-func awning(canvas: String) -> void:
+func awning(canvas: String,goods: String) -> void:
 	for x in [-1.12,1.12]:
 		for z in [-.50,.50]:
 			add_piece("Planks",Vector3(x,.095,z),Vector3(.24,.19,.23),"918070")
@@ -94,9 +92,24 @@ func awning(canvas: String) -> void:
 		add_piece("Planks",Vector3(0,.20+i*.145,.59),Vector3(1.98,.130,.050),[WOOD,BRACE,"795337",WOOD][i])
 	add_piece("Planks",Vector3(0,.84,.29),Vector3(2.18,.115,.77),END_GRAIN)
 	add_piece("Planks",Vector3(0,.414,.625),Vector3(1.70,.080,.052),BRACE,Vector3(0,0,.28))
-	produce(Vector3(-.63,.894,.24),"9C5843")
-	produce(Vector3(.45,.894,.36),"CF984E")
-	stopper(Vector3(.84,.894,.31),.25,"697F71")
+	add_piece("Planks",Vector3(-.86,2.13,.645),Vector3(.49,.23,.061),FRAME)
+	add_piece("Planks",Vector3(-.86,2.13,.685),Vector3(.39,.14,.023),canvas)
+	match goods:
+		"produce":
+			produce(Vector3(-.66,.895,.26),"A05943")
+			produce(Vector3(-.18,.895,.36),"C5974D")
+			produce(Vector3(.39,.895,.24),"778948")
+		"pottery":
+			for i in 5:
+				var tint: String = ["7B968D","BC9C76","A96F55","62817B","D0AE87"][i]
+				stopper(Vector3(-.72+i*.36,.895,.28+(i%2)*.135),.21+i%3*.08,tint)
+		"bread":
+			add_piece("Planks",Vector3(0,.913,.27),Vector3(1.58,.042,.38),"AF835C")
+			for i in 6:
+				var x := -.64+float(i%3)*.49+.063*floorf(i/3.0)
+				var z := .145+floorf(i/3.0)*.21
+				add_piece("Fruit",Vector3(x,.992,z),Vector3(.31,.125,.18),"BE853F",Vector3(0,.16*i,0))
+				add_piece("Planks",Vector3(x,.053+.989,z),Vector3(.022,.012,.067),"DFB477",Vector3(0,.39+.16*i,0))
 	solid(Vector3(0,.425,.31),Vector3(2.16,.91,.70))
 
 func wood_rack() -> void:

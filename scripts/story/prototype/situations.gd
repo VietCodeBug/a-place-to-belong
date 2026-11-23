@@ -7,8 +7,8 @@ const WOOD := "thomas_wood"
 const MEAL := "clara_table"
 const LOG_AT := Vector2(-6.15,18.83)
 const LOG_STACK := Vector2(-7.62,18.97)
-const BOWL_AT := Vector2(3.18,130.31)
-const MEAL_TABLE := Vector2(4.85,130.02)
+const BOWL_AT := PLAN.MEAL_SHELF
+const MEAL_TABLE := PLAN.MEAL_TABLE
 var stage: Node3D
 var targets: Dictionary = {}
 var log_piece: MeshInstance3D
@@ -31,6 +31,7 @@ func setup(owner_stage: Node3D) -> void:
 	log_piece.rotation = Vector3(PI*.5,0.0,-.13)
 	var at := ground(MEAL_TABLE)
 	S.box(self,at+Vector3.UP*.74,Vector3(1.06,.11,.73),"826049")
+	S.box(self,at+Vector3.UP*.38,Vector3(1.05,.76,.70),"FFFFFF",true).hide()
 	for side in [-.43,.43]:
 		S.box(self,at+Vector3(side,.36,0),Vector3(.12,.73,.52),"674A37")
 	var shape := CylinderMesh.new()
@@ -39,7 +40,7 @@ func setup(owner_stage: Node3D) -> void:
 	shape.height = .09
 	shape.radial_segments = 12
 	bowl = S.mesh(self,shape,ground(BOWL_AT)+Vector3.UP*.76,"C7B085")
-	S.box(self,ground(BOWL_AT)+Vector3.UP*.36,Vector3(.45,.70,.45),"77543E")
+	S.box(self,ground(BOWL_AT)+Vector3.UP*.361,Vector3(1.18,.72,.58),"77543E",true)
 	table_bowl = S.mesh(self,shape,at+Vector3.UP*.84,"ACC0A4")
 	table_bowl.hide()
 	point("loose_log","Nhặt khúc củi",LOG_AT,.18,pickup.bind(WOOD))
@@ -73,7 +74,7 @@ func begin(id: String) -> void:
 	if not available(id):
 		return
 	stage.session.object_state(id,"accepted")
-	stage.hub.ui.story_notice("Nhặt khúc gỗ vừa lăn ra." if id==WOOD else "Lấy bát ở ghế thấp rồi đặt lên bàn.")
+	stage.hub.ui.story_notice("Nhặt khúc gỗ vừa lăn ra." if id==WOOD else "Lấy bát ở kệ dọn mâm rồi đặt lên bàn.")
 	refresh()
 
 func pickup(id: String) -> void:

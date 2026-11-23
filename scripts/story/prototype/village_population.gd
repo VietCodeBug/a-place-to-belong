@@ -78,8 +78,9 @@ func create_residents() -> void:
 		var meeting_site := PLAN.COMMON+Vector2((index%6-2.5)*1.25,(floori(index/6.0)-2)*1.17)
 		if index>=12:
 			meeting_site = Vector2(6.5+(index%4-1.5)*1.75,140+index%5*4.0)
-		meeting_site = {"VLA-01":Vector2(3,127),"VLA-04":Vector2(4,127),"VLA-06":Vector2(4,129),
-			"VLA-23":Vector2(6,128),"VLA-18":Vector2(14,132),"VLA-19":Vector2(15,131)}.get(id,meeting_site)
+		meeting_site = {"VLA-01":Vector2(3,127),"VLA-04":Vector2(4,127),
+			"VLA-06":PLAN.MEAL_TABLE+Vector2(.25,-1.05),"VLA-23":PLAN.MEAL_TABLE+Vector2(1.35,-.8),
+			"VLA-18":Vector2(14,132),"VLA-19":Vector2(15,131)}.get(id,meeting_site)
 		var social := reserve(meeting_site,reserved)
 		var person := NPC.new()
 		person.name = id
@@ -149,6 +150,10 @@ func prepare_work(person: Node3D, work: Vector2i, index: int, reserved: Dictiona
 	if id=="VLA-01": nearby = Vector2(-4.4,122.0)
 	if id=="VLA-04": nearby = Vector2(16,123.2)
 	if id in ["VLA-18","VLA-19"]: nearby = Vector2(17.0+index%2,131.0)
+	var serves_meal := id in ["VLA-06","VLA-23"]
+	var server_side := -1.0 if id=="VLA-06" else 1.0
+	if serves_meal:
+		nearby = PLAN.MEAL_SHELF+Vector2(server_side*.68,-.75)
 	var source := reserve(nearby,reserved)
 	var near := Vector2(source)+Vector2(.33,.25)
 	var at: Vector3 = person.grounded(near)
@@ -159,6 +164,9 @@ func prepare_work(person: Node3D, work: Vector2i, index: int, reserved: Dictiona
 	var landed: Vector3 = person.grounded(Vector2(work)+Vector2(.42,.22))
 	var placed := prop.duplicate() as Node3D
 	placed.position = landed+Vector3.UP*.13
+	if serves_meal:
+		prop.position = stage.hub.ground(PLAN.MEAL_SHELF.x,PLAN.MEAL_SHELF.y,.766)+Vector3.RIGHT*.34*server_side
+		placed.position = stage.hub.ground(PLAN.MEAL_TABLE.x,PLAN.MEAL_TABLE.y,.843)+Vector3.RIGHT*.34*server_side
 	add_child(placed)
 	for unit in [prop,placed]:
 		for mesh: MeshInstance3D in unit.find_children("*","MeshInstance3D",true,false):
@@ -188,7 +196,8 @@ func routine(person: Node3D, step: float) -> void:
 			navigate(person,job.work)
 			person.work_wait = .84
 		"carrying":
-			person.face(Vector2(job.work)+Vector2(.42,.22))
+			var destination: Vector3 = job.placed.position
+			person.face(Vector2(destination.x,destination.z))
 			person.work_phase = "using"
 			person.work_wait = 1.2
 			stage.sound("water" if id=="VLA-01" else "tap",person.global_position)

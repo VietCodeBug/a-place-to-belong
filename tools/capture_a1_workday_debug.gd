@@ -42,7 +42,7 @@ func lunch_exchange() -> bool:
 	stage.skip_intro()
 	stage.enter_outdoors()
 	stage.weather.set_time(13.05)
-	var verge := Vector2(5.2,125.2)
+	var verge := PLAN.MEAL_TABLE+Vector2(3.5,-2.8)
 	hub.superworld.prepare_at(verge)
 	player.position = hub.ground(verge.x,verge.y,.06)
 	player.velocity = Vector3.ZERO

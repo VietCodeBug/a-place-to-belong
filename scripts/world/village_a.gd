@@ -205,11 +205,10 @@ func build_shared_spaces() -> void:
 	var common := Node3D.new()
 	common.name="SharedCourtyard"
 	add_child(common)
-	route([PLAN.COMMON+Vector2(-3.0,0),PLAN.COMMON+Vector2(2.4,0)],2.35)
+	# Three short aprons connect the market and the separate dining pocket to the lanes.
+	for apron in PLAN.MARKET_APRONS:
+		route(apron[0],apron[1])
 	route([PLAN.CRAFT+Vector2(-1.5,0),PLAN.CRAFT+Vector2(2.0,.2)],1.85)
-	for dx in [-2.9,2.5]:
-		var table := A.place(common,"fantasy-town","stall-bench",at(PLAN.COMMON+Vector2(dx,0.3)),.82,1.48)
-		A.recolor(table,"836C52")
 	A.place(common,"fantasy-town","cart",at(PLAN.CRAFT+Vector2(-.16,1.48)),1.10,.72)
 	A.place(common,"nature","log_stack",at(PLAN.CRAFT+Vector2(1.07,-1.4)),.76,1.61)
 	for p in [Vector2(-10.6,122.4),Vector2(14.8,128.8),Vector2(2.0,128.8),Vector2(9.3,143.8)]:
@@ -252,7 +251,7 @@ func build_greenery() -> void:
 				snow_bank(set,Vector2(x,122.32),.46,.30)
 
 func is_open_ground(p: Vector2, lane_clearance: float) -> bool:
-	if p.distance_to(nearest_lane(p)) < lane_clearance:
+	if PLAN.is_market_apron(p) or p.distance_to(nearest_lane(p)) < lane_clearance:
 		return false
 	if p.distance_to(PLAN.GARDEN) < 2.5 or p.distance_to(PLAN.COMMON) < 3.15:
 		return false
@@ -286,7 +285,7 @@ func build_verges() -> void:
 			var center := Vector2(L.valley_path(z)+side*rng.randf_range(2.85,4.4),z)
 			for sample in range(27):
 				var p := center+Vector2(rng.randfn(0,.36),rng.randfn(0,.92))
-				if p.distance_to(nearest_lane(p)) < 2.32 or p.distance_to(PLAN.COMMON) < 3.7:
+				if PLAN.is_market_apron(p) or p.distance_to(nearest_lane(p)) < 2.32 or p.distance_to(PLAN.COMMON) < 3.7:
 					continue
 				var on_lot := false
 				for lot in PLAN.BUILDINGS:

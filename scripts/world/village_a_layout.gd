@@ -16,6 +16,18 @@ const BUILDINGS := [
 ]
 const GARDEN := Vector2(-7.8,120)
 const COMMON := Vector2(5.2,128)
+const MEAL_TABLE := Vector2(1.24,132.88)
+const MEAL_SHELF := Vector2(1.15,134.46)
+const MARKET_STALLS := [
+	[Vector2(10.0,127.70),-PI*.5,"produce","A56A55"],
+	[Vector2(9.97,132.85),-PI*.5,"pottery","68867B"],
+	[Vector2(2.22,126.55),PI*.5,"bread","AD884F"],
+]
+const MARKET_APRONS := [
+	[[Vector2(9.40,125.97),Vector2(9.48,134.10)],1.13],
+	[[Vector2(4.48,126.40),Vector2(2.30,126.59)],1.37],
+	[[Vector2(1.63,129.59),Vector2(1.40,133.75),Vector2(1.12,135.96)],1.77],
+]
 const CRAFT := Vector2(16.1,128.1)
 const EXIT := Vector2(6.6,180.0)
 const HOUSE_A := Vector2(16,-338)
@@ -38,3 +50,14 @@ const LANES := [
 	[Vector2(5.4,131.3),Vector2(0,128.3),Vector2(-9.5,129.5),Vector2(-9.7,136.5),Vector2(-9.3,139.1),Vector2(-8.8,146.3),Vector2(-5.9,150),Vector2(5.1,153.2)],
 	[Vector2(5.1,149.3),Vector2(9,148.2),Vector2(10.8,151.4),Vector2(13.8,158.6),Vector2(6.4,163)],
 ]
+
+static func is_market_apron(point: Vector2) -> bool:
+	if point.y<124.0 or point.y>138.0 or point.x< -1.4 or point.x>11.5:
+		return false
+	for apron in MARKET_APRONS:
+		var path: Array = apron[0]
+		for i in range(path.size()-1):
+			var edge := Geometry2D.get_closest_point_to_segment(point,path[i],path[i+1])
+			if edge.distance_to(point)<float(apron[1])+.25:
+				return true
+	return false

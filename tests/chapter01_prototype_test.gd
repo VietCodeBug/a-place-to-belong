@@ -96,9 +96,25 @@ func extra_checks() -> void:
 	ui.close()
 	stage.session.object_state(CASES.MEAL,"available")
 	stage.situations.begin(CASES.MEAL)
-	stage.situations.pickup(CASES.MEAL)
-	stage.situations.finish(CASES.MEAL,"player")
+	var before_courtyard := player.position
+	player.position = hub.ground(CASES.BOWL_AT.x,CASES.BOWL_AT.y-.73,.08)
+	player.velocity = Vector3.ZERO
+	if not await press_target(stage.situations.targets.meal_bowl):
+		return
+	player.position = hub.ground(CASES.MEAL_TABLE.x+.97,CASES.MEAL_TABLE.y-.10,.08)
+	player.velocity = Vector3.ZERO
+	if not await press_target(stage.situations.targets.meal_table):
+		return
 	check(stage.situations.table_bowl.visible and stage.session.memory("VLA-06")[CASES.MEAL]=="player","Community table did not persist")
+	for id in ["VLA-06","VLA-23"]:
+		var dishes: Dictionary = stage.village.deliveries[id]
+		var shelf_spot: Vector3 = dishes.prop.global_position
+		var table_spot: Vector3 = dishes.placed.global_position
+		check(Vector2(shelf_spot.x,shelf_spot.z).distance_to(CASES.BOWL_AT)<.50 and
+			Vector2(table_spot.x,table_spot.z).distance_to(CASES.MEAL_TABLE)<.50,
+			"Clara and Grace must keep their dishes in the side courtyard")
+	player.position = before_courtyard
+	player.velocity = Vector3.ZERO
 	stage.session.objects.erase(WORK.HAZEL+"_result")
 	stage.session.objects.erase("garden_1")
 	stage.session.activities.erase(WORK.HAZEL)

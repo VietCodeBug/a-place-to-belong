@@ -8,6 +8,14 @@ godot --path . -- --story-prototype
 
 Dùng WASD theo hướng nhìn, chuột để quan sát, E khi dấu ngắm đặt đúng đồ vật hoặc NPC, Shift để chạy, Esc để thoát thoại hoặc mở menu. Trong Điều khiển có độ nhạy, FOV và nhún đầu. Bản đồ M dùng ngoài trời. Thêm `--npc-debug` rồi dùng F8/F9 để đổi một giờ và xem trạng thái làm việc. Debug không cần để chơi.
 
+## Sạp làng, sân bên và chó mèo
+
+Đoạn đường lát qua sân chung dành cho lưu thông. Ba sạp nông sản, gốm và bánh nằm trên các khoảng lát hai bên và quay mặt ra đường. Bàn, kệ và ghế của khu dọn mâm ở sân bên cạnh. Bát của Clara và Grace xuất hiện trên kệ hoặc trên bàn theo công việc. A vẫn có thể dùng **E** để lấy bát và đặt lên bàn.
+
+Chó Shiba chạy dọc đường chính, còn mèo mướp chạy nước kiệu quanh ngã rẽ rồi tạt qua đường. Hai con đi theo cao độ mặt đất, chậm hoặc dừng khi gặp người hay nhau và quay đầu nếu lối phía trước bị chặn. Đây là động vật sinh hoạt trong làng. Shiba dùng GLB gốc của Quaternius theo CC0. Mèo mướp được dựng và rig trong Blender cho dự án, với các clip đứng, đi và chạy nước kiệu. File Blender và source dựng nằm trong `art_source/village_a`.
+
+Lượt kiểm kiểm tra bề rộng đoạn đường trong ảnh, chướng ngại dọc tuyến động vật, clip chạy của cả hai và thao tác E ở sân bên. [Ảnh trước và sau, ba sạp và video chó mèo](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-village-market-pets/docs/world/review-a1-village-market/README.md)
+
 ## Cảnh đường làng và minimap A1
 
 - Đường chính, ngõ và sân chung có mặt đá mòn, mạch đất và rêu nhẹ. Lớp lát theo địa hình hiện có, mờ dần ở mép cỏ và giữ hốc đường cũ. Mặt đá thay đổi khi ướt và khi có tuyết.
