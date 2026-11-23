@@ -38,7 +38,6 @@ func _ready() -> void:
 	var village := VILLAGE.new()
 	village.name = "VillageA"
 	add_child(village)
-	village.coat(get_parent().get_node("ForestHouseA"),.53)
 	var planting := preload("res://scripts/world/a1_planting.gd").new()
 	planting.name = "SeasonalPlanting"
 	add_child(planting)
@@ -468,6 +467,7 @@ func set_season_palette(season: int) -> void:
 		for shrub in woodland.seasonal_shrubs:
 			BOTANY.apply_season(shrub,season)
 	get_node("VillageA").set_season(season)
+	get_parent().get_node("ForestHouseA").set_season(season)
 	get_node("SeasonalPlanting").set_season(season)
 
 func build_reveal() -> void:

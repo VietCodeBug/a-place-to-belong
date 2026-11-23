@@ -22,6 +22,8 @@ var rain: GPUParticles3D
 var snow: MeshInstance3D
 var targets: Dictionary = {}
 var palette: Dictionary = {}
+var wear := 0.0
+var quilt_repair: Node3D
 var door: Node3D
 var stage: Node3D
 var items: Node3D
@@ -30,6 +32,7 @@ var window_season := -1
 
 func setup(owner_stage: Node3D, on_exit: Callable) -> void:
 	stage = owner_stage
+	wear = stage.hub.get_node("ForestHouseA").wear
 	build_room()
 	build_furniture()
 	build_window_view()
@@ -65,8 +68,15 @@ func surface(color: String, finish: int, vertical: bool) -> ShaderMaterial:
 		material.set_shader_parameter("tint",Color(color))
 		material.set_shader_parameter("finish",finish)
 		material.set_shader_parameter("vertical",vertical)
+		material.set_shader_parameter("wear",wear)
 		palette[key] = material
 	return palette[key]
+
+func set_wear(amount: float) -> void:
+	wear = clampf(amount,0.0,1.0)
+	for material: ShaderMaterial in palette.values():
+		material.set_shader_parameter("wear",wear)
+	quilt_repair.visible = wear>.15
 
 func box(at: Vector3, size: Vector3, color: String, solid := false, finish := 0, vertical := false) -> MeshInstance3D:
 	var mesh := S.box(self,at,size,color,solid)
@@ -133,9 +143,9 @@ func make_window(x: float, z: float) -> void:
 	sash.position = Vector3(x-.65,1.03,z+.07)
 	add_child(sash)
 	for dx in [0.0,.65,1.30]:
-		S.box(sash,Vector3(dx,.63,0),Vector3(.052,1.22,.090),TRIM)
+		S.box(sash,Vector3(dx,.63,0),Vector3(.052,1.22,.090),TRIM).material_override = surface(TRIM,0,true)
 	for y in [.035,.61,1.22]:
-		S.box(sash,Vector3(.65,y,0),Vector3(1.35,.048,.080),TRIM)
+		S.box(sash,Vector3(.65,y,0),Vector3(1.35,.048,.080),TRIM).material_override = surface(TRIM,0,false)
 	box(Vector3(x,1.63,z-.06),Vector3(1.40,1.16,.06),"FFFFFF",true).hide()
 	box(Vector3(x,2.36,z+.23),Vector3(1.91,.031,.032),"5C4635")
 	for side in [-1,1]:
@@ -175,6 +185,7 @@ func build_furniture() -> void:
 	add_child(quilt)
 	var cover := S.box(quilt,Vector3.ZERO,Vector3(1.42,.115,1.49),"60775F")
 	cover.material_override = surface("637D70",3,false)
+	stitch_quilt(quilt)
 	var hem := S.box(quilt,Vector3(0,.033,.72),Vector3(1.45,.095,.14),"87917A")
 	hem.material_override = surface("BCA16D",2,false)
 	for side in [-1,1]:
@@ -184,6 +195,7 @@ func build_furniture() -> void:
 	for index in 2:
 		var pillow := DETAILS.ellipsoid(self,Vector3(-3.89+index*.72,.709,-2.55),Vector3(.68,.229,.49),"DECFAC")
 		pillow.rotation.y = -.07+index*.18
+		pillow.material_override = surface("DECFAC",2,false)
 	box(Vector3(-2.37,.33,-3.22),Vector3(.67,.66,.62),TRIM,true)
 	box(Vector3(-2.37,.573,-2.899),Vector3(.61,.15,.051),OAK)
 	box(Vector3(-2.37,.573,-2.86),Vector3(.074,.025,.051),"AF8B54")
@@ -207,6 +219,20 @@ func build_furniture() -> void:
 	rug(Vector3(2.19,.014,1.13),Vector2(2.40,2.48),"6F795B")
 	build_kitchen()
 	build_hearth()
+
+func stitch_quilt(quilt: Node3D) -> void:
+	quilt_repair = Node3D.new()
+	quilt_repair.name = "StitchedPatch"
+	quilt_repair.position = Vector3(.33,.061,.30)
+	quilt_repair.rotation.y = -.17
+	quilt_repair.visible = wear>.15
+	quilt.add_child(quilt_repair)
+	var cloth := S.box(quilt_repair,Vector3.ZERO,Vector3(.28,.008,.18),"6A7A68")
+	cloth.material_override = surface("7A7961",2,false)
+	for seam in [-.078,.078]:
+		for stitch in 6:
+			var line := S.box(quilt_repair,Vector3((stitch-2.5)*.043,.006,seam),Vector3(.013,.004,.008),"BBAB83")
+			line.rotation.y = -.34+stitch%3*.16
 
 func rug(at: Vector3, size: Vector2, color: String) -> void:
 	box(at,Vector3(size.x,.022,size.y),color,false,3)
@@ -244,15 +270,15 @@ func lantern(at: Vector3) -> void:
 
 func build_kitchen() -> void:
 	box(Vector3(4.03,.46,-2.55),Vector3(.88,.92,1.93),"79563D",true)
-	box(Vector3(4.04,.944,-2.55),Vector3(.98,.095,2.01),"AB9679",false,1)
+	box(Vector3(4.04,.944,-2.55),Vector3(.98,.095,2.01),"AB9679",false,5)
 	for z in [-3.16,-2.55,-1.94]:
-		box(Vector3(3.58,.45,z),Vector3(.062,.66,.55),"526758",false,0,true)
-		box(Vector3(3.542,.45,z),Vector3(.026,.51,.415),"627263",false,0,true)
-		box(Vector3(3.518,.66,z),Vector3(.038,.035,.117),"B29059")
+		box(Vector3(3.58,.45,z),Vector3(.062,.66,.55),"526758",false,4,true)
+		box(Vector3(3.542,.45,z),Vector3(.026,.51,.415),"627263",false,4,true)
+		box(Vector3(3.518,.66,z),Vector3(.038,.035,.117),"B29059",false,6,true)
 	for row in 3:
 		for column in 11:
 			box(Vector3(4.469,1.057+row*.115,-3.50+column*.188),Vector3(.034,.105,.178),
-				["A79172","C1AB88","907B60","B6A088"][posmod(row+column*3,4)],false,1)
+				["A79172","C1AB88","907B60","B6A088"][posmod(row+column*3,4)],false,5)
 	DETAILS.profile(self,[[0,.006,"694D37"],[.226,.006,"765D49"],[.251,.036,"A97E56"],[.245,.076,"C49D72"],
 		[.225,.078,"BE976A"],[.210,.058,"997854"],[.168,.017,"735E47"],[0,.015,"685543"]],Vector3(4.04,.995,-3.13),.42)
 	DETAILS.tube(self,[Vector3(4.304,1.04,-3.13),Vector3(4.304,1.211,-3.13),Vector3(4.236,1.257,-3.13),
@@ -276,18 +302,18 @@ func build_kitchen() -> void:
 			tip.rotation.x = .56 if leaf%2==0 else -.56
 
 func build_hearth() -> void:
-	box(Vector3(-4.05,.15,1.73),Vector3(1.04,.30,1.48),"77695A",true,1)
-	box(Vector3(-4.49,1.59,1.73),Vector3(.23,2.77,1.16),"6F6050",false,1)
+	box(Vector3(-4.05,.15,1.73),Vector3(1.04,.30,1.48),"77695A",true,5)
+	box(Vector3(-4.49,1.59,1.73),Vector3(.23,2.77,1.16),"6F6050",false,5)
 	for row in 4:
 		for side in [-1,1]:
 			box(Vector3(-4.19,.35+row*.203,1.73+side*(.51+row%2*.023)),Vector3(.58,.192,.31+row%2*.055),
-				["817361","9A856C","756957","94826D"][posmod(row+side,4)],false,1)
+				["817361","9A856C","756957","94826D"][posmod(row+side,4)],false,5)
 	for row in 9:
 		var amount := 4 if row%2==0 else 3
 		for index in amount:
 			var z := 1.73+(index-(amount-1)*.5)*(1.11/amount)
 			var stone := box(Vector3(-4.31,1.32+row*.179,z),Vector3(.42+(index%2)*.017,.167,1.10/amount-.012),
-				["8D7D67","786A5A","978571","89775F"][posmod(row*5+index,4)],false,1)
+				["8D7D67","786A5A","978571","89775F"][posmod(row*5+index,4)],false,5)
 			stone.rotation.x = (index-1)*.025
 	box(Vector3(-4.24,1.19,1.73),Vector3(.68,.114,1.59),"6B4830")
 	box(Vector3(-4.22,1.279,1.73),Vector3(.72,.068,1.68),"886444")
@@ -403,9 +429,9 @@ func lighting() -> void:
 func update_climate(hour: float, wet: float, season: int) -> void:
 	var daylight := smoothstep(0.0,.44,sin((hour-6.0)*TAU/24.0))
 	environment.background_color = Color("243345").lerp(Color("9DAEB3"),daylight*(1.0-wet*.34))
-	environment.ambient_light_energy = .29+daylight*.37
+	environment.ambient_light_energy = (.29+daylight*.37)*(1.0-wear*.13)
 	sky_light.light_energy = .13+daylight*.8*(1.0-wet*.61)
-	window_light.light_energy = .16+daylight*.58*(1.0-wet*.47)
+	window_light.light_energy = (.16+daylight*.58*(1.0-wet*.47))*(1.0-wear*.09)
 	rain.emitting = wet>.14
 	snow.visible = season==3
 	if window_season!=season:

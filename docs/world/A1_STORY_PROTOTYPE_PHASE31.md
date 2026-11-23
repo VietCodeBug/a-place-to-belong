@@ -8,6 +8,12 @@ godot --path . -- --story-prototype
 
 Dùng WASD theo hướng nhìn, chuột để quan sát, E khi dấu ngắm đặt đúng đồ vật hoặc NPC, Shift để chạy, Esc để thoát thoại hoặc mở menu. Trong Điều khiển có độ nhạy, FOV và nhún đầu. Bản đồ M dùng ngoài trời. Thêm `--npc-debug` rồi dùng F8/F9 để đổi một giờ và xem trạng thái làm việc. Debug không cần để chơi.
 
+## Nhà A lúc mới nhận
+
+Sàn gỗ mòn ở lối đi, tủ bếp bạc sơn, chăn có mảnh vá và lò có vệt ám khói. Bên ngoài, sơn cửa chớp sờn lộ gỗ, tường vôi bong nhẹ và rêu tập trung gần bậc hiên, chân tường. Mức hao mòn ban đầu là `0.72`. `set_house_wear()` điều chỉnh đồng thời cả trong lẫn ngoài, để lần sửa nhà sau có thể chuyển về diện mạo sáng và sạch hơn.
+
+[Ảnh trước và sau cùng góc trong Godot](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-house-a-weathered/docs/world/review-a1-house-wear/README.md)
+
 ## Sạp làng, sân bên và chó mèo
 
 Đoạn đường lát qua sân chung dành cho lưu thông. Ba sạp nông sản, gốm và bánh nằm trên các khoảng lát hai bên và quay mặt ra đường. Bàn, kệ và ghế của khu dọn mâm ở sân bên cạnh. Bát của Clara và Grace xuất hiện trên kệ hoặc trên bàn theo công việc. A vẫn có thể dùng **E** để lấy bát và đặt lên bàn.

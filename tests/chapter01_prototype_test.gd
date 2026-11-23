@@ -2,6 +2,7 @@ extends "res://tools/a1_story_walkthrough.gd"
 ## Exercises the full controller route before testing alternate world state.
 
 func extra_checks() -> void:
+	check_house_finish()
 	var registry: Dictionary = stage.village.registry
 	var stations: Dictionary = stage.village.stations
 	var graph: AStarGrid2D = stage.village.graph
@@ -159,3 +160,24 @@ func check_route_clearance(edges: Dictionary) -> void:
 		test.transform.origin = hub.ground(at.x,at.y,.82)
 		if not check(space.intersect_shape(test,1).is_empty(),"Scheduled route crosses a collider near %s" % at):
 			return
+
+func check_house_finish() -> void:
+	var cottage := hub.get_node("ForestHouseA")
+	if not check(cottage.finishes.size()>16 and not stage.house.palette.is_empty(),"House A materials must cover its exterior and interior"):
+		return
+	var starting: float = cottage.wear
+	check(is_equal_approx(starting,.72) and is_equal_approx(stage.house.wear,starting) and stage.house.quilt_repair.visible,
+		"The first visit should show the worn cottage and repaired quilt")
+	var village_house := hub.get_node("A1RiverValley/VillageA/A04")
+	for mesh: MeshInstance3D in village_house.find_children("*","MeshInstance3D",true,false):
+		for surface in mesh.mesh.get_surface_count():
+			var material := mesh.get_active_material(surface) as ShaderMaterial
+			check(material==null or material.shader!=cottage.SURFACE,"Village cottage inherited House A's finish")
+	stage.set_house_wear(0.0)
+	for material: ShaderMaterial in cottage.finishes+stage.house.palette.values():
+		check(is_zero_approx(material.get_shader_parameter("wear")),"House finish did not update for a later restoration")
+	check(not stage.house.quilt_repair.visible,"The quilt patch must follow the wear state")
+	stage.set_house_wear(starting)
+	cottage.set_season(3)
+	check(cottage.finishes[0].get_shader_parameter("snow")>.8,"Winter still needs snow on House A")
+	cottage.set_season(stage.current_season())

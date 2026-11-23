@@ -7,6 +7,7 @@ const VILLAGE = preload("res://scripts/world/village_a_layout.gd")
 const SUPERWORLD = preload("res://scripts/world/superworld/a1_superworld.gd")
 const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const EYES = preload("res://scripts/player/a1_eyes.gd")
+const HOUSE_EXTERIOR = preload("res://scripts/world/house_a_exterior.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
 var eyes: RefCounted
@@ -113,7 +114,7 @@ func _ready() -> void:
 		story_prototype.setup(self)
 
 func place_house_a(expanded: bool) -> void:
-	var root := Node3D.new()
+	var root := HOUSE_EXTERIOR.new()
 	root.name = "ForestHouseA"
 	add_child(root)
 	root.position = ground(VILLAGE.HOUSE_A.x,VILLAGE.HOUSE_A.y)
@@ -125,6 +126,7 @@ func place_house_a(expanded: bool) -> void:
 	if expanded:
 		var threshold := Vector3(-.49,.48,2.76)
 		home.position = threshold*(Vector3.ONE*.79-home.scale)
+	root.setup(home)
 	if expanded:
 		S.box(home,Vector3(-.44,1.6,-.05),Vector3(5.14,3.2,4.34),"FFFFFF",true).hide()
 		S.box(home,Vector3(1.04,.38,2.92),Vector3(.11,.1,.2),"34271C")

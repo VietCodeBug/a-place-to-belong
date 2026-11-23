@@ -222,6 +222,11 @@ func enter_outdoors() -> void:
 func current_season() -> int:
 	return hub.get_node("A1RiverValley").current_season
 
+func set_house_wear(amount: float) -> void:
+	var exterior := hub.get_node("ForestHouseA")
+	exterior.set_wear(amount)
+	house.set_wear(exterior.wear)
+
 func skip_intro() -> void:
 	intro_running = false
 	hub.player.blocked = false
