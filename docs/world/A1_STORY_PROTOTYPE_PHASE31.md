@@ -8,6 +8,12 @@ godot --path . -- --story-prototype
 
 Dùng WASD theo hướng nhìn, chuột để quan sát, E khi dấu ngắm đặt đúng đồ vật hoặc NPC, Shift để chạy, Esc để thoát thoại hoặc mở menu. Trong Điều khiển có độ nhạy, FOV và nhún đầu. Bản đồ M dùng ngoài trời. Thêm `--npc-debug` rồi dùng F8/F9 để đổi một giờ và xem trạng thái làm việc. Debug không cần để chơi.
 
+## Mẫu nhân vật tạm thời
+
+A, Thomas, cư dân Làng A, Eggeght và dàn nhân vật văn phòng dùng chung mẫu VRM của Pixiv để thử hình trong cảnh. Chuyển động của người chơi và dàn văn phòng lấy từ rig cũ. Trong A1, các đạo cụ làm việc được gắn vào xương bàn tay. Thêm `--original-cast` để xem dàn model trước khi thử mẫu.
+
+[Nguồn và giấy phép](../../assets/characters/pixiv_vrm_sample/README.md) · [Ảnh trong Godot](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-pixiv-sample-cast/docs/world/review-pixiv-cast/README.md)
+
 ## Nhà A lúc mới nhận
 
 Sàn gỗ mòn ở lối đi, tủ bếp bạc sơn, chăn có mảnh vá và lò có vệt ám khói. Bên ngoài, sơn cửa chớp sờn lộ gỗ, tường vôi bong nhẹ và rêu tập trung gần bậc hiên, chân tường. Mức hao mòn ban đầu là `0.72`. `set_house_wear()` điều chỉnh đồng thời cả trong lẫn ngoài, để lần sửa nhà sau có thể chuyển về diện mạo sáng và sạch hơn.

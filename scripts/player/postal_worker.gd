@@ -1,6 +1,7 @@
 extends CharacterBody3D
 ## Samatha is the temporary player; retain supplied textures and animation clips.
 const AVATAR = preload("res://assets/characters/samatha/samatha.glb")
+const SAMPLE = preload("res://scripts/story/prototype/sample_cast.gd")
 var blocked := false
 var eyes: RefCounted
 var superworld: Node3D
@@ -32,6 +33,12 @@ func _ready() -> void:
 			if clip.ends_with("Running"): running_clip = clip
 	prepare_idle_arms()
 	update_animation(false,false)
+	if SAMPLE.enabled():
+		var sample := SAMPLE.new()
+		model.add_child(sample)
+		sample.setup(1.7,true)
+		sample.follow(avatar_skeleton)
+		avatar.hide()
 
 func _physics_process(delta: float) -> void:
 	var input := Vector2.ZERO if blocked else Input.get_vector("move_left", "move_right", "move_up", "move_down")

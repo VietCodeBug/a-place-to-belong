@@ -8,6 +8,7 @@ const SUPERWORLD = preload("res://scripts/world/superworld/a1_superworld.gd")
 const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const EYES = preload("res://scripts/player/a1_eyes.gd")
 const HOUSE_EXTERIOR = preload("res://scripts/world/house_a_exterior.gd")
+const SAMPLE_CAST = preload("res://scripts/story/prototype/sample_cast.gd")
 const StoryNode = preload("res://scripts/interactions/story_interactable.gd")
 
 var eyes: RefCounted
@@ -154,6 +155,12 @@ func setup_eggeght(npc: Node3D) -> void:
 	pose.name = "EggeghtPose"
 	pose.set_script(preload("res://scripts/npc/eggeght_pose.gd"))
 	npc.add_child(pose)
+	if SAMPLE_CAST.enabled():
+		var sample := SAMPLE_CAST.new()
+		npc.add_child(sample)
+		sample.setup(1.65)
+		sample.rotation.y = 0.52
+		npc.get_node("Visual").hide()
 	var chat := StoryNode.new()
 	chat.name = "EggeghtChat"
 	chat.interaction_name = "Talk to Eggeght"

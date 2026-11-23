@@ -3,6 +3,7 @@ extends Node3D
 @export var model: PackedScene
 @export var seated_hip_drop := 0.32
 const PERFORMANCE = preload("res://scripts/story/character_performance.gd")
+const SAMPLE = preload("res://scripts/story/prototype/sample_cast.gd")
 const MIXAMO_BONES := {
 	"Hips": "Hips", "Chest": "Spine2", "Head": "Head",
 	"ThighL": "LeftUpLeg", "ThighR": "RightUpLeg",
@@ -53,6 +54,7 @@ var key_travel := PackedFloat32Array([0.0, 0.0])
 var gesture_side := "R"
 var first_person_head: MeshInstance3D
 var first_person_body := false
+var sample: SAMPLE
 var face_meshes: Array[MeshInstance3D] = []
 var face_expression := "Neutral"
 var expression_amount := 0.0
@@ -172,6 +174,12 @@ func _ready() -> void:
 			face_meshes.append(node_mesh)
 			for index in node_mesh.mesh.get_blend_shape_count():
 				face_shapes[String(node_mesh.mesh.get_blend_shape_name(index))] = true
+	if SAMPLE.enabled():
+		sample = SAMPLE.new()
+		add_child(sample)
+		sample.setup(FieldAssets.bounds(visual).size.y)
+		sample.follow(skeleton,true)
+		visual.hide()
 
 func find_rig_bone(name: String) -> int:
 	var index := skeleton.find_bone(name)
@@ -181,6 +189,8 @@ func use_first_person() -> void:
 	first_person_body = true
 	if first_person_head:
 		first_person_head.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	if sample!=null:
+		sample.set_first_person()
 
 func store_finger(side: String, name: String, palm_frame: Basis, digit: int) -> void:
 	for section in range(1, 4):

@@ -2,6 +2,7 @@ extends Node3D
 ## Replace this presentation node without changing resident IDs, schedules or memory.
 
 const S = preload("res://scripts/world/shapes.gd")
+const SAMPLE = preload("res://scripts/story/prototype/sample_cast.gd")
 const FABRICS := ["657D50","78586D","896144","496B73","62768C","9D7656","876C48","657669","965D53","58617A"]
 const SKIN := ["D2A77B","AF805B","E3BE98","BD906B","8B624A"]
 static var palette_material: StandardMaterial3D
@@ -18,6 +19,7 @@ var hauling := false
 var clock := 0.0
 var pose := "IDLE"
 var is_thomas := false
+var sample: SAMPLE
 
 func setup(data: Dictionary, index: int) -> void:
 	is_thomas = data.id=="THOMAS"
@@ -75,6 +77,14 @@ func setup(data: Dictionary, index: int) -> void:
 	for joint in [body,head,left_arm,right_arm,left_leg,right_leg,axe]:
 		if joint!=null:
 			batch_joint(joint)
+	if SAMPLE.enabled():
+		sample = SAMPLE.new()
+		add_child(sample)
+		sample.setup(height,true)
+		for prop in [axe,work_item]:
+			if prop!=null:
+				sample.grip(prop)
+		body.hide()
 	name_label = label_at(str(data.get("name_en","Thomas")),Vector3(0,height+.33,0),30)
 	gesture_label = label_at("",Vector3(0,height+.65,0),24)
 	visit(false)
@@ -203,3 +213,6 @@ func _process(delta: float) -> void:
 		if hauling:
 			right_arm.rotation.x = -.87+.06*sway
 			left_arm.rotation.x = -.68-.055*sway
+	if sample!=null:
+		sample.village_pose(left_arm.rotation.x,right_arm.rotation.x,left_leg.rotation.x,
+			Vector2(head.rotation.x,head.rotation.y),is_thomas and work,hauling)

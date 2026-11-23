@@ -1,0 +1,123 @@
+{
+  "source_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+  "source": "https://github.com/pixiv/three-vrm/blob/5a3242b66124386c32b085c6693d9059040e72e5/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm",
+  "license": {
+    "allowAntisocialOrHateUsage": false,
+    "allowExcessivelySexualUsage": true,
+    "allowExcessivelyViolentUsage": true,
+    "allowPoliticalOrReligiousUsage": true,
+    "allowRedistribution": true,
+    "authors": [
+      "pixiv Inc."
+    ],
+    "avatarPermission": "everyone",
+    "commercialUsage": "corporation",
+    "copyrightInformation": "(c) 2022 pixiv Inc.",
+    "creditNotation": "unnecessary",
+    "licenseUrl": "https://vrm.dev/licenses/1.0/",
+    "modification": "allowModificationRedistribution",
+    "name": "VRM1_Constraint_Twist_Sample",
+    "thumbnailImage": 18,
+    "version": "v1.0.1"
+  },
+  "constraints": [
+    [
+      "J_Aim_L_UpperLeg",
+      "LeftLeg",
+      "aim",
+      "NegativeY",
+      1
+    ],
+    [
+      "J_Aim_R_UpperLeg",
+      "RightLeg",
+      "aim",
+      "NegativeY",
+      1
+    ],
+    [
+      "J_Aim_L_Shoulder",
+      "LeftForeArm",
+      "aim",
+      "PositiveX",
+      1
+    ],
+    [
+      "J_Roll_L_UpperArm",
+      "LeftArm",
+      "roll",
+      "X",
+      0.5
+    ],
+    [
+      "J_Aim_L_TopsUpperArm",
+      "LeftForeArm",
+      "aim",
+      "PositiveX",
+      1
+    ],
+    [
+      "J_Roll_L_Hand",
+      "LeftHand",
+      "roll",
+      "X",
+      1
+    ],
+    [
+      "J_Roll_L_LowerArm",
+      "LeftHand",
+      "roll",
+      "X",
+      0.5
+    ],
+    [
+      "J_Roll_L_Elbow",
+      "LeftForeArm",
+      "roll",
+      "Y",
+      0.5
+    ],
+    [
+      "J_Aim_R_Shoulder",
+      "RightForeArm",
+      "aim",
+      "NegativeX",
+      1
+    ],
+    [
+      "J_Roll_R_UpperArm",
+      "RightArm",
+      "roll",
+      "X",
+      0.5
+    ],
+    [
+      "J_Aim_R_TopsUpperArm",
+      "RightForeArm",
+      "aim",
+      "NegativeX",
+      1
+    ],
+    [
+      "J_Roll_R_Hand",
+      "RightHand",
+      "roll",
+      "X",
+      1
+    ],
+    [
+      "J_Roll_R_LowerArm",
+      "RightHand",
+      "roll",
+      "X",
+      0.5
+    ],
+    [
+      "J_Roll_R_Elbow",
+      "RightForeArm",
+      "roll",
+      "Y",
+      0.5
+    ]
+  ]
+}
