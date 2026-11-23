@@ -814,12 +814,47 @@
           "all_three_gameplay_events_done",
           "Grace_present"
         ],
-        "then": "VLA23-QF.status=completed"
+        "then": "VLA23-QF.status=completed",
+        "conditional_variants": [
+          {
+            "when": [
+              "selected_choice==stay_and_eat",
+              "Grace_present"
+            ],
+            "line_id": "VLA23-QF-C1",
+            "text_vi": "Ăn cùng nhau thế này mới thấy bữa ăn thật sự trọn vẹn.",
+            "speaker_id": "VLA-23"
+          },
+          {
+            "when": [
+              "selected_choice==help_then_go",
+              "other_guest_present",
+              "Grace_present"
+            ],
+            "line_id": "VLA23-QF-C1",
+            "text_vi": "Ăn cùng nhau thế này mới thấy bữa ăn thật sự trọn vẹn.",
+            "speaker_id": "VLA-23"
+          },
+          {
+            "when": [
+              "selected_choice==help_then_go",
+              "other_guest_present==false",
+              "Grace_present"
+            ],
+            "line_id": "VLA23-QF-C-LEAVE",
+            "text_vi": "Cảm ơn cậu đã chuẩn bị. Tôi cũng muốn ngồi ăn một bữa cho mình.",
+            "speaker_id": "VLA-23"
+          }
+        ]
       },
       "outcomes": {
         "completed": {
           "world_vi": "Grace thay đổi thói quen: từ nay chủ động cùng ăn và nhờ giúp khi cần; bữa ăn vẫn diễn ra nếu A không tham gia.",
-          "revisit_vi": "Tôi đã ngồi ăn cùng mọi người ngay từ đầu bữa đó. Cảm ơn cậu đã giúp bày bàn."
+          "revisit_vi": "Tôi đã ngồi ăn cùng mọi người ngay từ đầu bữa đó. Cảm ơn cậu đã giúp bày bàn.",
+          "revisit_by_choice": {
+            "stay_and_eat": "Bữa trước tôi ngồi ăn cùng cậu từ đầu. Tôi vẫn nhớ buổi đó.",
+            "help_then_go": "Cậu đã giúp bày bàn hôm trước. Sau khi cậu đi, tôi cũng ngồi ăn sớm hơn mọi khi."
+          }
         },
         "resolved_without_player": {
           "world_vi": "Grace tự quyết ngồi sớm, không biến tâm trạng bà phụ thuộc vào A.",
