@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "origin": "User upload, 2026-11-16",
+  "source_filename": "Meshy_AI_61e43d46143775914cf9d73200ac528f_reduced_20261116_animated_mixamo_All_animation.glb",
+  "rights": "User supplied for this prototype; no third-party CC0 license inferred or separate commercial license verification claimed",
+  "status": "Temporary player, user-selected after embedded color texture review",
+  "rig_joints": 66,
+  "animation_clips": [
+    "Running",
+    "Walking",
+    "Casual_Walk"
+  ],
+  "workflow": "Unmodified GLB, manual structural/texture inspection and Godot import; no generation provider used",
+  "files": [
+    {
+      "path": "assets/characters/samatha/samatha.glb",
+      "bytes": 26785556,
+      "sha256": "1647b9c21670479476bcf9b4657bf7a204f03542d1728e6581d59017ec77f03b"
+    },
+    {
+      "path": "assets/characters/samatha/samatha_texture_pbr_20250901.png",
+      "bytes": 12923771,
+      "sha256": "3bd941a279b7e6cbd6e8bc192f66b868d00aa7d5cb5b9342f049c2a0bc68d9f5"
+    },
+    {
+      "path": "assets/characters/samatha/samatha_texture_pbr_20250901_metallic-texture_pbr_20250901_roughness.png",
+      "bytes": 7836916,
+      "sha256": "c4a294c1acd046f7946b1c5dd35f7a16f83dd9aa4ff82400a9fedf76ab63cc11"
+    },
+    {
+      "path": "assets/characters/samatha/samatha_texture_pbr_20250901_normal.png",
+      "bytes": 4686748,
+      "sha256": "87dd914c119912664b6be48fdf76a79bb0ba88c1421bd0160d8011506c0a4db6"
+    }
+  ],
+  "derived_textures": "Godot importer extracted the three embedded maps into adjacent PNG source files; retain and verify these alongside the unchanged GLB"
+}

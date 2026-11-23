@@ -1,0 +1,391 @@
+{
+  "author": "Kenney",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "official_pack_pages": {
+    "nature": "https://www.kenney.nl/assets/nature-kit/",
+    "fantasy-town": "https://www.kenney.nl/assets/fantasy-town-kit/",
+    "furniture": "https://www.kenney.nl/assets/furniture-kit/"
+  },
+  "source_repository": "https://github.com/shorepine/kenney",
+  "source_commit": "3694c6879e487c108f55677be7dd2ca75b07cc3b",
+  "source_note": "Third-party mirror; each blob checked against the pinned Git tree. Official pack pages independently state CC0. Mirror root LICENSE.txt is labelled Castle Kit and is not used as the specific license evidence for these packs.",
+  "admission": "Manual workflow expressly authorized in chat because game-dev CLI is absent. This manifest is not a game-dev canonical package receipt.",
+  "files": [
+    {
+      "path": "nature/tree_pineTallA_detailed.glb",
+      "sha256": "9ba6337460e718b8baf165b23c02f39455e3d5757b1911505410c46bc88a86b5",
+      "bytes": 10708,
+      "source_path": "3d/nature/tree_pineTallA_detailed.glb",
+      "triangles": 134
+    },
+    {
+      "path": "nature/tree_pineTallB_detailed.glb",
+      "sha256": "a26b4434e1592ec1a83f364a54688bb34c48d9521bfccbe63f0cc37b381c4696",
+      "bytes": 12632,
+      "source_path": "3d/nature/tree_pineTallB_detailed.glb",
+      "triangles": 166
+    },
+    {
+      "path": "nature/tree_pineTallC_detailed.glb",
+      "sha256": "b538e229a9fb8cbbb579fa2a0df784d5354c8a70faa115fa80f8190f2e6bef47",
+      "bytes": 11588,
+      "source_path": "3d/nature/tree_pineTallC_detailed.glb",
+      "triangles": 154
+    },
+    {
+      "path": "nature/tree_pineTallD_detailed.glb",
+      "sha256": "a2fac08d7cb337e7b02c7d7f0d6911aa6fcef97b721da9cffb432b8dc3949e2d",
+      "bytes": 12548,
+      "source_path": "3d/nature/tree_pineTallD_detailed.glb",
+      "triangles": 170
+    },
+    {
+      "path": "nature/tree_pineRoundC.glb",
+      "sha256": "29080a4935bae6b4ab29066f22c99c58f88b23ce4e2f79b4dcbb5e76de73f69d",
+      "bytes": 15332,
+      "source_path": "3d/nature/tree_pineRoundC.glb",
+      "triangles": 206
+    },
+    {
+      "path": "nature/tree_oak_fall.glb",
+      "sha256": "43a258d17b5428d8ef525a19e30e667caeeb330b6f3cb367a07da12093ff97a1",
+      "bytes": 14640,
+      "source_path": "3d/nature/tree_oak_fall.glb",
+      "triangles": 196
+    },
+    {
+      "path": "nature/plant_bushDetailed.glb",
+      "sha256": "2e0487020d68ccf664435db9d829c78ae00e6d2785ee3ec10b9f89cc70a10406",
+      "bytes": 10172,
+      "source_path": "3d/nature/plant_bushDetailed.glb",
+      "triangles": 104
+    },
+    {
+      "path": "nature/plant_bushLarge.glb",
+      "sha256": "10e1d9fbf29d96d1d1a56fb2ce25ae66537505101759229afe01ae22c6c45e02",
+      "bytes": 6436,
+      "source_path": "3d/nature/plant_bushLarge.glb",
+      "triangles": 60
+    },
+    {
+      "path": "nature/grass_large.glb",
+      "sha256": "af49a595624abca7249824eeefb944d4baf974abeeb5b16110d175da3563d6cd",
+      "bytes": 18504,
+      "source_path": "3d/nature/grass_large.glb",
+      "triangles": 224
+    },
+    {
+      "path": "nature/grass_leafs.glb",
+      "sha256": "8bc4c0b17c2e64c34e1acbf7c4a2fd8c04cfcd7155328e61767887b2ced112c7",
+      "bytes": 4608,
+      "source_path": "3d/nature/grass_leafs.glb",
+      "triangles": 36
+    },
+    {
+      "path": "nature/rock_largeA.glb",
+      "sha256": "6dd15390fd96501dcd1454765a17ba61dbbd8d47705dfe5149c8dd92b353ce25",
+      "bytes": 7552,
+      "source_path": "3d/nature/rock_largeA.glb",
+      "triangles": 80
+    },
+    {
+      "path": "nature/rock_largeB.glb",
+      "sha256": "caa8b025833d4dabf6d98fe2e96cf2fbd886693ac990df0db75f9d827194374b",
+      "bytes": 8560,
+      "source_path": "3d/nature/rock_largeB.glb",
+      "triangles": 85
+    },
+    {
+      "path": "nature/rock_smallC.glb",
+      "sha256": "5cbc0a805f275771baf19165c7132288e4834ba97ec0fb16ce9cc37e1c2522e2",
+      "bytes": 3044,
+      "source_path": "3d/nature/rock_smallC.glb",
+      "triangles": 16
+    },
+    {
+      "path": "nature/flower_yellowA.glb",
+      "sha256": "8a3b08cd2ca411c21f9c581d5bda651d78b13c50cba45ad8fa0389398ead6d1d",
+      "bytes": 7120,
+      "source_path": "3d/nature/flower_yellowA.glb",
+      "triangles": 76
+    },
+    {
+      "path": "nature/flower_redC.glb",
+      "sha256": "5a5c9c8572e8f56287ee1f5f836f98ac08e275f31325b4bc91d2832bc142ceb7",
+      "bytes": 7600,
+      "source_path": "3d/nature/flower_redC.glb",
+      "triangles": 78
+    },
+    {
+      "path": "nature/flower_purpleB.glb",
+      "sha256": "2afb10cd68a9a7b185fc46110be0da550ea2aef86ef9ac6b7339f217eb4b636a",
+      "bytes": 8084,
+      "source_path": "3d/nature/flower_purpleB.glb",
+      "triangles": 98
+    },
+    {
+      "path": "nature/log_stack.glb",
+      "sha256": "90eaae4a01ba1f25c2f0c6d83087e4a7a8fac684f2452615245333968d118d68",
+      "bytes": 10896,
+      "source_path": "3d/nature/log_stack.glb",
+      "triangles": 184
+    },
+    {
+      "path": "nature/stump_roundDetailed.glb",
+      "sha256": "3017359bd0bdf84fa137f8aca33b31b1a54c3a3f11d36e1d0995868dedd53768",
+      "bytes": 8188,
+      "source_path": "3d/nature/stump_roundDetailed.glb",
+      "triangles": 96
+    },
+    {
+      "path": "nature/fence_planksDouble.glb",
+      "sha256": "0bbc8fe43f7a1d20de8ff2d687b5b08675beacb431e43ebbb0b1705b9c684f55",
+      "bytes": 11160,
+      "source_path": "3d/nature/fence_planksDouble.glb",
+      "triangles": 152
+    },
+    {
+      "path": "nature/sign.glb",
+      "sha256": "c658c21672ecd63c5d3e53f06f875d68e6509edb1ab7e3b75374df7c61e7dd0c",
+      "bytes": 5040,
+      "source_path": "3d/nature/sign.glb",
+      "triangles": 44
+    },
+    {
+      "path": "nature/pot_large.glb",
+      "sha256": "57e60214bc6ab1dc3764c9ffe80091ff45f2bfd49fbc313c1b68dcaab1537aef",
+      "bytes": 6168,
+      "source_path": "3d/nature/pot_large.glb",
+      "triangles": 68
+    },
+    {
+      "path": "fantasy-town/wall-wood.glb",
+      "sha256": "8699614fdbc99f565942709c0977c964e2c12f3b3c60098a6e2c397c973f08db",
+      "bytes": 4808,
+      "source_path": "3d/fantasy-town/wall-wood.glb",
+      "triangles": 32
+    },
+    {
+      "path": "fantasy-town/wall-wood-window-shutters.glb",
+      "sha256": "c45a63690760cd5de3842ffbe222092e8cd483524679c4ba92fef4d1e52f7248",
+      "bytes": 10612,
+      "source_path": "3d/fantasy-town/wall-wood-window-shutters.glb",
+      "triangles": 122
+    },
+    {
+      "path": "fantasy-town/wall-wood-door.glb",
+      "sha256": "2aa4e982fcb6434be4e6051fcee7972799ff5350a3f36ca8bf71530b84608123",
+      "bytes": 30744,
+      "source_path": "3d/fantasy-town/wall-wood-door.glb",
+      "triangles": 376
+    },
+    {
+      "path": "fantasy-town/wall-wood-corner.glb",
+      "sha256": "f4c38de352c80c110874fabe7323577d985af191c25242887574238146dc7d82",
+      "bytes": 6804,
+      "source_path": "3d/fantasy-town/wall-wood-corner.glb",
+      "triangles": 52
+    },
+    {
+      "path": "fantasy-town/roof-gable.glb",
+      "sha256": "4bb6bdbcadbb8ebeb69d720e29f6c2e57c99d98966baa41fd86914d3c13d6039",
+      "bytes": 7632,
+      "source_path": "3d/fantasy-town/roof-gable.glb",
+      "triangles": 72
+    },
+    {
+      "path": "fantasy-town/roof-gable-end.glb",
+      "sha256": "2ee635e8550180bb7840f7fdfff0b0835a34a425ffb903f19657cde65c261704",
+      "bytes": 6056,
+      "source_path": "3d/fantasy-town/roof-gable-end.glb",
+      "triangles": 50
+    },
+    {
+      "path": "fantasy-town/roof.glb",
+      "sha256": "8f245dfc04b8e76b2833081462f7530c2aea9114a703161c1d9a4a975927347d",
+      "bytes": 9324,
+      "source_path": "3d/fantasy-town/roof.glb",
+      "triangles": 64
+    },
+    {
+      "path": "fantasy-town/roof-left.glb",
+      "sha256": "ff3fdc7d3572ee0f20746ae4d5b02a6ad26c185468b48fd0950852231cf81f15",
+      "bytes": 12904,
+      "source_path": "3d/fantasy-town/roof-left.glb",
+      "triangles": 84
+    },
+    {
+      "path": "fantasy-town/roof-right.glb",
+      "sha256": "5f88d69d73a0beb5d74a69928adcb8aa6464c4ec3ad34b7c154c4ddcb17ad5f3",
+      "bytes": 13004,
+      "source_path": "3d/fantasy-town/roof-right.glb",
+      "triangles": 84
+    },
+    {
+      "path": "fantasy-town/roof-gable-top.glb",
+      "sha256": "584761438f511db6c0c36a602b0cb7a84484acaebf94b96c722d6c8f188d57e9",
+      "bytes": 6572,
+      "source_path": "3d/fantasy-town/roof-gable-top.glb",
+      "triangles": 56
+    },
+    {
+      "path": "fantasy-town/roof-window.glb",
+      "sha256": "9c95c71b7ea2a284f9ea37d0f684fe5aa654cdff14815969bc97d234014bbd53",
+      "bytes": 15524,
+      "source_path": "3d/fantasy-town/roof-window.glb",
+      "triangles": 176
+    },
+    {
+      "path": "fantasy-town/pillar-wood.glb",
+      "sha256": "569c83dade6063399576640e80db35c34e422817ec132419fc2e2695189be5cf",
+      "bytes": 5312,
+      "source_path": "3d/fantasy-town/pillar-wood.glb",
+      "triangles": 44
+    },
+    {
+      "path": "fantasy-town/overhang.glb",
+      "sha256": "515edba27d8c6326cee6f5912b7270224672f9f3dd61e43e85e1d504913ef19c",
+      "bytes": 7648,
+      "source_path": "3d/fantasy-town/overhang.glb",
+      "triangles": 68
+    },
+    {
+      "path": "fantasy-town/lantern.glb",
+      "sha256": "f270637e3083d6e84a30626ee05df2b09597a642985a7f5c3e4ab5bb1c7a8d55",
+      "bytes": 14984,
+      "source_path": "3d/fantasy-town/lantern.glb",
+      "triangles": 158
+    },
+    {
+      "path": "fantasy-town/stairs-wide-wood.glb",
+      "sha256": "33f06f1d5f926997e2709741884fd1f4bd86ce4cfc753a74257d2a9e3efffdb6",
+      "bytes": 33060,
+      "source_path": "3d/fantasy-town/stairs-wide-wood.glb",
+      "triangles": 424
+    },
+    {
+      "path": "fantasy-town/fence.glb",
+      "sha256": "92261b9419108d84f3db0def5eadeffa783032029897562b1f512e4a7570ef48",
+      "bytes": 7672,
+      "source_path": "3d/fantasy-town/fence.glb",
+      "triangles": 84
+    },
+    {
+      "path": "fantasy-town/cart.glb",
+      "sha256": "63503cd0a7398310e01aabc8e3663f711a7517394d23d179d0695157fee99d40",
+      "bytes": 52920,
+      "source_path": "3d/fantasy-town/cart.glb",
+      "triangles": 608
+    },
+    {
+      "path": "fantasy-town/stall-bench.glb",
+      "sha256": "5a4b379488241394916991c4b482ec4863c05bb548ca8751f5c3935f1f6e5b9c",
+      "bytes": 14168,
+      "source_path": "3d/fantasy-town/stall-bench.glb",
+      "triangles": 180
+    },
+    {
+      "path": "fantasy-town/chimney.glb",
+      "sha256": "a15cdbd13860092f6d793e5b785043eb90a49cdaa725bb71df9fd154ca68dac6",
+      "bytes": 4656,
+      "source_path": "3d/fantasy-town/chimney.glb",
+      "triangles": 32
+    },
+    {
+      "path": "furniture/bench.glb",
+      "sha256": "ba05a6d23a5a5a44da016757632070e47ff7587ce10e2f6d6d52328b4cf5489b",
+      "bytes": 10756,
+      "source_path": "3d/furniture/bench.glb",
+      "triangles": 170
+    },
+    {
+      "path": "furniture/chair.glb",
+      "sha256": "c8a11eec93e89e31250ba91afc1b8d56c3bec7ae86640fd1239f595ff4180883",
+      "bytes": 10756,
+      "source_path": "3d/furniture/chair.glb",
+      "triangles": 170
+    },
+    {
+      "path": "furniture/tableRound.glb",
+      "sha256": "f8daea9124a542a00b7bdacfddac82dc468573d43e44d7b54dd6316e9695754b",
+      "bytes": 6444,
+      "source_path": "3d/furniture/tableRound.glb",
+      "triangles": 80
+    },
+    {
+      "path": "furniture/cardboardBoxClosed.glb",
+      "sha256": "4af079dca52960912764574950f0549ff2ae1224b3db1528718629473a2d5d81",
+      "bytes": 5400,
+      "source_path": "3d/furniture/cardboardBoxClosed.glb",
+      "triangles": 60
+    },
+    {
+      "path": "furniture/cardboardBoxOpen.glb",
+      "sha256": "960da412564774c75e7b32f9af0100895e1edb877fc1e70dd34ee2422a2196d4",
+      "bytes": 5404,
+      "source_path": "3d/furniture/cardboardBoxOpen.glb",
+      "triangles": 60
+    },
+    {
+      "path": "furniture/pottedPlant.glb",
+      "sha256": "5b760eda2766f75fda36b2c5df652a1662f82981ef64cd8fa7fe7bcd386b3a15",
+      "bytes": 7576,
+      "source_path": "3d/furniture/pottedPlant.glb",
+      "triangles": 60
+    },
+    {
+      "path": "furniture/bookcaseOpenLow.glb",
+      "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75",
+      "bytes": 11520,
+      "source_path": "3d/furniture/bookcaseOpenLow.glb",
+      "triangles": 184
+    },
+    {
+      "path": "fantasy-town/Textures/colormap.png",
+      "sha256": "4aac939dc33195e35caf8c382ee3cb170054da763577f22d3c22692ec6afccdf",
+      "bytes": 11143,
+      "source_path": "3d/fantasy-town/Textures/colormap.png"
+    },
+    {
+      "path": "fantasy-town/wall-wood-window-glass.glb",
+      "source_path": "3d/fantasy-town/wall-wood-window-glass.glb",
+      "sha256": "e0bb383a908d473181ad89ad7c676a0632f7ecd0f23e5f912216391d3e62bb69",
+      "bytes": 11184,
+      "triangles": 122
+    },
+    {
+      "path": "fantasy-town/wall-wood-block.glb",
+      "source_path": "3d/fantasy-town/wall-wood-block.glb",
+      "sha256": "c405053f4ac8ae0c85e9973613d205f0bc9dff0a5fe95a4910823384e131e824",
+      "bytes": 8548,
+      "triangles": 76
+    }
+  ],
+  "license_evidence": [
+    {
+      "pack": "nature",
+      "url": "https://www.kenney.nl/assets/nature-kit/",
+      "path": "license-evidence/nature.html.txt",
+      "sha256": "73b8454e611c337b16fa9baac57a519680b258ba05b064307f292191106abcd8",
+      "statement": "Creative Commons CC0",
+      "accessed_date": "2026-11-16"
+    },
+    {
+      "pack": "fantasy-town",
+      "url": "https://www.kenney.nl/assets/fantasy-town-kit/",
+      "path": "license-evidence/fantasy-town.html.txt",
+      "sha256": "f76454601d0e94525862d270a0fca2e1e43e966eb5c97cc74123fd2f59e096ac",
+      "statement": "Creative Commons CC0",
+      "accessed_date": "2026-11-16"
+    },
+    {
+      "pack": "furniture",
+      "url": "https://www.kenney.nl/assets/furniture-kit/",
+      "path": "license-evidence/furniture.html.txt",
+      "sha256": "606b6726e8fd1185dda7ae588122afa824662cd8a8d24114155be973bbca8238",
+      "statement": "Creative Commons CC0",
+      "accessed_date": "2026-11-16"
+    }
+  ]
+}

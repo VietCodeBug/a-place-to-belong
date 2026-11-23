@@ -1,0 +1,10 @@
+{
+  "source_objects": 1749,
+  "export_meshes": 20,
+  "triangles": 160760,
+  "materials": 33,
+  "source": "art_source/hero_cafe_v05/hero_cafe_v05.blend",
+  "script": "art_source/hero_cafe_v05/build_hero.py",
+  "output": "assets/hero_cafe/forest_post_cafe_v05.glb",
+  "blender": "4.3.2"
+}

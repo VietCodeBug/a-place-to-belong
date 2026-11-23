@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/characters/postal_worker/postal_worker_colored_v06.glb" id="1_visual"]
+[sub_resource type="CapsuleShape3D" id="Body"]
+radius = 0.28
+height = 1.65
+
+[node name="Eggeght" type="StaticBody3D" groups=["npcs"]]
+metadata/character_id = "eggeght"
+metadata/display_name = "eggeght"
+metadata/role = "npc"
+
+[node name="Visual" parent="." instance=ExtResource("1_visual")]
+scale = Vector3(0.945415, 0.945415, 0.945415)
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.825, 0)
+shape = SubResource("Body")

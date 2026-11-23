@@ -1,0 +1,27 @@
+{
+  "active_player": "samatha",
+  "characters": [
+    {
+      "id": "samatha",
+      "display_name": "Samatha",
+      "role": "temporary_player",
+      "source": "assets/characters/samatha/samatha.glb",
+      "colored": true
+    },
+    {
+      "id": "eggeght",
+      "display_name": "eggeght",
+      "role": "npc",
+      "scene": "scenes/npc/eggeght.tscn",
+      "source": "assets/characters/postal_worker/postal_worker_colored_v06.glb",
+      "colored": true
+    },
+    {
+      "id": "joe",
+      "display_name": "Lão Joe",
+      "role": "inactive_uncolored",
+      "source": "assets/characters/joe/npc1.glb",
+      "colored": false
+    }
+  ]
+}

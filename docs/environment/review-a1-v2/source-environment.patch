@@ -1,0 +1,1273 @@
+diff --git a/scripts/environment/forest_weather.gd b/scripts/environment/forest_weather.gd
+index 42132cc..406e765 100644
+--- a/scripts/environment/forest_weather.gd
++++ b/scripts/environment/forest_weather.gd
+@@ -270,10 +270,10 @@ func update_light(altitude: float, daylight: float) -> void:
+ 	var occlusion: float = weather_value.w
+ 	var colors := colors_at(hours)
+ 	sun.rotation_degrees = Vector3(-altitude * 60., -52. + (hours - 16.5) * 15., 0)
+-	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.32 * (1. - smoothstep(.10,.48,occlusion) * .94)
++	sun.light_energy = pow(maxf(altitude, 0.), .34) * 1.15 * (1. - smoothstep(.10,.48,occlusion) * .94)
+ 	var sun_col := Color("FFC987").lerp(Color("FFF2DC"), smoothstep(.16, .78, altitude))
+ 	sun.light_color = sun_col
+-	sun.shadow_opacity=1.-smoothstep(.12,.55,occlusion)
++	sun.shadow_opacity=.80-smoothstep(.12,.55,occlusion)
+ 	sun.shadow_enabled = altitude > .025 and occlusion<.58
+ 
+ 	moon.rotation_degrees = Vector3(maxf(0.32, -altitude * 0.65) * -46., 128. + (hours - 16.5) * 15., 0)
+@@ -282,8 +282,8 @@ func update_light(altitude: float, daylight: float) -> void:
+ 	var sky_top: Color = colors[0].lerp(Color("5D707B"), occlusion * .56 * daylight)
+ 	var sky_hor: Color = colors[1].lerp(Color("94A4A8"), occlusion * .68 * daylight)
+ 	var amb_col: Color = colors[2].lerp(Color("8FA1AA"), occlusion * .38 * daylight)
+-	environment.ambient_light_color = amb_col
+-	environment.ambient_light_energy = float(colors[5]) * (1. - occlusion * .16)
++	environment.ambient_light_color = amb_col.lerp(Color("A4B7C3"), daylight * .32)
++	environment.ambient_light_energy = (float(colors[5]) + daylight * .18) * (1. - occlusion * .16)
+ 	environment.fog_light_color = sky_hor.lerp(sky_top, .42)
+ 	environment.fog_light_energy = lerpf(0.82, 0.96, daylight)
+ 	environment.fog_depth_begin = lerpf(58., 36., occlusion)
+diff --git a/scripts/interactions/interaction_controller.gd b/scripts/interactions/interaction_controller.gd
+index b0e34ed..7687e44 100644
+--- a/scripts/interactions/interaction_controller.gd
++++ b/scripts/interactions/interaction_controller.gd
+@@ -51,6 +51,7 @@ var notice_tween: Tween
+ var envelope: Control
+ var envelope_tween: Tween
+ var in_pause_menu := false
++var valley_map: Control
+ var ui_clock := 0.0
+ var walk_timer := 0.0
+ var current_grass_quality := "high"
+@@ -72,6 +73,9 @@ func _ready() -> void:
+ 	build_hud()
+ 	build_interaction_prompt()
+ 	build_letter_modal()
++	valley_map = preload("res://scripts/ui/a1_map.gd").new()
++	valley_map.player = player
++	root_ui.add_child(valley_map)
+ 	var saved_grass_quality: String = get_tree().get_meta(MAPS.GRASS_QUALITY, current_grass_quality)
+ 	if saved_grass_quality != current_grass_quality:
+ 		apply_grass_quality(saved_grass_quality)
+@@ -371,7 +375,7 @@ func _process(delta: float) -> void:
+ 				active = item
+ 				nearest = d
+ 
+-	var show_prompt := active != null and not panel.visible and not in_title_menu and not in_pause_menu
++	var show_prompt := active != null and not valley_map.visible and not panel.visible and not in_title_menu and not in_pause_menu
+ 	prompt.text = "E  •  " + active.interaction_name if show_prompt else ""
+ 	prompt_card.visible = show_prompt
+ 	if show_prompt:
+@@ -423,6 +427,20 @@ func icon_for_item(item: Node) -> String:
+ 	return "envelope"
+ 
+ func _unhandled_input(event: InputEvent) -> void:
++	var map_key: bool = event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_M
++	if valley_map.visible:
++		if map_key or event.is_action_pressed("ui_cancel"):
++			valley_map.hide()
++			player.blocked = false
++		elif event is InputEventKey and event.pressed and event.keycode == KEY_HOME:
++			valley_map.center_on_player()
++		get_viewport().set_input_as_handled()
++		return
++	if map_key and not in_title_menu and not in_pause_menu and not panel.visible:
++		player.blocked = true
++		valley_map.show()
++		get_viewport().set_input_as_handled()
++		return
+ 	if event.is_action_pressed("ui_cancel"):
+ 		if storybook.shade.visible:
+ 			storybook.back()
+diff --git a/scripts/world/forest_hub.gd b/scripts/world/forest_hub.gd
+index 0d5db15..bd5d469 100644
+--- a/scripts/world/forest_hub.gd
++++ b/scripts/world/forest_hub.gd
+@@ -50,6 +50,9 @@ func _ready() -> void:
+ 	add_child(player)
+ 	player.position = ground(1,13,0.15)
+ 	player.floor_snap_length = 0.45
++	var valley := preload("res://scripts/world/a1_valley.gd").new()
++	valley.name = "A1RiverValley"
++	add_child(valley)
+ 	var camera := Camera3D.new()
+ 	camera.name = "GameplayCamera"
+ 	camera.set_script(preload("res://scripts/player/follow_camera.gd"))
+@@ -58,6 +61,13 @@ func _ready() -> void:
+ 	ui = CanvasLayer.new()
+ 	ui.set_script(preload("res://scripts/interactions/interaction_controller.gd"))
+ 	ui.player = player
++	var thomas := preload("res://scripts/npc/thomas.gd").new()
++	thomas.name = "Thomas"
++	thomas.position = ground(-6.85, 17.8)
++	thomas.rotation.y = 1.24
++	thomas.viewer = player
++	thomas.dialogue = ui
++	add_child(thomas)
+ 	add_child(ui)
+ 
+ func ground(x: float, z: float, extra := 0.0) -> Vector3:
+diff --git a/scripts/world/landscape.gd b/scripts/world/landscape.gd
+index f571530..c16dca8 100644
+--- a/scripts/world/landscape.gd
++++ b/scripts/world/landscape.gd
+@@ -1,10 +1,25 @@
+ class_name ForestLandscape
+ extends Node3D
+-## Map 01 only. The playable bounds remain -24..24; outer mesh is non-playable backdrop.
++## Forest hub terrain, including the connected A1 river valley.
+ const CAFE_LEVEL := 0.0
+ const S = preload("res://scripts/world/shapes.gd")
+ const STEP := 2.0
+ 
++const VALLEY_END := 144
++const VALLEY_HALF_WIDTH := 40
++const BRIDGE_Z := 74.0
++
++static func in_overlook_view(x: float, z: float) -> bool:
++	return z >= 48.0 and z < 95.0 and absf(x - (-22.5 + (z - 50.0) * 0.44)) < 8.2
++
++static func river_center(x: float) -> float:
++	return BRIDGE_Z + 6.0 * sin(x * 0.057) * smoothstep(3.0, 16.0, absf(x))
++
++static func valley_path(z: float) -> float:
++	return lerpf(ClearingLayout.path_center(24.0), 0.0, smoothstep(24.0, 66.0, z)) \
++		+ 3.9 * sin((z - 24.0) * 0.13) * smoothstep(24.0, 38.0, z) * (1.0 - smoothstep(54.0, 65.0, z)) \
++		+ 8.0 * smoothstep(83.0, 123.0, z)
++
+ static func sculpt(x: float,z: float) -> float:
+ 	var h := sin(x*0.115)*0.38+cos(z*0.13)*0.28+sin((x+z)*0.18)*0.17
+ 	var clearing := maxf(absf(x)/12.5,absf(z+3)/13.0)
+@@ -25,6 +40,15 @@ static func sculpt(x: float,z: float) -> float:
+ 		# Keep the SE wide-camera corridor (around +27, +34) gently low so aerial shots stay clear.
+ 		var se_corridor := 1.0 - 0.72*exp(-(Vector2(x,z)-Vector2(30,36)).length_squared()/720.0)
+ 		h += outside*(ridges + bowl)*se_corridor
++	if z > 24.0:
++		var blend := smoothstep(24.0, 38.0, z) * (1.0 - smoothstep(40.0, 62.0, absf(x)))
++		var banks := 3.0 + 0.45 * sin(x * 0.17) + 0.36 * cos(z * 0.22)
++		banks = lerpf(banks, 3.0, 1.0 - smoothstep(9.0, 16.0, absf(z - BRIDGE_Z)))
++		var hills := 4.8 * exp(-Vector2(x + 25.0, z - 54.0).length_squared() / 225.0)
++		hills += 9.0 * exp(-Vector2(x - 29.0, z - 97.0).length_squared() / 290.0)
++		var rise := 7.8 * smoothstep(86.0, 121.0, z)
++		var river := 4.0 * (1.0 - smoothstep(3.4, 7.8, absf(z - river_center(x))))
++		h = lerpf(h, banks + hills + rise - river, blend)
+ 	return h
+ 
+ static func height_at(x: float,z: float) -> float:
+@@ -48,11 +72,14 @@ static func on_road(p: Vector2,margin := 0.0) -> bool:
+ func _ready() -> void:
+ 	terrain()
+ 	road()
+-	# Original Map 01 collision limits; no expanded playable region.
+-	for p in [Vector3(-24,3,0),Vector3(24,3,0)]:
+-		S.box(self,p,Vector3(0.3,8,48),"496B59",true).visible=false
+-	for z in [-24,24]:
+-		S.box(self,Vector3(0,3,z),Vector3(48,8,0.3),"496B59",true).visible=false
++	for x in [-24, 24]:
++		S.box(self, Vector3(x, 3, 0), Vector3(0.3, 14, 48), "496B59", true).hide()
++	for x in [-40, 40]:
++		S.box(self, Vector3(x, 11, 84), Vector3(0.3, 32, 120), "496B59", true).hide()
++	for x in [-32, 32]:
++		S.box(self, Vector3(x, 6, 24), Vector3(16, 18, 0.3), "496B59", true).hide()
++	S.box(self, Vector3(0, 3, -24), Vector3(48, 14, 0.3), "496B59", true).hide()
++	S.box(self, Vector3(0, 13, VALLEY_END), Vector3(80, 32, 0.3), "496B59", true).hide()
+ 
+ func terrain() -> void:
+ 	var st := SurfaceTool.new()
+@@ -61,7 +88,7 @@ func terrain() -> void:
+ 	var faces := PackedVector3Array()
+ 	# Playable grid at fine 2m step out to +-64m, seamlessly joined by 4m outer foothill skirt to 164m.
+ 	for x in range(-64,64,2):
+-		for z in range(-64,64,2):
++		for z in range(-64,VALLEY_END,2):
+ 			var a := Vector3(x,sculpt(x,z),z)
+ 			var b := Vector3(x+2,sculpt(x+2,z),z)
+ 			var c := Vector3(x,sculpt(x,z+2),z+2)
+@@ -70,11 +97,11 @@ func terrain() -> void:
+ 				var tint := 0.5+0.5*sin(v.x*0.17+sin(v.z*0.12))
+ 				st.set_color(Color("687B64").lerp(Color("8C9468"),tint*0.55))
+ 				st.add_vertex(v)
+-				if x>=-24 and x<24 and z>=-24 and z<24:
++				if (x>=-24 and x<24 and z>=-24 and z<24) or (x>=-VALLEY_HALF_WIDTH and x<VALLEY_HALF_WIDTH and z>=24):
+ 					faces.append(v)
+ 	for x in range(-164,164,4):
+ 		for z in range(-164,164,4):
+-			if x>=-64 and x<64 and z>=-64 and z<64:
++			if x>=-64 and x<64 and z>=-64 and z<VALLEY_END:
+ 				continue
+ 			if Vector2(x+2,z+2).length()>164:
+ 				continue
+@@ -108,18 +135,20 @@ func road() -> void:
+ 	# Same centerline and core width, starting cleanly under the porch ramp (z=4.25) with feathered verges.
+ 	var st := SurfaceTool.new()
+ 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+-	var steps := 132
++	var steps := 550
+ 	for i in range(steps):
+-		var z0 := lerpf(4.25,24.2,float(i)/steps)
+-		var z1 := lerpf(4.25,24.2,float(i+1)/steps)
+-		var p := Vector2(ClearingLayout.path_center(z0),z0)
+-		var q := Vector2(ClearingLayout.path_center(z1),z1)
++		var z0 := lerpf(4.25,139.0,float(i)/steps)
++		var z1 := lerpf(4.25,139.0,float(i+1)/steps)
++		if z1 > 66.3 and z0 < 81.7:
++			continue
++		var p := Vector2(valley_path(z0) if z0 > 24.0 else ClearingLayout.path_center(z0),z0)
++		var q := Vector2(valley_path(z1) if z1 > 24.0 else ClearingLayout.path_center(z1),z1)
+ 		for strip in range(14):
+ 			var cells: Array[Vector3] = []
+ 			var coords: Array[Vector2] = []
+ 			for item in [[p,strip],[p,strip+1],[q,strip],[q,strip+1]]:
+ 				var point: Vector2 = item[0]
+-				var half := ClearingLayout.path_half_width(point.y)
++				var half := lerpf(ClearingLayout.path_half_width(point.y), 1.9, smoothstep(24.0, 39.0, point.y))
+ 				var lateral := lerpf(-half-0.78,half+0.78,float(item[1])/14.0)
+ 				var x := point.x+lateral
+ 				cells.append(Vector3(x,height_at(x,point.y)+0.024,point.y))
+diff --git a/scripts/world/woodland.gd b/scripts/world/woodland.gd
+index 058b9d5..9684531 100644
+--- a/scripts/world/woodland.gd
++++ b/scripts/world/woodland.gd
+@@ -101,6 +101,8 @@ func in_camera_corridor(p: Vector2) -> bool:
+ 	return p.y > 12.0 and p.y < 54.0 and p.x > -15.5 and p.x < 34.0
+ 
+ func plant(asset: String, at: Vector3, height: float, yaw: float, layer := 0, role := "natural", tint := Color(1,1,1,0.5)) -> void:
++	if height > 4.0 and ForestLandscape.in_overlook_view(at.x, at.z):
++		return
+ 	var pack := "quaternius" if asset.begins_with("PineTree") or asset.begins_with("BirchTree") or asset in ["Bush_1","Rock_Moss_1"] else "nature"
+ 	if asset.begins_with("tuft_"):
+ 		pack = "meadow"
+diff --git a/shaders/forest_floor.gdshader b/shaders/forest_floor.gdshader
+index f05a018..f5be6e0 100644
+--- a/shaders/forest_floor.gdshader
++++ b/shaders/forest_floor.gdshader
+@@ -8,6 +8,7 @@ uniform vec4 earth:source_color=vec4(.41,.30,.20,1);
+ uniform vec4 soil:source_color=vec4(.56,.43,.30,1);
+ uniform vec4 foothill_sage:source_color=vec4(.33,.46,.37,1);
+ uniform float wetness=0.0;
++uniform int a1_season = 0;
+ varying vec3 floor_position;
+ void vertex() { floor_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz; }
+ void fragment() {
+@@ -31,6 +32,26 @@ void fragment() {
+  // Gentle atmospheric sage transition across outer foothills (>30m)
+  float outer_blend=smoothstep(30.0,115.0,length(p));
+  color=mix(color,mix(foothill_sage.rgb,moss.rgb,smoothstep(.3,.7,large)),outer_blend*.58);
++ float valley=smoothstep(28.0,36.0,p.y);
++ float painterly=ground_field(p*.53+warp*.65);
++ float mineral=ground_field(p*3.0);
++ vec3 upland=mix(vec3(.155,.216,.103),vec3(.273,.345,.155),smoothstep(.26,.75,large));
++ upland=mix(upland,vec3(.195,.157,.10),smoothstep(.56,.76,painterly)*.61);
++ float river=74.0+6.0*sin(p.x*.057)*smoothstep(3.0,16.0,abs(p.x));
++ float shore=1.0-smoothstep(4.1,8.0,abs(p.y-river)+small*.65);
++ vec3 silt=mix(vec3(.17,.16,.12),vec3(.29,.255,.19),painterly);
++ color=mix(color,mix(upland,silt,shore*.95)*(0.87+0.23*mineral),valley);
++ float street_x = 8.0 * smoothstep(83.0,123.0,p.y);
++ float street_bed = smoothstep(98.0,102.0,p.y) * (1.0-smoothstep(1.55,2.9,abs(p.x-street_x)+small*.26));
++ color=mix(color,mix(vec3(.28,.219,.153),vec3(.35,.288,.207),mineral),street_bed*.95);
++ if (a1_season == 1) {
++   color=mix(color,vec3(.30,.43,.18),valley*(.22+.18*large)*(1.0-shore)*(1.0-street_bed));
++ } else if (a1_season == 2) {
++   color=mix(color,vec3(.30,.38,.13),valley*.30*(1.0-shore)*(1.0-street_bed));
++ } else if (a1_season == 3) {
++   float snow = smoothstep(.27,.64,painterly+small*.14)*(1.0-street_bed*.72)*(1.0-shore*.55);
++   color=mix(color,mix(vec3(.51,.62,.68),vec3(.84,.89,.92),mineral),valley*snow*.94);
++ }
+  float root=max(grove(p,vec2(-14,-7),1.7),grove(p,vec2(-17,10),1.5));
+  root=max(root,grove(p,vec2(-12,4),1.0));root=max(root,grove(p,vec2(20,-4),1.5));root=max(root,grove(p,vec2(12,-16),1.7));
+  float damp_hollow=smoothstep(.58,.84,ground_field(p*.34+4.1))*wetness;
+diff --git a/shaders/forest_sky.gdshader b/shaders/forest_sky.gdshader
+index 1537405..eddf2c7 100644
+--- a/shaders/forest_sky.gdshader
++++ b/shaders/forest_sky.gdshader
+@@ -73,13 +73,13 @@ void sky() {
+ 
+ 		// Perspective sky dome projection for clouds
+ 		vec2 wind = normalize(wind_direction);
+-		vec2 dome = EYEDIR.xz / max(0.16, EYEDIR.y + 0.21) * 1.85;
++		vec2 dome = EYEDIR.xz / max(0.16, EYEDIR.y + 0.21) * 2.65;
+ 		vec2 drift_main = wind * cloud_clock * 0.0085;
+ 		vec2 drift_high = wind * cloud_clock * 0.0045;
+ 
+ 		// High distant cirrus/altocumulus deck (adds depth behind main puffs)
+ 		float high_raw = cumulus_field(dome * 0.58 + vec2(18.0, 9.0) - drift_high);
+-		float high_thresh = mix(0.76, 0.28, cloud_cover);
++		float high_thresh = mix(0.80, 0.39, cloud_cover);
+ 		float high_cloud = smoothstep(high_thresh, high_thresh + 0.14, high_raw) * 0.48;
+ 		high_cloud *= smoothstep(0.02, 0.18, EYEDIR.y);
+ 
+@@ -87,14 +87,14 @@ void sky() {
+ 		float main_raw = cumulus_field(dome - drift_main);
+ 		// Sample slightly offset toward sun & zenith for 3D puff self-lighting
+ 		float lit_sample = cumulus_field(dome - drift_main - normalize(sun_dir.xz + vec2(0.001)) * 0.14 - vec2(0.0, 0.08));
+-		float thresh = mix(0.73, 0.22, cloud_cover);
+-		float main_cloud = smoothstep(thresh, thresh + 0.095, main_raw) * 0.94;
++		float thresh = mix(0.82, 0.31, cloud_cover);
++		float main_cloud = smoothstep(thresh, thresh + 0.155, main_raw) * 0.76;
+ 		main_cloud *= smoothstep(0.005, 0.15, EYEDIR.y);
+ 
+ 		// 3-tone stylized cloud shading: shadow belly, soft body, sunlit crest + silver lining
+ 		float crest_lit = clamp((main_raw - lit_sample) * 3.4 + 0.52, 0.0, 1.0);
+ 		float thickness = smoothstep(thresh, thresh + 0.28, main_raw);
+-		vec3 belly = mix(cloud_shadow_color.rgb, top_color.rgb * 0.82, 0.25);
++		vec3 belly = mix(cloud_shadow_color.rgb, top_color.rgb * 0.82, 0.43);
+ 		vec3 crown = cloud_color.rgb * mix(1.02, 1.12, daylight);
+ 		// Quantize gently into soft painterly bands while keeping smooth anti-aliased transitions
+ 		float band = mix(crest_lit, smoothstep(0.25, 0.78, crest_lit), 0.65);
+diff --git a/scripts/world/a1_valley.gd b/scripts/world/a1_valley.gd
+new file mode 100644
+index 0000000..6e73218
+--- /dev/null
++++ b/scripts/world/a1_valley.gd
+@@ -0,0 +1,526 @@
++extends Node3D
++
++const KIT = preload("res://scripts/world/a1_village_kit.gd")
++const L = preload("res://scripts/world/landscape.gd")
++const S = preload("res://scripts/world/shapes.gd")
++const A = preload("res://scripts/world/field_assets.gd")
++const MAPS = preload("res://scripts/story/map_flow.gd")
++const PINE := ["tree_pineTallA_detailed", "tree_pineTallB_detailed", "tree_pineTallC_detailed"]
++const ROOFS := ["995548", "4E706F", "786176", "AE734D"]
++var rabbits: Array[Node3D] = []
++var squirrels: Array[Node3D] = []
++var birds: Array[Node3D] = []
++var clock := 0.0
++var canopy_materials: Dictionary = {}
++var roofs: Array[ShaderMaterial] = []
++
++func _ready() -> void:
++	build_mountains()
++	build_river()
++	build_bridge()
++	build_groves()
++	build_village()
++	build_overlook()
++	detail_slices()
++	for argument in OS.get_cmdline_user_args():
++		if argument.begins_with("--a1-season="):
++			var season := ["autumn", "spring", "summer", "winter"].find(argument.get_slice("=", 1))
++			if season >= 0:
++				set_season_palette(season)
++	for at in [Vector2(4, 37), Vector2(-7, 56), Vector2(5, 93)]:
++		rabbits.append(small_animal(at, true))
++	for at in [Vector2(-6, 44), Vector2(12, 91)]:
++		squirrels.append(small_animal(at, false))
++	for i in range(5):
++		var bird := Node3D.new()
++		add_child(bird)
++		bird.scale = Vector3.ONE * 0.51
++		facet(bird, Vector3.ZERO, Vector3(0.20, 0.20, 0.54), "667481")
++		for side in [-1, 1]:
++			var wing := Node3D.new()
++			bird.add_child(wing)
++			facet(wing, Vector3(side * 0.38, 0, -0.04), Vector3(0.84, 0.07, 0.32), "74818A")
++		birds.append(bird)
++
++func ground(x: float, z: float) -> Vector3:
++	return Vector3(x, L.height_at(x, z), z)
++
++func build_mountains() -> void:
++	var rng := RandomNumberGenerator.new()
++	rng.seed = 4221
++	for layer in range(3):
++		var mountains := SurfaceTool.new()
++		mountains.begin(Mesh.PRIMITIVE_TRIANGLES)
++		var distance := 218.0 - 24.0 * layer
++		var palette := [Color("8395A7"), Color("748A9A"), Color("617C84")]
++		var crest := PackedVector3Array()
++		var foothill := PackedVector3Array()
++		var floor := PackedVector3Array()
++		for i in range(61):
++			var x := -420.0 + i * 14.0
++			var peaks := pow(0.5 + 0.5 * sin(x * 0.057 + layer * 2.2), 1.7)
++			var height := 14.0 + 32.0 * peaks + 4.0 * sin(x * 0.16 + layer)
++			var z := distance + 11.0 * cos(x * 0.045 + layer)
++			crest.append(Vector3(x, height, z))
++			foothill.append(Vector3(x, height * 0.46 - 1.8, z - 16.0))
++			floor.append(Vector3(x, -95.0, z - 36.0))
++		for i in range(crest.size() - 1):
++			for face in [[crest[i], crest[i + 1], foothill[i]], [crest[i + 1], foothill[i + 1], foothill[i]],
++				[foothill[i], foothill[i + 1], floor[i]], [foothill[i + 1], floor[i + 1], floor[i]]]:
++				var color: Color = palette[layer].lightened(rng.randf_range(-0.027, 0.036))
++				for vertex in face:
++					var haze := 0.82 if vertex.y < 0.0 else (0.19 if vertex.y < 18.0 else 0.06)
++					mountains.set_color(color.lerp(Color("B3AAA0"), haze))
++					mountains.add_vertex(vertex)
++		var ridge := MeshInstance3D.new()
++		ridge.mesh = mountains.commit()
++		var material := StandardMaterial3D.new()
++		material.vertex_color_use_as_albedo = true
++		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
++		material.disable_fog = true
++		material.cull_mode = BaseMaterial3D.CULL_DISABLED
++		ridge.material_override = material
++		ridge.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
++		add_child(ridge)
++
++func build_river() -> void:
++	var surface := SurfaceTool.new()
++	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
++	for x in range(-49, 49):
++		var a := L.river_center(x)
++		var b := L.river_center(x + 1)
++		for vertex in [Vector3(x, 1.25, a - 6), Vector3(x + 1, 1.25, b - 6),
++			Vector3(x, 1.25, a + 6), Vector3(x + 1, 1.25, b - 6),
++			Vector3(x + 1, 1.25, b + 6), Vector3(x, 1.25, a + 6)]:
++			surface.add_vertex(vertex)
++	surface.generate_normals()
++	var water := MeshInstance3D.new()
++	water.name = "A1River"
++	water.mesh = surface.commit()
++	var material := ShaderMaterial.new()
++	material.shader = preload("res://shaders/a1_river.gdshader")
++	water.material_override = material
++	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
++	add_child(water)
++	# The river is a visible boundary until swimming is introduced.
++	for side in [-1, 1]:
++		for x in range(-39, 40, 2):
++			if abs(x) < 3:
++				continue
++			S.box(self, Vector3(x, 2.2, L.river_center(x) + side * 5.2), Vector3(2.1, 4, 0.9), "FFFFFF", true).hide()
++
++func build_bridge() -> void:
++	var bridge := Node3D.new()
++	bridge.name = "TimberArchBridge"
++	add_child(bridge)
++	for i in range(39):
++		var z := 66.0 + i * 0.42
++		var arch := sin(PI * i / 38.0) * 0.88
++		var y := 3.02 + arch
++		S.box(bridge, Vector3(0, y - 0.085, z), Vector3(4.35, 0.17, 0.47), ["AD8058", "C09467", "BA885D"][i % 3], true)
++		for side in [-1, 1]:
++			var x: float = side * 2.05
++			S.box(bridge, Vector3(x, y + 0.69, z), Vector3(0.14, 0.13, 0.5), "684935")
++			S.box(bridge, Vector3(x, y + 0.46, z), Vector3(0.12, 0.92, 0.46), "FFFFFF", true).hide()
++			if i % 4 == 0:
++				S.box(bridge, Vector3(x, y + 0.48, z), Vector3(0.21, 1.12, 0.22), "805638")
++			if i in [0, 38]:
++				lantern(bridge, Vector3(x, y + 1.10, z))
++	for z in [68.0, 80.0]:
++		for x in [-1.66, 1.66]:
++			S.box(bridge, Vector3(x, 1.75, z), Vector3(0.44, 2.85, 0.53), "696A67")
++	for side in [-1, 1]:
++		var x: float = side * 1.83
++		for i in range(20):
++			var z := 66.0 + i * 0.8
++			var y := 2.72 + sin(PI * i / 20.0) * 0.88
++			var next_y := 2.72 + sin(PI * (i + 1) / 20.0) * 0.88
++			S.beam(bridge, Vector3(x,y,z), Vector3(x,next_y,z+0.81), 0.28, "795738")
++
++func build_groves() -> void:
++	var rng := RandomNumberGenerator.new()
++	rng.seed = 19841
++	for i in range(190):
++		var z := rng.randf_range(26, 143)
++		var x := rng.randf_range(-39, 39)
++		var near_water := absf(z - L.river_center(x)) < 8.4
++		var path_gap := absf(x - L.valley_path(z))
++		if near_water or L.in_overlook_view(x, z) or path_gap < 4.8 or (z > 98 and x > -11 and x < 28):
++			continue
++		if z > 55 and z < 95 and absf(x) < 11:
++			continue
++		var at := ground(x, z)
++		var broadleaf := i % 4 == 0
++		var kind: String = "tree_oak_fall" if broadleaf else PINE[i % 3]
++		var role := "autumn" if broadleaf else ("cedar" if i % 2 == 0 else "spruce")
++		var tree := A.place(self, "nature", kind, at, rng.randf_range(5.7, 13.0), rng.randf_range(0, TAU), role)
++		if z >= 37.0:
++			register_canopy(tree, broadleaf)
++		S.box(self, at + Vector3.UP * 1.5, Vector3(0.8, 3, 0.8), "FFFFFF", true).hide()
++	for i in range(132):
++		var z := rng.randf_range(29, 137)
++		var x := L.valley_path(z) + rng.randf_range(3.0, 12.0) * (-1.0 if i % 2 == 0 else 1.0)
++		if absf(z - L.river_center(x)) < 6.2:
++			continue
++		var at := ground(x, z)
++		if i % 5 == 0:
++			facet(self, at + Vector3.UP * 0.27, Vector3(1.04, 0.74, 0.90), "81877B")
++		else:
++			facet(self, at + Vector3.UP * 0.17, Vector3(0.53, 0.42, 0.50), ["708650", "8B9E5B", "5B794B"][i % 3])
++			if i % 3 == 0:
++				for petal in range(3):
++					facet(self, at + Vector3(0.14 * petal - 0.13, 0.39, sin(petal) * 0.18),
++						Vector3(0.13, 0.09, 0.13), ["E8B66A", "E2D4B2", "B69BC5"][i % 3])
++
++func build_village() -> void:
++	var plot := [[-4, 105, 1.0], [11, 103, 0.86], [-11, 113, 1.2], [17, 111, 1.1],
++		[-2, 119, 1.05], [23, 120, 1.02], [0, 131, 1.23], [20, 132, 1.24],
++		[-11, 128, 0.9], [29, 111, 0.9], [31, 129, 0.93]]
++	for i in plot.size():
++		var p: Array = plot[i]
++		var new_kind: int = {0: 0, 1: 1, 4: 2, 5: 0}.get(i, -1)
++		if new_kind >= 0:
++			KIT.build(self,ground(p[0],p[1]),new_kind)
++		elif i < 6:
++			street_house(ground(p[0], p[1]), i)
++		else:
++			cottage(ground(p[0], p[1]), p[2], i, (-0.25 if i % 2 == 0 else 0.26))
++	KIT.build(self,ground(11,133),3)
++	KIT.street(self)
++	var well := ground(0, 116)
++	S.cone(self, well + Vector3.UP * 0.48, 1.18, 0.96, "8F8C81", 1.23)
++	S.cone(self, well + Vector3.UP * 0.98, 0.86, 0.04, "42756A", 0.86)
++	for z in [91.0, 101.0, 114.0, 126.0]:
++		var base := ground(L.valley_path(z) + 2.5, z)
++		S.box(self, base + Vector3.UP, Vector3(0.16, 2.0, 0.16), "73543D")
++		lantern(self, base + Vector3.UP * 2.04)
++	for x in [-32, -24, 27, 34]:
++		for z in [138, 143]:
++			var at := ground(x, z)
++			A.place(self, "nature", "tree_oak_fall", at, 9.5, x, "russet")
++
++func build_overlook() -> void:
++	var lookout := ground(-22.5, 50.0)
++	var bench := Node3D.new()
++	add_child(bench)
++	bench.position = lookout
++	bench.rotation.y = 0.60
++	S.box(bench, Vector3(0, 0.53, 0), Vector3(2.15, 0.12, 0.60), "A07850")
++	S.box(bench, Vector3(0, 0.87, -0.27), Vector3(2.15, 0.34, 0.10), "95704E")
++	for x in [-0.77, 0.77]:
++		S.box(bench, Vector3(x, 0.28, 0), Vector3(0.17, 0.55, 0.51), "624938")
++	lantern(self, lookout + Vector3(1.8, 0.50, 0))
++	signpost(ground(L.valley_path(49) + 2.1, 49),
++		MAPS.text("River bridge  ↑", "Cầu qua sông  ↑"))
++	signpost(ground(2.4, 85), MAPS.text("Village  ↑", "Lối lên làng  ↑"))
++
++func signpost(at: Vector3, title: String) -> void:
++	S.box(self, at + Vector3.UP * 0.79, Vector3(0.14, 1.60, 0.14), "73543D")
++	S.box(self, at + Vector3.UP * 1.43, Vector3(1.85, 0.40, 0.12), "886142")
++	var text := Label3D.new()
++	text.text = title
++	text.font_size = 50
++	text.pixel_size = 0.0038
++	text.outline_size = 3
++	text.modulate = Color("FFE8BE")
++	add_child(text)
++	text.position = at + Vector3(0, 1.43, -0.064)
++	text.rotation.y = PI
++
++func cottage(at: Vector3, scale_factor: float, index: int, yaw: float) -> void:
++	var house := Node3D.new()
++	house.name = "VillageCottage"
++	add_child(house)
++	house.position = at
++	house.scale *= scale_factor
++	house.rotation.y = yaw
++	var wall: String = ["ECD3A7", "E2C29C", "DBCEC0", "E2BFA4"][index % 4]
++	var roof: String = ROOFS[index % 4]
++	S.box(house, Vector3(0, -0.18, 0), Vector3(5.7, 1.35, 4.55), "8A8073")
++	S.box(house, Vector3(0, 1.7, 0), Vector3(5.45, 3.3, 4.35), wall, true)
++	var ridge := Vector3(0, 5.10, 0)
++	var left := S.box(house, Vector3(-1.52, 4.2, 0), Vector3(3.58, 0.23, 5.0), roof)
++	left.rotation.z = 0.57
++	var right := S.box(house, Vector3(1.52, 4.2, 0), Vector3(3.58, 0.23, 5.0), roof)
++	right.rotation.z = -0.57
++	var gable := SurfaceTool.new()
++	gable.begin(Mesh.PRIMITIVE_TRIANGLES)
++	for side in [-1, 1]:
++		var z: float = side * 2.18
++		var points := [Vector3(-2.72, 3.24, z), Vector3(2.72, 3.24, z), ridge + Vector3(0,0,z)]
++		for k in ([0, 1, 2] if side < 0 else [2, 1, 0]):
++			gable.add_vertex(points[k])
++	gable.generate_normals()
++	S.mesh(house, gable.commit(), Vector3.ZERO, wall)
++	for x in [-2.61, 0, 2.61]:
++		S.box(house, Vector3(x, 1.69, -2.20), Vector3(0.17, 3.37, 0.15), "74533D")
++	for y in [0.30, 3.19]:
++		S.box(house, Vector3(0, y, -2.23), Vector3(5.44, 0.15, 0.16), "74533D")
++	S.box(house, Vector3(0, 1.05, -2.283), Vector3(1.02, 2.1, 0.13), "826047")
++	for x in [-1.72, 1.72]:
++		window(house, Vector3(x, 1.83, -2.29), 0.84)
++	window(house, Vector3(0, 4.0, -2.23), 0.58)
++	S.box(house, Vector3(1.51, 4.72, 0.92), Vector3(0.72, 2.0, 0.73), "8B6A59")
++	S.box(house, Vector3(1.51, 5.78, 0.92), Vector3(0.91, 0.20, 0.90), "7E5D48")
++	lantern(house, Vector3(0.81, 1.94, -2.37))
++
++func window(parent: Node3D, at: Vector3, size: float) -> void:
++	S.box(parent, at, Vector3(size + 0.17, size * 1.24, 0.12), "705842")
++	var pane := S.box(parent, at - Vector3.BACK * 0.068, Vector3(size, size, 0.04), "EFC18A")
++	glow(pane)
++	S.box(parent, at - Vector3.BACK * 0.10, Vector3(0.062, size, 0.06), "926C48")
++	S.box(parent, at - Vector3.BACK * 0.10, Vector3(size, 0.062, 0.06), "926C48")
++
++func lantern(parent: Node3D, at: Vector3) -> void:
++	var mesh := S.box(parent, at, Vector3(0.27, 0.34, 0.27), "E6AE64")
++	glow(mesh)
++	S.box(parent, at + Vector3.UP * 0.19, Vector3(0.36, 0.10, 0.36), "604739")
++
++func glow(mesh: MeshInstance3D) -> void:
++	var material := mesh.material_override.duplicate() as StandardMaterial3D
++	material.emission_enabled = true
++	material.emission = Color("EDAE67")
++	material.emission_energy_multiplier = 0.55
++	mesh.material_override = material
++
++func facet(parent: Node3D, at: Vector3, size: Vector3, color: String) -> MeshInstance3D:
++	var shape := SphereMesh.new()
++	shape.radial_segments = 6
++	shape.rings = 3
++	var mesh := S.mesh(parent, shape, at, color)
++	mesh.scale = size
++	return mesh
++
++func small_animal(at: Vector2, rabbit: bool) -> Node3D:
++	var animal := Node3D.new()
++	add_child(animal)
++	animal.position = ground(at.x, at.y)
++	animal.set_meta("home", at)
++	var fur := "A59079" if rabbit else "AB603F"
++	facet(animal, Vector3(0, 0.21, 0), Vector3(0.31, 0.37, 0.53), fur)
++	facet(animal, Vector3(0, 0.34, 0.23), Vector3(0.28, 0.26, 0.28), fur)
++	for side in [-1, 1]:
++		facet(animal, Vector3(side * 0.079, 0.49 if rabbit else 0.44, 0.18),
++			Vector3(0.087, 0.29 if rabbit else 0.14, 0.085), fur)
++		facet(animal, Vector3(side * 0.113, 0.38, 0.29), Vector3(0.035, 0.039, 0.03), "352924")
++		facet(animal, Vector3(side * 0.105, 0.08, 0.065), Vector3(0.14, 0.12, 0.26), fur)
++	var tail := facet(animal, Vector3(0, 0.25 if rabbit else 0.39, -0.26),
++		Vector3(0.15, 0.15, 0.15) if rabbit else Vector3(0.23, 0.52, 0.25), "E4D6C2" if rabbit else "9B5038")
++	tail.rotation.x = 0.37
++	return animal
++
++func _process(delta: float) -> void:
++	clock += delta
++	for animal in rabbits + squirrels:
++		var home: Vector2 = animal.get_meta("home")
++		var visit := clock * 0.7 + home.y
++		var pace := clampf(sin(visit * 1.8), 0.0, 1.0)
++		var p := home + Vector2(sin(visit * 0.42), cos(visit * 0.42)) * 1.65
++		animal.position = ground(p.x, p.y) + Vector3.UP * pace * absf(sin(visit * 5.0)) * 0.17
++		animal.rotation.y = visit * 0.42 + PI * 0.5
++	for i in birds.size():
++		var bird := birds[i]
++		var t := clock * 0.24 + i * 0.13
++		bird.position = Vector3(29.0 * sin(t), 24.0 + i * 0.42 + sin(t * 2.0), 83.0 + 25.0 * cos(t) + i * 1.4)
++		bird.rotation.y = atan2(cos(t) * 29.0, -sin(t) * 25.0)
++		bird.get_child(1).rotation.z = sin(clock * 8.1 + i * 0.76) * 0.58
++		bird.get_child(2).rotation.z = -bird.get_child(1).rotation.z
++
++func finish(mesh: MeshInstance3D, pigment: String, shingles := false) -> void:
++	var material := ShaderMaterial.new()
++	material.shader = preload("res://shaders/a1_architecture.gdshader")
++	material.set_shader_parameter("pigment", Color(pigment))
++	material.set_shader_parameter("shingles", shingles)
++	if shingles:
++		roofs.append(material)
++	mesh.material_override = material
++
++func street_house(at: Vector3, index: int) -> void:
++	var house := Node3D.new()
++	house.name = "VillageStreetHouse%d" % index
++	add_child(house)
++	house.position = at
++	var road_side := 1.0 if at.x < L.valley_path(at.z) else -1.0
++	house.rotation.y = -road_side * (1.32 + 0.12 * sin(index * 2.1))
++	var widths := [5.6, 5.0, 6.8, 6.0, 5.5, 6.6]
++	var heights := [3.4, 3.15, 4.3, 3.5, 4.0, 3.30]
++	var depths := [4.5, 4.9, 5.2, 5.6, 4.8, 4.4]
++	var width: float = widths[index]
++	var height: float = heights[index]
++	var depth: float = depths[index]
++	var pitch := 0.48 + 0.07 * (index % 3)
++	var wall: String = ["D9C093","C4B09A","BDAF8D","D6AD88","C6AD8A","DDD1AE"][index]
++	var roof: String = ["8B5145","536C67","7D6652","766274","985E47","6F7052"][index]
++	var beam := "614A38" if index % 2 == 0 else "71523D"
++	var front := -depth * 0.5
++	var center := Vector3(0, height * 0.5, 0)
++	finish(S.box(house, center, Vector3(width, height, depth), wall, true), wall)
++	for row in range(3):
++		for i in range(8):
++			var x := (i - 3.5) * width / 8.0
++			var stone := S.box(house, Vector3(x, 0.15 - row * 0.24, front - 0.045),
++				Vector3(width / 8.0 - 0.025, 0.22, 0.29), ["858275","8E887A","989081"][(i + row) % 3])
++			stone.rotation.y = sin(i * 3.4 + row) * 0.04
++	var peak := height + tan(pitch) * (width * 0.5 + 0.28)
++	var tile_length := (width * 0.5 + 0.34) / cos(pitch)
++	var gable := SurfaceTool.new()
++	gable.begin(Mesh.PRIMITIVE_TRIANGLES)
++	for side in [-1, 1]:
++		var z := depth * 0.5 * float(side)
++		var corners := [Vector3(-width * 0.5, height-0.04, z), Vector3(width * 0.5, height-0.04, z), Vector3(0, peak, z)]
++		for v in ([0, 1, 2] if side < 0 else [2, 1, 0]):
++			gable.add_vertex(corners[v])
++	gable.generate_normals()
++	finish(S.mesh(house, gable.commit(), Vector3.ZERO, wall), wall)
++	for side in [-1, 1]:
++		var x := float(side) * (width * 0.5 + 0.32)
++		var panel := S.box(house, Vector3(x * 0.5, (height + peak) * 0.5, 0),
++			Vector3(tile_length, 0.21, depth + 0.86), roof)
++		panel.rotation.z = -side * pitch
++		finish(panel, roof, true)
++		for z in [front - 0.43, -front + 0.43]:
++			S.beam(house, Vector3(0,peak+0.10,z), Vector3(x,height+0.03,z), 0.18, beam)
++	for x in [-width * 0.5 + 0.10, width * 0.5 - 0.10]:
++		S.box(house, Vector3(x,height * 0.5,front-0.08), Vector3(0.21,height,0.23), beam)
++	for y in [0.39,height-0.14]:
++		S.box(house, Vector3(0,y,front-0.078), Vector3(width,0.20,0.20), beam)
++	var doorway := -0.68 if index % 2 == 0 else 0.61
++	S.box(house, Vector3(doorway,1.15,front-0.10), Vector3(1.24,2.16,0.24), beam)
++	for i in range(6):
++		S.box(house, Vector3(doorway+(i-2.5)*0.159,1.12,front-0.235),
++			Vector3(0.153,1.89,0.07), ["8E654A","79563F","9E7356"][i % 3])
++	for y in [0.54,1.75]:
++		S.box(house, Vector3(doorway,y,front-0.28), Vector3(1.02,0.09,0.06), beam)
++	facet(house, Vector3(doorway+0.35,1.02,front-0.32), Vector3.ONE*0.09, "CE9C54")
++	for i in range(3):
++		S.box(house, Vector3(doorway,0.04-i*0.075,front-0.39-i*0.28),
++			Vector3(1.57+i*0.13,0.22,0.53), "91867A")
++	for x in [-width*0.32, width*0.32]:
++		var y := 1.86 if absf(x-doorway)>1.18 else 2.56
++		window(house, Vector3(x,y,front-0.12), 0.77)
++		for side in [-1,1]:
++			S.box(house, Vector3(x+side*0.55,y,front-0.18),Vector3(0.24,0.97,0.09),"5F7367")
++		if y < 2.0:
++			S.box(house, Vector3(x,1.25,front-0.25),Vector3(1.09,0.20,0.35),"895C40")
++			for flower in range(3):
++				A.place(house,"nature","flower_redC" if index%2==0 else "flower_purpleB",
++					Vector3(x+(flower-1)*0.32,1.31,front-0.29),0.31,flower)
++	window(house, Vector3(0,height+0.55,front-0.07),0.58)
++	var chimney := A.place(house,"fantasy-town","chimney",Vector3(width*0.29,height+0.29,depth*0.18),1.8)
++	chimney.rotation.y = PI * 0.5
++	if index in [0, 2, 4]:
++		var awning := S.box(house,Vector3(doorway,2.23,front-0.72),Vector3(2.54,0.18,1.42),roof)
++		awning.rotation.x = -0.16
++		finish(awning, roof, true)
++		for side in [-1,1]:
++			S.box(house,Vector3(doorway+side*1.10,1.05,front-1.28),Vector3(0.15,2.20,0.15),beam)
++	else:
++		A.place(house,"fantasy-town","stall-bench",Vector3(-width*0.33,0.0,front-0.93),0.73)
++	for side in [-1, 1]:
++		var facade := Node3D.new()
++		house.add_child(facade)
++		facade.rotation.y = -side * PI * 0.5
++		facade.position.x = side * (width*0.5+0.04)
++		for z in [-depth*0.44, depth*0.44]:
++			S.box(facade,Vector3(z,height*0.5,0),Vector3(0.16,height,0.13),beam)
++		S.box(facade,Vector3(0,height-0.44,0),Vector3(depth,0.14,0.14),beam)
++		window(facade,Vector3(-0.68,1.83,-0.015),0.74)
++		if index in [2,4]:
++			window(facade,Vector3(0.86,2.69,-0.015),0.67)
++	lantern(house, Vector3(doorway+0.90,1.95,front-0.32))
++	var door := house.to_global(Vector3(doorway,0,front-1.12))
++	var street := Vector3(L.valley_path(door.z),0,door.z-0.8)
++	paving(Vector2(door.x, door.z),Vector2(street.x,street.z),1.13)
++	var fence_at := house.to_global(Vector3(width*0.33,0,front-1.82))
++	var garden := ground(fence_at.x,fence_at.z)
++	if index % 2 == 0 and absf(garden.x-L.valley_path(garden.z))>2.5:
++		A.place(self,"fantasy-town","fence",garden,0.86,house.rotation.y)
++		A.place(self,"nature","log_stack", garden + Vector3(-0.64,0.0,0.58),0.68,house.rotation.y)
++
++func paving(a: Vector2, b: Vector2, width: float) -> void:
++	var surface := SurfaceTool.new()
++	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
++	var right := (b-a).normalized().orthogonal()
++	var steps := maxi(2,ceili(a.distance_to(b)*3.0))
++	for i in range(steps):
++		var l := a.lerp(b,float(i)/steps)
++		var r := a.lerp(b,float(i+1)/steps)
++		for p in [l-right*width,l+right*width,r-right*width,l+right*width,r+right*width,r-right*width]:
++			var lateral: float = (p-a).dot(right)
++			surface.set_uv(Vector2(lateral,width-0.24))
++			surface.add_vertex(ground(p.x,p.y)+Vector3.UP*0.035)
++	surface.generate_normals()
++	var path := S.mesh(self,surface.commit(),Vector3.ZERO,"998368")
++	var paint := ShaderMaterial.new()
++	paint.shader = preload("res://shaders/forest_path.gdshader")
++	path.material_override = paint
++	path.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
++
++func detail_slices() -> void:
++	var rng := RandomNumberGenerator.new()
++	rng.seed = 92714
++	var anchors := [Vector2(-22,50),Vector2(-13,52),Vector2(-27,57),Vector2(-31,50),
++		Vector2(-10,63),Vector2(-23,66),Vector2(12,61),Vector2(11,84),Vector2(-10,102),
++		Vector2(13,105),Vector2(0,112),Vector2(12,115),Vector2(4,124),Vector2(18,121)]
++	for cluster in anchors.size():
++		var center: Vector2 = anchors[cluster]
++		for i in range(13):
++			var p := center + Vector2(rng.randf_range(-4,4),rng.randf_range(-3,3))
++			if absf(p.x-L.valley_path(p.y)) < 2.35:
++				continue
++			var at := ground(p.x,p.y)
++			if i % 6 == 0:
++				A.place(self,"quaternius","Rock_Moss_1",at,rng.randf_range(0.27,0.83),rng.randf_range(0,TAU))
++			elif i % 4 == 0:
++				A.place(self,"nature", ["flower_purpleB","flower_yellowA","flower_redC"][cluster%3],at,0.35+i*0.013,i)
++			else:
++				A.place(self,"nature","grass_leafs" if i%3==0 else "grass_large",at,rng.randf_range(0.21,0.50),i)
++	for i in range(8):
++		var x := -30.0 + 3.3 * i
++		var z := 53.5 + 5.2 * sin(i*2.0)
++		if L.in_overlook_view(x, z):
++			continue
++		A.place(self,"quaternius","BirchTree_Autumn_3" if i%3==0 else "PineTree_2",
++			ground(x,z),7.5+float(i%4)*1.75,i, "autumn" if i%3==0 else "sage")
++	for side in [-1, 1]:
++		for i in range(13):
++			var x := -25.0 + i * 3.85
++			if absf(x) < 3.2:
++				continue
++			var at := ground(x,L.river_center(x)+side*(5.7+0.42*sin(i*2.01)))
++			A.place(self,"nature","rock_smallC",at,0.34+0.38*absf(sin(i)),i,"warm_stone")
++			A.place(self,"nature","grass_leafs",at+Vector3(0.53,0,0.17),0.49,i)
++
++func register_canopy(tree: Node3D, broadleaf: bool) -> void:
++	for child in tree.find_children("*","MeshInstance3D",true,false):
++		var visual := child as MeshInstance3D
++		for i in range(visual.mesh.get_surface_count()):
++			var source := visual.get_active_material(i) as StandardMaterial3D
++			if source == null:
++				continue
++			var name := source.resource_name.to_lower()
++			if not ("leaf" in name or "leaves" in name or name in ["grass","green","orange","lightorange"]):
++				continue
++			var key := "%d:%d" % [source.get_instance_id(), int(broadleaf)]
++			if not canopy_materials.has(key):
++				canopy_materials[key] = [source.duplicate(), source.albedo_color, broadleaf]
++			visual.set_surface_override_material(i, canopy_materials[key][0])
++
++func set_season_palette(season: int) -> void:
++	var terrain := get_parent().find_child("ContinuousMap01Terrain",true,false) as MeshInstance3D
++	if terrain != null:
++		(terrain.material_override as ShaderMaterial).set_shader_parameter("a1_season", season)
++	for entry in canopy_materials.values():
++		var material: StandardMaterial3D = entry[0]
++		var original: Color = entry[1]
++		var broadleaf: bool = entry[2]
++		match season:
++			1: material.albedo_color = original.lerp(Color("A1B969"), 0.73 if broadleaf else 0.30)
++			2: material.albedo_color = original.lerp(Color("68894D"), 0.80 if broadleaf else 0.26)
++			3: material.albedo_color = original.lerp(Color("A9B8BA"), 0.72 if broadleaf else 0.51)
++			_: material.albedo_color = original
++	for roof in roofs:
++		roof.set_shader_parameter("snow_cover", 0.91 if season == 3 else 0.0)
++
++func register_tiled_roof(material: ShaderMaterial) -> void:
++	roofs.append(material)
+diff --git a/scripts/world/a1_village_kit.gd b/scripts/world/a1_village_kit.gd
+new file mode 100644
+index 0000000..1d3c220
+--- /dev/null
++++ b/scripts/world/a1_village_kit.gd
+@@ -0,0 +1,253 @@
++extends RefCounted
++
++const S = preload("res://scripts/world/shapes.gd")
++const A = preload("res://scripts/world/field_assets.gd")
++const L = preload("res://scripts/world/landscape.gd")
++const WOOD := "66503B"
++const STONE := "897F70"
++
++static func build(site: Node3D, at: Vector3, kind: int) -> void:
++	var house := Node3D.new()
++	house.name = ["CottagePorch","CottageDormer","CottageLong","CommunityPrototype"][kind]
++	site.add_child(house)
++	house.position = at
++	var facing := 1.0 if at.x < L.valley_path(at.z) else -1.0
++	house.rotation.y = facing * -1.10 if kind < 3 else 0.0
++	var span: Vector2 = [Vector2(4.9,4.2),Vector2(5.6,4.55),Vector2(7.4,4.3),Vector2(5.7,4.9)][kind]
++	var eave: float = [2.75,3.05,2.95,5.7][kind]
++	var rise: float = [1.82,2.66,1.54,2.47][kind]
++	var plaster: String = ["D9C5A2","C7B59C","D5B18F","C3B99E"][kind]
++	var tiles: String = ["805349","465E5A","865C49","43615D"][kind]
++	var peak: float = [-0.12,0.0,0.88,0.0][kind]
++	var front := -span.y * 0.5
++	envelope(site,house,span,eave,rise,peak,plaster)
++	roof(site,house,span,eave,rise,peak,tiles)
++	base(house,span)
++	var door_x: float = [-0.57,0.76,-1.87,0.0][kind]
++	facade(site,house,span,eave,rise,peak,door_x)
++	entry(site,house,Vector3(door_x,0,front),kind,tiles)
++	if kind == 1:
++		var dormer := Node3D.new()
++		house.add_child(dormer)
++		dormer.position = Vector3(1.05,eave+0.48,-0.65)
++		var inset := Vector2(1.30,1.78)
++		envelope(site,dormer,inset,0.71,0.48,0.0,plaster,false)
++		roof(site,dormer,inset,0.71,0.48,0.0,tiles)
++		site.window(dormer,Vector3(0,0.43,-0.93),0.43)
++	elif kind == 2:
++		var annex := Node3D.new()
++		house.add_child(annex)
++		annex.position = Vector3(span.x*0.5+0.96,0,0.66)
++		envelope(site,annex,Vector2(2.25,2.8),2.28,0.63,-0.62,plaster)
++		roof(site,annex,Vector2(2.25,2.8),2.28,0.63,-0.62,tiles)
++		base(annex,Vector2(2.25,2.8))
++		site.window(annex,Vector3(0.13,1.29,-1.46),0.57)
++	elif kind == 3:
++		for x in [-1.47, 1.47]:
++			site.window(house,Vector3(x,4.04,front-0.12),0.94)
++			S.box(house,Vector3(x,3.53,front-0.16),Vector3(1.24,0.11,0.27),STONE)
++		S.beam(house,Vector3(-span.x*0.48,3.14,front-0.08),
++			Vector3(span.x*0.48,3.14,front-0.08),0.19,WOOD)
++		var lantern_tower := Node3D.new()
++		house.add_child(lantern_tower)
++		lantern_tower.position = Vector3(0,eave+rise-0.73,0.32)
++		envelope(site,lantern_tower,Vector2(1.89,1.83),2.16,0.94,0.0,plaster,false)
++		roof(site,lantern_tower,Vector2(1.89,1.83),2.16,0.94,0.0,tiles)
++		site.window(lantern_tower,Vector3(0,1.13,-0.95),0.58)
++	else:
++		A.place(house,"fantasy-town","chimney",Vector3(1.38,eave+rise*0.34,0.86),1.85)
++	var threshold := house.to_global(Vector3(door_x,0,front-1.65))
++	site.paving(Vector2(threshold.x,threshold.z),Vector2(L.valley_path(threshold.z),threshold.z-0.35),1.04)
++	for i in range(12):
++		var border := house.to_global(Vector3((i-5.5)*span.x/11.8,0,front-1.71-0.24*sin(i*4.7)))
++		if absf(border.x-L.valley_path(border.z))<2.26 or absf((i-5.5)*span.x/11.8-door_x)<1.04:
++			continue
++		border.y = L.height_at(border.x,border.z)
++		var bloom := "flower_yellowA" if kind == 2 else "flower_purpleB"
++		A.place(site,"nature",bloom if i%3==0 else "grass_leafs",border,0.28+0.19*absf(sin(i)),i)
++		if i in [1,10]:
++			A.place(site,"quaternius","Rock_Moss_1",border+Vector3(0.25,0,0.14),0.38,i)
++
++static func envelope(site: Node3D, parent: Node3D, span: Vector2, eave: float, rise: float,
++		peak: float, pigment: String, solid := true) -> void:
++	var wall := SurfaceTool.new()
++	wall.begin(Mesh.PRIMITIVE_TRIANGLES)
++	var half := span * 0.5
++	var profile := [Vector2(-half.x,-0.43),Vector2(half.x,-0.43),Vector2(half.x,eave),
++		Vector2(peak,eave+rise),Vector2(-half.x,eave)]
++	for z in [-half.y,half.y]:
++		for i in range(1,4):
++			var a := Vector3(profile[0].x,profile[0].y,z)
++			var b := Vector3(profile[i].x,profile[i].y,z)
++			var c := Vector3(profile[i+1].x,profile[i+1].y,z)
++			for p in ([a,b,c] if z < 0.0 else [a,c,b]):
++				wall.add_vertex(p)
++	for side in [-1,1]:
++		var x: float = side*half.x
++		var a := Vector3(x,-0.43,-half.y)
++		var b := Vector3(x,eave,-half.y)
++		var c := Vector3(x,eave,half.y)
++		var d := Vector3(x,-0.43,half.y)
++		if side < 0:
++			quad(wall,a,b,c,d)
++		else:
++			quad(wall,d,c,b,a)
++	wall.generate_normals()
++	site.finish(S.mesh(parent,wall.commit(),Vector3.ZERO,pigment),pigment)
++	if solid:
++		S.box(parent,Vector3(0,eave*0.5-0.12,0),Vector3(span.x,eave+0.24,span.y),pigment,true).hide()
++
++static func quad(surface: SurfaceTool,a: Vector3,b: Vector3,c: Vector3,d: Vector3) -> void:
++	for vertex in [a,b,c,a,c,d]:
++		surface.add_vertex(vertex)
++
++static func roof(site: Node3D, parent: Node3D, span: Vector2, eave: float, rise: float,
++		peak: float, pigment: String) -> void:
++	var tiles := SurfaceTool.new()
++	tiles.begin(Mesh.PRIMITIVE_TRIANGLES)
++	var half_z := span.y*0.5+0.34
++	var tint := Color(pigment)
++	for side in [-1,1]:
++		var ridge := Vector3(peak,eave+rise,0)
++		var lip := Vector3(side*(span.x*0.5+0.30),eave-0.11,0)
++		var rows := ceili(ridge.distance_to(lip)/0.29)
++		var columns := ceili(half_z*2.0/0.30)
++		var a0 := ridge + Vector3(0,0.020,-half_z)
++		var b0 := ridge + Vector3(0,0.020,half_z)
++		var c0 := lip + Vector3(0,0.020,half_z)
++		var d0 := lip + Vector3(0,0.020,-half_z)
++		tiles.set_color(tint.darkened(0.19))
++		if side > 0:
++			quad(tiles,d0,c0,b0,a0)
++		else:
++			quad(tiles,a0,b0,c0,d0)
++		for j in range(rows):
++			var high := ridge.lerp(lip,float(j)/rows)
++			var low := ridge.lerp(lip,float(j+1)/rows)
++			for i in range(columns+1):
++				var width := 2.0*half_z/columns
++				var z0 := clampf(-half_z+(i-0.5*float(j%2))*width,-half_z,half_z)
++				var z1 := clampf(z0+width-0.009,-half_z,half_z)
++				if z1-z0 < 0.03:
++					continue
++				var a := high+Vector3(0,0.035,z0)
++				var b := high+Vector3(0,0.035,z1)
++				var c := low+Vector3(0,0.064,z1)
++				var d := low+Vector3(0,0.064,z0)
++				tiles.set_color(tint.lightened(sin(i*4.4+j*7.8)*0.081))
++				if side > 0:
++					quad(tiles,d,c,b,a)
++				else:
++					quad(tiles,a,b,c,d)
++				quad(tiles,d,c,c-Vector3.UP*0.063,d-Vector3.UP*0.063)
++		for z in [-half_z,half_z]:
++			S.beam(parent,ridge+Vector3(0,0.025,z),lip+Vector3(0,0.025,z),0.17,WOOD)
++		S.beam(parent,lip-Vector3.BACK*half_z,lip+Vector3.BACK*half_z,0.16,WOOD)
++	S.beam(parent,Vector3(peak,eave+rise+0.07,-half_z),Vector3(peak,eave+rise+0.07,half_z),0.17,pigment)
++	tiles.generate_normals()
++	var roof_mesh := S.mesh(parent,tiles.commit(),Vector3.ZERO,pigment)
++	var material := ShaderMaterial.new()
++	material.shader = preload("res://shaders/a1_architecture.gdshader")
++	material.set_shader_parameter("tiled_mesh",true)
++	roof_mesh.material_override = material
++	site.register_tiled_roof(material)
++
++static func base(parent: Node3D, span: Vector2) -> void:
++	for edge in [-1,1]:
++		for i in range(9):
++			var x := (i-4)*span.x/9.0
++			var block := S.box(parent,Vector3(x,-0.12,edge*span.y*0.5),
++				Vector3(span.x/9.0-0.021,0.53+0.07*sin(i),0.29),["8F8375","9E9786","7E7F73"][i%3])
++			block.rotation.y = sin(i*5.0)*0.05
++
++static func facade(site: Node3D, parent: Node3D, span: Vector2, eave: float,
++		rise: float, peak: float, doorway: float) -> void:
++	var z := -span.y*0.5-0.045
++	var half := span.x*0.5
++	for x in [-half+0.08,half-0.08]:
++		S.beam(parent,Vector3(x,0.15,z),Vector3(x,eave,z),0.21,WOOD)
++	for y in [0.33,eave-0.12]:
++		S.beam(parent,Vector3(-half,y,z),Vector3(half,y,z),0.17,WOOD)
++	for side in [-1,1]:
++		var corner: float = side*(half-0.1)
++		S.beam(parent,Vector3(corner,eave-0.19,z),Vector3(peak,eave+rise-0.11,z),0.16,WOOD)
++		S.beam(parent,Vector3(corner,eave-0.17,z),Vector3(corner-side*0.70,eave-0.87,z),0.12,WOOD)
++		var x: float = side*(half-0.81)
++		if absf(x-doorway)<0.85:
++			continue
++		site.window(parent,Vector3(x,1.64,z-0.08),0.75)
++		for shutter in [-1,1]:
++			S.box(parent,Vector3(x+shutter*0.52,1.63,z-0.18),Vector3(0.23,0.96,0.08),"617368")
++		S.box(parent,Vector3(x,1.05,z-0.22),Vector3(1.02,0.22,0.35),"7D5740")
++		for flower in range(3):
++			A.place(parent,"nature","flower_purpleB" if side<0 else "flower_redC",
++				Vector3(x+(flower-1)*0.27,1.17,z-0.25),0.24,flower)
++	site.window(parent,Vector3(peak,eave+rise*0.32,z-0.07),0.59)
++	for side in [-1,1]:
++		var end := Node3D.new()
++		parent.add_child(end)
++		end.position.x = side*half
++		end.rotation.y = -side*PI*0.5
++		for p in [-span.y*0.42,span.y*0.42]:
++			S.beam(end,Vector3(p,0.21,-0.04),Vector3(p,eave,-0.04),0.14,WOOD)
++		S.beam(end,Vector3(-span.y*0.48,eave-0.15,-0.05),Vector3(span.y*0.48,eave-0.15,-0.05),0.14,WOOD)
++		site.window(end,Vector3(0.45,1.72,-0.09),0.70)
++		if eave > 4.0:
++			site.window(end,Vector3(-0.56,3.69,-0.09),0.76)
++
++static func entry(site: Node3D, parent: Node3D, door: Vector3, kind: int, pigment: String) -> void:
++	var width := 2.95 if kind == 3 else (3.45 if kind == 2 else 2.39)
++	var front := door.z
++	S.box(parent,door+Vector3(0,1.13,-0.11),Vector3(1.28,2.19,0.23),WOOD)
++	for plank in range(7):
++		S.box(parent,door+Vector3((plank-3)*0.147,1.13,-0.25),Vector3(0.139,1.94,0.055),
++			["936E50","A57C56","875E45"][plank%3])
++	for y in [0.63,1.63]:
++		S.box(parent,door+Vector3(0,y,-0.292),Vector3(0.98,0.073,0.059),"514639")
++	S.box(parent,door+Vector3(0,0.17,-0.67),Vector3(width,0.23,1.31),STONE)
++	for row in range(2):
++		S.box(parent,door+Vector3(0,0.091-row*0.065,-1.29-row*0.21),Vector3(width*0.74,0.18,0.53),STONE)
++	var cover := S.box(parent,door+Vector3(0,2.56,-0.70),Vector3(width+0.30,0.16,1.58),pigment)
++	cover.rotation.x = -0.16
++	site.finish(cover,pigment,true)
++	for side in [-1,1]:
++		var x: float = door.x+side*(width*0.5-0.12)
++		S.beam(parent,Vector3(x,0.24,front-1.20),Vector3(x,2.52,front-1.20),0.15,WOOD)
++		S.beam(parent,Vector3(x,1.89,front-1.20),Vector3(x-side*0.53,2.51,front-1.20),0.10,WOOD)
++		if kind in [2,3]:
++			S.beam(parent,Vector3(x,0.85,front-1.20),Vector3(x,0.85,front-0.24),0.11,WOOD)
++	A.place(parent,"fantasy-town","lantern",door+Vector3(width*0.34,1.88,-0.37),0.43)
++	if kind == 2:
++		A.place(parent,"fantasy-town","fence",door+Vector3(2.79,0,-2.20),0.85)
++		A.place(parent,"nature","log_stack",door+Vector3(2.65,0,-0.72),0.71)
++
++static func street(site: Node3D) -> void:
++	var stones := SurfaceTool.new()
++	stones.begin(Mesh.PRIMITIVE_TRIANGLES)
++	stones.set_smooth_group(-1)
++	for row in range(37):
++		var z := 102.0+row*0.87
++		var count := 3 if row%4 != 0 else 2
++		for i in range(count):
++			var x := L.valley_path(z)+(i-(count-1)*0.5)*1.02+sin(row*4.17+i)*0.14
++			var center := Vector2(x,z+sin(i*7.1+row*1.9)*0.075)
++			var size := Vector2(0.43+0.07*sin(row+i),0.30+0.04*cos(row*3+i))
++			var perimeter := PackedVector3Array()
++			for edge in range(7):
++				var angle := edge*TAU/7.0+cos(row*2.0+i)*0.34
++				var p := center+Vector2(cos(angle),sin(angle))*size*(0.87+0.13*sin(edge*9.2+i))
++				perimeter.append(Vector3(p.x,L.height_at(p.x,p.y)+0.026,p.y))
++			var top := Vector3(center.x,L.height_at(center.x,center.y)+0.028,center.y)
++			for edge in range(7):
++				stones.set_color(Color("A29682").lightened(0.12*sin(row*7.7+i)))
++				var a := perimeter[edge]
++				var b := perimeter[(edge+1)%7]
++				for v in [top,a,b]:
++					stones.add_vertex(v)
++				quad(stones,a,a-Vector3.UP*0.06,b-Vector3.UP*0.06,b)
++	stones.generate_normals()
++	var mesh := S.mesh(site,stones.commit(),Vector3.ZERO,"A29682")
++	var material := StandardMaterial3D.new()
++	material.vertex_color_use_as_albedo = true
++	material.roughness = 0.97
++	mesh.material_override = material
+diff --git a/scripts/ui/a1_map.gd b/scripts/ui/a1_map.gd
+new file mode 100644
+index 0000000..617a1c1
+--- /dev/null
++++ b/scripts/ui/a1_map.gd
+@@ -0,0 +1,90 @@
++extends Control
++
++const L = preload("res://scripts/world/landscape.gd")
++const MAPS = preload("res://scripts/story/map_flow.gd")
++const PLACES := [
++	[Vector2(0, -3), "Forest clearing", "Khoảng rừng"],
++	[Vector2(-6.85, 17.8), "Thomas", "Thomas"],
++	[Vector2(-22.5, 50), "Valley overlook", "Điểm ngắm thung lũng"],
++	[Vector2(0, 74), "River bridge", "Cầu qua sông"],
++	[Vector2(8, 117), "Village", "Làng A"],
++]
++const INK := Color("3e5145")
++var player: Node3D
++var visited: Dictionary = {}
++var zoom := 1.0
++var pan := Vector2.ZERO
++
++func _ready() -> void:
++	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
++	mouse_filter = Control.MOUSE_FILTER_STOP
++	hide()
++
++func _process(_delta: float) -> void:
++	var at := Vector2(player.position.x, player.position.z)
++	for place in PLACES:
++		if at.distance_to(place[0]) < 10.0:
++			visited[place[0]] = true
++	if visible:
++		queue_redraw()
++
++func point(at: Vector2) -> Vector2:
++	return size * 0.5 + pan + Vector2(at.x, 59.0 - at.y) * map_scale()
++
++func map_scale() -> float:
++	return minf(size.x / 150.0, size.y / 202.0) * zoom
++
++func center_on_player() -> void:
++	pan = -Vector2(player.position.x, 59.0 - player.position.z) * map_scale()
++
++func _gui_input(event: InputEvent) -> void:
++	if event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
++		pan += event.relative
++	elif event is InputEventMouseButton and event.pressed:
++		if event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
++			var old := zoom
++			zoom = clampf(zoom + (0.18 if event.button_index == MOUSE_BUTTON_WHEEL_UP else -0.18), 0.65, 3.2)
++			var from_center: Vector2 = event.position - size * 0.5
++			pan = from_center + (pan - from_center) * (zoom / old)
++		elif event.button_index == MOUSE_BUTTON_LEFT and Rect2(size.x - 191, 20, 164, 39).has_point(event.position):
++			center_on_player()
++
++func _draw() -> void:
++	var paper := Color("e6d7ad")
++	draw_rect(Rect2(Vector2.ZERO, size), paper)
++	for z in range(-24, L.VALLEY_END, 4):
++		var span := 24 if z < 24 else L.VALLEY_HALF_WIDTH
++		for x in range(-span, span, 4):
++			var elevation := L.height_at(x + 2.0, z + 2.0)
++			var color := Color("b9bc8c").lerp(Color("899b77"), clampf(elevation / 15.0, 0, 1))
++			draw_rect(Rect2(point(Vector2(x, z + 4)), Vector2.ONE * (4.0 * map_scale() + 0.5)), color)
++	var river := PackedVector2Array()
++	for x in range(-40, 41, 2):
++		river.append(point(Vector2(x, L.river_center(x))))
++	draw_polyline(river, Color("729d9c"), 8.0 * map_scale(), true)
++	var trail := PackedVector2Array()
++	for z in range(5, 140, 2):
++		trail.append(point(Vector2(L.valley_path(z) if z > 24 else ClearingLayout.path_center(z), z)))
++	draw_polyline(trail, Color("f0d7a8"), 2.2 * map_scale(), true)
++	draw_line(point(Vector2(0, 67)), point(Vector2(0, 81)), Color("795d45"), 3.5 * map_scale(), true)
++	var font := get_theme_default_font()
++	for place in PLACES:
++		var at := point(place[0])
++		var known := visited.has(place[0])
++		draw_circle(at, 5.0, INK if known else Color("8f9374"))
++		if known:
++			draw_string(font, at + Vector2(10, 5), MAPS.text(place[1], place[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, INK)
++	var self_at := point(Vector2(player.position.x, player.position.z))
++	var facing: Vector3 = -player.get_node("Model").global_basis.z
++	var heading := Vector2(facing.x, -facing.z).normalized()
++	draw_circle(self_at, 7.7, Color("9b4d3c"))
++	draw_line(self_at, self_at + heading * 16.0, Color("9b4d3c"), 4.0, true)
++	draw_rect(Rect2(Vector2.ZERO, Vector2(size.x, 72)), paper)
++	draw_rect(Rect2(Vector2(0, size.y - 48), Vector2(size.x, 48)), paper)
++	draw_string(font, Vector2(27, 43), MAPS.text("A1  ·  River valley", "A1  ·  Thung lũng ven sông"),
++		HORIZONTAL_ALIGNMENT_LEFT, -1, 25, INK)
++	draw_rect(Rect2(size.x - 191, 20, 164, 39), Color("c8bc96"))
++	draw_string(font, Vector2(size.x - 176, 44), MAPS.text("Find me  ·  Home", "Về vị trí  ·  Home"),
++		HORIZONTAL_ALIGNMENT_LEFT, -1, 15, INK)
++	draw_string(font, Vector2(27, size.y - 18), MAPS.text("Drag  ·  Scroll to zoom  ·  M / Esc to close",
++		"Kéo để di chuyển  ·  Cuộn để thu phóng  ·  M / Esc để đóng"), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, INK)
+diff --git a/shaders/a1_architecture.gdshader b/shaders/a1_architecture.gdshader
+new file mode 100644
+index 0000000..965108b
+--- /dev/null
++++ b/shaders/a1_architecture.gdshader
+@@ -0,0 +1,40 @@
++shader_type spatial;
++render_mode diffuse_burley;
++
++uniform vec4 pigment : source_color = vec4(0.55, 0.36, 0.25, 1.0);
++uniform bool shingles = false;
++uniform bool tiled_mesh = false;
++uniform float snow_cover = 0.0;
++varying vec3 local;
++varying float top_side;
++
++float hash(vec2 p) {
++	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
++}
++
++void vertex() {
++	local = VERTEX;
++	top_side = max(NORMAL.y, 0.0);
++}
++
++void fragment() {
++	vec2 uv = abs(NORMAL.z) > 0.55 ? local.xy : local.zy;
++	float tone = sin(uv.x * 11.0 + sin(uv.y * 6.2)) * sin(uv.y * 9.1) * 0.026;
++	float pores = hash(floor(uv * 85.0)) - 0.5;
++	vec3 color = (tiled_mesh ? COLOR.rgb : pigment.rgb) * (1.0 + tone + pores * 0.045);
++	if (shingles) {
++		vec2 grid = vec2(local.z / 0.36, local.x / 0.30);
++		grid.x += mod(floor(grid.y), 2.0) * 0.5;
++		vec2 cell = fract(grid);
++		float border = smoothstep(0.015, 0.08, min(cell.x, 1.0 - cell.x));
++		float lip = smoothstep(0.012, 0.15, cell.y);
++		color *= (0.72 + border * 0.14 + lip * 0.14) * (0.88 + hash(floor(grid)) * 0.23);
++	}
++	if (shingles || tiled_mesh) {
++		float cover = smoothstep(0.21, 0.67, sin(local.z * 1.8 + local.x * 2.4) * .19 + .51 + tone);
++		color = mix(color, vec3(.73,.82,.86) * (0.94 + tone), cover * snow_cover * top_side);
++	}
++	ALBEDO = color;
++	ROUGHNESS = 0.92;
++	SPECULAR = 0.21;
++}
+diff --git a/shaders/a1_river.gdshader b/shaders/a1_river.gdshader
+new file mode 100644
+index 0000000..45ff0fc
+--- /dev/null
++++ b/shaders/a1_river.gdshader
+@@ -0,0 +1,19 @@
++shader_type spatial;
++render_mode cull_disabled, diffuse_burley;
++
++varying vec3 world_point;
++void vertex() {
++	world_point = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
++}
++void fragment() {
++	float waves = sin(world_point.z * 3.2 + sin(world_point.x * 0.7 - TIME * 1.8) * 0.8);
++	float ripple = sin(world_point.x * 1.55 - TIME * 2.7 + world_point.z * 0.8);
++	float gleam = smoothstep(0.82, 1.0, waves * 0.65 + ripple * 0.35);
++	float center = 74.0 + 6.0 * sin(world_point.x * .057) * smoothstep(3.0, 16.0, abs(world_point.x));
++	float shoal = smoothstep(2.1, 5.7, abs(world_point.z - center) + waves * .20);
++	float foam = smoothstep(.85, .98, ripple) * smoothstep(.78, .98, shoal);
++	ALBEDO = mix(vec3(0.032, 0.26, 0.29), vec3(0.24, 0.56, 0.53), 0.12 + gleam * 0.26 + shoal * 0.48) + vec3(.19,.23,.17) * foam;
++	NORMAL = normalize(NORMAL + vec3(waves * 0.045, ripple * 0.038, 0.0));
++	ROUGHNESS = 0.32;
++	SPECULAR = 0.45;
++}

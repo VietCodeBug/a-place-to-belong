@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "note": "Prototype design targets, not committed story canon. Only region A1 has experimental source; B-I are placeholders.",
+  "world_id": "a-place-to-belong",
+  "units": "metres",
+  "regions": [
+    {
+      "id": "A1",
+      "status": "prototype_only",
+      "target_extent_m": {
+        "width": 4096,
+        "depth": 4096
+      },
+      "target_area_km2": 16.777216,
+      "features": [
+        "forest",
+        "existing_village_a",
+        "valley",
+        "river",
+        "large_lake",
+        "underwater_exploration_foundation"
+      ],
+      "lake": {
+        "prototype_center_xz": [
+          780,
+          -530
+        ],
+        "radii_m": [
+          430,
+          310
+        ],
+        "water_y_m": 5,
+        "fishing_pier_xz": [
+          360,
+          -530
+        ]
+      },
+      "integration_required": true
+    },
+    {
+      "id": "B",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "C",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "D",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "E",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "F",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "G",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "H",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    },
+    {
+      "id": "I",
+      "status": "reserved",
+      "playable": false,
+      "terrain_generated": false,
+      "canon_undecided": true
+    }
+  ],
+  "integration_rules": [
+    "Existing House A and Village A remain in original game coordinates until an explicitly reviewed adapter is implemented",
+    "No map-wide re-scale of buildings",
+    "No new lore or quests",
+    "Region B-I only registry entries"
+  ]
+}

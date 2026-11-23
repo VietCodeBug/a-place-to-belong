@@ -1,0 +1,37 @@
+[
+  {
+    "name": "short_blades",
+    "triangles": 18,
+    "height": 0.2067230094211354
+  },
+  {
+    "name": "soft_fan",
+    "triangles": 24,
+    "height": 0.29190270684016717
+  },
+  {
+    "name": "meadow_sweep",
+    "triangles": 21,
+    "height": 0.47191537693600766
+  },
+  {
+    "name": "tall_sedge",
+    "triangles": 27,
+    "height": 0.8186758287625044
+  },
+  {
+    "name": "fern_rosette",
+    "triangles": 220,
+    "height": 0.48998311873576383
+  },
+  {
+    "name": "fallen_leaf",
+    "triangles": 7,
+    "height": 0.012
+  },
+  {
+    "name": "twig",
+    "triangles": 3,
+    "height": 0.014
+  }
+]

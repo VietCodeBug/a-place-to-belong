@@ -26,3 +26,7 @@ temp/
 
 # Concept art should be committed when approved.
 # No game-engine-specific exclusions until an engine is chosen.
+
+# Godot 4 generated imports and local exports
+.godot/
+builds/

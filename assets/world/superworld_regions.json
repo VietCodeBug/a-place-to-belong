@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "regions": [
+    {"id":"A1","status":"prototype","origin":[0,0],"extent_m":[4096,4096],"chunk_m":64,"seed":320615,"neighbors":[],"features":["terrain","lake","swim","atlas"],"playable":true},
+    {"id":"B","status":"reserved","playable":false},
+    {"id":"C","status":"reserved","playable":false},
+    {"id":"D","status":"reserved","playable":false},
+    {"id":"E","status":"reserved","playable":false},
+    {"id":"F","status":"reserved","playable":false},
+    {"id":"G","status":"reserved","playable":false},
+    {"id":"H","status":"reserved","playable":false},
+    {"id":"I","status":"reserved","playable":false}
+  ]
+}

@@ -1,0 +1,49 @@
+# Preview archive policy — current
+
+All preview versions, including V09–V13, are now preserved as same-name tags. No preview branch heads remain; only main, development and narrative are kept as branches. Historical links below resolve to the archived tags. Future preview versions should also be published as tags. See [branch management](branch-management.md).
+
+# Versioned preview archive tags
+
+After the user-requested cleanup on 2026-11-17, older previews are preserved as same-name **tags**; the latest preview remains a branch. All existing links still resolve. See [branch management](branch-management.md) and [exact archive commits](branch-archive-2026-11-17.json).
+
+Each visual review session publishes its images to its own `preview/ver-XX-name`
+branch. These branches contain only PNGs and a README with source commit, capture
+method, renderer and limitations. Keep screenshots out of gameplay branches; keep
+runtime textures and licensed source assets in the game project.
+
+| Version | Preview branch | Code reference |
+| --- | --- | --- |
+| ver-01 | [early-autumn](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-01-early-autumn) | 1950ce3 |
+| ver-02 | [composition-depth](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-02-composition-depth) | 31c43cb |
+| ver-03 | [kenney-kitbash](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-03-kenney-kitbash) | feature/licensed-asset-vertical-slice; full SHA in preview README |
+
+The initial foundation session has no retained committed screenshot set; it is not
+relabelled using later images. Prior images remain recoverable in Git history.
+
+Future sessions increment the version, preserve old preview branches, and record
+the exact code commit. The game PR links its preview branch instead of adding PNGs.
+
+V04: [Map 01 art pass](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-04-map01-art-pass)
+contains five actual-render after shots plus V03 before images, with full source
+SHA. See [the visual review](map01-v04-art-review.md). The earlier environment
+expansion direction was superseded; no new map is part of this version.
+
+V05: [Hero building review](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-05-hero-building), five Godot after captures and V04 before references. Source and limitations: [review](v05-hero-building-review.md).
+
+V06: [Grass and character colors](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-06-grass-character-color). [Vietnamese report](v06-grass-character-color.md). House V05 preserved.
+
+V07: [Samatha temporary player](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-07-samatha-player). Original color textures, lowered idle arms, eggeght NPC; Joe excluded because gray. [Vietnamese report](v07-character-roles.md).
+
+Requested ground session: [preview/ver-05-ground-environment](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-05-ground-environment). This name follows the explicit user request, distinct from ver-05-hero-building. Five matched views against V04 and the current V07 baseline; [report](map01-ground-environment-review.md). Earlier versions remain intact.
+
+V08: [Lighting presets](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-08-lighting-presets), matched PR09 baseline / Golden Hour / Blue Hour, five views each plus sunlight trials. [Vietnamese report](sky-sun-atmosphere-review.md). Golden is default; original assets unchanged.
+
+V09: [Grass, wind, sky and weather](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-09-grass-sky-weather), isolated grass tests, five matched V08/V09 views, day/sunset/night/weather shots and seven short Godot motion recordings. [Vietnamese report](grass-sky-weather-v09.md). Older V08 is retained as its exact same-name tag after archive verification.
+
+V10: [Map 01 complete visual overhaul & scenic menu](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-10-map01-visual-overhaul), matched V09/V10 views, Scenic 3D Main Menu, compact HUD, letter/pause UI, layered mountain backdrop, canopy separation, rain puddles, night lanterns/fireflies, and RTX 3050 1080p benchmark. [Vietnamese report](v10-map01-visual-overhaul.md). V09 preview branch retained intact.
+
+V11: [Atmosphere & habitats](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-11-atmosphere-habitats), illustrated menus, interactive daylight dial, scenic ridge revisions and small wildlife/undergrowth habitats. Actual Linux Godot 4.6.3 Compatibility captures, no Windows performance claim. [Vietnamese report](v11-atmosphere-habitats.md). Earlier previews preserved.
+
+V12: [Illustrated Storybook UI](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-12-storybook-ui), hand-drawn-style illustrated title, pause, grouped settings, letter/envelope, dialogue and notifications; automatic weather, no public Studio at 720p/1080p. [Vietnamese report](v12-ui-identity.md); [design system](ui-design-system.md).
+
+V13 preview numbering / V12 UI follow-up: [Circular Postal UI](https://github.com/VietCodeBug/a-place-to-belong/tree/preview/ver-13-circular-postal-ui), day/night circular HUD, wax close seal and letter transitions at 720p/1080p. [Vietnamese report](circular-postal-ui.md). No world or weather scheduler changes.

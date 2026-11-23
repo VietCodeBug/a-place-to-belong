@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MeadowSettings" load_steps=2 format=3]
+[ext_resource type="Script" path="res://environment/vegetation/scripts/meadow_settings.gd" id="1"]
+[resource]
+script = ExtResource("1")
+carpet_density = 22.0
+tuft_density = 6.0
+accent_density = 0.8
+flower_density = 3.0
+render_distance = 70.0
+lod_begin = 18.0
+lod_end = 30.0

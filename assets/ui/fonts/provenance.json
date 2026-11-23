@@ -1,0 +1,18 @@
+{
+  "fonts": [
+    {
+      "file": "ReadingSans.ttf",
+      "source": "Debian host /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+      "license": "Bitstream Vera / DejaVu; LICENSE.txt",
+      "sha256": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e",
+      "modified": false
+    },
+    {
+      "file": "Handwritten.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf",
+      "license": "SIL OFL 1.1; Caveat-OFL.txt",
+      "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+      "modified": false
+    }
+  ]
+}

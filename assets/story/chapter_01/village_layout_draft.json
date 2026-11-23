@@ -1,0 +1,23 @@
+{
+  "status": "draft_pending_creator_review",
+  "homes": {
+    "H01": "A03", "H02": "A04", "H03": "A01", "H04": "A19",
+    "H05": "A07", "H06": "A08", "H07": "A10", "H08": "A11",
+    "H09": "A02", "H10": "A09", "H11": "A17"
+  },
+  "building_use": {
+    "A01": "residence", "A02": "residence", "A03": "residence", "A04": "residence",
+    "A05": "workshop", "A06": "chapel", "A07": "residence", "A08": "residence",
+    "A09": "residence", "A10": "residence", "A11": "residence", "A12": "storage",
+    "A13": "unassigned", "A14": "storage", "A15": "storage", "A16": "unassigned",
+    "A17": "residence", "A18": "storage", "A19": "residence", "A20": "community",
+    "A21": "storage"
+  },
+  "shared_spaces": ["SharedGarden", "SharedCourtyard", "CraftYard"],
+  "work_sites": [
+    [-5,120],[-8,116],[-5,116],[15,126],[16,125],[2,133],[-6,124],[3,126],
+    [6,105],[-5,149],[-4,148],[-2,146],[14,140],[-7,134],[-7,138],[-6,140],[-5,141],
+    [16,130],[15,131],[13,158],[11,154],[8,156],[1,132],[8,129],[2,151],[4,155],
+    [-6,155],[-10,135],[-10,133],[-9,131]
+  ]
+}

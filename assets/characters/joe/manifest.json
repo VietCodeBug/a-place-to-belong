@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "origin": "User upload, 2026-11-16",
+  "source_filename": "npc1.glb",
+  "rights": "User supplied for this prototype; no third-party CC0 license inferred or separate commercial license verification claimed",
+  "status": "Inactive: gray material, user requested colored models only",
+  "rig_joints": 52,
+  "animation_clips": [
+    "human_000093"
+  ],
+  "workflow": "Unmodified GLB, manual structural/texture inspection and Godot import; no generation provider used",
+  "files": [
+    {
+      "path": "assets/characters/joe/npc1.glb",
+      "bytes": 1827172,
+      "sha256": "c93fcffa56e550cc7a18e12737808eb216ecb0bf960c857f179e730d25ba7502"
+    }
+  ]
+}

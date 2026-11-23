@@ -1,0 +1,11 @@
+{
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "source_pack": "https://quaternius.com/packs/ultimateanimatedanimals.html",
+  "mirror_commit": "https://github.com/trebeljahr/quaternius-showcase/tree/0128ca510d653bb04d6d1e4885bd8890b5050b4f/public/glb/animals_pack",
+  "files": {
+    "Fox.glb": "1785e9ce836107276853a8a8183d7c6fa14e5befbd105d79be1fb7e38de9f446",
+    "Deer.glb": "b6558249bfb225313c35dd1b6c91d832b2031d064039bb6b3600a624a882a174",
+    "ShibaInu.glb": "4c8d4d9361a3abd4ef08a9a09aeabf1eb5d4cbddfd4ce271aacf64a254f1dbc1"
+  }
+}
