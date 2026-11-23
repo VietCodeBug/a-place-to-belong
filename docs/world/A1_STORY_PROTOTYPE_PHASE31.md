@@ -8,6 +8,14 @@ godot --path . -- --story-prototype
 
 Dùng WASD theo hướng nhìn, chuột để quan sát, E khi dấu ngắm đặt đúng đồ vật hoặc NPC, Shift để chạy, Esc để thoát thoại hoặc mở menu. Trong Điều khiển có độ nhạy, FOV và nhún đầu. Bản đồ M dùng ngoài trời. Thêm `--npc-debug` rồi dùng F8/F9 để đổi một giờ và xem trạng thái làm việc. Debug không cần để chơi.
 
+## Cảnh đường làng và minimap A1
+
+- Đường chính, ngõ và sân chung có mặt đá mòn, mạch đất và rêu nhẹ. Lớp lát theo địa hình hiện có, mờ dần ở mép cỏ và giữ hốc đường cũ. Mặt đá thay đổi khi ướt và khi có tuyết.
+- Thêm chín cụm vật dụng quanh quầy mái vải, sân chung, khu thủ công, vườn và các hiên. Đồ trang trí dùng ba lô MultiMesh thường và một lô tuyết. Quầy, giá củi và ghế có collider riêng.
+- Trời A1 dùng bảng xanh sáng hơn vào ban ngày, với mây trắng hai lớp chuyển theo hướng gió. Hệ giờ tự động vẫn chuyển ánh sáng và mây khi mưa hoặc về tối.
+- La bàn góc trái dưới lấy địa hình, đường, cây và vị trí công trình từ A1. Mũi tên theo hướng nhìn của A. Giờ và thời tiết đọc trực tiếp từ game. **M** mở bản đồ lớn quanh A ở lần đầu, sau đó nhớ góc xem. Cuộn để đổi tỉ lệ, kéo để xem xa và **Home** để định tâm lại.
+- Đã kiểm tuyến Chapter 01, các lối Làng A, bản đồ và HUD A1, thời tiết và smoke test. Ảnh duyệt lấy trong Godot 4.6.3 Compatibility. [Ảnh sân chung, quầy, đường làng, trời mưa và bản đồ](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-village-street-compass/docs/world/review-a1-village-street/README.md)
+
 ## Bản cập nhật nội thất Nhà A
 
 Nhìn vào cốc, bát, bình gốm, ấm đồng, sách hoặc giỏ rồi nhấn **E** để nhặt. Có thể đi trong nhà khi đang cầm một món. Nhìn vào vị trí trống vừa kích thước món đồ trên bàn, kệ, tủ hoặc mặt bếp rồi nhấn **E** để đặt. **R** trả món đang cầm về chỗ vừa nhặt. Những món đã đặt giữ vị trí khi A ra sân rồi quay vào trong cùng lượt chơi. Nếu A ra cửa với món đang cầm, món đó trở về chỗ vừa nhặt.

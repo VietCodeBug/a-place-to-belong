@@ -10,6 +10,7 @@ uniform float daylight = 1.0;
 uniform float cloud_cover = 0.43;
 uniform float cloud_clock = 0.0;
 uniform vec2 wind_direction = vec2(0.85, 0.52);
+uniform bool a1_sky = false;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -42,9 +43,16 @@ float cumulus_field(vec2 p) {
 	return base;
 }
 
+float a1_puffs(vec2 p) {
+	vec2 warp=vec2(noise2(p*.52+vec2(2.6,9.1)),noise2(p*.58+vec2(12.3,0.5)))*.51;
+	vec2 q=p+warp;
+	return noise2(q*.83)*.51+noise2(q*1.88+vec2(5.9,6.8))*.34+noise2(q*4.45+vec2(12.6,1.2))*.15;
+}
+
 void sky() {
 	float height = clamp(EYEDIR.y, 0.0, 1.0);
-	vec3 sky_grad = mix(horizon_color.rgb, top_color.rgb, pow(height, 0.52));
+	float height_mix = a1_sky ? pow(clamp(height*1.42,0.0,1.0),.45) : pow(height,.52);
+	vec3 sky_grad = mix(horizon_color.rgb,top_color.rgb,height_mix);
 	// Soft warm horizon glow band
 	float horizon_band = exp(-max(EYEDIR.y, 0.0) * 7.5);
 	sky_grad = mix(sky_grad, horizon_color.rgb * .97, horizon_band * 0.19);
@@ -74,27 +82,43 @@ void sky() {
 		// Perspective sky dome projection for clouds
 		vec2 wind = normalize(wind_direction);
 		vec2 dome = EYEDIR.xz / max(0.16, EYEDIR.y + 0.21) * 2.65;
+		if (a1_sky) {
+			dome=EYEDIR.xz / max(.45,EYEDIR.y+.42)*2.76+vec2(1.13,1.79);
+		}
 		vec2 drift_main = wind * cloud_clock * 0.0085;
 		vec2 drift_high = wind * cloud_clock * 0.0045;
 
 		// High distant cirrus/altocumulus deck (adds depth behind main puffs)
 		float high_raw = cumulus_field(dome * 0.58 + vec2(18.0, 9.0) - drift_high);
 		float high_thresh = mix(0.80, 0.39, cloud_cover);
-		float high_cloud = smoothstep(high_thresh, high_thresh + 0.14, high_raw) * 0.48;
+		float high_cloud = smoothstep(high_thresh, high_thresh + 0.14, high_raw) * (a1_sky ? .35 : .48);
 		high_cloud *= smoothstep(0.02, 0.18, EYEDIR.y);
 
 		// Main sculpted stylized cumulus deck
-		float main_raw = cumulus_field(dome - drift_main);
-		// Sample slightly offset toward sun & zenith for 3D puff self-lighting
-		float lit_sample = cumulus_field(dome - drift_main - normalize(sun_dir.xz + vec2(0.001)) * 0.14 - vec2(0.0, 0.08));
-		float thresh = mix(0.82, 0.31, cloud_cover);
-		float main_cloud = smoothstep(thresh, thresh + 0.155, main_raw) * 0.76;
+		vec2 puff_position=dome-drift_main;
+		vec2 sunward=normalize(sun_dir.xz+vec2(.001))*(a1_sky ? .17 : .14)+vec2(.0,a1_sky ? .09 : .08);
+		float main_raw;
+		float lit_sample;
+		float thresh;
+		if (a1_sky) {
+			main_raw=a1_puffs(puff_position);
+			lit_sample=a1_puffs(puff_position-sunward);
+			thresh=mix(.65,.32,cloud_cover);
+		} else {
+			main_raw=cumulus_field(puff_position);
+			lit_sample=cumulus_field(puff_position-sunward);
+			thresh=mix(.82,.31,cloud_cover);
+		}
+		float main_cloud = smoothstep(thresh, thresh + (a1_sky ? .105 : .155), main_raw) * (a1_sky ? .93 : .76);
 		main_cloud *= smoothstep(0.005, 0.15, EYEDIR.y);
 
 		// 3-tone stylized cloud shading: shadow belly, soft body, sunlit crest + silver lining
 		float crest_lit = clamp((main_raw - lit_sample) * 3.4 + 0.52, 0.0, 1.0);
 		float thickness = smoothstep(thresh, thresh + 0.28, main_raw);
 		vec3 belly = mix(cloud_shadow_color.rgb, top_color.rgb * 0.82, 0.43);
+		if (a1_sky) {
+			belly = mix(cloud_shadow_color.rgb, top_color.rgb * .85, .20);
+		}
 		vec3 crown = cloud_color.rgb * mix(1.02, 1.12, daylight);
 		// Quantize gently into soft painterly bands while keeping smooth anti-aliased transitions
 		float band = mix(crest_lit, smoothstep(0.25, 0.78, crest_lit), 0.65);

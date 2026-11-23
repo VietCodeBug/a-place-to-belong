@@ -130,11 +130,25 @@ func run() -> void:
 	check(await walk(Vector2(311,-471)),"Submerged arch passage blocked")
 	release()
 	await put(Vector2(208,-462))
+	var weather: Node = hub.get_node("ForestWeather")
+	weather.paused = true
+	weather.set_time(13.50)
+	weather.set_weather("light_rain",true)
+	for tick in 30:
+		await process_frame
+	var compass: Control = hub.ui.compass_map
+	check(compass.visible and compass.map_tile!=null,"A1 minimap did not generate a local terrain tile")
+	check(compass.pin.distance_to(Vector2(208,-462))<.4 and compass.readout=="13:30" and compass.glyph.icon_kind=="rain",
+		"Minimap position or live weather readout diverged from gameplay")
+	weather.set_weather("partly_cloudy",true)
+	weather.paused = false
 
 	press_key(KEY_M)
 	check(hub.ui.valley_map.visible and actor.blocked,"M did not open map and pause movement")
 	await process_frame
 	await process_frame
+	check(not compass.visible and hub.ui.valley_map.zoom==15.0 and hub.ui.valley_map.center.distance_to(compass.pin)<.4,
+		"First map visit should replace the minimap with the detailed area around the player")
 	check(hub.ui.valley_map.texture!=null and hub.ui.valley_map.explored.has(field.tile(Vector2(208,-462))),"World map discovery mismatch")
 	press_key(KEY_TAB)
 	check(hub.ui.valley_map.atlas,"Region registry tab did not open")
@@ -142,6 +156,8 @@ func run() -> void:
 	check(hub.ui.valley_map.show_chunks,"Chunk map toggle failed")
 	press_key(KEY_M)
 	check(not actor.blocked,"Map failed to return control")
+	await process_frame
+	check(compass.visible,"Minimap did not return after closing the full map")
 
 	var route: Array = FIELD.TRAILS[1].duplicate()
 	route.reverse()

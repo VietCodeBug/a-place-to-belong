@@ -20,6 +20,7 @@ var explored: Dictionary = {}
 var zoom := 1.0
 var atlas := false
 var show_chunks := false
+var focused := false
 var routes: Array
 
 func _ready() -> void:
@@ -30,7 +31,7 @@ func _ready() -> void:
 	var story := PLAN.HOUSE_APPROACH.duplicate()
 	for z in range(18,181,2):
 		story.append(Vector2(ForestLandscape.valley_path(z) if z>24 else ClearingLayout.path_center(z),z))
-	routes = FIELD.TRAILS + [story]
+	routes = FIELD.TRAILS + [story] + PLAN.LANES
 	hide()
 
 func _process(_delta: float) -> void:
@@ -71,6 +72,13 @@ func world_view() -> Rect2:
 
 func center_on_player() -> void:
 	center = Vector2(player.position.x,player.position.z)
+
+func focus_first_visit() -> void:
+	if focused:
+		return
+	focused = true
+	zoom = 15.0
+	center_on_player()
 
 func toggle_atlas() -> void:
 	atlas = not atlas
@@ -131,6 +139,13 @@ func _draw() -> void:
 			var clipped := clip_segment(a,b,rect)
 			if clipped.size()==2:
 				draw_line(clipped[0],clipped[1],Color("F2D298"),2.0,true)
+	if zoom>=12.0:
+		for lot in PLAN.BUILDINGS:
+			var building := point(Vector2(lot[2],lot[3]),rect,view)
+			if rect.grow(-7.0).has_point(building):
+				draw_set_transform(building,-float(lot[4]))
+				draw_rect(Rect2(Vector2(-2.7,-2.3)/metres_per_pixel,Vector2(5.4,4.6)/metres_per_pixel),Color("AA7553"))
+				draw_set_transform(Vector2.ZERO)
 	if zoom>=3.0:
 		for rest in FIELD.RESTS:
 			var waypoint := point(rest,rect,view)

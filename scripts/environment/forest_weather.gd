@@ -24,6 +24,7 @@ var sun: DirectionalLight3D
 var moon: DirectionalLight3D
 var environment: Environment
 var sky_material: ShaderMaterial
+var bright_a1_sky := false
 var animated_materials: Array[ShaderMaterial] = []
 var canopy_materials: Array[ShaderMaterial] = []
 var wet_materials: Array[ShaderMaterial] = []
@@ -64,6 +65,8 @@ func setup() -> void:
 	if not static_lighting:
 		sky_material = ShaderMaterial.new()
 		sky_material.shader = preload("res://shaders/forest_sky.gdshader")
+		bright_a1_sky = hub.superworld!=null
+		sky_material.set_shader_parameter("a1_sky",bright_a1_sky)
 		var sky := Sky.new()
 		sky.sky_material = sky_material
 		sky.radiance_size = Sky.RADIANCE_SIZE_32
@@ -285,6 +288,15 @@ func update_light(altitude: float, daylight: float) -> void:
 
 	var sky_top: Color = colors[0].lerp(Color("5D707B"), occlusion * .56 * daylight)
 	var sky_hor: Color = colors[1].lerp(Color("94A4A8"), occlusion * .68 * daylight)
+	var cloud_body: Color = colors[3]
+	var cloud_shade: Color = colors[4]
+	if bright_a1_sky:
+		var blue_hour := smoothstep(7.2,10.1,hours)*(1.0-smoothstep(16.1,18.3,hours))
+		var clearing := blue_hour*(1.0-smoothstep(.13,.52,occlusion))
+		sky_top = sky_top.lerp(Color("247DCA"),clearing*.97)
+		sky_hor = sky_hor.lerp(Color("9FC6EE"),clearing*.87)
+		cloud_body = cloud_body.lerp(Color("FFFAF2"),clearing)
+		cloud_shade = cloud_shade.lerp(Color("BCC1E5"),clearing*.86)
 	var amb_col: Color = colors[2].lerp(Color("8FA1AA"), occlusion * .38 * daylight)
 	environment.ambient_light_color = amb_col.lerp(Color("A4B7C3"), daylight * .32)
 	environment.ambient_light_energy = (float(colors[5]) + daylight * .20) * (1. - occlusion * .16)
@@ -295,8 +307,8 @@ func update_light(altitude: float, daylight: float) -> void:
 
 	sky_material.set_shader_parameter("top_color", sky_top)
 	sky_material.set_shader_parameter("horizon_color", sky_hor)
-	sky_material.set_shader_parameter("cloud_color", colors[3].darkened(occlusion * .24))
-	sky_material.set_shader_parameter("cloud_shadow_color", colors[4].darkened(occlusion * .20))
+	sky_material.set_shader_parameter("cloud_color", cloud_body.darkened(occlusion * .24))
+	sky_material.set_shader_parameter("cloud_shadow_color", cloud_shade.darkened(occlusion * .20))
 	sky_material.set_shader_parameter("sun_direction", sun.global_basis.z)
 	sky_material.set_shader_parameter("moon_direction", moon.global_basis.z)
 	sky_material.set_shader_parameter("daylight", daylight)

@@ -61,6 +61,7 @@ var envelope: Control
 var envelope_tween: Tween
 var in_pause_menu := false
 var valley_map: Control
+var compass_map: Control
 var ui_clock := 0.0
 var walk_timer := 0.0
 var current_grass_quality := "high"
@@ -90,6 +91,14 @@ func _ready() -> void:
 		valley_map.world = hub.superworld
 	valley_map.player = player
 	root_ui.add_child(valley_map)
+	if hub.superworld!=null:
+		compass_map = preload("res://scripts/ui/a1_compass_map.gd").new()
+		compass_map.name = "A1CompassMap"
+		compass_map.player = player
+		compass_map.world = hub.superworld
+		compass_map.valley = hub.get_node("A1RiverValley")
+		root_ui.add_child(compass_map)
+		compass_map.hide()
 	var saved_grass_quality: String = get_tree().get_meta(MAPS.GRASS_QUALITY, current_grass_quality)
 	if saved_grass_quality != current_grass_quality:
 		apply_grass_quality(saved_grass_quality)
@@ -489,6 +498,13 @@ func update_hud_status() -> void:
 		desired_icon = "partly_cloudy"
 	if hud_icon.icon_kind != desired_icon:
 		hud_icon.icon_kind = desired_icon
+	if compass_map!=null:
+		var story: Node = get_parent().story_prototype
+		var outdoors: bool = story==null or not story.inside
+		compass_map.visible = outdoors and not (in_title_menu or in_pause_menu or valley_map.visible or panel.visible or story_open)
+		hud_badge.visible = not outdoors and not in_title_menu
+		if compass_map.visible:
+			compass_map.set_readout(format_clock(h),w_name,desired_icon)
 
 func format_clock(h: float) -> String:
 	var wrapped := fposmod(h, 24.0)
@@ -533,6 +549,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if map_key and (prototype==null or not prototype.inside) and not in_title_menu and not in_pause_menu and not panel.visible and not story_open:
 		player.blocked = true
+		if compass_map!=null:
+			valley_map.focus_first_visit()
 		valley_map.show()
 		get_viewport().set_input_as_handled()
 		return

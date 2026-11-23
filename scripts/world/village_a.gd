@@ -5,6 +5,7 @@ const L = preload("res://scripts/world/landscape.gd")
 const S = preload("res://scripts/world/shapes.gd")
 const A = preload("res://scripts/world/field_assets.gd")
 const BOTANY = preload("res://scripts/world/a1_botany.gd")
+const DRESSING = preload("res://scripts/world/village_a_dressing.gd")
 const SURFACE = preload("res://shaders/village_a_surface.gdshader")
 const MODELS := {
 	"porch": preload("res://assets/village_a/porch.glb"),
@@ -23,6 +24,7 @@ const MODELS := {
 }
 var palettes: Dictionary = {}
 var route_material: ShaderMaterial
+var dressing: Node3D
 var seasonal: Array[Node3D] = []
 var trees: Array[Node3D] = []
 var verge_meshes: Array[MultiMeshInstance3D] = []
@@ -32,6 +34,10 @@ func _ready() -> void:
 		building(spec)
 	build_routes()
 	build_shared_spaces()
+	dressing = DRESSING.new()
+	dressing.name = "StreetFurnishings"
+	add_child(dressing)
+	dressing.setup()
 	build_greenery()
 	build_verges()
 	set_season(BOTANY.DEFAULT_SEASON)
@@ -294,6 +300,7 @@ func build_verges() -> void:
 		verge_meshes.append(patch)
 
 func set_season(index: int) -> void:
+	dressing.set_season(index)
 	for tree in trees:
 		BOTANY.season_tree(tree,index)
 	for patch in verge_meshes:
