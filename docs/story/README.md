@@ -67,6 +67,10 @@
 - [quests/village-a-rowan-playable-v1.md](quests/village-a-rowan-playable-v1.md) và [JSON](quests/village-a-rowan-playable-v1.json): **Rowan — 3 nhiệm vụ gameplay**, giữ lối đi an toàn mà không phá hoa dại; 5 tình huống gặp đời thường.
 - [quests/village-a-maeve-playable-v1.md](quests/village-a-maeve-playable-v1.md) và [JSON](quests/village-a-maeve-playable-v1.json): **Maeve — 3 nhiệm vụ**, sửa đồ vải tại sân thủ công, 6 lần gặp bình thường gồm cuộc nghỉ ven hồ tùy chọn.
 - [quests/village-a-evelyn-playable-v1.md](quests/village-a-evelyn-playable-v1.md) và [JSON](quests/village-a-evelyn-playable-v1.json): **Evelyn — 3 nhiệm vụ**, nhãn hạt, ghi chú vườn và nhánh khảo sát bờ hồ đã duyệt, 6 lần gặp/tâm sự.
+- [quests/village-a-ada-dialogue-flow-v2.md](quests/village-a-ada-dialogue-flow-v2.md) và [JSON](quests/village-a-ada-dialogue-flow-v2.json): **Ada — 3 nhiệm vụ**, ghi nhớ đường rừng, chuẩn bị kiện cùng Hugo và hướng dẫn đường về; 6 cuộc gặp đời thường gồm cuộc gặp ven hồ tùy chọn. Dữ liệu có trigger rõ.
+- [quests/village-a-grace-dialogue-flow-v2.md](quests/village-a-grace-dialogue-flow-v2.md) và [JSON](quests/village-a-grace-dialogue-flow-v2.json): **Grace — 3 nhiệm vụ**, bày chỗ ngồi, chia việc chuẩn bị bữa và học ngồi ăn cùng; 5 cuộc gặp/tâm sự. Kết thúc có nhánh A ở lại hoặc rời đi.
+
+**Tình trạng 8 tuyến chính:** đủ 24/24 nhiệm vụ có bản biên kịch chi tiết. **Chỉ Ada/Grace hiện được viết ngay theo format tình huống/thoại typed v2**; Evelyn Q2 có pilot, các tuyến còn lại phải chuyển đổi trước khi AI triển khai trực tiếp. Tất cả là nháp, chưa code.
 - [locations/a1-approved-exploration-v0.md](locations/a1-approved-exploration-v0.md): đối chiếu địa điểm của bản đồ A1 mới; **hồ đã được người sáng tạo duyệt**, còn lịch gặp và quests vẫn là đề xuất.
 - [production/intro-comic-v0.md](production/intro-comic-v0.md): kịch bản dựng thử mở đầu dạng truyện tranh, 14 mốc storyboard/handoff.
 - [production/intro-comic-v0.json](production/intro-comic-v0.json): 12 panel truyện tranh dạng dữ liệu, handoff sang gameplay (nháp).
