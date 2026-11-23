@@ -1,0 +1,1227 @@
+{
+  "schema": "apb.dialogue_situation_handoff.v2",
+  "character_id": "VLA-18",
+  "name_en_draft": "Ada",
+  "title_vi": "Đi xa mà không bỏ quên những người ở lại",
+  "status": "draft_pending_creator_approval",
+  "content_scope": "story_only_no_engine_binding",
+  "map_context": {
+    "village": "VILLAGE_A",
+    "lake": "approved_A1_lake_optional",
+    "new_village": "NOT_DESIGNED_NO_DELIVERY"
+  },
+  "sources": {
+    "arc": "docs/story/quests/village-a-relationship-arcs-v0.json",
+    "roster": "docs/story/characters/village-a-roster.json",
+    "handoff_contract": "docs/story/production/narrative-dialogue-handoff-contract-v1.md"
+  },
+  "rules": {
+    "first_meeting_never_quest": true,
+    "friendship_thresholds_proposed": [
+      20,
+      50,
+      80
+    ],
+    "score_alone_insufficient": true,
+    "distinct_nonquest_visits_required": true,
+    "bond_before_final": true,
+    "player_must_accept": true,
+    "player_can_decline_or_pause": true,
+    "no_same_visit_next_quest": true,
+    "quests_can_be_resolved_by_npc": true,
+    "no_unearned_credit": true,
+    "do_not_show_designer_text": true
+  },
+  "quests": [
+    {
+      "quest_id": "VLA18-Q1",
+      "title_vi": "Những mốc đường đã biết",
+      "scene_context": {
+        "type": "SCENE_CONTEXT",
+        "area": "VILLAGE_A_FOREST_EDGE",
+        "description_vi": "Ada đứng cạnh góc chuẩn bị hành trang ở rìa Làng A, dò lại hai mốc trên lối rừng đã biết.",
+        "spoken": false
+      },
+      "gate": {
+        "friendship_min_draft": 20,
+        "previous_quest": null,
+        "prior_status_allowed": [],
+        "nonquest_visit_count_required": 1,
+        "bond_event_required": false,
+        "player_initiates": true,
+        "npc_available": true
+      },
+      "offer": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA18-Q1-O1",
+        "speaker_id": "VLA-18",
+        "text_vi": "Có một đoạn đường tôi muốn kiểm lại trước khi đi xa. Cậu đi cùng một quãng được không?",
+        "trigger": "player_selects_npc_story_topic",
+        "guards": [
+          "gate_all",
+          "npc_present"
+        ]
+      },
+      "response": {
+        "type": "PLAYER_CHOICE",
+        "options": [
+          {
+            "id": "accept",
+            "label_vi": "Đồng ý giúp",
+            "next": "accepted",
+            "on_choose_player_line_id": "VLA18-Q1-A1",
+            "on_choose_player_line_vi": "Đi rồi nhớ đường về nữa nhé."
+          },
+          {
+            "id": "decline",
+            "label_vi": "Lần này không giúp được",
+            "next": "declined",
+            "on_choose_npc_line_id": "VLA18-Q1-D1",
+            "on_choose_npc_line_vi": "Ừ, tôi tự đi một vòng vậy."
+          },
+          {
+            "id": "later",
+            "label_vi": "Để lúc khác",
+            "next": "available",
+            "no_dialogue_auto": true
+          }
+        ]
+      },
+      "beats": [
+        {
+          "id": "VLA18-Q1-TRACE",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_FOREST_PATH",
+          "context_vi": "A tự bước trên lối mòn ra rìa rừng, quan sát đường đi và nhận biết nơi rẽ đầu tiên. Không bật waypoint tự dẫn.",
+          "designer_note_vi": "Lối mòn vẫn mở kể cả khi không nhận nhiệm vụ.",
+          "requires_event": "ada_route_path_observed",
+          "guard": [
+            "quest.status==in_progress"
+          ],
+          "on_success_flag": "VLA18-Q1-TRACE.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-Q1-TRACE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Đi được một đoạn, cậu thấy chỗ nào dễ nhớ nhất?",
+              "trigger": "after_event:ada_route_path_observed",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-TRACE.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q1-TRACE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Chỗ đường tách ra cạnh hàng cây. Tôi nghĩ mình sẽ nhận ra khi quay lại.",
+              "trigger": "after_event:ada_route_path_observed",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-TRACE.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        },
+        {
+          "id": "VLA18-Q1-MARK",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_FOREST_PATH",
+          "context_vi": "A quan sát đủ hai dấu mốc ở lối rừng đã mở; chọn mốc dễ nhìn hoặc mốc dễ nhớ. Không đặt vật thể mới khi chưa có asset.",
+          "designer_note_vi": "Ghi nhận hai mô tả đường đi trong sổ ký sự đề xuất; không thêm đường trên bản đồ.",
+          "requires_event": "ada_two_landmarks_verified",
+          "guard": [
+            "quest.status==in_progress",
+            "VLA18-Q1-TRACE.done"
+          ],
+          "on_success_flag": "VLA18-Q1-MARK.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-Q1-MARK-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Một mốc có thể đổi theo mùa. Cậu có để ý đường đi bên dưới không?",
+              "trigger": "after_event:ada_two_landmarks_verified",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-MARK.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q1-MARK-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Có. Tôi sẽ nhớ cả hướng của con đường, không chỉ một cái cây.",
+              "trigger": "after_event:ada_two_landmarks_verified",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-MARK.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        },
+        {
+          "id": "VLA18-Q1-RETURN",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A quay về theo tuyến đã đi và tự trò chuyện với Ada tại góc chuẩn bị để xác nhận hướng về. Không dịch chuyển tức thời.",
+          "designer_note_vi": "Ada ghi nhận A biết cách trở về; chỉ khi đó mới cho hoàn tất.",
+          "requires_event": "ada_return_route_confirmed",
+          "guard": [
+            "quest.status==in_progress",
+            "VLA18-Q1-MARK.done"
+          ],
+          "on_success_flag": "VLA18-Q1-RETURN.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-Q1-RETURN-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Cậu quay lại mà không phải hỏi đường lần nào à?",
+              "trigger": "after_event:ada_return_route_confirmed",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-RETURN.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q1-RETURN-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Tôi nhận ra hai mốc cũ. Có cái nhìn từ hướng về khác hẳn.",
+              "trigger": "after_event:ada_return_route_confirmed",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-RETURN.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q1-RETURN-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Đấy, hướng về mới là điều tôi muốn kiểm.",
+              "trigger": "after_event:ada_return_route_confirmed",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q1-RETURN.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "visible_landmark",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Ưu tiên mốc dễ nhìn",
+          "remember_vi": "Ada nhớ A chú ý khả năng quan sát",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        },
+        {
+          "id": "reliable_path",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Ưu tiên hướng lối đi ổn định",
+          "remember_vi": "Ada nhớ A coi trọng đường trở về",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        }
+      ],
+      "completion": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA18-Q1-C1",
+        "speaker_id": "VLA-18",
+        "text_vi": "Tốt. Biết đường quay lại quan trọng không kém đường đi.",
+        "trigger": "player_reports_completion_to_npc",
+        "guards": [
+          "quest.accepted",
+          "all_required_action_events_verified",
+          "npc_present"
+        ],
+        "then_set": "VLA18-Q1.status=completed"
+      },
+      "outcomes": {
+        "completed": {
+          "world_change_vi": "A hiểu một đoạn đường quanh Làng A; Ada nhớ cậu quan sát cẩn thận.",
+          "revisit_dialogue": {
+            "speaker_id": "VLA-18",
+            "text_vi": "Đường về hôm trước cậu nhớ khá tốt. Tôi đã ghi lại hướng ấy.",
+            "trigger": "distinct_return_visit",
+            "guard": "quest.status==completed"
+          }
+        },
+        "resolved_without_player": {
+          "world_change_vi": "Ada tự kiểm mốc đường và về làng.",
+          "revisit_dialogue": {
+            "speaker_id": "VLA-18",
+            "text_vi": "Tôi vừa đi xem lại hai mốc, có một chỗ nhìn từ chiều về thật khác.",
+            "trigger": "distinct_return_visit",
+            "guard": "quest.status==resolved_without_player"
+          }
+        },
+        "declined": {
+          "npc_continues": true,
+          "no_unearned_credit": true,
+          "not_auto_resolved": true
+        }
+      },
+      "daily_after_vi": "Ada vẫn rời làng theo những quãng đường quen, không biến mọi cuộc gặp thành giao hàng."
+    },
+    {
+      "quest_id": "VLA18-Q2",
+      "title_vi": "Kiện hàng chuẩn bị lâu hơn dự định",
+      "scene_context": {
+        "type": "SCENE_CONTEXT",
+        "area": "VILLAGE_A_COURIER_CORNER",
+        "description_vi": "Ở góc chuẩn bị hàng, Ada và Hugo đang xem hai kiện mẫu; chỉ là chuẩn bị, KHÔNG có làng đích hay đơn hàng thật.",
+        "spoken": false
+      },
+      "gate": {
+        "friendship_min_draft": 50,
+        "previous_quest": "VLA18-Q1",
+        "prior_status_allowed": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "nonquest_visit_count_required": 1,
+        "bond_event_required": false,
+        "player_initiates": true,
+        "npc_available": true
+      },
+      "offer": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA18-Q2-O1",
+        "speaker_id": "VLA-18",
+        "text_vi": "Tôi cứ muốn lên đường ngay. Nhưng Hugo bảo còn phải kiểm kiện. Cậu giúp chúng tôi chọn cách sắp không?",
+        "trigger": "player_selects_npc_story_topic",
+        "guards": [
+          "gate_all",
+          "npc_present"
+        ]
+      },
+      "response": {
+        "type": "PLAYER_CHOICE",
+        "options": [
+          {
+            "id": "accept",
+            "label_vi": "Đồng ý giúp",
+            "next": "accepted",
+            "on_choose_player_line_id": "VLA18-Q2-A1",
+            "on_choose_player_line_vi": "Mang đi được đã, rồi mới nghĩ đi nhanh."
+          },
+          {
+            "id": "decline",
+            "label_vi": "Lần này không giúp được",
+            "next": "declined",
+            "on_choose_npc_line_id": "VLA18-Q2-D1",
+            "on_choose_npc_line_vi": "Không sao. Tôi sẽ nghe Hugo thêm một lúc."
+          },
+          {
+            "id": "later",
+            "label_vi": "Để lúc khác",
+            "next": "available",
+            "no_dialogue_auto": true
+          }
+        ]
+      },
+      "beats": [
+        {
+          "id": "VLA18-Q2-INSPECT",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A kiểm hai kiện mẫu: một kiện vật dễ hỏng, một kiện đồ dùng bền; các vật cụ thể chưa chốt, dùng nhãn đạo cụ để mô tả.",
+          "designer_note_vi": "Hiển thị nhãn tình trạng kiện, không tự thêm vật phẩm vào túi A.",
+          "requires_event": "ada_packages_inspected",
+          "guard": [
+            "quest.status==in_progress"
+          ],
+          "on_success_flag": "VLA18-Q2-INSPECT.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-Q2-INSPECT-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-19",
+              "text_vi": "Cái này mà xếp dưới cùng thì đến nơi chẳng còn nguyên đâu.",
+              "trigger": "after_event:ada_packages_inspected",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q2-INSPECT.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q2-INSPECT-L2",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Tôi đang nghĩ tới lối đi mà quên chuyện kiện có chịu được không.",
+              "trigger": "after_event:ada_packages_inspected",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q2-INSPECT.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        },
+        {
+          "id": "VLA18-Q2-ARRANGE",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A chọn thứ tự xếp sao cho đồ dễ hỏng không chịu lực; nếu chọn đè lên, Hugo yêu cầu thử lại, không ghi hoàn thành.",
+          "designer_note_vi": "Thay đổi thứ tự hai kiện trên giá/xe thử; không mở nhiệm vụ vận chuyển liên làng.",
+          "requires_event": "ada_safe_pack_order_selected",
+          "guard": [
+            "quest.status==in_progress",
+            "VLA18-Q2-INSPECT.done"
+          ],
+          "on_success_flag": "VLA18-Q2-ARRANGE.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-Q2-ARRANGE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-19",
+              "text_vi": "Thế này vừa chắc, vừa còn chỗ buộc dây.",
+              "trigger": "after_event:ada_safe_pack_order_selected",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q2-ARRANGE.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q2-ARRANGE-L2",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Cậu làm tốt phần tôi hay bỏ sót.",
+              "trigger": "after_event:ada_safe_pack_order_selected",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q2-ARRANGE.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        },
+        {
+          "id": "VLA18-Q2-TIE_AND_CHECK",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A giữ dây để Hugo buộc, kiểm nhãn kiện và ghi danh sách chuẩn bị; Ada xác nhận xong.",
+          "designer_note_vi": "Kiện được buộc an toàn; không có người nhận hay điểm đến chưa thiết kế.",
+          "requires_event": "ada_straps_checked",
+          "guard": [
+            "quest.status==in_progress",
+            "VLA18-Q2-ARRANGE.done"
+          ],
+          "on_success_flag": "VLA18-Q2-TIE_AND_CHECK.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-Q2-TIE_AND_CHECK-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Có khi chuẩn bị kỹ là cách đi xa nhanh nhất.",
+              "trigger": "after_event:ada_straps_checked",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q2-TIE_AND_CHECK.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-Q2-TIE_AND_CHECK-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Ít nhất sẽ không phải quay về vì quên một kiện.",
+              "trigger": "after_event:ada_straps_checked",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-Q2-TIE_AND_CHECK.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "safe_first",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Giữ món dễ hỏng an toàn",
+          "remember_vi": "Ada nhớ A ưu tiên trách nhiệm",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        },
+        {
+          "id": "compact_after_safe",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Xếp gọn sau khi kiểm an toàn",
+          "remember_vi": "Ada nhớ A chú ý cả cân nặng lẫn sự an toàn",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        }
+      ],
+      "completion": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA18-Q2-C1",
+        "speaker_id": "VLA-18",
+        "text_vi": "Ừ. Tôi hay nhìn đường phía trước mà quên việc cần chuẩn bị.",
+        "trigger": "player_reports_completion_to_npc",
+        "guards": [
+          "quest.accepted",
+          "all_required_action_events_verified",
+          "npc_present"
+        ],
+        "then_set": "VLA18-Q2.status=completed"
+      },
+      "outcomes": {
+        "completed": {
+          "world_change_vi": "Góc chuẩn bị gọn hơn; Ada tin A biết việc đi xa có trách nhiệm.",
+          "revisit_dialogue": {
+            "speaker_id": "VLA-18",
+            "text_vi": "Hugo nói mấy nút buộc hôm ấy ổn lắm. Tôi cũng yên tâm hơn.",
+            "trigger": "distinct_return_visit",
+            "guard": "quest.status==completed"
+          }
+        },
+        "resolved_without_player": {
+          "world_change_vi": "Ada và Hugo tự kiểm kiện khi rảnh; không có đơn hàng thật tới Làng B.",
+          "revisit_dialogue": {
+            "speaker_id": "VLA-18",
+            "text_vi": "Hugo và tôi tự xếp lại kiện. Chúng tôi chưa đi đâu cả.",
+            "trigger": "distinct_return_visit",
+            "guard": "quest.status==resolved_without_player"
+          }
+        },
+        "declined": {
+          "npc_continues": true,
+          "no_unearned_credit": true,
+          "not_auto_resolved": true
+        }
+      },
+      "daily_after_vi": "Ada và Hugo chuẩn bị hàng theo nhu cầu đời sống, chưa giao người chơi một chuyến sang Làng B."
+    },
+    {
+      "quest_id": "VLA18-QF",
+      "title_vi": "Một tấm ghi chú đường về",
+      "scene_context": {
+        "type": "SCENE_CONTEXT",
+        "area": "VILLAGE_A_COURIER_CORNER",
+        "description_vi": "Sau những lần gặp đủ lâu, Ada muốn để lại ghi chú hướng trở về qua những đoạn mình đã đi thật, không làm bản đồ về nơi chưa đến.",
+        "spoken": false
+      },
+      "gate": {
+        "friendship_min_draft": 80,
+        "previous_quest": "VLA18-Q2",
+        "prior_status_allowed": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "nonquest_visit_count_required": 2,
+        "bond_event_required": true,
+        "player_initiates": true,
+        "npc_available": true
+      },
+      "offer": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA18-QF-O1",
+        "speaker_id": "VLA-18",
+        "text_vi": "Tôi muốn ai đi đường này cũng biết cách trở về. Cậu giúp tôi ghi vài mốc quen nhé?",
+        "trigger": "player_selects_npc_story_topic",
+        "guards": [
+          "gate_all",
+          "npc_present"
+        ]
+      },
+      "response": {
+        "type": "PLAYER_CHOICE",
+        "options": [
+          {
+            "id": "accept",
+            "label_vi": "Đồng ý giúp",
+            "next": "accepted",
+            "on_choose_player_line_id": "VLA18-QF-A1",
+            "on_choose_player_line_vi": "Chỉ ghi đoạn mình thật sự biết."
+          },
+          {
+            "id": "decline",
+            "label_vi": "Lần này không giúp được",
+            "next": "declined",
+            "on_choose_npc_line_id": "VLA18-QF-D1",
+            "on_choose_npc_line_vi": "Được thôi. Tôi sẽ ghi những gì mình chắc chắn trước."
+          },
+          {
+            "id": "later",
+            "label_vi": "Để lúc khác",
+            "next": "available",
+            "no_dialogue_auto": true
+          }
+        ]
+      },
+      "beats": [
+        {
+          "id": "VLA18-QF-RECALL",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A chọn hai mốc đã tự quan sát ở Q1, hoặc nếu Q1 được Ada tự giải quyết thì A cùng cô kiểm lại những mốc đã biết ngay quanh làng trước khi ghi.",
+          "designer_note_vi": "Không được ghi một địa điểm A chưa từng thấy như thể đã khám phá.",
+          "requires_event": "ada_known_path_notes_selected",
+          "guard": [
+            "quest.status==in_progress"
+          ],
+          "on_success_flag": "VLA18-QF-RECALL.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-QF-RECALL-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Có người đi xa chỉ nhớ chỗ muốn đến. Tôi muốn họ nhớ cả lối quay về.",
+              "trigger": "after_event:ada_known_path_notes_selected",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-RECALL.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-QF-RECALL-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Mình chỉ nên ghi những đoạn chắc chắn đã biết.",
+              "trigger": "after_event:ada_known_path_notes_selected",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-RECALL.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        },
+        {
+          "id": "VLA18-QF-WRITE",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A chọn cách mô tả hướng rõ ràng: điểm bắt đầu, mốc thứ nhất, mốc thứ hai, hướng về làng. Hồ có thể là ghi chú phụ nếu A đã ghé thực tế, tuyệt đối không bắt buộc.",
+          "designer_note_vi": "Trang ghi chép hoàn thành với đúng mốc mà A đã khám phá; chưa tạo bản đồ vật lý chính thức.",
+          "requires_event": "ada_return_notes_written",
+          "guard": [
+            "quest.status==in_progress",
+            "VLA18-QF-RECALL.done"
+          ],
+          "on_success_flag": "VLA18-QF-WRITE.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-QF-WRITE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Lời chỉ dẫn này ai mới tới có hiểu được không?",
+              "trigger": "after_event:ada_return_notes_written",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-WRITE.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-QF-WRITE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Nếu bắt đầu ở đây rồi đi theo những mốc này, tôi nghĩ họ sẽ tìm được về.",
+              "trigger": "after_event:ada_return_notes_written",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-WRITE.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        },
+        {
+          "id": "VLA18-QF-PLACE_AND_REVIEW",
+          "type": "WORLD_ACTION",
+          "area_id": "VILLAGE_A_COURIER_CORNER",
+          "context_vi": "A cùng Ada đọc thử lại đường về, đặt bản ghi ở góc chuẩn bị, sau đó chỉ quay lại trò chuyện bình thường.",
+          "designer_note_vi": "Góc chuẩn bị có ghi chú đường về; không mở Làng B hoặc nhiệm vụ giao hàng.",
+          "requires_event": "ada_notes_reviewed_with_npc",
+          "guard": [
+            "quest.status==in_progress",
+            "VLA18-QF-WRITE.done"
+          ],
+          "on_success_flag": "VLA18-QF-PLACE_AND_REVIEW.done",
+          "runtime_object_binding": "TO_BIND",
+          "dialogue_after_verified_event": [
+            {
+              "line_id": "VLA18-QF-PLACE_AND_REVIEW-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Tôi cứ nghĩ đi xa là chuyện của những con đường chưa biết.",
+              "trigger": "after_event:ada_notes_reviewed_with_npc",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-PLACE_AND_REVIEW.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-QF-PLACE_AND_REVIEW-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Nhưng có lối về thì mới yên tâm muốn đi tiếp.",
+              "trigger": "after_event:ada_notes_reviewed_with_npc",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-PLACE_AND_REVIEW.done",
+                "player_committed_to_step"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA18-QF-PLACE_AND_REVIEW-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-18",
+              "text_vi": "Ừ. Tôi cũng muốn có một nơi để quay lại.",
+              "trigger": "after_event:ada_notes_reviewed_with_npc",
+              "guards": [
+                "quest.status==in_progress",
+                "VLA18-QF-PLACE_AND_REVIEW.done",
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only_not_stage_direction",
+              "status": "draft"
+            }
+          ],
+          "can_pause": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "plain_directions",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Viết chỉ dẫn ngắn, dễ hiểu",
+          "remember_vi": "Ada nhớ A giúp người mới đi đường",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        },
+        {
+          "id": "more_landmark_detail",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Thêm chi tiết về hai mốc đã kiểm",
+          "remember_vi": "Chỉ ghi dữ kiện chắc chắn",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        },
+        {
+          "id": "lake_if_seen",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Thêm nhận xét về bờ hồ nếu đã tự tới",
+          "remember_vi": "Chỉ hiển thị nếu flag lake_discovered thật",
+          "selected_only": true,
+          "not_spoken_automatically": true
+        }
+      ],
+      "completion": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA18-QF-C1",
+        "speaker_id": "VLA-18",
+        "text_vi": "Hay đấy. Đi xa mà vẫn nhớ lối về.",
+        "trigger": "player_reports_completion_to_npc",
+        "guards": [
+          "quest.accepted",
+          "all_required_action_events_verified",
+          "npc_present"
+        ],
+        "then_set": "VLA18-QF.status=completed"
+      },
+      "outcomes": {
+        "completed": {
+          "world_change_vi": "Góc chuẩn bị có bản ghi mốc quanh Làng A; Ada sẵn sàng nhận giúp đỡ và còn tuyến giao liên làng sẽ mở riêng về sau.",
+          "revisit_dialogue": {
+            "speaker_id": "VLA-18",
+            "text_vi": "Tôi vừa xem lại ghi chú của chúng ta. Lần này tôi không quên ghi hướng về.",
+            "trigger": "distinct_return_visit",
+            "guard": "quest.status==completed"
+          }
+        },
+        "resolved_without_player": {
+          "world_change_vi": "Ada tự ghi mấy lối quen, không tạo đường hay làng mới.",
+          "revisit_dialogue": {
+            "speaker_id": "VLA-18",
+            "text_vi": "Tôi tự viết vài dòng về lối về. Nếu cậu thích, cứ đọc thử.",
+            "trigger": "distinct_return_visit",
+            "guard": "quest.status==resolved_without_player"
+          }
+        },
+        "declined": {
+          "npc_continues": true,
+          "no_unearned_credit": true,
+          "not_auto_resolved": true
+        }
+      },
+      "daily_after_vi": "Ada còn chuyện đường đi, chuẩn bị kiện hàng và sở thích khám phá sau nhiệm vụ cuối; tuyến giao liên làng để riêng."
+    }
+  ],
+  "nonquest_meetings": [
+    {
+      "id": "VLA18-IL1",
+      "type": "NONQUEST_MEETING",
+      "available_after": "Q1",
+      "area_id": "VILLAGE_A_COURIER_CORNER",
+      "topic_vi": "Mặt trời đổi hướng",
+      "trigger": "new_distinct_nonquest_visit",
+      "guards": [
+        "npc_present",
+        "player_initiates"
+      ],
+      "once": true,
+      "set_flag": "VLA18.nonquest_meetups_after_Q1",
+      "lines": [
+        {
+          "line_id": "VLA18-IL1-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Chỗ rẽ cũ nhìn khác khi nắng ở phía bên kia.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL1-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Vậy lại có thứ cần nhớ thêm.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL1-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Ừ. Nhưng hôm nay tôi chỉ ra ngồi một lúc thôi.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        }
+      ],
+      "does_not_start_quest": true
+    },
+    {
+      "id": "VLA18-IL2",
+      "type": "NONQUEST_MEETING",
+      "available_after": "Q2",
+      "area_id": "VILLAGE_A_COURIER_CORNER",
+      "topic_vi": "Một buổi không vội",
+      "trigger": "new_distinct_nonquest_visit",
+      "guards": [
+        "npc_present",
+        "player_initiates"
+      ],
+      "once": true,
+      "set_flag": "VLA18.nonquest_meetups_after_Q2",
+      "lines": [
+        {
+          "line_id": "VLA18-IL2-CHAT-L1",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Cậu không đi kiểm kiện nữa à?",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL2-CHAT-L2",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hugo đang làm nốt. Tôi muốn ngồi đây cho hết cốc nước đã.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL2-CHAT-L3",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Nghe không giống cậu lắm.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL2-CHAT-L4",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Tôi cũng thấy thế.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        }
+      ],
+      "does_not_start_quest": true
+    },
+    {
+      "id": "VLA18-IL3",
+      "type": "NONQUEST_MEETING",
+      "available_after": "Q2",
+      "area_id": "VILLAGE_A_FOREST_EDGE",
+      "topic_vi": "Đường rừng quen",
+      "trigger": "new_distinct_nonquest_visit",
+      "guards": [
+        "npc_present",
+        "player_initiates"
+      ],
+      "once": true,
+      "set_flag": "VLA18.nonquest_meetups_after_Q2",
+      "lines": [
+        {
+          "line_id": "VLA18-IL3-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hôm nay tôi đi được một quãng rồi quay lại.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL3-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Có điều gì cần mang về à?",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-IL3-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Không. Chỉ muốn biết mình vẫn thích con đường ấy.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        }
+      ],
+      "does_not_start_quest": true
+    },
+    {
+      "id": "VLA18-BOND",
+      "type": "NONQUEST_MEETING",
+      "available_after": "Q2",
+      "area_id": "VILLAGE_A_COURIER_CORNER",
+      "topic_vi": "Những người ở lại",
+      "trigger": "player_selects_personal_topic",
+      "guards": [
+        "npc_present",
+        "player_initiates"
+      ],
+      "once": true,
+      "set_flag": "VLA18.personal_bond_event_seen",
+      "lines": [
+        {
+          "line_id": "VLA18-BOND-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Tôi thường chỉ nghĩ đến nơi mình muốn tới.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-BOND-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Còn khi cậu quay về?",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-BOND-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Tôi lại mong nhìn thấy mọi người vẫn ở đây.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-BOND-CHAT-L4",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Vậy nơi để quay lại cũng quan trọng với cậu.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-BOND-CHAT-L5",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Ừ. Có lẽ còn quan trọng hơn tôi tưởng.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        }
+      ],
+      "does_not_start_quest": true
+    },
+    {
+      "id": "VLA18-POST",
+      "type": "NONQUEST_MEETING",
+      "available_after": "QF",
+      "area_id": "VILLAGE_A_COURIER_CORNER",
+      "topic_vi": "Cuộc gặp đời thường",
+      "trigger": "new_distinct_nonquest_visit",
+      "guards": [
+        "npc_present",
+        "player_initiates"
+      ],
+      "once": false,
+      "set_flag": null,
+      "lines": [
+        {
+          "line_id": "VLA18-POST-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Đường vẫn ở đấy thôi. Hôm nay tôi chưa cần đi đâu.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-POST-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Thế ta đứng đây một lúc nhé?",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-POST-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Ừ. Lâu lâu cũng được.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        }
+      ],
+      "does_not_start_quest": true
+    },
+    {
+      "id": "VLA18-LAKE",
+      "type": "NONQUEST_MEETING",
+      "available_after": "Q1",
+      "area_id": "APPROVED_A1_LAKE_SHORE",
+      "topic_vi": "Gặp ở bờ hồ, tùy chọn",
+      "trigger": "player_discovers_lake_and_meets_ada_on_optional_visit",
+      "guards": [
+        "npc_present",
+        "player_initiates",
+        "lake_discovered"
+      ],
+      "once": false,
+      "set_flag": null,
+      "lines": [
+        {
+          "line_id": "VLA18-LAKE-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Ở đây nhìn xa được nhỉ.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-LAKE-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Cậu đang tìm đường mới à?",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "player_committed_to_step"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA18-LAKE-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Không. Hôm nay tôi chỉ muốn nhìn mặt nước thôi.",
+          "trigger": "on_player_selected_chat",
+          "guards": [
+            "meeting_available",
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only_not_stage_direction",
+          "status": "draft"
+        }
+      ],
+      "does_not_start_quest": true
+    }
+  ],
+  "handoff_tests": [
+    {
+      "test": "first_meeting",
+      "expect": "no Q1 offer; no auto quest"
+    },
+    {
+      "test": "Q1_no_return",
+      "expect": "Q1 not complete until player returns and reports"
+    },
+    {
+      "test": "Q2_no_hugo_present",
+      "expect": "No Hugo dialogue unless Hugo physically present; allow defer until context available"
+    },
+    {
+      "test": "QF_without_lake_visit",
+      "expect": "QF still completable; no narration that A visited lake"
+    },
+    {
+      "test": "decline",
+      "expect": "Ada can self resolve later; no line credits A; relationship stays open"
+    },
+    {
+      "test": "after_QF",
+      "expect": "ordinary dialogue remains, no Làng B auto unlock"
+    }
+  ]
+}
