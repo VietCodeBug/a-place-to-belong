@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=2886
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+boot_ms=12292
+tiles=99 physical=25 total_created=598 far=64 reached_waypoint_tiles=11 final_player=(269.7182, 61.00883, -824.7354)
+cover_jobs=1175 cover_p50_us=665 cover_p95_us=4215 cover_max_us=73241
+stream_frames=157 stream_p50_us=2939 stream_p95_us=7338 stream_max_us=29398
+A1_SUPERWORLD_TEST PASS
