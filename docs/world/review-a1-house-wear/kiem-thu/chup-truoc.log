@@ -1,0 +1,21 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=2093
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+HOUSE_WEAR_SHOT 01-phong-chung
+HOUSE_WEAR_SHOT 02-phong-ngu
+HOUSE_WEAR_SHOT 03-bep-go
+HOUSE_WEAR_SHOT 04-lo-suoi
+HOUSE_WEAR_SHOT 05-nha-trong-rung
+HOUSE_WEAR_SHOT 06-cua-va-chan-tuong
+HOUSE_WEAR_SHOT 07-hien-va-mai
+HOUSE_WEAR_CAPTURE PASS /tmp/a1-wear-baseline
+ERROR: Texture with GL ID of 67: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
+ERROR: Texture with GL ID of 68: leaked 349524 bytes.
+   at: ~Utilities (drivers/gles3/storage/utilities.cpp:77)
