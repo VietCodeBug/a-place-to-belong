@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=2493
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+STORY_ROUTE 0 Nhà A · góc nhìn thứ nhất (-2.6, 0.04, -1.16)
+PROP_REACHABLE bowl
+PROP_REACHABLE jug
+PROP_REACHABLE kettle
+PROP_REACHABLE basket
+STORY_ROUTE PASS frames=0
