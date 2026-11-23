@@ -25,7 +25,7 @@
 
 **Bản gameplay chi tiết hiện có:** [Hazel](../quests/village-a-hazel-playable-v1.md) · [Owen](../quests/village-a-owen-playable-v1.md) · [Clara](../quests/village-a-clara-playable-v1.md) · [Rowan](../quests/village-a-rowan-playable-v1.md). Đợt đầu tiên 12/24 nhiệm vụ khung đã thành các nhịp gameplay có lời thoại theo trạng thái. **Không yêu cầu hoàn thành theo thứ tự các nhân vật**.
 
-**Cập nhật bản đồ A1:** [Maeve](../quests/village-a-maeve-playable-v1.md) ở khu thủ công và [Evelyn](../quests/village-a-evelyn-playable-v1.md) ở vườn; người chơi có thể tự tới hồ A1 đã được duyệt và gặp những biến thể hội thoại phù hợp. **Tổng hiện tại 18/24 nhiệm vụ khung**, còn Ada và Grace cần viết chi tiết. Không bắt làm các nhiệm vụ để được khám phá hồ.
+**Cập nhật bản đồ A1:** [Maeve](../quests/village-a-maeve-playable-v1.md) ở khu thủ công và [Evelyn](../quests/village-a-evelyn-playable-v1.md) ở vườn; người chơi có thể tự tới hồ A1 đã được duyệt và gặp những biến thể hội thoại phù hợp. **Tổng hiện tại 24/24 nhiệm vụ khung đã viết chi tiết**: thêm [Ada](../quests/village-a-ada-dialogue-flow-v2.md) và [Grace](../quests/village-a-grace-dialogue-flow-v2.md). Các bản là nội dung biên kịch, **không phải thoại có thể chạy ngay**; cần chuyển và kiểm các file v1 theo [chuẩn bàn giao](../production/narrative-dialogue-handoff-contract-v1.md). Không bắt làm các nhiệm vụ để được khám phá hồ.
 
 
 
