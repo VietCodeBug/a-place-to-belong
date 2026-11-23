@@ -110,7 +110,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q1-TRACE.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -155,7 +156,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q1-MARK.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -200,7 +202,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q1-RETURN.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -228,7 +231,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q1-RETURN.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -302,7 +306,8 @@
         "type": "SCENE_CONTEXT",
         "area": "VILLAGE_A_COURIER_CORNER",
         "description_vi": "Ở góc chuẩn bị hàng, Ada và Hugo đang xem hai kiện mẫu; chỉ là chuẩn bị, KHÔNG có làng đích hay đơn hàng thật.",
-        "spoken": false
+        "spoken": false,
+        "require_hugo_in_scene_for_hugo_lines": true
       },
       "gate": {
         "friendship_min_draft": 50,
@@ -375,7 +380,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q2-INSPECT.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Hugo_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -389,7 +395,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q2-INSPECT.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -420,7 +427,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q2-ARRANGE.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Hugo_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -434,7 +442,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q2-ARRANGE.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -465,7 +474,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-Q2-TIE_AND_CHECK.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -626,7 +636,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-QF-RECALL.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -671,7 +682,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-QF-WRITE.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -716,7 +728,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-QF-PLACE_AND_REVIEW.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -744,7 +757,8 @@
               "guards": [
                 "quest.status==in_progress",
                 "VLA18-QF-PLACE_AND_REVIEW.done",
-                "speaker_present_in_scene"
+                "speaker_present_in_scene",
+                "Ada_present"
               ],
               "display": "speech_only_not_stage_direction",
               "status": "draft"
@@ -760,7 +774,10 @@
           "label_vi": "Viết chỉ dẫn ngắn, dễ hiểu",
           "remember_vi": "Ada nhớ A giúp người mới đi đường",
           "selected_only": true,
-          "not_spoken_automatically": true
+          "not_spoken_automatically": true,
+          "guards": [
+            "player_has_verified_known_landmarks"
+          ]
         },
         {
           "id": "more_landmark_detail",
@@ -768,7 +785,10 @@
           "label_vi": "Thêm chi tiết về hai mốc đã kiểm",
           "remember_vi": "Chỉ ghi dữ kiện chắc chắn",
           "selected_only": true,
-          "not_spoken_automatically": true
+          "not_spoken_automatically": true,
+          "guards": [
+            "player_has_verified_known_landmarks"
+          ]
         },
         {
           "id": "lake_if_seen",
@@ -776,7 +796,10 @@
           "label_vi": "Thêm nhận xét về bờ hồ nếu đã tự tới",
           "remember_vi": "Chỉ hiển thị nếu flag lake_discovered thật",
           "selected_only": true,
-          "not_spoken_automatically": true
+          "not_spoken_automatically": true,
+          "guards": [
+            "lake_discovered==true"
+          ]
         }
       ],
       "completion": {
