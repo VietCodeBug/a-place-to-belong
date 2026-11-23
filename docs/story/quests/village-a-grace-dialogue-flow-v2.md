@@ -156,17 +156,22 @@
 
 **EVENT XÁC NHẬN:** `grace_sits_for_meal`; **PHẢN HỒI:** Ghi chính xác lựa chọn của A; cả hai nhánh đều hoàn thành việc chuẩn bị nếu các bước đã làm thật.
 
-**THOẠI (chỉ sau khi có event và người nói hiện diện):**
+**THOẠI theo lựa chọn thực tế (không phát cả hai nhánh):**
 
-- `VLA23-QF-SIT_OR_LEAVE-L1` **Grace:** “Hôm nay tôi được nghe câu chuyện của người khác từ đầu bữa rồi.”
-- `VLA23-QF-SIT_OR_LEAVE-L2` **A:** “Vậy bữa ăn này có phần của bà thật.”
-- `VLA23-QF-SIT_OR_LEAVE-L3` **Grace:** “Ừ. Tôi thấy dễ chịu.”
+**Nếu A chọn Ở LẠI ĂN:**
+- `VLA23-QF-SIT-STAY-L1` **Grace:** “Tôi cứ tưởng phải làm xong hết mới được ngồi. Ngồi cùng cậu thế này thật dễ chịu.”
+- `VLA23-QF-SIT-STAY-L2` **A:** “Vậy cứ ăn thôi. Những việc khác có thể đợi.”
+
+**Nếu A chọn GIÚP RỒI ĐI:**
+- `VLA23-QF-SIT-LEAVE-L1` **Grace:** “Cảm ơn cậu đã bày giúp. Cứ đi chơi đi, tôi sẽ ngồi ăn ở đây.”
+
+Mỗi nhánh chỉ phát sau event `grace_sits_for_meal` và lựa chọn tương ứng; không được nói A đã dùng bữa nếu A rời đi.
 
 **LỰA CHỌN:** Ở lại ăn cùng Grace (Grace nhớ A đã ngồi lại chia sẻ bữa) · Giúp xong rồi đi dạo (Grace chỉ nhớ A đã giúp bày, không nhớ A đã ăn cùng).
 
-**THOẠI HOÀN THÀNH:** `VLA23-QF-C1` “Ăn cùng nhau thế này mới thấy bữa ăn thật sự trọn vẹn.” — chỉ khi hoàn tất các tương tác và Grace xác nhận.
+**THOẠI HOÀN THÀNH theo điều kiện:** `VLA23-QF-C1` “Ăn cùng nhau thế này mới thấy bữa ăn thật sự trọn vẹn.” **chỉ khi A ở lại ăn hoặc có khách khác hiện diện**. Nếu A đã đi và không có khách khác, Grace nói `VLA23-QF-C-LEAVE`: “Cảm ơn cậu đã chuẩn bị. Tôi cũng muốn ngồi ăn một bữa cho mình.”
 
-**SAU KHI A GIÚP:** “Tôi đã ngồi ăn cùng mọi người ngay từ đầu bữa đó. Cảm ơn cậu đã giúp bày bàn.”
+**GẶP LẠI nếu A đã ở lại:** “Bữa trước tôi ngồi ăn cùng cậu từ đầu. Tôi vẫn nhớ buổi đó.” **Nếu A chỉ giúp rồi đi:** “Cậu đã giúp bày bàn hôm trước. Sau khi cậu đi, tôi cũng ngồi ăn sớm hơn mọi khi.”
 
 **NẾU GRACE TỰ GIẢI QUYẾT:** “Tôi đã tự ngồi xuống sớm hơn. Không có gì thiếu cả.” — không ghi A đã giúp.
 
