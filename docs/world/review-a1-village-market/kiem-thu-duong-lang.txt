@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Lighting preset: Golden Hour sun=(-20.0, -52.0, 0.0) energy=1.08 ambient=0.62
+Dense meadow: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14 } generation_ms=3377
+Forest floor instances: { "grass_carpet": 20055, "grass_main": 1639, "grass_accent": 13, "flowers_white": 30, "flowers_purple": 14, "fern_rosette": 69, "fallen_leaf": 332, "twig": 22 }
+Meadow details: mushrooms=23 pebbles=10
+VILLAGE_MARKET pets_running={ &"GingerCat": true, &"Shiba": true }
+Main walk ended at (6.595565, 8.607572, 179.7973)
+Return ended at (12.20579, 0.932915, -337.4079)
+Lane ended at (4.612927, 8.514098, 123.9897)
+Lane ended at (6.186019, 9.871654, 140.9252)
+Lane ended at (4.902853, 9.948462, 153.1446)
+Lane ended at (6.559389, 10.15057, 162.9115)
