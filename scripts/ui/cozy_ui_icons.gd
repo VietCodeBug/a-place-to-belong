@@ -61,6 +61,15 @@ func _draw() -> void:
 			draw_colored_polygon(tail, Color("F4E5CA"))
 			for dx in [-0.26, 0.0, 0.26]:
 				draw_circle(Vector2(c.x + dx * r, bubble.get_center().y), maxf(1.5, r * 0.08), Color("496B59"))
+		"hand":
+			var contour := PackedVector2Array([Vector2(-.27,.65),Vector2(-.52,.21),Vector2(-.56,-.04),
+				Vector2(-.41,-.11),Vector2(-.24,.06),Vector2(-.24,-.50),Vector2(-.10,-.59),
+				Vector2(.01,-.12),Vector2(.025,-.74),Vector2(.17,-.75),Vector2(.25,-.16),
+				Vector2(.30,-.57),Vector2(.44,-.54),Vector2(.44,-.12),Vector2(.54,-.36),Vector2(.65,-.29),
+				Vector2(.60,.25),Vector2(.41,.65)])
+			for i in contour.size():
+				contour[i] = c+contour[i]*r
+			draw_colored_polygon(contour,Color("F4E5CA"))
 		"signpost":
 			draw_rect(Rect2(c.x - r * 0.09, c.y - r * 0.58, r * 0.18, r * 1.20), Color("8F623D"), true)
 			var board := PackedVector2Array([

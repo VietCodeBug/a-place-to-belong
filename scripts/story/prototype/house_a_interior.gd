@@ -4,6 +4,8 @@ const S = preload("res://scripts/world/shapes.gd")
 const USE = preload("res://scripts/story/prototype/interaction.gd")
 const SURFACE = preload("res://shaders/house_a_surface.gdshader")
 const BOTANY = preload("res://scripts/world/a1_botany.gd")
+const DETAILS = preload("res://scripts/story/prototype/house_a_details.gd")
+const ITEMS = preload("res://scripts/story/prototype/house_a_items.gd")
 const WAKE := Vector3(-2.60,.04,-1.16)
 const ENTRY := Vector3(-.42,.04,2.93)
 const WIDTH := 9.18
@@ -20,14 +22,9 @@ var rain: GPUParticles3D
 var snow: MeshInstance3D
 var targets: Dictionary = {}
 var palette: Dictionary = {}
-var lamps: Array[OmniLight3D] = []
-var casement: Node3D
-var drawer: Node3D
 var door: Node3D
 var stage: Node3D
-var lights_on := true
-var window_open := false
-var drawer_open := false
+var items: Node3D
 var window_trees: Array[Node3D] = []
 var window_season := -1
 
@@ -38,9 +35,6 @@ func setup(owner_stage: Node3D, on_exit: Callable) -> void:
 	build_window_view()
 	lighting()
 	point("bed_01","Vuốt phẳng chăn",Vector3(-3.28,.67,-1.73),.78,make_bed)
-	point("table_01","Bật / tắt đèn bàn",Vector3(2.20,.92,1.0),.69,toggle_lamp)
-	point("window_01","Mở cửa sổ",Vector3(.37,1.51,-3.70),.55,toggle_window)
-	point("kitchen_counter_01","Mở ngăn bếp",Vector3(3.47,.68,-2.48),.53,toggle_drawer)
 	point("front_door","Mở cửa ra sân",Vector3(-.42,1.22,3.65),.47,on_exit)
 	camera = Camera3D.new()
 	camera.name = "RoomCamera"
@@ -49,6 +43,7 @@ func setup(owner_stage: Node3D, on_exit: Callable) -> void:
 	camera.environment = environment
 	add_child(camera)
 	camera.make_current()
+	build_household_items()
 
 func point(id: String, label: String, focus: Vector3, radius: float, command: Callable) -> void:
 	var target := USE.new()
@@ -93,6 +88,7 @@ func build_room() -> void:
 		var x: float = side*WIDTH*.5
 		box(Vector3(x,1.52,0),Vector3(.18,3.04,DEPTH),LIMESTONE,true,1)
 		box(Vector3(x*.978,.10,0),Vector3(.08,.16,DEPTH),TRIM)
+		box(Vector3(x*.977,1.20,0),Vector3(.09,.13,DEPTH),OAK)
 		for z in [-3.63,-1.15,1.35,3.60]:
 			box(Vector3(x*.974,1.51,z),Vector3(.18,3.01,.16),TRIM,false,0,true)
 	var front := DEPTH*.5
@@ -116,7 +112,7 @@ func build_room() -> void:
 	for x in [-2.84,.37,3.03]:
 		var right: float = x-.70
 		box(Vector3((right+left)*.5,1.52,-front),Vector3(right-left,3.04,.18),LIMESTONE,true,1)
-		make_window(float(x),-front,x==.37)
+		make_window(float(x),-front)
 		left = x+.70
 	box(Vector3((left+4.59)*.5,1.52,-front),Vector3(4.59-left,3.04,.18),LIMESTONE,true,1)
 	# Recessed bedroom wall, with an open 1.30 m doorway at the end of the hall.
@@ -128,7 +124,7 @@ func build_room() -> void:
 	box(Vector3(-1.77,2.48,-1.50),Vector3(.26,.18,1.30),TRIM)
 	box(Vector3(1.31,1.52,-3.38),Vector3(.18,3.04,.78),TRIM,true,0,true)
 
-func make_window(x: float, z: float, opens: bool) -> void:
+func make_window(x: float, z: float) -> void:
 	box(Vector3(x,.52,z),Vector3(1.40,1.04,.18),LIMESTONE,true,1)
 	box(Vector3(x,2.66,z),Vector3(1.40,.76,.18),LIMESTONE,true,1)
 	box(Vector3(x,1.02,z+.10),Vector3(1.57,.12,.39),OAK)
@@ -140,14 +136,13 @@ func make_window(x: float, z: float, opens: bool) -> void:
 		S.box(sash,Vector3(dx,.63,0),Vector3(.052,1.22,.090),TRIM)
 	for y in [.035,.61,1.22]:
 		S.box(sash,Vector3(.65,y,0),Vector3(1.35,.048,.080),TRIM)
-	if opens:
-		casement = sash
-	else:
-		box(Vector3(x,1.63,z-.06),Vector3(1.40,1.16,.06),"FFFFFF",true).hide()
+	box(Vector3(x,1.63,z-.06),Vector3(1.40,1.16,.06),"FFFFFF",true).hide()
+	box(Vector3(x,2.36,z+.23),Vector3(1.91,.031,.032),"5C4635")
 	for side in [-1,1]:
 		for i in 4:
 			var offset: float = side*(.62+i*.07)
-			box(Vector3(x+offset,1.80,z+.16+i%2*.043),Vector3(.066,.93,.09),["BBA784","AE9674"][i%2],false,2)
+			box(Vector3(x+offset,1.82-i*.025,z+.23+i%2*.038),Vector3(.076,.93-i*.048,.067),["B6A47B","A38F65"][i%2],false,2)
+		box(Vector3(x+side*.73,1.66,z+.26),Vector3(.30,.027,.079),"75553A",false,2)
 
 func table(at: Vector3, width: float, depth: float) -> void:
 	box(at+Vector3.UP*.37,Vector3(width-.06,.74,depth-.08),"FFFFFF",true).hide()
@@ -156,71 +151,194 @@ func table(at: Vector3, width: float, depth: float) -> void:
 		for z in [-1.0,1.0]:
 			box(at+Vector3(x*(width*.5-.14),.36,z*(depth*.5-.11)),Vector3(.115,.72,.115),TRIM,false,0,true)
 
-func crock(at: Vector3, size: float, color: String) -> void:
-	var jar := CylinderMesh.new()
-	jar.top_radius = size*.38
-	jar.bottom_radius = size*.49
-	jar.height = size
-	jar.radial_segments = 12
-	S.mesh(self,jar,at,color)
-	box(at+Vector3.UP*(size*.49),Vector3(size*.56,.038,size*.56),"685145",false,2)
+func furnishing(at: Vector3,yaw: float,build: Callable) -> void:
+	var model := Node3D.new()
+	model.position = at
+	model.rotation.y = yaw
+	add_child(model)
+	build.call(model)
 
 func build_furniture() -> void:
+	# Bedroom. Woven bedcover and bedside book occupy the opposite side of the hall.
 	box(Vector3(-3.53,.26,-1.86),Vector3(1.50,.52,2.25),OAK,true)
 	box(Vector3(-3.53,.65,-2.94),Vector3(1.53,1.02,.15),TRIM)
+	for x in [-4.24,-2.82]:
+		box(Vector3(x,.86,-2.94),Vector3(.12,.69,.16),"784A32",false,0,true)
+		DETAILS.ellipsoid(self,Vector3(x,1.23,-2.94),Vector3(.14,.11,.14),"754A32")
+	for x in [-3.96,-3.53,-3.10]:
+		box(Vector3(x,.91,-2.849),Vector3(.36,.33,.036),"805339",false,0,true)
 	box(Vector3(-3.53,.57,-1.86),Vector3(1.42,.19,2.13),"CBB897",false,2)
-	var duvet := box(Vector3(-3.53,.68,-1.61),Vector3(1.42,.12,1.49),"60775F",false,2)
-	duvet.name = "Duvet"
-	duvet.rotation.y = .04
-	box(Vector3(-3.53,.73,-2.55),Vector3(.88,.15,.43),"E0CCAB",false,2)
-	for i in 5:
-		box(Vector3(-3.53,.744,-1.30+i*.10),Vector3(1.40,.016,.036),"A79C69",false,2)
+	var quilt := Node3D.new()
+	quilt.name = "Duvet"
+	quilt.position = Vector3(-3.53,.687,-1.61)
+	quilt.rotation.y = .04
+	add_child(quilt)
+	var cover := S.box(quilt,Vector3.ZERO,Vector3(1.42,.115,1.49),"60775F")
+	cover.material_override = surface("637D70",3,false)
+	var hem := S.box(quilt,Vector3(0,.033,.72),Vector3(1.45,.095,.14),"87917A")
+	hem.material_override = surface("BCA16D",2,false)
+	for side in [-1,1]:
+		var drape := S.box(quilt,Vector3(side*.71,-.116,.11),Vector3(.040,.27,1.27),"5B6C5F")
+		drape.rotation.z = -.075*side
+		drape.material_override = surface("526A5F",2,true)
+	for index in 2:
+		var pillow := DETAILS.ellipsoid(self,Vector3(-3.89+index*.72,.709,-2.55),Vector3(.68,.229,.49),"DECFAC")
+		pillow.rotation.y = -.07+index*.18
 	box(Vector3(-2.37,.33,-3.22),Vector3(.67,.66,.62),TRIM,true)
-	crock(Vector3(-2.45,.76,-3.25),.16,"B7A587")
+	box(Vector3(-2.37,.573,-2.899),Vector3(.61,.15,.051),OAK)
+	box(Vector3(-2.37,.573,-2.86),Vector3(.074,.025,.051),"AF8B54")
 	box(Vector3(-4.25,.81,-.69),Vector3(.55,1.62,1.18),"765338",true,0,true)
 	for z in [-.99,-.43]:
 		box(Vector3(-3.96,.89,z),Vector3(.09,1.42,.47),OAK,false,0,true)
-		S.box(self,Vector3(-3.895,.83,z),Vector3(.063,.105,.041),"B99058")
+		box(Vector3(-3.905,.99,z),Vector3(.018,1.07,.34),"835E41",false,0,true)
+		S.box(self,Vector3(-3.886,.83,z),Vector3(.06,.080,.042),"B99058")
+	rug(Vector3(-2.49,.014,-1.21),Vector2(.73,1.45),"866449")
+	# Dining table opens onto the cooking aisle. The cloth falls off both edges.
 	var dining := Vector3(2.22,0,1.13)
 	table(dining,1.68,.91)
-	box(dining+Vector3(.02,.834,.03),Vector3(.77,.022,.99),"D3BE9A",false,2)
-	for at in [dining+Vector3(0,0,.85),dining+Vector3(0,0,-.83)]:
-		box(at+Vector3.UP*.21,Vector3(.45,.42,.43),OAK,true)
-		box(at+Vector3(0,.67,.15 if at.z>dining.z else -.15),Vector3(.45,.59,.10),TRIM,false,0,true)
-	crock(dining+Vector3(-.45,.93,.19),.20,"876A4B")
-	crock(dining+Vector3(.35,.90,-.08),.13,"687D6C")
-	box(dining+Vector3(.08,.90,.07),Vector3(.19,.105,.18),"D0A55E",false,2)
-	box(Vector3(4.03,.46,-2.55),Vector3(.88,.92,1.93),OAK,true)
-	box(Vector3(4.04,.944,-2.55),Vector3(.98,.095,2.01),"93826D",false,2)
-	drawer = Node3D.new()
-	drawer.position = Vector3(3.56,.69,-2.48)
-	add_child(drawer)
-	S.box(drawer,Vector3(.02,0,0),Vector3(.23,.25,.68),"794C30")
-	S.box(drawer,Vector3(-.10,0,0),Vector3(.07,.12,.10),"AF8B54")
-	box(Vector3(4.02,.997,-3.04),Vector3(.67,.04,.57),"444F4E",false,2)
-	for i in 3:
-		box(Vector3(4.27,1.47+i*.43,-2.58),Vector3(.42,.083,1.68),TRIM)
-		for j in 3:
-			crock(Vector3(4.23,1.60+i*.43,-3.04+j*.43),.12+float((i+j)%3)*.052,["BEAA83","8E9279","987259"][(i+j)%3])
-	# Hearth and bench occupy the west side of the common room, away from the entry line.
-	box(Vector3(-4.05,.15,1.73),Vector3(1.04,.30,1.48),"7C7666",true,2)
-	for n in 5:
-		for z in [1.21,2.24]:
-			box(Vector3(-4.18,.36+n*.195,z),Vector3(.57,.185,.32),["786D5D","8F7F68","746A5F"][n%3],false,2)
-	box(Vector3(-4.34,1.23,1.73),Vector3(.60,.22,1.62),"86735C",false,2)
-	box(Vector3(-4.34,2.01,1.73),Vector3(.50,1.35,1.12),"786955",false,2)
-	for i in 4:
-		box(Vector3(-4.28,.38,1.39+i*.22),Vector3(.38,.115,.18),"764628")
-	box(Vector3(-4.10,.52,1.72),Vector3(.22,.05,.27),"AB5C38",false,2)
-	box(Vector3(-3.89,.52,3.01),Vector3(1.13,1.04,.40),"725235",true)
-	for i in 4:
-		box(Vector3(-3.89,.24+i*.25,2.78),Vector3(1.13,.069,.18),TRIM)
-		crock(Vector3(-3.98,.335+i*.25,2.76),.15,"A28B65")
-	box(Vector3(-2.89,.31,3.13),Vector3(.49,.62,.59),"856349",true)
-	box(Vector3(-2.90,.63,3.13),Vector3(.50,.074,.60),"795239")
-	box(Vector3(-1.41,.014,1.59),Vector3(2.56,.028,1.77),"717554",false,2)
-	for offset in [-.76,-.67,.67,.76]:
-		box(Vector3(-1.41,.031,1.59+offset),Vector3(2.49,.009,.039),"AF9062",false,2)
+	box(dining+Vector3(.01,.834,.00),Vector3(.51,.022,.94),"CDB186",false,3)
+	for side in [-1,1]:
+		box(dining+Vector3(.01,.73,side*.475),Vector3(.50,.21,.020),"C8A97D",false,2)
+		box(dining+Vector3(.01,.64,side*.487),Vector3(.50,.024,.008),"A78455",false,2)
+		chair(dining+Vector3(.06,0,side*.88),side)
+	furnishing(Vector3(2.88,.826,1.29),-.20,DETAILS.bread_board)
+	furnishing(Vector3(1.67,.826,.90),0.0,DETAILS.apples)
+	lantern(Vector3(2.93,.826,.81))
+	rug(Vector3(2.19,.014,1.13),Vector2(2.40,2.48),"6F795B")
+	build_kitchen()
+	build_hearth()
+
+func rug(at: Vector3, size: Vector2, color: String) -> void:
+	box(at,Vector3(size.x,.022,size.y),color,false,3)
+	for side in [-1,1]:
+		box(at+Vector3(0,.015,side*(size.y*.5-.09)),Vector3(size.x-.048,.007,.038),"B29769",false,2)
+		for index in 9:
+			var x := (index-4)*size.x*.104
+			box(at+Vector3(x,.0,side*(size.y*.5+.021)),Vector3(.019,.010,.071),"B9A175",false,2)
+
+func chair(at: Vector3, side: int) -> void:
+	box(at+Vector3.UP*.25,Vector3(.46,.50,.42),OAK,true).hide()
+	box(at+Vector3.UP*.456,Vector3(.49,.085,.44),OAK)
+	for x in [-.184,.184]:
+		box(at+Vector3(x,.21,-side*.156),Vector3(.073,.43,.075),TRIM,false,0,true)
+		box(at+Vector3(x,.53,side*.177),Vector3(.073,1.03,.076),TRIM,false,0,true)
+	for y in [.690,.925]:
+		box(at+Vector3(0,y,side*.177),Vector3(.398,.092,.056),OAK)
+	for x in [-.105,0,.105]:
+		box(at+Vector3(x,.81,side*.177),Vector3(.034,.211,.029),TRIM,false,0,true)
+
+func lantern(at: Vector3) -> void:
+	var glass := StandardMaterial3D.new()
+	glass.albedo_color = Color("DEAB68")
+	glass.emission_enabled = true
+	glass.emission = Color("FFD18A")
+	glass.emission_energy_multiplier = .78
+	box(at+Vector3.UP*.027,Vector3(.169,.048,.148),"6C4A32")
+	var glow := box(at+Vector3.UP*.143,Vector3(.108,.197,.090),"DBA775")
+	glow.material_override = glass
+	for x in [-.068,.068]:
+		for z in [-.055,.055]:
+			box(at+Vector3(x,.154,z),Vector3(.018,.210,.018),"5F4330")
+	box(at+Vector3.UP*.258,Vector3(.175,.042,.151),"69513C")
+	DETAILS.tube(self,[at+Vector3(-.034,.266,0),at+Vector3(-.028,.300,0),at+Vector3(.025,.300,0),at+Vector3(.034,.266,0)],.007,"76593A")
+
+func build_kitchen() -> void:
+	box(Vector3(4.03,.46,-2.55),Vector3(.88,.92,1.93),"79563D",true)
+	box(Vector3(4.04,.944,-2.55),Vector3(.98,.095,2.01),"AB9679",false,1)
+	for z in [-3.16,-2.55,-1.94]:
+		box(Vector3(3.58,.45,z),Vector3(.062,.66,.55),"526758",false,0,true)
+		box(Vector3(3.542,.45,z),Vector3(.026,.51,.415),"627263",false,0,true)
+		box(Vector3(3.518,.66,z),Vector3(.038,.035,.117),"B29059")
+	for row in 3:
+		for column in 11:
+			box(Vector3(4.469,1.057+row*.115,-3.50+column*.188),Vector3(.034,.105,.178),
+				["A79172","C1AB88","907B60","B6A088"][posmod(row+column*3,4)],false,1)
+	DETAILS.profile(self,[[0,.006,"694D37"],[.226,.006,"765D49"],[.251,.036,"A97E56"],[.245,.076,"C49D72"],
+		[.225,.078,"BE976A"],[.210,.058,"997854"],[.168,.017,"735E47"],[0,.015,"685543"]],Vector3(4.04,.995,-3.13),.42)
+	DETAILS.tube(self,[Vector3(4.304,1.04,-3.13),Vector3(4.304,1.211,-3.13),Vector3(4.236,1.257,-3.13),
+		Vector3(4.140,1.246,-3.13),Vector3(4.106,1.192,-3.13)],.019,"A68755")
+	for y in [1.47,1.92,2.33]:
+		box(Vector3(4.26,y,-2.63),Vector3(.44,.083,1.83),TRIM)
+		for z in [-3.27,-1.97]:
+			box(Vector3(4.39,y-.11,z),Vector3(.157,.23,.10),"70503A",false,0,true)
+	furnishing(Vector3(4.23,1.961,-2.75),.18,DETAILS.jug)
+	furnishing(Vector3(4.22,1.961,-2.12),2.17,DETAILS.bowl.bind("7B8E7E"))
+	furnishing(Vector3(4.25,2.373,-3.18),.4,DETAILS.bowl.bind("AA8262"))
+	furnishing(Vector3(4.27,2.373,-2.53),2.18,DETAILS.mug.bind("9B7961"))
+	furnishing(Vector3(4.22,2.373,-2.20),1.75,DETAILS.mug.bind("839174"))
+	# A hanging bundle gives the preparation wall a distinct silhouette.
+	for bundle in 3:
+		var z := -3.29+bundle*.15
+		S.beam(self,Vector3(4.18,1.90,z),Vector3(4.15,1.70-bundle*.027,z+.05),.010,"8E7755")
+		for leaf in 4:
+			var tip := DETAILS.ellipsoid(self,Vector3(4.151,1.70-bundle*.024+leaf*.038,z+.02+leaf%2*.046),
+				Vector3(.027,.067,.042),["827F4E","726B46","96955F"][bundle])
+			tip.rotation.x = .56 if leaf%2==0 else -.56
+
+func build_hearth() -> void:
+	box(Vector3(-4.05,.15,1.73),Vector3(1.04,.30,1.48),"77695A",true,1)
+	box(Vector3(-4.49,1.59,1.73),Vector3(.23,2.77,1.16),"6F6050",false,1)
+	for row in 4:
+		for side in [-1,1]:
+			box(Vector3(-4.19,.35+row*.203,1.73+side*(.51+row%2*.023)),Vector3(.58,.192,.31+row%2*.055),
+				["817361","9A856C","756957","94826D"][posmod(row+side,4)],false,1)
+	for row in 9:
+		var amount := 4 if row%2==0 else 3
+		for index in amount:
+			var z := 1.73+(index-(amount-1)*.5)*(1.11/amount)
+			var stone := box(Vector3(-4.31,1.32+row*.179,z),Vector3(.42+(index%2)*.017,.167,1.10/amount-.012),
+				["8D7D67","786A5A","978571","89775F"][posmod(row*5+index,4)],false,1)
+			stone.rotation.x = (index-1)*.025
+	box(Vector3(-4.24,1.19,1.73),Vector3(.68,.114,1.59),"6B4830")
+	box(Vector3(-4.22,1.279,1.73),Vector3(.72,.068,1.68),"886444")
+	for index in 5:
+		var log_at := Vector3(-4.20,.337+index%2*.071,1.41+index*.128)
+		DETAILS.tube(self,[log_at+Vector3(-.259,0,.00),log_at+Vector3(.197,0,.08-index*.019)],.053,"684E35")
+		DETAILS.tube(self,[log_at+Vector3(.194,0,.08-index*.019),log_at+Vector3(.214,0,.08-index*.019)],.047,"A07A53")
+	for index in 4:
+		DETAILS.ellipsoid(self,Vector3(-4.045,.339,1.55+.12*index),Vector3(.085,.031,.062),"974C37")
+	furnishing(Vector3(-4.14,1.315,1.2),-.65,DETAILS.mug.bind("927356"))
+	furnishing(Vector3(-4.14,1.315,2.21),-.23,DETAILS.bowl.bind("6F806B"))
+	box(Vector3(-3.89,.52,3.01),Vector3(1.13,1.04,.54),"725235",true)
+	box(Vector3(-3.89,1.043,3.01),Vector3(1.19,.070,.61),"916542")
+	for x in [-4.15,-3.63]:
+		box(Vector3(x,.56,2.721),Vector3(.48,.83,.047),"835D41",false,0,true)
+		box(Vector3(x,.59,2.692),Vector3(.37,.68,.021),"936C4D",false,0,true)
+	for x in [-3.97,-3.81]:
+		box(Vector3(x,.65,2.664),Vector3(.031,.089,.043),"AB8C5F")
+	box(Vector3(-3.89,1.72,3.656),Vector3(1.05,.075,.18),OAK)
+	for x in [-4.16,-3.55]:
+		box(Vector3(x,1.62,3.65),Vector3(.083,.18,.14),TRIM,false,0,true)
+	furnishing(Vector3(-4.09,1.758,3.59),.17,DETAILS.mug.bind("9C7255"))
+	furnishing(Vector3(-3.84,1.758,3.59),-.48,DETAILS.jug)
+	DETAILS.tube(self,[Vector3(-3.60,1.69,3.61),Vector3(-3.57,1.62,3.55),Vector3(-3.56,1.39,3.55)],.010,"8D6140")
+	DETAILS.ellipsoid(self,Vector3(-3.56,1.37,3.55),Vector3(.071,.124,.034),"9B714A")
+	box(Vector3(-2.79,.34,2.82),Vector3(.61,.68,.58),"7A583E",true)
+	box(Vector3(-2.79,.71,2.82),Vector3(.65,.078,.62),"976949")
+	furnishing(Vector3(-4.19,1.080,3.06),.34,DETAILS.book.bind("87634D",.94))
+	rug(Vector3(-2.26,.014,1.55),Vector2(1.71,1.89),"7B6C50")
+
+func build_household_items() -> void:
+	items = ITEMS.new()
+	items.name = "HouseholdItems"
+	add_child(items)
+	items.setup(stage,camera)
+	items.add_slot("table_cup","bàn ăn",Vector3(2.49,.845,.862),.26)
+	items.add_slot("table_bowl","bàn ăn",Vector3(1.69,.825,1.30),.40)
+	items.add_slot("table_free","bàn ăn",Vector3(2.40,.845,1.42),.40)
+	items.add_slot("basin_side","mặt bếp",Vector3(3.80,.992,-2.55),.41)
+	items.add_slot("stove_side","mặt bếp",Vector3(4.08,.992,-1.83),.43)
+	items.add_slot("shelf_jug","kệ bếp",Vector3(4.24,1.512,-3.13),.25)
+	items.add_slot("shelf_free","kệ bếp",Vector3(4.20,1.512,-2.28),.30)
+	items.add_slot("nightstand","tủ cạnh giường",Vector3(-2.38,.663,-3.15),.41)
+	items.add_slot("cupboard","tủ cạnh lò",Vector3(-3.71,1.078,3.00),.43)
+	items.add_slot("hearth_table","bàn cạnh lò",Vector3(-2.79,.751,2.82),.49)
+	items.add_prop("mug","cốc gốm","table_cup",.154,.106,.33,Vector3(.076,.052,-.017),DETAILS.mug)
+	items.add_prop("bowl","bát đất nung","table_bowl",.274,.083,.13,Vector3(.104,.003,.051),DETAILS.bowl)
+	items.add_prop("jug","bình gốm","shelf_jug",.244,.240,-.70,Vector3(.093,.068,.034),DETAILS.jug)
+	items.add_prop("kettle","ấm đồng","stove_side",.333,.280,-.72,Vector3(.098,.044,.049),DETAILS.kettle)
+	items.add_prop("book","sách bìa vải","nightstand",.242,.059,.24,Vector3(.068,-.001,.062),DETAILS.book)
+	items.add_prop("basket","giỏ đan","cupboard",.354,.319,.32,Vector3(.136,.009,.076),DETAILS.basket)
 
 func build_window_view() -> void:
 	box(Vector3(0,-.41,-10),Vector3(26,.56,14),"596F43",false,1)
@@ -259,7 +377,6 @@ func lamp(at: Vector3, reach: float, energy: float) -> void:
 	fixture.light_color = Color("FFD495")
 	fixture.light_energy = energy
 	add_child(fixture)
-	lamps.append(fixture)
 
 func lighting() -> void:
 	environment = Environment.new()
@@ -278,9 +395,10 @@ func lighting() -> void:
 	window_light.omni_range = 6.2
 	window_light.light_color = Color("F6DFB9")
 	add_child(window_light)
-	lamp(Vector3(2.12,1.11,.95),4.6,1.22)
-	lamp(Vector3(-3.83,.84,1.76),4.3,.78)
-	lamp(Vector3(-2.45,.98,-3.20),3.6,.50)
+	lamp(Vector3(2.93,1.01,.81),4.6,1.16)
+	lamp(Vector3(-3.83,.70,1.76),4.6,1.29)
+	lamp(Vector3(-2.45,1.16,-3.20),3.6,.53)
+	lamp(Vector3(3.87,1.88,-2.93),2.8,.36)
 
 func update_climate(hour: float, wet: float, season: int) -> void:
 	var daylight := smoothstep(0.0,.44,sin((hour-6.0)*TAU/24.0))
@@ -294,27 +412,6 @@ func update_climate(hour: float, wet: float, season: int) -> void:
 		window_season = season
 		for tree in window_trees:
 			BOTANY.season_tree(tree,season)
-
-func toggle_window() -> void:
-	window_open = not window_open
-	targets.window_01.interaction_name = "Khép cửa sổ" if window_open else "Mở cửa sổ"
-	stage.session.object_state("window_01","open" if window_open else "closed")
-	create_tween().tween_property(casement,"rotation:y",1.23 if window_open else 0.0,.32)
-	stage.sound("door",targets.window_01.position+Vector3.UP*1.4,self)
-
-func toggle_drawer() -> void:
-	drawer_open = not drawer_open
-	targets.kitchen_counter_01.interaction_name = "Đóng ngăn bếp" if drawer_open else "Mở ngăn bếp"
-	stage.session.object_state("kitchen_counter_01","open" if drawer_open else "closed")
-	create_tween().tween_property(drawer,"position:x",3.14 if drawer_open else 3.56,.24)
-	stage.sound("door",drawer.position,self)
-
-func toggle_lamp() -> void:
-	lights_on = not lights_on
-	lamps[0].visible = lights_on
-	stage.session.object_state("table_01","lamp_on" if lights_on else "lamp_off")
-	targets.table_01.interaction_name = "Tắt đèn bàn" if lights_on else "Bật đèn bàn"
-	stage.sound("tap",targets.table_01.position+Vector3.UP,self)
 
 func make_bed() -> void:
 	if stage.session.objects.get("bed_01")=="made":

@@ -16,6 +16,7 @@ var story_card: PanelContainer
 var story_title: Label
 var story_text: Label
 var crosshair: Label
+var carry_hint: Label
 var story_open := false
 
 var player: CharacterBody3D
@@ -212,6 +213,18 @@ func build_interaction_prompt() -> void:
 
 	root_ui.add_child(prompt_card)
 	prompt_card.hide()
+	carry_hint = T.label("",15,Color("F5E4CA"))
+	carry_hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	carry_hint.offset_left = -235
+	carry_hint.offset_right = 235
+	carry_hint.offset_top = -29
+	carry_hint.offset_bottom = -7
+	carry_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	carry_hint.add_theme_color_override("font_outline_color",Color("271D19"))
+	carry_hint.add_theme_constant_override("outline_size",5)
+	carry_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root_ui.add_child(carry_hint)
+	carry_hint.hide()
 
 func build_letter_modal() -> void:
 	modal_backdrop = ColorRect.new()
@@ -414,6 +427,13 @@ func _process(delta: float) -> void:
 
 	var looking: bool = player!=null and player.eyes!=null and not player.blocked and not story_open and not in_title_menu and not in_pause_menu
 	crosshair.visible = looking
+	var prototype: Node = get_parent().story_prototype
+	var held := ""
+	if looking and prototype!=null and prototype.inside and not panel.visible:
+		held = prototype.house.items.carry_label()
+	carry_hint.visible = not held.is_empty()
+	if carry_hint.visible:
+		carry_hint.text = "Đang cầm %s  ·  R đặt lại chỗ vừa nhặt" % held
 	if player!=null and player.eyes!=null and DisplayServer.get_name()!="headless":
 		var mode := Input.MOUSE_MODE_CAPTURED if looking else Input.MOUSE_MODE_VISIBLE
 		if mode!=Input.mouse_mode:
@@ -477,6 +497,8 @@ func format_clock(h: float) -> String:
 	return "%02d:%02d" % [hh, mm]
 
 func icon_for_item(item: Node) -> String:
+	if item.has_meta("physical_prop"):
+		return "hand"
 	var n: String = str(item.get("interaction_name")).to_lower()
 	if "talk" in n or "chat" in n or "eggeght" in n or "nói chuyện" in n:
 		return "chat"
@@ -523,6 +545,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_pause_menu(false)
 		elif not in_title_menu:
 			set_pause_menu(true)
+	elif prototype!=null and prototype.inside and event is InputEventKey and event.pressed and not event.echo \
+			and event.physical_keycode==KEY_R and not player.blocked and not panel.visible and not story_open and not in_title_menu and not in_pause_menu:
+		prototype.house.items.put_back()
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("interact") and not event.is_echo() and active != null and not player.blocked and not panel.visible and not story_open and not in_title_menu and not in_pause_menu:
 		active.interact()
 

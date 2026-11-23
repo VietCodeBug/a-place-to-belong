@@ -13,11 +13,18 @@ void fragment(){
 	vec2 grain=vertical ? vec2(p.x+p.z*.31,p.y) : vec2(p.x+p.y*.53,p.z);
 	float color_variation=1.0;
 	if(finish==0){
-		float bend=value_noise(grain*vec2(.8,1.6))*.085;
-		float line=sin((grain.x+bend)*104.0+sin(grain.y*4.5)*.65);
-		color_variation=.83+.24*value_noise(grain*vec2(33.0,2.1))+.051*line;
+		float bend=value_noise(grain*vec2(2.0,1.6))*.078;
+		float grain_band=value_noise(vec2((grain.x+bend)*24.0,grain.y*5.3));
+		float line=sin((grain.x+bend)*143.0+sin(grain.y*5.2)*.81);
+		color_variation=.88+.13*grain_band+.02*line+.055*value_noise(grain*vec2(5.0,1.6));
 	}else if(finish==1){
 		color_variation=.90+.16*value_noise(grain*3.7)+.055*value_noise(grain*28.0);
+	}else if(finish==3){
+		vec2 thread=grain*11.0;
+		vec2 cells=abs(fract(thread)-.5);
+		float band=1.0-smoothstep(.022,.089,abs(cells.x+cells.y-.33));
+		float weave=sin(grain.x*580.0)*sin(grain.y*510.0);
+		color_variation=.90+band*.11+weave*.027+value_noise(grain*8.0)*.07;
 	}else{
 		color_variation=.88+.17*value_noise(grain*7.0)+.09*value_noise(grain*54.0);
 	}

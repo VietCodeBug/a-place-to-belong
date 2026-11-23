@@ -172,7 +172,7 @@ func run() -> void:
 func extra_checks() -> void:
 	pass
 
-func walkthrough() -> bool:
+func house_walkthrough() -> bool:
 	boundary(true,"Nhà A · góc nhìn thứ nhất")
 	await pause(.40)
 	await still("00-tran-go")
@@ -185,22 +185,50 @@ func walkthrough() -> bool:
 	await still("01-phong-ngu")
 	if not await press_target(stage.house.targets.bed_01):
 		return false
-	if not await follow([Vector2(-2.36,-1.48),Vector2(-.71,-1.49),Vector2(.37,-2.61)]):
+	var things: Node3D = stage.house.items
+	if not await follow([Vector2(-2.36,-1.48),Vector2(-2.23,-2.56)]):
 		return false
-	if not await press_target(stage.house.targets.window_01):
+	if not await press_target(things.props.book.target):
 		return false
-	if not check(stage.house.window_open,"Window did not open"):
+	if not check(things.carried==things.props.book,"Book is not in hand"):
 		return false
-	await pause(.62)
-	await still("02-cua-so")
-	if not await use(stage.house.targets.kitchen_counter_01,Vector2(2.55,-2.45)):
+	await still("02-cam-sach")
+	var put_back := InputEventKey.new()
+	put_back.physical_keycode = KEY_R
+	put_back.pressed = true
+	ui._unhandled_input(put_back)
+	if not check(things.carried==null and things.slots.nightstand.prop==things.props.book,"R did not return the book"):
 		return false
+	if not await follow([Vector2(-2.32,-1.53),Vector2(-.72,-1.49),Vector2(2.66,-2.42)]):
+		return false
+	aim_to(Vector3(4.14,1.42,-2.79))
+	await pause(.35)
 	await still("03-goc-bep")
+	if not await use(things.props.mug.target,Vector2(2.82,.12)):
+		return false
+	if not check(things.carried==things.props.mug and things.props.mug.model.get_parent()==things.carry_mount,"Pickup did not move the visible cup"):
+		return false
+	await still("04-cam-coc")
+	if not await use(things.slots.basin_side.target,Vector2(2.67,-2.39)):
+		return false
+	if not check(things.slots.basin_side.prop==things.props.mug and things.slots.table_cup.prop==null,"Cup did not remain on the new surface"):
+		return false
+	await still("05-coc-tren-bep")
 	if not await follow([Vector2(.72,-1.24),Vector2(.78,1.36)]):
 		return false
-	if not await press_target(stage.house.targets.table_01):
+	aim_to(Vector3(-3.35,1.28,2.12))
+	await pause(.52)
+	await still("06-lo-suoi")
+	if not await path_to(Vector2(.57,2.62),.32):
 		return false
-	await still("04-phong-chung")
+	aim_to(Vector3(2.82,1.13,-1.14))
+	await pause(.54)
+	await still("07-phong-chung")
+	return true
+
+func walkthrough() -> bool:
+	if not await house_walkthrough():
+		return false
 	if not await use(stage.house.targets.front_door,Vector2(-.42,2.83)):
 		return false
 	if not check(not stage.inside and stage.session.flags.get("ch01_first_exit_complete",false),"Door did not exit"):

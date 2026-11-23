@@ -35,7 +35,6 @@ var wake_clock := 0.0
 var social_tick := 0.0
 var foley := SOUND.new()
 var step_distance := 0.0
-var wind_clock := 0.0
 var transition_usec: Array[int] = []
 var schedule_debug: Label
 
@@ -161,6 +160,8 @@ func enter_house(first := false) -> void:
 	exterior_door.set_available(false)
 	for target in house.targets.values():
 		target.set_available(true)
+	house.targets.bed_01.set_available(session.objects.get("bed_01")!="made")
+	house.items.set_enabled(true)
 	session.object_state("front_door","closed")
 	house.update_climate(weather.hours,weather.wetness,current_season())
 	hub.eyes.yaw = -.12 if first else .0
@@ -191,6 +192,7 @@ func enter_outdoors() -> void:
 	inside = false
 	var player: CharacterBody3D = hub.player
 	var exit: Vector2 = PLAN.HOUSE_APPROACH[0]
+	house.items.set_enabled(false)
 	for target in house.targets.values():
 		target.set_available(false)
 	exterior_door.set_available(true)
@@ -246,10 +248,6 @@ func _process(delta: float) -> void:
 			if wake_clock>=2.20:
 				skip_intro()
 		hub.eyes.place(house.camera,player,delta)
-		wind_clock += delta
-		if wind_clock>5.4 and house.window_open:
-			wind_clock = 0.0
-			sound("wind",Vector3(.37,1.55,-3.60),house)
 	if player.is_on_floor() and not player.blocked:
 		step_distance += Vector2(player.velocity.x,player.velocity.z).length()*delta
 		if step_distance>.96:

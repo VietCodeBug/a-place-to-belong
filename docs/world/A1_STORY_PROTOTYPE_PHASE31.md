@@ -8,7 +8,13 @@ godot --path . -- --story-prototype
 
 Dùng WASD theo hướng nhìn, chuột để quan sát, E khi dấu ngắm đặt đúng đồ vật hoặc NPC, Shift để chạy, Esc để thoát thoại hoặc mở menu. Trong Điều khiển có độ nhạy, FOV và nhún đầu. Bản đồ M dùng ngoài trời. Thêm `--npc-debug` rồi dùng F8/F9 để đổi một giờ và xem trạng thái làm việc. Debug không cần để chơi.
 
-## Phần đã triển khai
+## Bản cập nhật nội thất Nhà A
+
+Nhìn vào cốc, bát, bình gốm, ấm đồng, sách hoặc giỏ rồi nhấn **E** để nhặt. Có thể đi trong nhà khi đang cầm một món. Nhìn vào vị trí trống vừa kích thước món đồ trên bàn, kệ, tủ hoặc mặt bếp rồi nhấn **E** để đặt. **R** trả món đang cầm về chỗ vừa nhặt. Những món đã đặt giữ vị trí khi A ra sân rồi quay vào trong cùng lượt chơi. Nếu A ra cửa với món đang cầm, món đó trở về chỗ vừa nhặt.
+
+Nhà có thêm vải dệt, kệ gốm, khu rửa với bồn và vòi đồng, thức ăn trên bàn và lò xây gạch đá. Cửa sổ, ngăn bếp và đèn là chi tiết cố định. Cửa chính và thao tác vuốt chăn vẫn phục vụ tuyến Chapter 01. [Ảnh Godot và video nhặt, cầm, đặt đồ](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/a1-house-a-interior-props/docs/world/review-a1-house-a-interior/README.md)
+
+## Bản Phase 3.1 trước cập nhật nội thất
 
 - Một trạng thái mắt dùng chung cho camera trong nhà, ngoài A1 và dưới hồ. Tia tương tác giới hạn tầm và kiểm vật cản. Office và Apartment giữ camera riêng. Camera toàn cảnh chỉ dùng trong công cụ khảo sát và tiêu đề có sẵn.
 - Nhà A khoảng **69,4 m² mặt bằng thô**. Có phòng ngủ tách vách, phòng chung với lò, khu bếp ăn, và góc tủ/kệ chứa đồ. Giữ asset cottage và mái cũ, tăng diện tích ngoại thất tương ứng quanh điểm neo bậc cửa. Vào và ra dùng lại cùng nhân vật và đồng hồ thế giới. Cửa sổ, đèn, ngăn bếp, chăn và cửa có kết quả trực tiếp.

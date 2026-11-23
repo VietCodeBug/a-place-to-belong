@@ -37,8 +37,15 @@ func extra_checks() -> void:
 	stage.weather.set_weather("clear",true)
 	if not await use(stage.house.targets.front_door,Vector2(-.42,2.84)) or not await press_target(stage.exterior_door):
 		return
-	check(stage.inside and stage.house.window_open and player==hub.player,"Second doorway lost state")
+	check(stage.inside and stage.house.items.slots.basin_side.prop==stage.house.items.props.mug and player==hub.player,"Second doorway lost the relocated cup")
+	check(not stage.house.targets.has("window_01"),"Window still exposes an interaction")
+	var things: Node3D = stage.house.items
+	things.pick_up(things.props.basket)
+	check(not things.slots.shelf_free.target.is_in_group("interactables"),"An oversized basket fits the narrow shelf")
+	things.put_down(things.slots.shelf_free)
+	check(things.carried==things.props.basket,"Oversized basket was placed on the narrow shelf")
 	stage.enter_outdoors()
+	check(things.carried==null and things.slots.cupboard.prop==things.props.basket,"Leaving the house lost the held basket")
 	var key := InputEventKey.new()
 	key.physical_keycode = KEY_M
 	key.pressed = true
