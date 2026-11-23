@@ -16,6 +16,7 @@
 
 ## Tài liệu
 
+- **[QUY CHUẨN HỆ THỐNG BIÊN KỊCH V1](production/NARRATIVE_DESIGN_SYSTEM_STANDARD_V1.md)**: tài liệu đọc **đầu tiên** khi viết hoặc bàn giao kịch bản. Phân loại Story/Scene/Quest/Dialogue/Choice/Event/NPC/World State, 6 nhóm sự kiện, nhánh NPC tự sống, template MD, mẫu Event Director và checklist duyệt. **Không phải file chạy Godot**.
 - [00-foundation.md](00-foundation.md): các dữ kiện đã cùng chọn và những điểm cố ý để mở.
 - [01-open-questions.md](01-open-questions.md): các câu hỏi thiết kế chưa chốt.
 - [02-idea-bank.md](02-idea-bank.md): phương án để trao đổi; **không phải canon**.
