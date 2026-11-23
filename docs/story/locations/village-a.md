@@ -102,7 +102,9 @@ Làng A không được biến thành nơi gói hết gameplay. **Đường sang
 
 ## Quy tắc cho các cảnh tiếp theo
 
-**Kịch bản gameplay chi tiết (6 tuyến, 18/24 nhiệm vụ khung):** [Hazel](../quests/village-a-hazel-playable-v1.md), [Owen](../quests/village-a-owen-playable-v1.md), [Clara](../quests/village-a-clara-playable-v1.md), [Rowan](../quests/village-a-rowan-playable-v1.md), [Maeve](../quests/village-a-maeve-playable-v1.md), [Evelyn](../quests/village-a-evelyn-playable-v1.md). Có việc thực sự làm, cuộc gặp bình thường giữa các chặng và nhánh tự giải quyết khi A không giúp. **Không tự xem các đạo cụ/thoại mới là model hay code đã làm.**
+**Kịch bản gameplay chi tiết (8 tuyến, 24/24 nhiệm vụ khung):** [Hazel](../quests/village-a-hazel-playable-v1.md), [Owen](../quests/village-a-owen-playable-v1.md), [Clara](../quests/village-a-clara-playable-v1.md), [Rowan](../quests/village-a-rowan-playable-v1.md), [Maeve](../quests/village-a-maeve-playable-v1.md), [Evelyn](../quests/village-a-evelyn-playable-v1.md), [Ada](../quests/village-a-ada-dialogue-flow-v2.md), [Grace](../quests/village-a-grace-dialogue-flow-v2.md). Có việc thực sự làm, cuộc gặp bình thường giữa các chặng và nhánh tự giải quyết khi A không giúp. **Không tự xem các đạo cụ/thoại mới là model hay code đã làm.**
+
+**Đặc biệt:** Ada và Grace được viết theo format tách lời thoại/sự kiện/tình huống để AI không đọc stage direction. Sáu tuyến trước vẫn cần chuyển đổi sang định dạng này trước khi tích hợp.
 
 **Đã cập nhật địa lý:** Làng A có khu thủ công mái che ở phía đông, sân chung và vườn phía tây; bên ngoài có hồ A1 **được m duyệt làm địa điểm khám phá**. Ghi nhận địa hình trong [đối chiếu A1](a1-approved-exploration-v0.md). Maeve có cuộc gặp ven hồ tùy chọn; Evelyn có nhánh khám phá hồ ở Q2, không yêu cầu bơi hoặc lặn.
 
