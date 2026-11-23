@@ -1,0 +1,1134 @@
+{
+  "schema": "apb.dialogue_situation_handoff.v2",
+  "character_id": "VLA-23",
+  "name_en_draft": "Grace",
+  "title_vi": "Người chăm sóc cũng có quyền nghỉ ngơi",
+  "status": "draft_pending_creator_approval",
+  "content_scope": "story_only",
+  "map_context": {
+    "village": "VILLAGE_A",
+    "central_square": "in_village_world",
+    "meal_area": "script_location_to_bind; no_interior_assertion",
+    "lake": "not_required"
+  },
+  "sources": {
+    "arc": "docs/story/quests/village-a-relationship-arcs-v0.json",
+    "roster": "docs/story/characters/village-a-roster.json",
+    "handoff_contract": "docs/story/production/narrative-dialogue-handoff-contract-v1.md"
+  },
+  "rules": {
+    "no_first_meeting_quest": true,
+    "friendship_thresholds_proposed": [
+      20,
+      50,
+      80
+    ],
+    "friendship_alone_never_offers": true,
+    "nonquest_visits_required": true,
+    "bond_required_before_final": true,
+    "npc_can_self_resolve": true,
+    "no_automatic_npc_spawns": true,
+    "no_same_visit_next_quest": true,
+    "never_read_stage_directions": true,
+    "no_dialogue_for_unperformed_player_action": true
+  },
+  "quests": [
+    {
+      "quest_id": "VLA23-Q1",
+      "title_vi": "Một chỗ ngồi còn trống",
+      "scene_context": {
+        "type": "SCENE_CONTEXT",
+        "area": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+        "description_vi": "Grace đang đặt bát lên bàn sinh hoạt chung; còn một chiếc ghế chưa có ai ngồi. Bữa ăn vẫn diễn ra khi A bỏ qua.",
+        "spoken": false
+      },
+      "gate": {
+        "friendship_min_draft": 20,
+        "previous_quest": null,
+        "prior_status_allowed": [],
+        "nonquest_visits_required": 1,
+        "bond_required": false,
+        "npc_present": true,
+        "player_initiates_topic": true
+      },
+      "offer": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA23-Q1-O1",
+        "speaker_id": "VLA-23",
+        "text_vi": "Tôi định bày thêm một chỗ cho người đến muộn. Nhưng có lẽ cái ghế trống ấy là cho tôi. Cậu giúp tôi xếp lại nhé?",
+        "trigger": "player_selects_npc_story_topic",
+        "guards": [
+          "gate_all",
+          "npc_present"
+        ]
+      },
+      "menu": {
+        "type": "PLAYER_CHOICE",
+        "options": [
+          {
+            "id": "accept",
+            "label_vi": "Đồng ý giúp",
+            "next": "accepted",
+            "player_line_id": "VLA23-Q1-A1",
+            "player_text_vi": "Có chỗ cho bà nữa mới là đủ bàn."
+          },
+          {
+            "id": "decline",
+            "label_vi": "Hôm nay không giúp được",
+            "next": "declined",
+            "npc_line_id": "VLA23-Q1-D1",
+            "npc_text_vi": "Không sao. Tôi sẽ nhớ tự dành chỗ."
+          },
+          {
+            "id": "later",
+            "label_vi": "Để lần khác",
+            "next": "available",
+            "no_dialogue_auto": true
+          }
+        ]
+      },
+      "beats": [
+        {
+          "id": "VLA23-Q1-COUNT_SEATS",
+          "type": "WORLD_ACTION",
+          "description_vi": "Người chơi tự nhìn bát, ghế và lối đi quanh bàn, nhận ra Grace chưa có chỗ ngồi thuận tiện.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_table_places_checked",
+          "on_success_flag": "VLA23-Q1-COUNT_SEATS.done",
+          "guards": [
+            "quest.status==in_progress"
+          ],
+          "designer_feedback_vi": "Hiện số chỗ ngồi cần chuẩn bị, không tự gọi NPC đang ở xa.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-Q1-COUNT_SEATS-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Bát thì đủ rồi. Cứ đến lúc ăn tôi lại thấy thiếu một chỗ.",
+              "trigger": "after_event:grace_table_places_checked",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q1-COUNT_SEATS-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Bà đã để bát cho mình chưa?",
+              "trigger": "after_event:grace_table_places_checked",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q1-COUNT_SEATS-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Tôi vẫn nghĩ sẽ ngồi sau.",
+              "trigger": "after_event:grace_table_places_checked",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        },
+        {
+          "id": "VLA23-Q1-SET_PLACE",
+          "type": "WORLD_ACTION",
+          "description_vi": "A lấy một chiếc bát/khăn từ nơi có sẵn, chọn một chỗ thật sự còn trống và đặt cho Grace, không chắn đường.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_seat_prepared",
+          "on_success_flag": "VLA23-Q1-SET_PLACE.done",
+          "guards": [
+            "quest.status==in_progress",
+            "VLA23-Q1-COUNT_SEATS.done"
+          ],
+          "designer_feedback_vi": "Bàn có phần cho Grace; không cần thêm bàn/nhà mới.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-Q1-SET_PLACE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Không cần sắp cầu kỳ đâu.",
+              "trigger": "after_event:grace_seat_prepared",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q1-SET_PLACE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Vừa đủ để bà cũng ngồi cùng mọi người.",
+              "trigger": "after_event:grace_seat_prepared",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q1-SET_PLACE-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Nghe đơn giản mà tôi quên mãi.",
+              "trigger": "after_event:grace_seat_prepared",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        },
+        {
+          "id": "VLA23-Q1-CONFIRM_SEAT",
+          "type": "WORLD_ACTION",
+          "description_vi": "Grace tự kiểm và ngồi xuống khi sẵn sàng, A xác nhận bàn vẫn có lối đi và đồ dùng đủ.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_seat_tested",
+          "on_success_flag": "VLA23-Q1-CONFIRM_SEAT.done",
+          "guards": [
+            "quest.status==in_progress",
+            "VLA23-Q1-SET_PLACE.done"
+          ],
+          "designer_feedback_vi": "Grace ngồi sớm hơn; NPC không bị ép ngồi nếu chưa sẵn sàng.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-Q1-CONFIRM_SEAT-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Được. Lần này tôi thử ngồi trước khi mọi người ăn xong.",
+              "trigger": "after_event:grace_seat_tested",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q1-CONFIRM_SEAT-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Món ăn đâu cần người canh mãi.",
+              "trigger": "after_event:grace_seat_tested",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q1-CONFIRM_SEAT-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Ừ. Tôi cũng muốn ăn lúc còn nóng.",
+              "trigger": "after_event:grace_seat_tested",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        }
+      ],
+      "choices": [
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "invite_now",
+          "label_vi": "Mời Grace ngồi khi bà sẵn sàng",
+          "remember_effect_vi": "Grace nhớ A quan tâm cả người chuẩn bị bữa",
+          "not_auto_spoken": true
+        },
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "finish_one_task",
+          "label_vi": "Giúp bà xếp nốt chỗ ngồi trước",
+          "remember_effect_vi": "Tôn trọng nhịp làm việc của Grace",
+          "not_auto_spoken": true
+        }
+      ],
+      "completion": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA23-Q1-C1",
+        "speaker_id": "VLA-23",
+        "text_vi": "Ừ. Tôi cứ quên để phần cho chính mình.",
+        "trigger": "player_returns_and_reports",
+        "guards": [
+          "quest.accepted",
+          "all_three_gameplay_events_done",
+          "Grace_present"
+        ],
+        "then": "VLA23-Q1.status=completed"
+      },
+      "outcomes": {
+        "completed": {
+          "world_vi": "Grace lần đầu ngồi vào bàn sớm hơn, không để A thay hết công việc.",
+          "revisit_vi": "Bữa trước tôi có ghế sẵn từ đầu. Hôm nay tôi cũng chừa một chỗ cho mình."
+        },
+        "resolved_without_player": {
+          "world_vi": "Grace tự sắp bàn và ăn sau khi xong.",
+          "revisit_vi": "Tôi tự xếp thêm một chiếc ghế. Có vẻ mình nên làm thế từ lâu."
+        },
+        "declined": {
+          "npc_continues": true,
+          "no_automatic_completion": true
+        }
+      },
+      "life_after_vi": "Grace tiếp tục chuẩn bị bữa ăn và ngồi nghỉ, không giao nhiệm vụ ngay lần gặp kế."
+    },
+    {
+      "quest_id": "VLA23-Q2",
+      "title_vi": "Bữa ăn không cần một người lo hết",
+      "scene_context": {
+        "type": "SCENE_CONTEXT",
+        "area": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+        "description_vi": "Grace muốn một bữa nhỏ mà không phải tự ôm hết. Không có hạn chót hoặc sự kiện cả làng bắt buộc.",
+        "spoken": false
+      },
+      "gate": {
+        "friendship_min_draft": 50,
+        "previous_quest": "VLA23-Q1",
+        "prior_status_allowed": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "nonquest_visits_required": 1,
+        "bond_required": false,
+        "npc_present": true,
+        "player_initiates_topic": true
+      },
+      "offer": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA23-Q2-O1",
+        "speaker_id": "VLA-23",
+        "text_vi": "Tôi biết mọi người sẽ giúp nếu được hỏi. Chỉ là tôi hay quên hỏi. Cậu bắt đầu với tôi một chút nhé?",
+        "trigger": "player_selects_npc_story_topic",
+        "guards": [
+          "gate_all",
+          "npc_present"
+        ]
+      },
+      "menu": {
+        "type": "PLAYER_CHOICE",
+        "options": [
+          {
+            "id": "accept",
+            "label_vi": "Đồng ý giúp",
+            "next": "accepted",
+            "player_line_id": "VLA23-Q2-A1",
+            "player_text_vi": "Chia vài việc thôi, ai rảnh thì làm."
+          },
+          {
+            "id": "decline",
+            "label_vi": "Hôm nay không giúp được",
+            "next": "declined",
+            "npc_line_id": "VLA23-Q2-D1",
+            "npc_text_vi": "Ừ, tôi sẽ giảm bớt một món vậy."
+          },
+          {
+            "id": "later",
+            "label_vi": "Để lần khác",
+            "next": "available",
+            "no_dialogue_auto": true
+          }
+        ]
+      },
+      "beats": [
+        {
+          "id": "VLA23-Q2-CHECK_WORK",
+          "type": "WORLD_ACTION",
+          "description_vi": "A quan sát ba phần việc: bày bát, đặt đồ ăn có sẵn và cất khăn/bàn dùng xong. Grace tự quyết phần liên quan bếp nóng.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_meal_tasks_viewed",
+          "on_success_flag": "VLA23-Q2-CHECK_WORK.done",
+          "guards": [
+            "quest.status==in_progress"
+          ],
+          "designer_feedback_vi": "Hiển thị phần việc vừa sức, không bịa nguyên liệu/nấu nướng.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-Q2-CHECK_WORK-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Tôi cứ làm phần này rồi lại nhớ ra phần kia.",
+              "trigger": "after_event:grace_meal_tasks_viewed",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q2-CHECK_WORK-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Có vài việc người khác có thể phụ mà.",
+              "trigger": "after_event:grace_meal_tasks_viewed",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q2-CHECK_WORK-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Ừ. Tôi đang tập hỏi thôi.",
+              "trigger": "after_event:grace_meal_tasks_viewed",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        },
+        {
+          "id": "VLA23-Q2-ASK_OR_SIMPLIFY",
+          "type": "WORLD_ACTION",
+          "description_vi": "A chọn giúp một việc; có thể hỏi một cư dân thực sự ở gần có muốn phụ không. Nếu không ai rảnh, Grace chủ động giảm bớt món thay vì làm quá sức.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_task_share_decided",
+          "on_success_flag": "VLA23-Q2-ASK_OR_SIMPLIFY.done",
+          "guards": [
+            "quest.status==in_progress",
+            "VLA23-Q2-CHECK_WORK.done"
+          ],
+          "designer_feedback_vi": "Không tự dịch chuyển Clara hay dân làng đến bàn; nhánh không có người hỗ trợ vẫn hợp lệ.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-Q2-ASK_OR_SIMPLIFY-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Nếu mọi người đang bận thì cứ để ít món hơn.",
+              "trigger": "after_event:grace_task_share_decided",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q2-ASK_OR_SIMPLIFY-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Một bữa giản dị cũng đủ để ngồi với nhau.",
+              "trigger": "after_event:grace_task_share_decided",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q2-ASK_OR_SIMPLIFY-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Đúng. Tôi không muốn ai phải vội.",
+              "trigger": "after_event:grace_task_share_decided",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        },
+        {
+          "id": "VLA23-Q2-DO_SHARE",
+          "type": "WORLD_ACTION",
+          "description_vi": "A thực hiện một phần việc đã chọn, xác nhận đồ dùng sẵn cho bữa ăn và để Grace tự hoàn tất phần còn lại.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_one_task_fulfilled",
+          "on_success_flag": "VLA23-Q2-DO_SHARE.done",
+          "guards": [
+            "quest.status==in_progress",
+            "VLA23-Q2-ASK_OR_SIMPLIFY.done"
+          ],
+          "designer_feedback_vi": "Bữa ăn bắt đầu bình thường; Grace có thời gian nghỉ, không tính xong chỉ vì bấm Đồng ý.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-Q2-DO_SHARE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Thế là vừa đủ. Tôi đỡ phải quay đi quay lại rồi.",
+              "trigger": "after_event:grace_one_task_fulfilled",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q2-DO_SHARE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Bà có thể nghỉ một lát trước khi mọi người đến.",
+              "trigger": "after_event:grace_one_task_fulfilled",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-Q2-DO_SHARE-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Được, tôi thử xem sao.",
+              "trigger": "after_event:grace_one_task_fulfilled",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        }
+      ],
+      "choices": [
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "share_one",
+          "label_vi": "Tự làm một việc vừa sức",
+          "remember_effect_vi": "Grace nhớ A làm cùng chứ không làm hộ tất cả",
+          "not_auto_spoken": true
+        },
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "ask_if_available",
+          "label_vi": "Hỏi người rảnh có muốn phụ",
+          "remember_effect_vi": "Chỉ thực hiện khi NPC có mặt và đồng ý",
+          "not_auto_spoken": true
+        },
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "simplify",
+          "label_vi": "Ít món hơn nhưng đủ bữa",
+          "remember_effect_vi": "Grace nhớ lời nhắc không cần ôm hết",
+          "not_auto_spoken": true
+        }
+      ],
+      "completion": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA23-Q2-C1",
+        "speaker_id": "VLA-23",
+        "text_vi": "Bữa ăn không ít đi. Chỉ có tôi đỡ tất bật hơn.",
+        "trigger": "player_returns_and_reports",
+        "guards": [
+          "quest.accepted",
+          "all_three_gameplay_events_done",
+          "Grace_present"
+        ],
+        "then": "VLA23-Q2.status=completed"
+      },
+      "outcomes": {
+        "completed": {
+          "world_vi": "Việc bếp chia đều hơn theo tự nguyện; Grace có thời gian nghỉ giữa buổi.",
+          "revisit_vi": "Buổi trước, mỗi người làm một chút mà cũng xong. Tôi có lúc được ngồi nghỉ."
+        },
+        "resolved_without_player": {
+          "world_vi": "Grace làm ít món hơn nhưng bữa ăn vẫn diễn ra.",
+          "revisit_vi": "Tôi bớt đi một món và tự làm vừa sức. Bữa ăn vẫn diễn ra vui vẻ."
+        },
+        "declined": {
+          "npc_continues": true,
+          "no_automatic_completion": true
+        }
+      },
+      "life_after_vi": "Grace có thể hỏi xem người khác có muốn phụ, nhưng không mặc định họ đồng ý."
+    },
+    {
+      "quest_id": "VLA23-QF",
+      "title_vi": "Bữa cơm có Grace ở đó",
+      "scene_context": {
+        "type": "SCENE_CONTEXT",
+        "area": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+        "description_vi": "Grace chuẩn bị bữa chung vừa đủ và muốn tự ngồi trò chuyện từ đầu; không biến thành đại tiệc hay cutscene dài.",
+        "spoken": false
+      },
+      "gate": {
+        "friendship_min_draft": 80,
+        "previous_quest": "VLA23-Q2",
+        "prior_status_allowed": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "nonquest_visits_required": 2,
+        "bond_required": true,
+        "npc_present": true,
+        "player_initiates_topic": true
+      },
+      "offer": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA23-QF-O1",
+        "speaker_id": "VLA-23",
+        "text_vi": "Lần này tôi sẽ ngồi xuống cùng mọi người ngay từ đầu. Cậu muốn ăn cùng không?",
+        "trigger": "player_selects_npc_story_topic",
+        "guards": [
+          "gate_all",
+          "npc_present"
+        ]
+      },
+      "menu": {
+        "type": "PLAYER_CHOICE",
+        "options": [
+          {
+            "id": "accept",
+            "label_vi": "Đồng ý giúp",
+            "next": "accepted",
+            "player_line_id": "VLA23-QF-A1",
+            "player_text_vi": "Tôi ở lại một lát."
+          },
+          {
+            "id": "decline",
+            "label_vi": "Hôm nay không giúp được",
+            "next": "declined",
+            "npc_line_id": "VLA23-QF-D1",
+            "npc_text_vi": "Cứ về nghỉ nếu cậu muốn. Tôi sẽ ngồi ăn cùng mọi người."
+          },
+          {
+            "id": "later",
+            "label_vi": "Để lần khác",
+            "next": "available",
+            "no_dialogue_auto": true
+          }
+        ]
+      },
+      "beats": [
+        {
+          "id": "VLA23-QF-SET_FOR_EVERYONE",
+          "type": "WORLD_ACTION",
+          "description_vi": "A sắp bát, khăn và chỗ ngồi hiện có, bảo đảm Grace cũng có một chỗ. Nếu không có người khác, bữa ăn quy mô nhỏ vẫn hợp lệ.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_final_meal_set",
+          "on_success_flag": "VLA23-QF-SET_FOR_EVERYONE.done",
+          "guards": [
+            "quest.status==in_progress"
+          ],
+          "designer_feedback_vi": "Không yêu cầu toàn bộ 30 cư dân Làng A tập trung hay dựng nhà ăn mới.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-QF-SET_FOR_EVERYONE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Tôi định tự bày nốt cho xong, rồi mới nhớ đã hứa với mình sẽ ngồi.",
+              "trigger": "after_event:grace_final_meal_set",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-QF-SET_FOR_EVERYONE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Mình chỉ cần chuẩn bị vừa đủ thôi.",
+              "trigger": "after_event:grace_final_meal_set",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-QF-SET_FOR_EVERYONE-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Ừ. Phần còn lại để lát cũng được.",
+              "trigger": "after_event:grace_final_meal_set",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        },
+        {
+          "id": "VLA23-QF-INVITE_TO_SERVE",
+          "type": "WORLD_ACTION",
+          "description_vi": "A mang một khay nhẹ theo yêu cầu và tự lựa chọn mời những người đang ở gần, hoặc chỉ cùng Grace dùng bữa; không tự gán lời chấp nhận cho NPC vắng mặt.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_meal_served",
+          "on_success_flag": "VLA23-QF-INVITE_TO_SERVE.done",
+          "guards": [
+            "quest.status==in_progress",
+            "VLA23-QF-SET_FOR_EVERYONE.done"
+          ],
+          "designer_feedback_vi": "Bữa ăn diễn ra bằng đồ dùng sẵn có; ai không tham gia vẫn có sinh hoạt riêng.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-QF-INVITE_TO_SERVE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Ai muốn ăn cùng cứ đến, không cần đông mới vui.",
+              "trigger": "after_event:grace_meal_served",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-QF-INVITE_TO_SERVE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Bà có chỗ ngồi rồi, đừng quên đấy.",
+              "trigger": "after_event:grace_meal_served",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-QF-INVITE_TO_SERVE-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Tôi nhớ mà.",
+              "trigger": "after_event:grace_meal_served",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        },
+        {
+          "id": "VLA23-QF-SIT_OR_LEAVE",
+          "type": "WORLD_ACTION",
+          "description_vi": "Grace chủ động ngồi vào bàn; A chọn ở lại dùng bữa hoặc rời đi sau khi đã giúp. Nếu A rời đi, không nói A đã ăn cùng.",
+          "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+          "required_event": "grace_sits_for_meal",
+          "on_success_flag": "VLA23-QF-SIT_OR_LEAVE.done",
+          "guards": [
+            "quest.status==in_progress",
+            "VLA23-QF-INVITE_TO_SERVE.done"
+          ],
+          "designer_feedback_vi": "Ghi chính xác lựa chọn của A; cả hai nhánh đều hoàn thành việc chuẩn bị nếu các bước đã làm thật.",
+          "dialogue_only_after_event": [
+            {
+              "line_id": "VLA23-QF-SIT_OR_LEAVE-L1",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Hôm nay tôi được nghe câu chuyện của người khác từ đầu bữa rồi.",
+              "trigger": "after_event:grace_sits_for_meal",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-QF-SIT_OR_LEAVE-L2",
+              "type": "PLAYER_LINE",
+              "speaker_id": "A",
+              "text_vi": "Vậy bữa ăn này có phần của bà thật.",
+              "trigger": "after_event:grace_sits_for_meal",
+              "guards": [
+                "player_committed_to_step"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            },
+            {
+              "line_id": "VLA23-QF-SIT_OR_LEAVE-L3",
+              "type": "NPC_DIALOGUE",
+              "speaker_id": "VLA-23",
+              "text_vi": "Ừ. Tôi thấy dễ chịu.",
+              "trigger": "after_event:grace_sits_for_meal",
+              "guards": [
+                "speaker_present_in_scene"
+              ],
+              "display": "speech_only",
+              "status": "draft"
+            }
+          ],
+          "runtime_object_binding": "TO_BIND"
+        }
+      ],
+      "choices": [
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "stay_and_eat",
+          "label_vi": "Ở lại ăn cùng Grace",
+          "remember_effect_vi": "Grace nhớ A đã ngồi lại chia sẻ bữa",
+          "not_auto_spoken": true
+        },
+        {
+          "type": "PLAYER_CHOICE",
+          "id": "help_then_go",
+          "label_vi": "Giúp xong rồi đi dạo",
+          "remember_effect_vi": "Grace chỉ nhớ A đã giúp bày, không nhớ A đã ăn cùng",
+          "not_auto_spoken": true
+        }
+      ],
+      "completion": {
+        "type": "NPC_DIALOGUE",
+        "line_id": "VLA23-QF-C1",
+        "speaker_id": "VLA-23",
+        "text_vi": "Ăn cùng nhau thế này mới thấy bữa ăn thật sự trọn vẹn.",
+        "trigger": "player_returns_and_reports",
+        "guards": [
+          "quest.accepted",
+          "all_three_gameplay_events_done",
+          "Grace_present"
+        ],
+        "then": "VLA23-QF.status=completed"
+      },
+      "outcomes": {
+        "completed": {
+          "world_vi": "Grace thay đổi thói quen: từ nay chủ động cùng ăn và nhờ giúp khi cần; bữa ăn vẫn diễn ra nếu A không tham gia.",
+          "revisit_vi": "Tôi đã ngồi ăn cùng mọi người ngay từ đầu bữa đó. Cảm ơn cậu đã giúp bày bàn."
+        },
+        "resolved_without_player": {
+          "world_vi": "Grace tự quyết ngồi sớm, không biến tâm trạng bà phụ thuộc vào A.",
+          "revisit_vi": "Tôi đã tự ngồi xuống sớm hơn. Không có gì thiếu cả."
+        },
+        "declined": {
+          "npc_continues": true,
+          "no_automatic_completion": true
+        }
+      },
+      "life_after_vi": "Grace vẫn chuẩn bị các bữa nhỏ, nhớ ai muốn ăn cùng và biết dành thời gian cho mình."
+    }
+  ],
+  "nonquest_meetings": [
+    {
+      "id": "VLA23-IL1",
+      "type": "NONQUEST_MEETING",
+      "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+      "available_after": "Q1",
+      "topic_vi": "Chỗ ngồi còn đó",
+      "trigger": "distinct_nonquest_return_visit",
+      "guards": [
+        "Grace_present",
+        "player_initiates"
+      ],
+      "set_flag": "VLA23.nonquest_meetups_after_Q1",
+      "not_a_quest": true,
+      "lines": [
+        {
+          "line_id": "VLA23-IL1-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Chiếc ghế hôm trước vẫn ở đó.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-IL1-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Bà có dùng không?",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-IL1-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Có. Hôm nay tôi lại nhớ để phần mình.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA23-IL2",
+      "type": "NONQUEST_MEETING",
+      "area_id": "VILLAGE_A_CENTRAL_SQUARE",
+      "available_after": "Q2",
+      "topic_vi": "Đi qua sân chung",
+      "trigger": "distinct_nonquest_return_visit",
+      "guards": [
+        "Grace_present",
+        "player_initiates"
+      ],
+      "set_flag": "VLA23.nonquest_meetups_after_Q2",
+      "not_a_quest": true,
+      "lines": [
+        {
+          "line_id": "VLA23-IL2-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Hôm nay tôi không vội về bếp.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-IL2-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Không có gì cần chuẩn bị à?",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-IL2-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Có chứ. Nhưng đi một vòng cũng không sao.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA23-IL3",
+      "type": "NONQUEST_MEETING",
+      "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+      "available_after": "Q2",
+      "topic_vi": "Một bữa ăn ít món",
+      "trigger": "distinct_nonquest_return_visit",
+      "guards": [
+        "Grace_present",
+        "player_initiates"
+      ],
+      "set_flag": "VLA23.nonquest_meetups_after_Q2",
+      "not_a_quest": true,
+      "lines": [
+        {
+          "line_id": "VLA23-IL3-CHAT-L1",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Hôm nay ít món hơn mọi hôm à?",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-IL3-CHAT-L2",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Ừ. Và tôi lại có thời gian hỏi thăm người ngồi cạnh.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-IL3-CHAT-L3",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Thế thì cũng đủ đầy rồi.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA23-BOND",
+      "type": "NONQUEST_MEETING",
+      "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+      "available_after": "Q2",
+      "topic_vi": "Grace và cảm giác được chăm sóc",
+      "trigger": "player_selects_personal_topic",
+      "guards": [
+        "Grace_present",
+        "player_initiates"
+      ],
+      "set_flag": "VLA23.personal_bond_event_seen",
+      "not_a_quest": true,
+      "lines": [
+        {
+          "line_id": "VLA23-BOND-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Tôi nhớ mọi người thích món gì, nhưng lâu rồi không nghĩ mình muốn ăn gì.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-BOND-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Bà cứ lo cho người khác trước.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-BOND-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Ừ. Có lúc tôi tưởng nếu ngồi nghỉ thì mình bỏ sót điều gì.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-BOND-CHAT-L4",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Bà cũng là một người ngồi quanh bàn mà.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-BOND-CHAT-L5",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Cậu nói đúng. Tôi muốn được ngồi đó, không chỉ đứng phía sau.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        }
+      ]
+    },
+    {
+      "id": "VLA23-POST",
+      "type": "NONQUEST_MEETING",
+      "area_id": "VILLAGE_A_COMMUNITY_MEAL_AREA",
+      "available_after": "QF",
+      "topic_vi": "Mời dùng bữa",
+      "trigger": "distinct_nonquest_return_visit",
+      "guards": [
+        "Grace_present",
+        "player_initiates"
+      ],
+      "set_flag": null,
+      "not_a_quest": true,
+      "lines": [
+        {
+          "line_id": "VLA23-POST-CHAT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Nếu có đói, cứ ghé ăn một chút. Không cần giúp gì cả.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-POST-CHAT-L2",
+          "type": "PLAYER_LINE",
+          "speaker_id": "A",
+          "text_vi": "Bà định ngồi ăn chứ?",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "player_committed_to_step"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        },
+        {
+          "line_id": "VLA23-POST-CHAT-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Có. Tôi đang chờ món nguội bớt.",
+          "trigger": "on_player_chooses_chat",
+          "guards": [
+            "speaker_present_in_scene"
+          ],
+          "display": "speech_only",
+          "status": "draft"
+        }
+      ]
+    }
+  ],
+  "handoff_tests": [
+    {
+      "name": "no_first_meeting_quest",
+      "expect": "Grace only offers ordinary dialogue"
+    },
+    {
+      "name": "no_quest_without_relationship",
+      "expect": "Threshold and distinct meetups required"
+    },
+    {
+      "name": "Q2_no_other_npc",
+      "expect": "Choose to simplify meal; no spawn forced"
+    },
+    {
+      "name": "QF_leave_after_help",
+      "expect": "Grace remembers A helped, NOT that A ate with group"
+    },
+    {
+      "name": "QF_stay_and_eat",
+      "expect": "Grace can remember A actually shared the meal"
+    },
+    {
+      "name": "npc_self_resolution",
+      "expect": "No credit for player and next stages may still be accessible after distinct visits"
+    },
+    {
+      "name": "no_auto_scene_narration",
+      "expect": "Never show descriptions/actions as NPC speech"
+    }
+  ]
+}
