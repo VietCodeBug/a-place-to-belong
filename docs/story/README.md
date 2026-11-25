@@ -14,6 +14,19 @@
 6. Tập trung vào nhịp sống, sự cô đơn, cảm giác thuộc về, đời sống NPC và khám phá tự do. Các cơ chế được đề xuất, chưa mặc định đã triển khai.
 7. Không lãng mạn hóa trầm cảm hay coi hành trình hồi phục là một phép màu tức thì.
 
+## BỘ KỊCH BẢN V2 — đọc trước khi triển khai event và dialogue
+
+**DRAFT_STORY — chưa tích hợp game.** Người viết/AI dev phải tách dữ liệu thành ba luồng, không dùng tài liệu mô tả làm thoại.
+
+| Luồng | Nguồn V2 | Chức năng |
+|---|---|---|
+| EVENT | [24 kịch bản sự kiện](events/A1_EVENT_SCRIPTS_V2.md) · [JSON](events/A1_EVENT_SCRIPTS_V2.json) | Trigger, diễn biến thế giới, thử thách, kết quả, hậu quả, NPC tự xử lý; không có lời nói |
+| DIALOGUE đời thường | [30 NPC](dialogue/VILLAGE_A_DIALOGUE_BANK_V2.md) · [JSON](dialogue/VILLAGE_A_DIALOGUE_BANK_V2.json) | 128 câu thoại, chủ đề cá nhân, nghỉ ngơi, gặp lại; không tạo quest |
+| DIALOGUE phản ứng event | [24 event](dialogue/A1_EVENT_DIALOGUE_V2.md) · [JSON](dialogue/A1_EVENT_DIALOGUE_V2.json) | 70 câu, kiểm occurrence và kết quả thực tế; không tiến triển event |
+| DIALOGUE phân nhánh | [8 cuộc trò chuyện + 4 đoạn NPC tự trò chuyện](dialogue/VILLAGE_A_BRANCHING_DIALOGUE_V2.md) · [JSON](dialogue/VILLAGE_A_BRANCHING_DIALOGUE_V2.json) | 40 câu, lựa chọn và đối đáp; không bắt A nói hoặc làm nhiệm vụ |
+
+**Quy tắc chuyển đổi:** các bản V0/V1 vẫn là nguồn tham khảo lịch sử; với phạm vi 24 event và hội thoại mới, ưu tiên V2 sau khi creator duyệt. Không đọc cả bank như văn bản tuần tự. Chỉ hiển thị line được chọn và đúng guard. Nếu guard chưa bind, không phát. 24 quest Q1/Q2/QF cũ vẫn tồn tại, chưa được viết lại toàn bộ theo event mới. Thomas CH01-003 và thoại gốc CH01-007 giữ nguyên. Tất cả event signal và vị trí chưa bind phải được dev kiểm chứng.
+
 ## Tài liệu
 
 - **[QUY CHUẨN HỆ THỐNG BIÊN KỊCH V1](production/NARRATIVE_DESIGN_SYSTEM_STANDARD_V1.md)**: tài liệu đọc **đầu tiên** khi viết hoặc bàn giao kịch bản. Phân loại Story/Scene/Quest/Dialogue/Choice/Event/NPC/World State, 6 nhóm sự kiện, nhánh NPC tự sống, template MD, mẫu Event Director và checklist duyệt. **Không phải file chạy Godot**.
