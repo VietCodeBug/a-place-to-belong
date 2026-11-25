@@ -1,0 +1,3307 @@
+{
+  "schema": "apb.quest_authoring.v2",
+  "status": "draft_not_runtime",
+  "quests": [
+    {
+      "quest_id": "VLA01-Q1",
+      "legacy_title_vi": "Luống rau cần để mắt",
+      "title_vi": "Vụ trộm rau lúc chạng vạng",
+      "character_id": "VLA-01",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Từ bảo vệ vụ rau đến tạo ra thứ cả làng muốn tranh tài.",
+      "location_ref": "Vườn tây, mép rừng",
+      "context_vi": "Lá bị cắn ở ba luống, dấu trên đất hướng ra rìa rừng. Hazel không biết khách đêm là con gì; Felix đoán bừa.",
+      "related_events": [
+        "EV-A1-WLD-004"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA01-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm ba luống, phân biệt vết bị cắn và vết gió làm gãy.",
+          "proof": {
+            "signal": "damage_clues_checked",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Ba dấu được ghi, không tự xác định loài.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA01-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn một trong hai điểm quan sát an toàn ở vườn; đợi lượt động vật xuất hiện hoặc cửa sổ quan sát kết thúc.",
+          "proof": {
+            "signal": "watch_window_resolved",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA01-Q1-V2-S1",
+          "visible_effect_vi": "Có kết quả nhìn thấy hoặc không nhìn thấy thú.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA01-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đối chiếu dấu với kết quả, giúp bảo vệ một luống bằng đạo cụ đã duyệt.",
+          "proof": {
+            "signal": "crop_protection_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA01-Q1-V2-S2",
+          "visible_effect_vi": "Một luống được bảo vệ; nguyên nhân chỉ ghi nếu đủ bằng chứng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "observed",
+          "label_vi": "Quan sát được vị khách",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "animal_observation_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi nguyên nhân đã xác minh."
+        },
+        {
+          "id": "unseen",
+          "label_vi": "Không thấy thú, ưu tiên giữ luống",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "watch_ended_without_sighting",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ rau nhưng chưa biết thủ phạm."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA01-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Hazel và Felix tự che luống; dấu mới vẫn có thể xuất hiện.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Chọn sai vị trí khiến không thấy thú, không khóa việc bảo vệ vườn.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA01-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA01-Q1-O1",
+        "VLA01-Q1-A1",
+        "VLA01-Q1-C1",
+        "VLA01-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA01-Q2",
+      "legacy_title_vi": "Không thể tưới hết mọi nơi",
+      "title_vi": "Cuộc đua giành giỏ rau",
+      "character_id": "VLA-01",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Từ bảo vệ vụ rau đến tạo ra thứ cả làng muốn tranh tài.",
+      "location_ref": "Vườn tây, sân chung",
+      "context_vi": "Một đợt thu hoạch nhỏ cần chọn rau cho cuộc thi ở chợ. Hazel và Felix muốn chọn theo hai tiêu chí khác nhau: ngon và đẹp.",
+      "related_events": [
+        "EV-A1-FES-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA01-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA01-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Quan sát các mẫu được phép hái, chọn giỏ theo tiêu chí đã công bố.",
+          "proof": {
+            "signal": "harvest_selection_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Giỏ có thành phần thực, không nhân bản đồ.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA01-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đưa giỏ tới điểm cân/chấm trong sân chung; nếu hội chưa mở, dùng buổi thử riêng không tính giải hội.",
+          "proof": {
+            "signal": "entry_delivered",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA01-Q2-V2-S1",
+          "visible_effect_vi": "Giỏ được ghi nhận đúng lượt.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA01-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Tham gia chấm thử hoặc thi thật nếu có; hệ chấm xác nhận kết quả.",
+          "proof": {
+            "signal": "judging_result_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA01-Q2-V2-S2",
+          "visible_effect_vi": "Có điểm thực tế; không bảo đảm giải.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "quality",
+          "label_vi": "Ưu tiên vị và độ tươi",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "quality_entry_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giỏ mộc mạc, phản ứng chú trọng chất lượng."
+        },
+        {
+          "id": "presentation",
+          "label_vi": "Ưu tiên màu sắc và bố cục",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "presentation_entry_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giỏ bắt mắt, phản ứng khác dù không thắng."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA01-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Hazel tự chọn rau; nếu chợ diễn ra, kết quả của NPC vẫn được lưu.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Giỏ có thể không được giải; vẫn hoàn thành việc dự thi.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA01-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA01-Q2-O1",
+        "VLA01-Q2-A1",
+        "VLA01-Q2-C1",
+        "VLA01-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA01-QF",
+      "legacy_title_vi": "Một góc vườn cho mọi người",
+      "title_vi": "Khu vườn của những người tranh tài",
+      "character_id": "VLA-01",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Từ bảo vệ vụ rau đến tạo ra thứ cả làng muốn tranh tài.",
+      "location_ref": "Vườn tây",
+      "context_vi": "Hazel thử dành một góc vườn chung cho các nhóm chăm cây theo cách khác nhau. Cô lo người khác phá kế hoạch, nhưng muốn xem kết quả thật.",
+      "related_events": [
+        "EV-A1-WRD-002"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA01-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA01-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn một lô nhỏ không chắn lối, phân bổ mẫu cây và giới hạn nước theo luật thử.",
+          "proof": {
+            "signal": "plot_plan_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Lô thử được xác định, không thay cả vườn.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA01-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chăm hoặc quan sát một vòng sinh trưởng có thật; cư dân tự quản phần họ nhận.",
+          "proof": {
+            "signal": "trial_cycle_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA01-QF-V2-S1",
+          "visible_effect_vi": "Kết quả dựa vào trạng thái cây, không nhảy thời gian qua thoại.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA01-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "So sánh kết quả và chọn cách giữ lô chung; Hazel xác nhận quyền dùng chung.",
+          "proof": {
+            "signal": "shared_plot_decision_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA01-QF-V2-S2",
+          "visible_effect_vi": "Lô chung có quy tắc và kết quả nhìn thấy.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "team",
+          "label_vi": "Thử chăm cùng người tự nguyện",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "shared_care_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ cách hợp tác nếu thử nghiệm phù hợp."
+        },
+        {
+          "id": "compare",
+          "label_vi": "Hai lô nhỏ để so cách chăm",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "comparison_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ bảng kết quả; không tự gán người thắng."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA01-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Hazel thử một lô nhỏ cùng cư dân tự nguyện, hoặc hoãn nếu chưa đủ điều kiện.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Cây thử có thể phát triển không tốt; kết quả xấu vẫn là thông tin.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA01-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA01-QF-O1",
+        "VLA01-QF-A1",
+        "VLA01-QF-C1",
+        "VLA01-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA04-Q1",
+      "legacy_title_vi": "Chiếc ghế không chịu đứng yên",
+      "title_vi": "Chiếc xe không chịu chạy thẳng",
+      "character_id": "VLA-04",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Kỹ năng, quyết định sửa chữa dưới áp lực và một thành quả dùng thật.",
+      "location_ref": "Sân thủ công, đường thử trong làng",
+      "context_vi": "Hugo cần thử một xe đẩy trước khi mang đồ ra chợ; bánh xe đi lệch dù khung còn nguyên. Owen muốn xác định lỗi thay vì sửa mò.",
+      "related_events": [
+        "EV-A1-FES-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA04-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đẩy xe mẫu trên đoạn thử bằng phẳng đã kiểm; quan sát bánh, khung và độ lệch.",
+          "proof": {
+            "signal": "cart_test_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Xác định triệu chứng thật.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA04-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn vị trí kiểm trước, giữ dụng cụ nhẹ cho Owen; ông làm phần sửa chuyên môn.",
+          "proof": {
+            "signal": "cart_adjustment_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA04-Q1-V2-S1",
+          "visible_effect_vi": "Điều chỉnh được xác nhận, không thao tác nguy hiểm.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA04-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thử lại với tải mẫu an toàn và so độ lệch.",
+          "proof": {
+            "signal": "cart_retest_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA04-Q1-V2-S2",
+          "visible_effect_vi": "Xe đạt hoặc chưa đạt; nếu chưa đạt phải chỉnh lại hoặc ngừng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "wheel",
+          "label_vi": "Ưu tiên kiểm bánh",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "wheel_check_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Owen nhớ cách chẩn đoán."
+        },
+        {
+          "id": "frame",
+          "label_vi": "Kiểm khung và tải trước",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "frame_check_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "So được nguyên nhân tải lệch."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA04-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Owen và Hugo tự kiểm rồi mới dùng xe.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Xe vẫn lệch: không ghi đã sửa, có thể thử lại hoặc giao Owen.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA04-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA04-Q1-O1",
+        "VLA04-Q1-A1",
+        "VLA04-Q1-C1",
+        "VLA04-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA04-Q2",
+      "legacy_title_vi": "Cánh cửa để sau",
+      "title_vi": "Cây cầu kêu trong mưa",
+      "character_id": "VLA-04",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Kỹ năng, quyết định sửa chữa dưới áp lực và một thành quả dùng thật.",
+      "location_ref": "Cầu gỗ nối nhà A – làng",
+      "context_vi": "Sau mưa hoặc buổi kiểm định riêng, một tấm ván có dấu bất thường. Owen phải quyết định sửa hay hạn chế sử dụng, không được đánh cược với an toàn.",
+      "related_events": [
+        "EV-A1-DRM-001"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA04-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA04-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Quan sát chỗ cảnh báo từ phần đường an toàn, xác nhận vị trí lỗi với Owen.",
+          "proof": {
+            "signal": "bridge_inspection_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Không cho A thử trên phần hỏng.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA04-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn góp vận chuyển vật liệu nhẹ hoặc hỗ trợ kiểm tuyến an toàn; người có tay nghề tự sửa.",
+          "proof": {
+            "signal": "bridge_support_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA04-Q2-V2-S1",
+          "visible_effect_vi": "Ghi công đúng phần A làm.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA04-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chờ xác nhận kiểm định; chỉ đi qua phần mở sau khi có kết quả.",
+          "proof": {
+            "signal": "bridge_safety_result_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA04-Q2-V2-S2",
+          "visible_effect_vi": "Cầu đạt hoặc chờ sửa tiếp; tuyến thiết yếu vẫn thông.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "material",
+          "label_vi": "Mang vật liệu tới điểm nhận",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "material_delivered_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi đóng góp vật liệu."
+        },
+        {
+          "id": "route",
+          "label_vi": "Kiểm tuyến an toàn đã chỉ định",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "safe_route_check_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi đóng góp điều hướng."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA04-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Owen và nhóm cư dân tự xử lý, duy trì lối đi an toàn.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Nếu chưa đạt kiểm định, hoãn hoàn thành; A có thể rời đi.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA04-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA04-Q2-O1",
+        "VLA04-Q2-A1",
+        "VLA04-Q2-C1",
+        "VLA04-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA04-QF",
+      "legacy_title_vi": "Một buổi sửa đồ vừa đủ",
+      "title_vi": "Thử thách xe đẩy của Owen",
+      "character_id": "VLA-04",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Kỹ năng, quyết định sửa chữa dưới áp lực và một thành quả dùng thật.",
+      "location_ref": "Sân thủ công và đường thử bằng phẳng",
+      "context_vi": "Owen muốn làm một thử thách xe đẩy nhẹ cho người lớn: mang tải mẫu qua đoạn đã kiểm, cân bằng và quay về. Ông muốn xem thiết kế nào dễ dùng hơn, không phải ai nhanh nhất bằng mọi giá.",
+      "related_events": [
+        "EV-A1-FES-002"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA04-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA04-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn cấu hình ổn định hoặc nhẹ, thử trong khu an toàn.",
+          "proof": {
+            "signal": "cart_configuration_tested",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Xe được duyệt trước lượt chơi.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA04-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đi qua các mốc, giữ tải mẫu; có thể quay lại hoặc giảm tốc nếu mất ổn định.",
+          "proof": {
+            "signal": "cart_course_attempt_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA04-QF-V2-S1",
+          "visible_effect_vi": "Kết quả lượt chơi ghi theo mốc/tải.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA04-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "So bảng thử với Owen; chỉ lưu thiết kế qua kiểm an toàn.",
+          "proof": {
+            "signal": "cart_design_review_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA04-QF-V2-S2",
+          "visible_effect_vi": "Có mẫu được giữ hoặc cần chỉnh.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "stable",
+          "label_vi": "Chọn cấu hình ổn định",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "stable_run_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ ưu tiên tải không xô lệch."
+        },
+        {
+          "id": "light",
+          "label_vi": "Chọn cấu hình nhẹ đã qua kiểm",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "light_run_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ ưu tiên dễ điều khiển."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA04-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Owen tổ chức buổi thử nhỏ với người lớn tự nguyện hoặc cất xe để thử sau.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Thua thử thách hoặc mất tải mẫu không khiến NPC trách; xe chưa đạt không được đưa vào dùng.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA04-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA04-QF-O1",
+        "VLA04-QF-A1",
+        "VLA04-QF-C1",
+        "VLA04-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA06-Q1",
+      "legacy_title_vi": "Bữa ăn đủ ngon",
+      "title_vi": "Đoán món của Felix",
+      "character_id": "VLA-06",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Sáng tạo, thi đấu, phản ứng trước thất bại; không lặp câu chuyện Grace.",
+      "location_ref": "Sân chung, góc chuẩn bị món",
+      "context_vi": "Felix tự nhận có thể đoán nguyên liệu mà không cần nhìn. Clara thách A thử một lượt nếm với nguyên liệu được xác nhận phù hợp.",
+      "related_events": [
+        "EV-A1-FES-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA06-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn một trong ba mẫu an toàn đã công bố thành phần dị ứng nếu áp dụng.",
+          "proof": {
+            "signal": "tasting_sample_selected",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Mẫu được ghi đúng.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA06-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn đáp án dựa vào gợi ý mùi/vị trong game; không bắt người chơi tự biết công thức ngoài đời.",
+          "proof": {
+            "signal": "tasting_guess_submitted",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA06-Q1-V2-S1",
+          "visible_effect_vi": "Đáp án được khóa cho lượt.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA06-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xem kết quả rồi thử một cách bày món hoặc ghi góp ý.",
+          "proof": {
+            "signal": "tasting_result_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA06-Q1-V2-S2",
+          "visible_effect_vi": "Đúng/sai có phản hồi riêng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "correct",
+          "label_vi": "Đoán đúng",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "guess_correct_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Clara nhớ kết quả đúng."
+        },
+        {
+          "id": "wrong",
+          "label_vi": "Đoán sai",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "guess_wrong_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Felix có cớ trêu, không phạt."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA06-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Clara thử với người tự nguyện khác hoặc tự nếm.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Sai đáp án vẫn kết thúc thử thách.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA06-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA06-Q1-O1",
+        "VLA06-Q1-A1",
+        "VLA06-Q1-C1",
+        "VLA06-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA06-Q2",
+      "legacy_title_vi": "Thử một cách khác",
+      "title_vi": "Món dự thi biến mất",
+      "character_id": "VLA-06",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Sáng tạo, thi đấu, phản ứng trước thất bại; không lặp câu chuyện Grace.",
+      "location_ref": "Sân chung, các gian chợ",
+      "context_vi": "Món Clara chuẩn bị được chuyển nhầm trước khi chấm. Không có kẻ phá hoại được định sẵn; chứng cứ xác định ai đã dời.",
+      "related_events": [
+        "EV-A1-FES-003",
+        "EV-A1-SOC-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA06-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA06-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm vị trí trống, nhãn gian và dấu chuyển đồ.",
+          "proof": {
+            "signal": "entry_evidence_checked",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Có manh mối, không tự đổ tội.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA06-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đối chiếu với nơi giữ đồ có căn cứ; nếu không tìm được, chọn mẫu dự phòng đã có hoặc rút lượt.",
+          "proof": {
+            "signal": "entry_or_fallback_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA06-Q2-V2-S1",
+          "visible_effect_vi": "Món tìm lại, món dự phòng hoặc rút.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA06-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xác nhận bàn giao với người phụ trách; chấm nếu còn lượt, nếu không ghi bỏ lỡ.",
+          "proof": {
+            "signal": "entry_disposition_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA06-Q2-V2-S2",
+          "visible_effect_vi": "Kết quả đúng tình trạng hội.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "recover",
+          "label_vi": "Tìm lại món",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "entry_found_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Món trở lại nếu còn lượt."
+        },
+        {
+          "id": "fallback",
+          "label_vi": "Dùng món dự phòng hợp lệ",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "fallback_entry_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Thi bằng món khác."
+        },
+        {
+          "id": "withdraw",
+          "label_vi": "Rút lượt chấm",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "entry_withdrawn_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Không tự tính thắng."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA06-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Ban tổ chức tự tìm hoặc Clara rút lượt thi.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Không tìm kịp: có thể mất lượt thi, không khóa tuyến quan hệ.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA06-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA06-Q2-O1",
+        "VLA06-Q2-A1",
+        "VLA06-Q2-C1",
+        "VLA06-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA06-QF",
+      "legacy_title_vi": "Ngồi xuống ăn cùng nhau",
+      "title_vi": "Đối thủ trong gian bếp",
+      "character_id": "VLA-06",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Sáng tạo, thi đấu, phản ứng trước thất bại; không lặp câu chuyện Grace.",
+      "location_ref": "Sân chung",
+      "context_vi": "Clara muốn tự dự thi bằng biến thể táo bạo, đối diện nguy cơ không được thích. A là người thử cùng, không phải người phục vụ.",
+      "related_events": [
+        "EV-A1-FES-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA06-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA06-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn mẫu quen hoặc biến thể trong bộ nguyên liệu đã duyệt.",
+          "proof": {
+            "signal": "recipe_variant_selected",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Khóa mẫu thi.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA06-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thực hiện minigame chuẩn bị phần an toàn và hoàn thành mẫu; Clara xử lý bếp nóng.",
+          "proof": {
+            "signal": "entry_prepared_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA06-QF-V2-S1",
+          "visible_effect_vi": "Có món thật đủ điều kiện.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA06-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Nộp món và nhận điểm thử từ người chấm; nếu không có hội, buổi thử nhỏ có kết quả riêng.",
+          "proof": {
+            "signal": "entry_score_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA06-QF-V2-S2",
+          "visible_effect_vi": "Kết quả thắng/thua hoặc điểm thử, không gộp hai loại.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "familiar",
+          "label_vi": "Mẫu quen, hoàn thiện tốt",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "familiar_entry_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Clara nhớ A tin vào món quen."
+        },
+        {
+          "id": "bold",
+          "label_vi": "Thử biến thể mới",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "bold_entry_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Clara nhớ A dám thử."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA06-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Clara tự làm mẫu và chấm thử khi có người, không tự nhận giải.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Điểm thấp vẫn kết thúc lượt; có thể thử lại vào dịp khác.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA06-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA06-QF-O1",
+        "VLA06-QF-A1",
+        "VLA06-QF-C1",
+        "VLA06-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA09-Q1",
+      "legacy_title_vi": "Lối đi sau vạt cỏ",
+      "title_vi": "Ba dấu trên đường rừng",
+      "character_id": "VLA-09",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Đọc rừng, chọn đường, tham gia tìm kiếm; không mặc định là thợ săn.",
+      "location_ref": "Lối rừng đã mở",
+      "context_vi": "Rowan thấy nhiều dấu khác nhau sau một lượt thú đi qua. Ông muốn kiểm xem A phân biệt dấu cũ và mới ra sao.",
+      "related_events": [
+        "EV-A1-WLD-001",
+        "EV-A1-WLD-002"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA09-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Quan sát ba dấu trên tuyến an toàn; xem bằng chứng đã hiện diện.",
+          "proof": {
+            "signal": "three_traces_checked",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Ghi dấu nhìn thấy, không sinh thú.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA09-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn hướng suy luận và kiểm điểm thứ hai.",
+          "proof": {
+            "signal": "trail_direction_checked",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA09-Q1-V2-S1",
+          "visible_effect_vi": "Có xác nhận hoặc dấu không khớp.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA09-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Quay về mốc ban đầu và báo kết quả thực tế.",
+          "proof": {
+            "signal": "safe_return_report_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA09-Q1-V2-S2",
+          "visible_effect_vi": "Không nhận công tìm thấy thú khi chỉ thấy dấu.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "matched",
+          "label_vi": "Tìm được hướng khớp",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "trail_match_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi tuyến đã xác minh."
+        },
+        {
+          "id": "uncertain",
+          "label_vi": "Không đủ dấu, quay lại",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "trail_uncertain_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi chưa xác định."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA09-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Rowan tự kiểm tuyến trong lượt đi thường.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Mất dấu là kết quả hợp lệ; không đuổi vào vùng chưa mở.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA09-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA09-Q1-O1",
+        "VLA09-Q1-A1",
+        "VLA09-Q1-C1",
+        "VLA09-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA09-Q2",
+      "legacy_title_vi": "Một đường vòng nhỏ",
+      "title_vi": "Một người chưa trở về",
+      "character_id": "VLA-09",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Đọc rừng, chọn đường, tham gia tìm kiếm; không mặc định là thợ săn.",
+      "location_ref": "Lối rừng – cầu – làng",
+      "context_vi": "Khi một cư dân trưởng thành thực sự đi lạc, Rowan muốn A tham gia tìm; nếu không có biến cố, thay bằng diễn tập tìm mốc với vật đánh dấu đã đặt, tuyệt đối không nói có người mất tích.",
+      "related_events": [
+        "EV-A1-EXP-003",
+        "EV-A1-SOC-002"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA09-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA09-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm thông tin được xác nhận tại điểm tập hợp; chọn tìm thật hoặc diễn tập đúng context.",
+          "proof": {
+            "signal": "search_context_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Mode real_search hoặc drill được khóa.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA09-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Tìm hai điểm dựa trên dấu, báo nhóm hỗ trợ; không vào vùng nguy hiểm.",
+          "proof": {
+            "signal": "search_points_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA09-Q2-V2-S1",
+          "visible_effect_vi": "Ghi điểm đã kiểm.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA09-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xác nhận người trở về an toàn hoặc kết quả diễn tập; NPC có thể tìm trước A.",
+          "proof": {
+            "signal": "search_resolution_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA09-Q2-V2-S2",
+          "visible_effect_vi": "Ghi ai thực sự tìm thấy.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "find",
+          "label_vi": "Tìm thấy người hoặc mốc mục tiêu",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "target_located_by_player",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi công tìm trong đúng mode."
+        },
+        {
+          "id": "support",
+          "label_vi": "Hỗ trợ nhóm tìm",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "search_support_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi hỗ trợ, không ghi A tìm thấy."
+        },
+        {
+          "id": "standdown",
+          "label_vi": "Nhóm khác đã tìm, kết thúc lượt",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "search_resolved_by_others",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Không nhận công thay NPC."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA09-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Nhóm người lớn tự tìm hoặc Rowan kết thúc diễn tập.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Nếu không tìm được, nhóm tiếp tục; không bắt A liều.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA09-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA09-Q2-O1",
+        "VLA09-Q2-A1",
+        "VLA09-Q2-C1",
+        "VLA09-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA09-QF",
+      "legacy_title_vi": "Con đường mọi người cùng giữ",
+      "title_vi": "Hội tìm dấu: đường về",
+      "character_id": "VLA-09",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Đọc rừng, chọn đường, tham gia tìm kiếm; không mặc định là thợ săn.",
+      "location_ref": "Lối rừng đã kiểm, gần cầu",
+      "context_vi": "Rowan tổ chức hoặc thử riêng một tuyến ba mốc, muốn người chơi chứng minh có thể quan sát tốt mà không phá sinh cảnh.",
+      "related_events": [
+        "EV-A1-FES-002",
+        "EV-A1-EXP-004"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA09-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA09-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn tuyến đã kiểm và nhận ba gợi ý mốc, không bật waypoint chỉ thẳng.",
+          "proof": {
+            "signal": "tracking_route_selected",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Lưu tuyến và mốc.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA09-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xác minh từng dấu, có thể bỏ mốc cuối để quay về an toàn.",
+          "proof": {
+            "signal": "tracking_challenge_attempt_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA09-QF-V2-S1",
+          "visible_effect_vi": "Ghi số mốc thật.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA09-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Về trạm, hệ thử xác nhận kết quả và tác động khu vực.",
+          "proof": {
+            "signal": "tracking_challenge_returned",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA09-QF-V2-S2",
+          "visible_effect_vi": "Có kết quả đủ/thiếu; không tự thắng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "all",
+          "label_vi": "Về đủ mốc",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "all_markers_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Kết quả trọn vẹn."
+        },
+        {
+          "id": "partial",
+          "label_vi": "Quay về khi còn thiếu",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "partial_return_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ an toàn, không nhận điểm mốc thiếu."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA09-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Rowan tự hướng dẫn nhóm khác, hoặc để dịp sau.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Không đủ mốc vẫn kết thúc cuộc thử nếu đã về an toàn.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA09-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA09-QF-O1",
+        "VLA09-QF-A1",
+        "VLA09-QF-C1",
+        "VLA09-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA13-Q1",
+      "legacy_title_vi": "Miếng vá vừa tay",
+      "title_vi": "Hai lá cờ, một cơn gió",
+      "character_id": "VLA-13",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Thiết kế, điều tra hiểu lầm, sáng tạo tập thể.",
+      "location_ref": "Sân thủ công",
+      "context_vi": "Maeve thử hai mẫu cờ trang trí cho dịp hội. Một mẫu nhìn đẹp nhưng dễ rối khi thử trong gió mô phỏng đã kiểm.",
+      "related_events": [
+        "EV-A1-FES-001",
+        "EV-A1-DRM-002"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA13-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn màu/hình từ mẫu hiện có và kiểm cách lắp.",
+          "proof": {
+            "signal": "flag_design_selected",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Mẫu có ID riêng.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA13-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thử trên giá thấp an toàn; xem kết quả bền/nhìn rõ, không tự giả thời tiết.",
+          "proof": {
+            "signal": "flag_trial_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA13-Q1-V2-S1",
+          "visible_effect_vi": "Mẫu đạt hoặc cần chỉnh.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA13-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Điều chỉnh hoặc chọn mẫu khác, xác nhận phiên bản được trưng bày thử.",
+          "proof": {
+            "signal": "flag_display_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA13-Q1-V2-S2",
+          "visible_effect_vi": "Có sản phẩm mẫu nhìn thấy.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "bold",
+          "label_vi": "Mẫu nổi bật",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "bold_flag_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ hình dễ nhận ra."
+        },
+        {
+          "id": "simple",
+          "label_vi": "Mẫu tối giản",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "simple_flag_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Giữ cách lắp gọn."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA13-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Maeve tự thử và chọn mẫu phù hợp.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Mẫu hỏng có thể sửa hoặc bỏ; không giả là đã treo.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA13-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA13-Q1-O1",
+        "VLA13-Q1-A1",
+        "VLA13-Q1-C1",
+        "VLA13-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA13-Q2",
+      "legacy_title_vi": "Một chồng đồ đang đợi",
+      "title_vi": "Ai đổi chỗ món dự thi?",
+      "character_id": "VLA-13",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Thiết kế, điều tra hiểu lầm, sáng tạo tập thể.",
+      "location_ref": "Sân thủ công và sân chung",
+      "context_vi": "Một món thủ công được chuyển nhầm. Tessa lo bị nghi vì từng vội vàng. Maeve phải nghe chứng cứ thay vì suy đoán.",
+      "related_events": [
+        "EV-A1-SOC-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA13-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA13-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm vị trí, nhãn và dấu chuyển của đồ được phép xem.",
+          "proof": {
+            "signal": "craft_evidence_checked",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Không tự tạo lời buộc tội.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA13-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn kiểm gian có bằng chứng, xác nhận món đúng hoặc ghi chưa tìm được.",
+          "proof": {
+            "signal": "craft_search_resolved",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA13-Q2-V2-S1",
+          "visible_effect_vi": "Món tìm thấy hoặc chưa rõ.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA13-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Báo kết quả thật, cho Maeve và người liên quan tự xử lý hiểu lầm.",
+          "proof": {
+            "signal": "craft_disposition_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA13-Q2-V2-S2",
+          "visible_effect_vi": "Có sửa hiểu lầm nếu đủ bằng chứng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "found",
+          "label_vi": "Tìm thấy món",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "craft_found_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Người bị nghi được giải thích đúng."
+        },
+        {
+          "id": "unresolved",
+          "label_vi": "Chưa đủ bằng chứng",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "craft_unresolved_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Không kết tội; NPC tìm tiếp."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA13-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Người tổ chức tự tìm hoặc để món ngoài cuộc thi; Maeve không được khẳng định Tessa có lỗi.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Chưa tìm được không khóa quan hệ.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA13-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA13-Q2-O1",
+        "VLA13-Q2-A1",
+        "VLA13-Q2-C1",
+        "VLA13-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA13-QF",
+      "legacy_title_vi": "Mũi chỉ có nhiều bàn tay",
+      "title_vi": "Dải cờ không ai làm giống ai",
+      "character_id": "VLA-13",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Thiết kế, điều tra hiểu lầm, sáng tạo tập thể.",
+      "location_ref": "Sân thủ công / sân chung",
+      "context_vi": "Maeve muốn làm dải cờ ghép từ mẫu của người tự nguyện; một số mẫu lệch nhau rõ rệt. Thử thách là tìm cách ghép thành bố cục chung, không sửa hộ tất cả.",
+      "related_events": [
+        "EV-A1-FES-001"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA13-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA13-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn các mẫu có chủ đồng ý, bố trí theo màu/hình.",
+          "proof": {
+            "signal": "flag_set_layout_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Mỗi mẫu giữ tác giả.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA13-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thử hai cách ghép trên giá thấp, kiểm độ rõ và an toàn.",
+          "proof": {
+            "signal": "combined_display_trial_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA13-QF-V2-S1",
+          "visible_effect_vi": "Kết quả thử thật.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA13-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đặt phiên bản được đồng ý ở khu trưng bày phù hợp hoặc lưu mẫu riêng nếu chưa có hội.",
+          "proof": {
+            "signal": "shared_display_accepted",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA13-QF-V2-S2",
+          "visible_effect_vi": "Có dấu vết trưng bày hoặc bản mẫu.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "mixed",
+          "label_vi": "Giữ sự khác nhau",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "mixed_display_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Các mẫu vẫn nhận ra được."
+        },
+        {
+          "id": "pattern",
+          "label_vi": "Ghép theo nhóm màu",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "pattern_display_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Bố cục thống nhất nhưng không xóa tác giả."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA13-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Maeve tự ghép cùng người tự nguyện hoặc hoãn.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Bố cục không đạt thử thì chỉnh lại, không nói đã dựng hội.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA13-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA13-QF-O1",
+        "VLA13-QF-A1",
+        "VLA13-QF-C1",
+        "VLA13-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA15-Q1",
+      "legacy_title_vi": "Nhãn hạt còn thiếu",
+      "title_vi": "Chiếc hũ không khớp nhãn",
+      "character_id": "VLA-15",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Tò mò, kiểm chứng, khám phá thiên nhiên và truyền tri thức.",
+      "location_ref": "Vườn tây",
+      "context_vi": "Một mẫu hạt không khớp bản ghi cũ. Evelyn đưa ba dấu hiệu đối chiếu; A phải tìm đúng mẫu hoặc thừa nhận chưa biết.",
+      "related_events": [],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA15-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm nhãn, kích thước mẫu và bản ghi tham chiếu.",
+          "proof": {
+            "signal": "seed_evidence_checked",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Ba dữ kiện được ghi riêng.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA15-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn giả thuyết trong các mẫu đã xác nhận, hoặc để chưa xác định.",
+          "proof": {
+            "signal": "seed_hypothesis_submitted",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA15-Q1-V2-S1",
+          "visible_effect_vi": "Không ghi đoán thành sự thật.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA15-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đối chiếu kết quả và cất hũ đúng nhóm.",
+          "proof": {
+            "signal": "seed_disposition_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA15-Q1-V2-S2",
+          "visible_effect_vi": "Hũ được xác minh hoặc cách ly.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "identified",
+          "label_vi": "Xác định được mẫu",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "seed_identity_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Cập nhật nhãn."
+        },
+        {
+          "id": "unknown",
+          "label_vi": "Chưa đủ căn cứ",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "seed_unknown_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Để hũ riêng."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA15-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Evelyn tự đối chiếu hoặc giữ hũ chưa xác định.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Đoán sai được sửa, không trộn hạt.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA15-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA15-Q1-O1",
+        "VLA15-Q1-A1",
+        "VLA15-Q1-C1",
+        "VLA15-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA15-Q2",
+      "legacy_title_vi": "Trang ghi chép từ vườn",
+      "title_vi": "Bình minh ở hai nơi",
+      "character_id": "VLA-15",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Tò mò, kiểm chứng, khám phá thiên nhiên và truyền tri thức.",
+      "location_ref": "Vườn tây / bờ hồ A1",
+      "context_vi": "Evelyn muốn so sánh hai môi trường: vườn vào một thời điểm và lần quay lại; hồ là tuyến mở rộng nếu A muốn. Không khẳng định loài chưa biết.",
+      "related_events": [
+        "EV-A1-EXP-005",
+        "EV-A1-WRD-001"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA15-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA15-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Quan sát một điểm vườn và ghi dữ kiện thật.",
+          "proof": {
+            "signal": "garden_snapshot_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Có bản ghi đầu.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA15-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn quay lại vườn ở thời điểm khác hoặc đi hồ qua tuyến an toàn.",
+          "proof": {
+            "signal": "second_observation_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA15-Q2-V2-S1",
+          "visible_effect_vi": "Ghi vị trí và môi trường thực.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA15-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "So sánh hai bản ghi với Evelyn; tách sự kiện nhìn thấy khỏi suy đoán.",
+          "proof": {
+            "signal": "observation_comparison_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA15-Q2-V2-S2",
+          "visible_effect_vi": "Có kết luận đúng dữ kiện.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "garden",
+          "label_vi": "Hai lần quan sát vườn",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "garden_second_snapshot_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Không có lời kể về hồ."
+        },
+        {
+          "id": "lake",
+          "label_vi": "Quan sát thêm bờ hồ",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "lake_snapshot_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Có ghi chép bờ hồ thật."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA15-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Evelyn tự ghi vườn; không mặc định bà đã tới hồ.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Nếu thời điểm thay đổi không phù hợp, chọn dịp khác; không cần bơi/lặn.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA15-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA15-Q2-O1",
+        "VLA15-Q2-A1",
+        "VLA15-Q2-C1",
+        "VLA15-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA15-QF",
+      "legacy_title_vi": "Một trang ai cũng có thể học",
+      "title_vi": "Cuộc thi nhận ra điều đã đổi",
+      "character_id": "VLA-15",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Tò mò, kiểm chứng, khám phá thiên nhiên và truyền tri thức.",
+      "location_ref": "Vườn tây / sân chung",
+      "context_vi": "Evelyn chuẩn bị trò quan sát ba chi tiết khác nhau giữa hai mẫu cảnh đã ghi, để người mới học bằng cách kiểm chứng thay vì học thuộc lời bà.",
+      "related_events": [
+        "EV-A1-FES-002"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA15-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA15-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn ba chi tiết có dữ kiện thật từ sổ/mẫu đã duyệt.",
+          "proof": {
+            "signal": "observation_puzzle_prepared",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Đáp án được xác minh.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA15-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thực hiện lượt thử; nếu có người khác tự nguyện thì dùng lượt độc lập, không ép xuất hiện.",
+          "proof": {
+            "signal": "observation_puzzle_attempt_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA15-QF-V2-S1",
+          "visible_effect_vi": "Ghi đáp án thật.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA15-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xem đáp án, chỉnh gợi ý khó hiểu và lưu bản ngắn dùng lại.",
+          "proof": {
+            "signal": "observation_puzzle_review_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA15-QF-V2-S2",
+          "visible_effect_vi": "Trò thử có phiên bản cuối.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "short",
+          "label_vi": "Gợi ý ngắn",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "short_clues_tested",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Dễ vào chơi, giữ khó ở quan sát."
+        },
+        {
+          "id": "layered",
+          "label_vi": "Gợi ý nhiều bước",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "layered_clues_tested",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Cho người thích suy luận sâu."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA15-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Evelyn tự làm bản thử và kiểm đáp án.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Đáp án sai là phần trò chơi, không tự sửa điểm.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA15-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA15-QF-O1",
+        "VLA15-QF-A1",
+        "VLA15-QF-C1",
+        "VLA15-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA18-Q1",
+      "legacy_title_vi": "Những mốc đường đã biết",
+      "title_vi": "Đường tắt của Ada",
+      "character_id": "VLA-18",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Thi đường, vận chuyển thử và hành trình về nơi quen.",
+      "location_ref": "Rừng gần làng và cầu",
+      "context_vi": "Ada và Hugo bất đồng tuyến nào thuận hơn. Họ muốn thử hai đường đã kiểm, không bịa đường mới.",
+      "related_events": [
+        "EV-A1-EXP-004"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA18-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn tuyến và nhận hai mốc bắt buộc.",
+          "proof": {
+            "signal": "route_choice_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Tuyến được khóa cho lượt.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA18-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đi qua mốc và quay về điểm xuất phát, không teleport.",
+          "proof": {
+            "signal": "route_markers_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA18-Q1-V2-S1",
+          "visible_effect_vi": "Ghi số mốc thực.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA18-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "So thời gian/độ thuận nếu hệ đo có; nếu không, so số mốc và đường về.",
+          "proof": {
+            "signal": "route_trial_result_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA18-Q1-V2-S2",
+          "visible_effect_vi": "Có kết quả thực tế.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "short",
+          "label_vi": "Thử tuyến ngắn đã kiểm",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "short_route_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi kết quả tuyến ngắn."
+        },
+        {
+          "id": "steady",
+          "label_vi": "Thử tuyến dễ nhận mốc",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "steady_route_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi kết quả tuyến ổn định."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA18-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Ada và Hugo tự thử tuyến, không ghi A tham dự.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Đi sai hoặc thiếu mốc có thể quay về và thử lại.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA18-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA18-Q1-O1",
+        "VLA18-Q1-A1",
+        "VLA18-Q1-C1",
+        "VLA18-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA18-Q2",
+      "legacy_title_vi": "Kiện hàng chuẩn bị lâu hơn dự định",
+      "title_vi": "Kiện hàng qua ba trạm",
+      "character_id": "VLA-18",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Thi đường, vận chuyển thử và hành trình về nơi quen.",
+      "location_ref": "Sân chuẩn bị, sân chung, tuyến bộ nội vùng",
+      "context_vi": "Ada và Hugo thử một chuyến hàng mẫu nội vùng trước khi tính đường xa. Tải mẫu có ràng buộc, không có làng đích ngoài A1.",
+      "related_events": [
+        "EV-A1-DRM-001"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA18-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA18-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm tải và chọn cách bố trí được Hugo xác nhận.",
+          "proof": {
+            "signal": "trial_load_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Tải đủ điều kiện đi.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA18-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Mang/đẩy tải mẫu qua ba điểm giao nhận nội vùng đã kiểm.",
+          "proof": {
+            "signal": "trial_checkpoints_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA18-Q2-V2-S1",
+          "visible_effect_vi": "Ghi mốc và tình trạng tải.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA18-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm tải ở trạm cuối, ghi nguyên vẹn hoặc lỗi.",
+          "proof": {
+            "signal": "trial_delivery_result_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA18-Q2-V2-S2",
+          "visible_effect_vi": "Không có đơn hàng thật ngoài vùng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "careful",
+          "label_vi": "Ưu tiên nguyên vẹn",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "intact_trial_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi tải nguyên vẹn."
+        },
+        {
+          "id": "retry",
+          "label_vi": "Tải xô lệch, kết thúc thử hoặc thử lại",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "damaged_trial_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Ghi lỗi, không tự giao thành công."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA18-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Ada và Hugo tự thử hoặc hoãn nếu chưa có xe/đường.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Tải không đạt thì thử lại, không mất hàng thật.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA18-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA18-Q2-O1",
+        "VLA18-Q2-A1",
+        "VLA18-Q2-C1",
+        "VLA18-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA18-QF",
+      "legacy_title_vi": "Một tấm ghi chú đường về",
+      "title_vi": "Chuyến đi không có người dẫn",
+      "character_id": "VLA-18",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Thi đường, vận chuyển thử và hành trình về nơi quen.",
+      "location_ref": "Làng A – rừng – bờ hồ",
+      "context_vi": "Ada muốn thử để A tự dẫn một hành trình nội vùng, chọn tuyến đã khám phá và quay về bằng trí nhớ. Hồ là lựa chọn, không bắt buộc.",
+      "related_events": [
+        "EV-A1-EXP-001",
+        "EV-A1-EXP-005"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA18-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA18-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn tuyến rừng hoặc hồ đã khám phá, ghi điểm về.",
+          "proof": {
+            "signal": "independent_route_selected",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Không chọn địa điểm chưa mở.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA18-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Đi qua các điểm mốc và kiểm đường quay lại, Ada chỉ đi cùng nếu lịch/pathing phù hợp.",
+          "proof": {
+            "signal": "independent_route_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA18-QF-V2-S1",
+          "visible_effect_vi": "Ghi đường đã đi; không tự cho Ada đồng hành.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA18-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Trở về, đặt chỉ dẫn ngắn từ tuyến thực đã đi.",
+          "proof": {
+            "signal": "return_guide_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA18-QF-V2-S2",
+          "visible_effect_vi": "Hướng dẫn phản ánh đúng địa điểm.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "forest",
+          "label_vi": "Tuyến rừng",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "forest_route_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Không phát câu đã đi hồ."
+        },
+        {
+          "id": "lake",
+          "label_vi": "Tuyến bờ hồ đã khám phá",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "lake_route_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Thêm chỉ dẫn ven hồ."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA18-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Ada tự viết chỉ dẫn tuyến quen; không chặn người chơi đi hồ.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Không về đúng mốc thì hoãn báo cáo; không mất quyền khám phá.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA18-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA18-QF-O1",
+        "VLA18-QF-A1",
+        "VLA18-QF-C1",
+        "VLA18-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA23-Q1",
+      "legacy_title_vi": "Một chỗ ngồi còn trống",
+      "title_vi": "Bữa ăn chạy mưa",
+      "character_id": "VLA-23",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Tổ chức cộng đồng, xử lý biến cố, lễ hội và tự lựa chọn tham gia.",
+      "location_ref": "Sân chung",
+      "context_vi": "Một bữa ngoài trời cần chuyển chỗ khi mưa; nếu weather chưa bind, tổ chức buổi thử chuyển đồ đã duyệt, không giả mưa.",
+      "related_events": [
+        "EV-A1-DRM-004"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 20,
+        "relation_min": "acquaintance",
+        "requires": [
+          "npc.met",
+          "npc.shared_activity_completed_at_least_once",
+          "npc.return_visit_count>=1",
+          "npc_available",
+          "player_chooses_listen_or_offer"
+        ],
+        "previous_quest": null,
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA23-Q1-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xác nhận bữa đang diễn ra và nơi trú thực sự có chỗ.",
+          "proof": {
+            "signal": "meal_relocation_context_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Mode thật hoặc thử được lưu.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA23-Q1-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn chuyển khay nhẹ hoặc báo nhóm ở vị trí gần; Grace quyết định giảm quy mô nếu thiếu chỗ.",
+          "proof": {
+            "signal": "meal_relocation_action_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA23-Q1-V2-S1",
+          "visible_effect_vi": "Ghi đúng đóng góp.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA23-Q1-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Kiểm đồ đã an toàn và bữa có tiếp tục hay hoãn.",
+          "proof": {
+            "signal": "meal_relocation_outcome_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA23-Q1-V2-S2",
+          "visible_effect_vi": "Lưu kết quả thật.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "continue",
+          "label_vi": "Chuyển sang nơi phù hợp",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "meal_continued_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Bữa tiếp tục."
+        },
+        {
+          "id": "postpone",
+          "label_vi": "Hoãn vì thiếu chỗ",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "meal_postponed_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Không giả bữa đã ăn."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA23-Q1.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Grace và cư dân tự chuyển/hoãn.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Không kịp không biến thành mất thực phẩm nếu chưa mô phỏng.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA23-Q1-V2",
+      "legacy_dialogue_refs": [
+        "VLA23-Q1-O1",
+        "VLA23-Q1-A1",
+        "VLA23-Q1-C1",
+        "VLA23-Q1-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA23-Q2",
+      "legacy_title_vi": "Bữa ăn không cần một người lo hết",
+      "title_vi": "Đội nào chuẩn bị nhanh hơn?",
+      "character_id": "VLA-23",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Tổ chức cộng đồng, xử lý biến cố, lễ hội và tự lựa chọn tham gia.",
+      "location_ref": "Sân chung",
+      "context_vi": "Grace tổ chức thử thách hai nhóm bày bữa mẫu trong thời gian quy định, chấm đủ đồ và lối đi hơn tốc độ. Không có thi dùng bếp nóng.",
+      "related_events": [
+        "EV-A1-FES-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 50,
+        "relation_min": "familiar",
+        "requires": [
+          "Q1.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q1>=1",
+          "npc.available_context_Q2",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA23-Q1",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA23-Q2-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn nhiệm vụ trong nhóm hoặc lượt thử một mình, xem tiêu chí công bố.",
+          "proof": {
+            "signal": "meal_team_role_selected",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Khóa vai và tiêu chí.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA23-Q2-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thực hiện đặt đồ nhẹ đúng vị trí, kiểm lối trống.",
+          "proof": {
+            "signal": "meal_layout_attempt_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA23-Q2-V2-S1",
+          "visible_effect_vi": "Ghi đồ đúng/sai.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA23-Q2-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Nhận điểm theo tiêu chí, không ép NPC khác tham gia nếu vắng.",
+          "proof": {
+            "signal": "meal_layout_result_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA23-Q2-V2-S2",
+          "visible_effect_vi": "Có điểm và kết quả thật.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "accuracy",
+          "label_vi": "Ưu tiên đúng chỗ",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "accurate_layout_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Điểm theo độ đúng."
+        },
+        {
+          "id": "speed",
+          "label_vi": "Thử nhanh trong giới hạn an toàn",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "timed_layout_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Điểm tốc độ chỉ khi đủ điều kiện."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA23-Q2.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Grace tự tổ chức với người tự nguyện hoặc buổi thử nhỏ.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Điểm thấp vẫn hoàn thành lượt thi.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA23-Q2-V2",
+      "legacy_dialogue_refs": [
+        "VLA23-Q2-O1",
+        "VLA23-Q2-A1",
+        "VLA23-Q2-C1",
+        "VLA23-Q2-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    },
+    {
+      "quest_id": "VLA23-QF",
+      "legacy_title_vi": "Bữa cơm có Grace ở đó",
+      "title_vi": "Đêm hội không cần một người lo hết",
+      "character_id": "VLA-23",
+      "status": "DRAFT_STORY_REWRITE",
+      "theme_vi": "Tổ chức cộng đồng, xử lý biến cố, lễ hội và tự lựa chọn tham gia.",
+      "location_ref": "Sân chung hoặc bờ hồ đã duyệt",
+      "context_vi": "Grace muốn tham dự một buổi hội với vai khách, không chỉ làm hậu cần. Người chơi có thể góp một khâu và sau đó tự chọn chơi. Hội do event độc lập vận hành; nếu chưa tới lịch, làm buổi gặp nhỏ không tính dự hội.",
+      "related_events": [
+        "EV-A1-FES-001",
+        "EV-A1-DRM-002",
+        "EV-A1-WRD-003"
+      ],
+      "event_dependency": "OPTIONAL_CONTEXT_NOT_AUTO_START; use separate rehearsal only when specified and approved; otherwise wait for actual event",
+      "gate": {
+        "friendship_min": 80,
+        "relation_min": "trusted",
+        "requires": [
+          "Q2.status in [completed,resolved_without_player]",
+          "npc.nonquest_meetups_after_Q2>=2",
+          "npc.personal_bond_event_seen==true",
+          "npc.available_context_QF",
+          "player_chooses_accept"
+        ],
+        "previous_quest": "VLA23-Q2",
+        "context_required": true,
+        "player_must_choose_accept": true,
+        "previous_quest_status": [
+          "completed",
+          "resolved_without_player"
+        ],
+        "friendship_threshold_is_proposal": true,
+        "prior_shared_activity_or_verified_event_participation_requires_review": true
+      },
+      "steps": [
+        {
+          "step_id": "VLA23-QF-V2-S1",
+          "type": "WORLD_ACTION",
+          "action_vi": "Xác nhận mode lễ hội đang mở hoặc buổi sinh hoạt nhỏ; chọn khâu tự nguyện phù hợp.",
+          "proof": {
+            "signal": "community_context_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": null,
+          "visible_effect_vi": "Không tự mở lễ hội.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA23-QF-V2-S2",
+          "type": "WORLD_ACTION",
+          "action_vi": "Thực hiện một việc thật để bàn giao phần chuẩn bị; Grace tự xác nhận phần mình đã xong.",
+          "proof": {
+            "signal": "community_contribution_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA23-QF-V2-S1",
+          "visible_effect_vi": "A và Grace không bị ép ở hậu cần.",
+          "can_pause": true
+        },
+        {
+          "step_id": "VLA23-QF-V2-S3",
+          "type": "WORLD_ACTION",
+          "action_vi": "Chọn tham gia một hoạt động đang mở hoặc rời đi; ghi Grace tự tham dự nếu có.",
+          "proof": {
+            "signal": "community_free_choice_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "requires_previous_step": "VLA23-QF-V2-S2",
+          "visible_effect_vi": "Ghi lựa chọn A và Grace riêng.",
+          "can_pause": true
+        }
+      ],
+      "gameplay_options": [
+        {
+          "id": "join",
+          "label_vi": "Ở lại chơi/ngồi cùng",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "shared_activity_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Chỉ nhớ trải nghiệm chung đã xảy ra."
+        },
+        {
+          "id": "leave",
+          "label_vi": "Giúp xong rồi đi",
+          "type": "GAMEPLAY_OPTION",
+          "proof": {
+            "signal": "contribution_only_verified",
+            "binding": "TO_BIND",
+            "scope": "quest_attempt"
+          },
+          "effect_vi": "Chỉ nhớ đã góp công, không nhớ dự hội."
+        }
+      ],
+      "completion": {
+        "requires": [
+          "explicit_player_acceptance",
+          "all_three_step_proofs_for_current_attempt",
+          "exactly_one_applicable_option_proof",
+          "npc_or_gameplay_result_confirmed"
+        ],
+        "status": "completed",
+        "outcome_flag": "quest.VLA23-QF.outcome_id",
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+      },
+      "branches": {
+        "declined": {
+          "status": "declined",
+          "npc_continues": true
+        },
+        "left": {
+          "status": "in_progress",
+          "resume_allowed": true
+        },
+        "npc_self_resolved": {
+          "status": "resolved_without_player",
+          "effect_vi": "Grace và cư dân tự chia việc; Grace có thể tham gia nếu lịch phù hợp.",
+          "no_player_credit": true
+        },
+        "setback": {
+          "description_vi": "Nếu hội hoãn, giữ việc đã làm và quay lại dịp khác hoặc kết thúc buổi nhỏ.",
+          "retry_or_close_according_to_verified_result": true
+        }
+      },
+      "dialogue_group_ref": "DLG-VLA23-QF-V2",
+      "legacy_dialogue_refs": [
+        "VLA23-QF-O1",
+        "VLA23-QF-A1",
+        "VLA23-QF-C1",
+        "VLA23-QF-D1"
+      ],
+      "never_play_legacy_offer_in_v2_context": true,
+      "unbound_runtime": "TO_BIND"
+    }
+  ]
+}
