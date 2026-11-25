@@ -402,6 +402,9 @@ Khi triển khai thật cần đảm bảo: **một tác dụng chỉ áp dụng
 
 ## 15. Áp dụng cho 24 nhiệm vụ đã viết và cách làm về sau
 
+**CẬP NHẬT V2 — đã viết lại cả 24 quest:** [Quest-only MD](../quests/VILLAGE_A_QUEST_SCRIPTS_V2.md) / [JSON](../quests/VILLAGE_A_QUEST_SCRIPTS_V2.json) và [Quest dialogue-only MD](../dialogue/VILLAGE_A_QUEST_DIALOGUE_V2.md) / [JSON](../dialogue/VILLAGE_A_QUEST_DIALOGUE_V2.json). Nội dung mới thay nhiều việc vặt bằng thử thách, tìm dấu, điều tra hiểu lầm, kiểm định, thi đấu và lễ hội. Giữ ID/gate/bond, không tự đổi canon. **V0/V1 là lưu trữ nội dung gốc; không dùng lời thoại cũ cho ngữ cảnh đã thay.** Chỉ duyệt một version/quest, chỉ ghi hoàn thành khi đủ bằng chứng và kết quả terminal, phân biệt thắng/thua với hoàn thành, không credit A nếu NPC tự xử lý. Không tự kích hoạt event từ quest. Các signal và cơ chế vẫn TO_BIND; chưa được xác nhận chạy trong Godot.
+
+
 **Tài sản hiện có:** 8 tuyến core × 3 quest = **24 nhiệm vụ đã viết ở mức biên kịch**; ngân hàng thoại Làng A cho 30 NPC; một số tình huống đời thường; **Ada/Grace đã có typed dialogue v2**, **Evelyn Q2 có pilot flow**. **Không đồng nghĩa 24 quest đã chạy trong Godot.**
 
 - **Không xóa/đổi tên bản cũ.** Giữ chúng làm nguồn ý tưởng, tính cách, lời thoại, hậu quả.
