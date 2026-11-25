@@ -1,0 +1,1398 @@
+{
+  "schema": "apb.dialogue_bank.v2",
+  "status": "draft_not_runtime",
+  "scope": "event-specific optional reactions only, never governs world event progression",
+  "routing": {
+    "event_ref_required": true,
+    "occurrence_id_required": true,
+    "choose_one_eligible_line_per_topic": true,
+    "never_play_all_lines_in_order": true,
+    "no_line_without_verified_fact": true,
+    "missing_guard_means_ineligible": true,
+    "never_advances_event": true
+  },
+  "groups": [
+    {
+      "id": "DLG-A1-FES-001-V2",
+      "event_ref": "EV-A1-FES-001",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-FES-001-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Cậu chọn đường nào? Tôi cá là Hugo sẽ đi đường dài rồi bảo mình đang ngắm cảnh.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_occurrence_active_and_speaker_at_registration"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-001-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Đừng nghe Ada. Đường ngắn của cô ấy thường có một đoạn gọi là 'chắc qua được'.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_occurrence_active_and_speaker_at_registration"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-001-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Khoan, cậu về trước tôi thật à? Lần tới tôi muốn xem cậu chọn đường nào.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_contest_result_verified_win"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-001-V2-L04",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Thua cũng có cái lợi. Lần tới chẳng ai bắt cậu bảo vệ ngôi vô địch.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_contest_result_verified_not_win"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-001-V2-L05",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tôi thích lúc mặt nước phản chiếu đèn hơn cả lúc thắp chúng. Cậu có nhìn thấy không?",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_attendance_verified_and_actual_location_lake"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-001-V2-L06",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tiếc là cậu không tới. Lần sau tôi sẽ thử xếp đèn khác đi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_not_attended_and_festival_finished"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-FES-002-V2",
+      "event_ref": "EV-A1-FES-002",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-FES-002-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Đội nào về trước chưa chắc đã thấy nhiều nhất. Để xem bảng kết quả nói gì.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "contest_active_and_speaker_at_start"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-002-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Cậu tìm được đủ dấu à? Tôi đã suýt đi nhầm ở đoạn thứ hai.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_verified_correct_tracks_all"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-002-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Một dấu cũ dễ đánh lừa lắm. Lần sau xem lại chỗ đất đổi màu.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_contest_finished_with_missed_clues"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-FES-003-V2",
+      "event_ref": "EV-A1-FES-003",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-FES-003-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Tôi đăng ký nếm món, không đăng ký nấu. Hai việc ấy khác nhau nhiều đấy.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "market_active_and_speaker_at_food_stall"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-003-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Đúng rồi! Tôi tưởng lần này giấu mùi nguyên liệu kỹ lắm.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_tasting_answer_verified_correct"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-003-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Không phải đâu. Nhưng cậu đoán giống Felix, nên tôi bắt đầu nghi công thức của mình.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_tasting_answer_verified_wrong"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-003-V2-L04",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Có vài món hết trước khi chấm xong. Đấy mới là chuyện buồn cười.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "judging_finished_and_player_not_entered"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-FES-004-V2",
+      "event_ref": "EV-A1-FES-004",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-FES-004-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Ai đoán tiếng này là cái cửa nhà tôi kêu thì cũng có lý. Tôi chưa sửa nó.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "gathering_active_and_speaker_in_circle"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-004-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-12",
+          "text_vi": "Cháu biết tiếng đó! Chờ đã, cho cháu nghe lần nữa được không?",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "gathering_sound_game_active_and_child_in_safe_public_area"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-FES-004-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-16",
+          "text_vi": "Tôi thích đoạn mọi người thôi tranh nhau nói. Lửa kêu cũng đủ nghe.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_attended_gathering_and_speaker_present_after"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WLD-001-V2",
+      "event_ref": "EV-A1-WLD-001",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WLD-001-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Cậu thấy đàn thú qua lối cũ rồi à? Hôm nay chúng đi sớm hơn tôi tưởng.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "wildlife_crossing_verified_and_player_observed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-001-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Có dấu mới trên đường rừng. Tôi chưa biết chúng đi xa tới đâu.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "wildlife_crossing_verified_and_player_not_observed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WLD-002-V2",
+      "event_ref": "EV-A1-WLD-002",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WLD-002-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tìm lại được dấu à? Thế là cậu đã để ý cả những chỗ không có dấu chân.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_tracking_attempted_and_animal_relocated"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-002-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Mất dấu là chuyện thường. Đừng vì thế mà cố đuổi vào chỗ mình chưa biết.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_tracking_attempted_and_animal_escaped"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WLD-003-V2",
+      "event_ref": "EV-A1-WLD-003",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WLD-003-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Cậu chỉ đúng chỗ là được. Phần còn lại để người có dụng cụ lo.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "hazard_marked_by_player_and_adult_notified"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-003-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Cái bẫy ở lối phụ đã được xử lý. Giờ qua đó dễ hơn rồi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "hazard_removed_verified_and_player_not_involved"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WLD-004-V2",
+      "event_ref": "EV-A1-WLD-004",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WLD-004-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Tôi không nhớ mình mời vị khách nào vào ăn rau tối qua cả.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "crop_disturbance_detected_and_player_at_garden"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-004-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Đêm nay chắc luống này đỡ bị ghé thăm. Cảm ơn cậu đã phụ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "protection_applied_verified_and_player_contributed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-004-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Có thứ đã ăn trước cả tôi. Hazel không thấy chuyện ấy buồn cười lắm.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "crop_disturbance_resolved_by_npcs_and_player_not_involved"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WLD-005-V2",
+      "event_ref": "EV-A1-WLD-005",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WLD-005-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Cậu đã trở về rồi. Nhớ xem khu vực ấy còn ổn không trước khi quay lại.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_hunt_attempted_and_hunt_result_verified_success"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-005-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hụt à? Thế thì hôm nay cậu có một câu chuyện dài hơn dự tính rồi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_hunt_attempted_and_hunt_result_verified_escape"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WLD-005-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Chỉ nhìn thấy nó cũng đáng nhớ rồi. Cậu thấy điều gì khác trên đường về?",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_observed_wildlife_and_player_hunt_not_attempted"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-EXP-001-V2",
+      "event_ref": "EV-A1-EXP-001",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-EXP-001-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Cậu tìm được đường vòng? Hay đấy. Nhìn từ chiều về có khó nhận ra không?",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_return_path_verified"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-001-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Sau mưa có vài dấu lộ rõ hơn. Đường cũ thôi, chưa chắc hôm nào cũng nhìn ra.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "wet_path_trace_visible_and_player_not_yet_followed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-EXP-002-V2",
+      "event_ref": "EV-A1-EXP-002",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-EXP-002-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Đừng đoán giá trị chỉ vì nó sáng. Có khi là đồ ai đánh rơi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "object_identified_and_speaker_present"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-002-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Cậu tìm được đúng người rồi à? Tốt. Đồ đạc cũng cần về đúng chỗ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "ownership_verified_and_player_returned_item"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-EXP-003-V2",
+      "event_ref": "EV-A1-EXP-003",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-EXP-003-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-17",
+          "text_vi": "Tôi sẽ kiểm lối gần làng. Nếu cậu đi rừng, nhớ quay lại báo khi tìm được người.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "search_active_and_speaker_in_search_group"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-003-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Về được là tốt rồi. Lần tới gặp sương dày, chắc người ấy sẽ chọn đường quen.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "safe_return_verified_and_player_found_adult"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-003-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Tìm được người rồi. Họ đang nghỉ, đường qua cầu vẫn đi được.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "safe_return_verified_and_npcs_found_adult_and_player_not_involved"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-EXP-004-V2",
+      "event_ref": "EV-A1-EXP-004",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-EXP-004-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Ba mốc thôi. Đừng biến nó thành chuyến thám hiểm tới tận sáng mai.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "route_challenge_active_and_speaker_at_start"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-004-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Về đúng chỗ còn hơn cố tìm nốt rồi lạc luôn. Ada sẽ không thừa nhận đâu.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_finish_verified_with_missing_markers"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-004-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Đủ cả ba? Được, lần sau tôi phải chọn tuyến khác rồi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_finish_verified_all_markers"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-EXP-005-V2",
+      "event_ref": "EV-A1-EXP-005",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-EXP-005-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Cậu thấy chim lúc trời vừa sáng à? Tôi thích lúc chúng đến trước cả tiếng người.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "player_lake_wildlife_observed_and_speaker_present"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-EXP-005-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-16",
+          "text_vi": "Sáng nay hồ đẹp. Nhưng thôi, còn nhiều buổi sáng khác.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "dawn_window_finished_and_player_not_observed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-DRM-001-V2",
+      "event_ref": "EV-A1-DRM-001",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-DRM-001-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Ván lỏng. Đừng thử bằng cách nhảy lên nó. Tôi đã biết nó lỏng rồi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "bridge_damage_verified_and_speaker_at_safe_work_area"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-001-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Lối an toàn ở phía này. Đi chậm một chút là được.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "bridge_repair_in_progress_and_speaker_at_safe_route"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-001-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Cái cầu qua được rồi. Phần cậu mang tới dùng vừa đủ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "bridge_repaired_verified_and_player_contributed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-001-V2-L04",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Xong rồi. Lần này chúng tôi phải thay một đoạn gỗ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "bridge_repaired_verified_and_player_not_involved"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-DRM-002-V2",
+      "event_ref": "EV-A1-DRM-002",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-DRM-002-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tôi vừa xếp xong, gió lại có ý kiến khác. Chắc phải đổi chỗ đèn thôi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_wind_unsafe_and_speaker_at_preparation_area"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-002-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Về sân làng nhé. Không ai cần một lễ hội đẹp mà phải lo đồ bay xuống hồ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "safe_layout_verified_and_actual_location_village_square"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-002-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hoãn một buổi không có nghĩa là hết hội. Tôi vẫn còn muốn thử trò tìm mốc.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_postponed_verified"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-DRM-003-V2",
+      "event_ref": "EV-A1-DRM-003",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-DRM-003-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Lối phụ hôm nay không qua được. Đường chính vẫn thông.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "fallen_tree_detected_and_speaker_at_safe_path"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-003-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Cậu tìm được lối vòng rồi à? Nhớ xem nó có dẫn về chỗ quen không.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "detour_verified_by_player"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-003-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Đoạn cây đổ đã được dọn. Không cần vòng nữa đâu.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "clearance_verified_by_npcs_and_player_not_involved"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-DRM-004-V2",
+      "event_ref": "EV-A1-DRM-004",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-DRM-004-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Ai còn bát thì giữ bát. Ai không có bát thì tìm chỗ khô ngồi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "outdoor_meal_and_rain_and_speaker_present"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-DRM-004-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Món ăn vẫn ổn. Có lẽ lần sau tôi phải xem trời trước khi bày bàn.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "meal_relocated_verified_and_player_contributed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-SOC-001-V2",
+      "event_ref": "EV-A1-SOC-001",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-SOC-001-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tôi nói để lại vạt hoa, chứ có bảo mọi người bước vào bụi đâu.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "rowan_silas_disagreement_active_and_both_present"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-SOC-001-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Thì ông thử đi qua lúc đang ôm hai cái giỏ xem. Tôi có lý do của tôi chứ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "rowan_silas_disagreement_active_and_both_present"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-SOC-001-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Được rồi, chừa hoa bên ấy. Miễn là tôi không phải đi ngang như con cua.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "agreement_verified_and_speaker_present"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-SOC-002-V2",
+      "event_ref": "EV-A1-SOC-002",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-SOC-002-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Tôi chưa thấy người ấy tới. Chắc nên hỏi xem có chuyện gì, đừng đoán vội.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "expected_adult_attendee_absent_and_reason_unknown"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-SOC-002-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Hóa ra chỉ muốn yên tĩnh một chút. Cứ để người ta nghỉ đi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "absence_reason_verified_wants_privacy"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-SOC-002-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Về rồi là yên tâm. Buổi hội còn hay không cũng không quan trọng bằng chuyện ấy.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "absence_reason_verified_lost_and_safe_return_verified"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-SOC-003-V2",
+      "event_ref": "EV-A1-SOC-003",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-SOC-003-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-11",
+          "text_vi": "Tôi đặt nó ở đây thật mà. Đừng ai bảo tôi lại làm hỏng việc.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "contest_entry_missing_and_speaker_is_affected_learner"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-SOC-003-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tìm thấy rồi. Tôi đã kết luận vội, xin lỗi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "entry_found_verified_and_wrongly_suspected_learner_cleared"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-SOC-003-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-11",
+          "text_vi": "Cảm ơn. Tôi chỉ muốn người ta biết lần này không phải tôi làm mất.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "entry_found_verified_and_player_helped"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WRD-001-V2",
+      "event_ref": "EV-A1-WRD-001",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WRD-001-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Vậy chỗ cậu thường đứng hôm nay đã khác. Cứ ghi thêm một dòng, không cần sửa dòng cũ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "shore_observation_verified_by_player"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WRD-001-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Bờ hồ hôm nay khác hôm trước. Đi sát lối khô nếu cậu ghé qua.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "shore_weather_state_changed_and_player_not_observed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WRD-002-V2",
+      "event_ref": "EV-A1-WRD-002",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WRD-002-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-20",
+          "text_vi": "Cậu làm phần đó rồi, phần này để tôi. Không cần đứng đây hết buổi.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "repair_contribution_verified_by_player"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WRD-002-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Đường dùng được rồi. Chỗ cậu góp sức hôm trước vẫn còn đấy.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "repair_finished_verified_and_player_contributed"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WRD-002-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Mọi người làm xong đoạn ấy rồi. Cậu thử đi qua lúc rảnh nhé.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "repair_finished_verified_and_player_not_involved"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-WRD-003-V2",
+      "event_ref": "EV-A1-WRD-003",
+      "trigger": "player_selects_event_topic",
+      "can_exit": true,
+      "lines": [
+        {
+          "line_id": "DLG-A1-WRD-003-V2-L01",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Hôm qua vui thật. Hôm nay cái xe của tôi chính thức được nghỉ.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_ended_and_player_attendance_verified"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WRD-003-V2-L02",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hôm qua đông người lắm. Cậu không tới à? Thế hôm nay cậu định đi đâu?",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_ended_and_player_not_attended"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WRD-003-V2-L03",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Nhìn mặt hồ ban ngày thấy lạ thật. Tối qua chỗ này sáng rực.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_ended_and_actual_location_lake_and_player_attended"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        },
+        {
+          "line_id": "DLG-A1-WRD-003-V2-L04",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Sân hôm nay trống hẳn. Tối qua tôi cứ phải né người đi qua.",
+          "trigger": "player_selects_event_topic",
+          "guards": [
+            "speaker_present",
+            "speaker_available",
+            "speaker_has_verified_knowledge_of_occurrence",
+            "current_or_referenced_occurrence_matches",
+            "festival_ended_and_actual_location_village_square_and_player_attended"
+          ],
+          "guard_binding": "TO_BIND",
+          "next": "END",
+          "auto_start_quest": false
+        }
+      ]
+    }
+  ]
+}
