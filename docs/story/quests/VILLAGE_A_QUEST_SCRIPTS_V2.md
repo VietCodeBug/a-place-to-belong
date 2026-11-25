@@ -30,7 +30,7 @@ PROOF: `crop_protection_verified` (TO_BIND). Kết quả: Một luống được
 
 **Thất bại/hoãn:** Chọn sai vị trí khiến không thấy thú, không khóa việc bảo vệ vườn.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA01-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA01-Q1-V2` trong ngân hàng riêng.
 
 ### VLA01-Q2 — Cuộc đua giành giỏ rau
 
@@ -58,7 +58,7 @@ PROOF: `judging_result_verified` (TO_BIND). Kết quả: Có điểm thực tế
 
 **Thất bại/hoãn:** Giỏ có thể không được giải; vẫn hoàn thành việc dự thi.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA01-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA01-Q2-V2` trong ngân hàng riêng.
 
 ### VLA01-QF — Khu vườn của những người tranh tài
 
@@ -86,7 +86,7 @@ PROOF: `shared_plot_decision_verified` (TO_BIND). Kết quả: Lô chung có quy
 
 **Thất bại/hoãn:** Cây thử có thể phát triển không tốt; kết quả xấu vẫn là thông tin.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA01-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA01-QF-V2` trong ngân hàng riêng.
 
 ## Owen — Kỹ năng, quyết định sửa chữa dưới áp lực và một thành quả dùng thật.
 
@@ -116,7 +116,7 @@ PROOF: `cart_retest_verified` (TO_BIND). Kết quả: Xe đạt hoặc chưa đ�
 
 **Thất bại/hoãn:** Xe vẫn lệch: không ghi đã sửa, có thể thử lại hoặc giao Owen.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA04-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA04-Q1-V2` trong ngân hàng riêng.
 
 ### VLA04-Q2 — Cây cầu kêu trong mưa
 
@@ -144,7 +144,7 @@ PROOF: `bridge_safety_result_verified` (TO_BIND). Kết quả: Cầu đạt ho�
 
 **Thất bại/hoãn:** Nếu chưa đạt kiểm định, hoãn hoàn thành; A có thể rời đi.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA04-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA04-Q2-V2` trong ngân hàng riêng.
 
 ### VLA04-QF — Thử thách xe đẩy của Owen
 
@@ -172,7 +172,7 @@ PROOF: `cart_design_review_verified` (TO_BIND). Kết quả: Có mẫu được 
 
 **Thất bại/hoãn:** Thua thử thách hoặc mất tải mẫu không khiến NPC trách; xe chưa đạt không được đưa vào dùng.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA04-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA04-QF-V2` trong ngân hàng riêng.
 
 ## Clara — Sáng tạo, thi đấu, phản ứng trước thất bại; không lặp câu chuyện Grace.
 
@@ -202,7 +202,7 @@ PROOF: `tasting_result_verified` (TO_BIND). Kết quả: Đúng/sai có phản h
 
 **Thất bại/hoãn:** Sai đáp án vẫn kết thúc thử thách.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA06-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA06-Q1-V2` trong ngân hàng riêng.
 
 ### VLA06-Q2 — Món dự thi biến mất
 
@@ -231,7 +231,7 @@ PROOF: `entry_disposition_verified` (TO_BIND). Kết quả: Kết quả đúng t
 
 **Thất bại/hoãn:** Không tìm kịp: có thể mất lượt thi, không khóa tuyến quan hệ.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA06-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA06-Q2-V2` trong ngân hàng riêng.
 
 ### VLA06-QF — Đối thủ trong gian bếp
 
@@ -259,7 +259,7 @@ PROOF: `entry_score_verified` (TO_BIND). Kết quả: Kết quả thắng/thua h
 
 **Thất bại/hoãn:** Điểm thấp vẫn kết thúc lượt; có thể thử lại vào dịp khác.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA06-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA06-QF-V2` trong ngân hàng riêng.
 
 ## Rowan — Đọc rừng, chọn đường, tham gia tìm kiếm; không mặc định là thợ săn.
 
@@ -289,7 +289,7 @@ PROOF: `safe_return_report_verified` (TO_BIND). Kết quả: Không nhận công
 
 **Thất bại/hoãn:** Mất dấu là kết quả hợp lệ; không đuổi vào vùng chưa mở.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA09-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA09-Q1-V2` trong ngân hàng riêng.
 
 ### VLA09-Q2 — Một người chưa trở về
 
@@ -318,7 +318,7 @@ PROOF: `search_resolution_verified` (TO_BIND). Kết quả: Ghi ai thực sự t
 
 **Thất bại/hoãn:** Nếu không tìm được, nhóm tiếp tục; không bắt A liều.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA09-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA09-Q2-V2` trong ngân hàng riêng.
 
 ### VLA09-QF — Hội tìm dấu: đường về
 
@@ -346,7 +346,7 @@ PROOF: `tracking_challenge_returned` (TO_BIND). Kết quả: Có kết quả đ�
 
 **Thất bại/hoãn:** Không đủ mốc vẫn kết thúc cuộc thử nếu đã về an toàn.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA09-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA09-QF-V2` trong ngân hàng riêng.
 
 ## Maeve — Thiết kế, điều tra hiểu lầm, sáng tạo tập thể.
 
@@ -376,7 +376,7 @@ PROOF: `flag_display_verified` (TO_BIND). Kết quả: Có sản phẩm mẫu nh
 
 **Thất bại/hoãn:** Mẫu hỏng có thể sửa hoặc bỏ; không giả là đã treo.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA13-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA13-Q1-V2` trong ngân hàng riêng.
 
 ### VLA13-Q2 — Ai đổi chỗ món dự thi?
 
@@ -404,7 +404,7 @@ PROOF: `craft_disposition_verified` (TO_BIND). Kết quả: Có sửa hiểu l�
 
 **Thất bại/hoãn:** Chưa tìm được không khóa quan hệ.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA13-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA13-Q2-V2` trong ngân hàng riêng.
 
 ### VLA13-QF — Dải cờ không ai làm giống ai
 
@@ -432,7 +432,7 @@ PROOF: `shared_display_accepted` (TO_BIND). Kết quả: Có dấu vết trưng 
 
 **Thất bại/hoãn:** Bố cục không đạt thử thì chỉnh lại, không nói đã dựng hội.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA13-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA13-QF-V2` trong ngân hàng riêng.
 
 ## Evelyn — Tò mò, kiểm chứng, khám phá thiên nhiên và truyền tri thức.
 
@@ -462,7 +462,7 @@ PROOF: `seed_disposition_verified` (TO_BIND). Kết quả: Hũ được xác min
 
 **Thất bại/hoãn:** Đoán sai được sửa, không trộn hạt.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA15-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA15-Q1-V2` trong ngân hàng riêng.
 
 ### VLA15-Q2 — Bình minh ở hai nơi
 
@@ -490,7 +490,7 @@ PROOF: `observation_comparison_verified` (TO_BIND). Kết quả: Có kết luậ
 
 **Thất bại/hoãn:** Nếu thời điểm thay đổi không phù hợp, chọn dịp khác; không cần bơi/lặn.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA15-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA15-Q2-V2` trong ngân hàng riêng.
 
 ### VLA15-QF — Cuộc thi nhận ra điều đã đổi
 
@@ -518,7 +518,7 @@ PROOF: `observation_puzzle_review_verified` (TO_BIND). Kết quả: Trò thử c
 
 **Thất bại/hoãn:** Đáp án sai là phần trò chơi, không tự sửa điểm.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA15-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA15-QF-V2` trong ngân hàng riêng.
 
 ## Ada — Thi đường, vận chuyển thử và hành trình về nơi quen.
 
@@ -548,7 +548,7 @@ PROOF: `route_trial_result_verified` (TO_BIND). Kết quả: Có kết quả th�
 
 **Thất bại/hoãn:** Đi sai hoặc thiếu mốc có thể quay về và thử lại.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA18-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA18-Q1-V2` trong ngân hàng riêng.
 
 ### VLA18-Q2 — Kiện hàng qua ba trạm
 
@@ -576,7 +576,7 @@ PROOF: `trial_delivery_result_verified` (TO_BIND). Kết quả: Không có đơn
 
 **Thất bại/hoãn:** Tải không đạt thì thử lại, không mất hàng thật.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA18-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA18-Q2-V2` trong ngân hàng riêng.
 
 ### VLA18-QF — Chuyến đi không có người dẫn
 
@@ -604,7 +604,7 @@ PROOF: `return_guide_verified` (TO_BIND). Kết quả: Hướng dẫn phản án
 
 **Thất bại/hoãn:** Không về đúng mốc thì hoãn báo cáo; không mất quyền khám phá.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA18-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA18-QF-V2` trong ngân hàng riêng.
 
 ## Grace — Tổ chức cộng đồng, xử lý biến cố, lễ hội và tự lựa chọn tham gia.
 
@@ -634,7 +634,7 @@ PROOF: `meal_relocation_outcome_verified` (TO_BIND). Kết quả: Lưu kết qu�
 
 **Thất bại/hoãn:** Không kịp không biến thành mất thực phẩm nếu chưa mô phỏng.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA23-Q1-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA23-Q1-V2` trong ngân hàng riêng.
 
 ### VLA23-Q2 — Đội nào chuẩn bị nhanh hơn?
 
@@ -662,7 +662,7 @@ PROOF: `meal_layout_result_verified` (TO_BIND). Kết quả: Có điểm và k�
 
 **Thất bại/hoãn:** Điểm thấp vẫn hoàn thành lượt thi.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA23-Q2-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA23-Q2-V2` trong ngân hàng riêng.
 
 ### VLA23-QF — Đêm hội không cần một người lo hết
 
@@ -690,6 +690,37 @@ PROOF: `community_free_choice_verified` (TO_BIND). Kết quả: Ghi lựa chọn
 
 **Thất bại/hoãn:** Nếu hội hoãn, giữ việc đã làm và quay lại dịp khác hoặc kết thúc buổi nhỏ.
 
-**Hoàn thành:** đã nhận, đủ 3 proof, có proof nhánh đúng và kết quả xác nhận; hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA23-QF-V2` trong ngân hàng riêng.
+**Hoàn thành:** đã nhận, có đủ proof bắt buộc và bằng chứng kết quả đúng nhánh; kết quả cuối đã xác minh và không còn điều kiện an toàn đang chờ. Hoàn thành lượt không đồng nghĩa thắng. **Thoại:** `DLG-VLA23-QF-V2` trong ngân hàng riêng.
 
 [JSON nhiệm vụ](VILLAGE_A_QUEST_SCRIPTS_V2.json) · [Thoại nhiệm vụ riêng](../dialogue/VILLAGE_A_QUEST_DIALOGUE_V2.md). Mọi tên mới và tình tiết vẫn chờ duyệt; không sửa nguồn cũ.
+
+## Hợp đồng kết quả V2.1
+
+Mỗi nhiệm vụ có result_contract trong JSON: positive, alternative_or_setback và một số nhánh riêng. Chỉ đóng lượt khi terminal result đã xác minh. Nếu công việc an toàn chưa đạt, giữ dở hoặc để NPC tự xử lý, không ghi đã sửa. Mode thử và sự kiện thật tách riêng; QF Grace rời đi vẫn là nhánh hoàn thành hợp lệ nếu đã góp công. Dialogue chỉ đọc trạng thái, không tự chuyển tiến độ.
+
+| Quest | Dữ kiện tích cực | Dữ kiện nhánh khác |
+|---|---|---|
+| VLA01-Q1 | `animal_seen_and_cause_verified` | `no_sighting_but_crop_protected` |
+| VLA01-Q2 | `entry_judged_verified_and_win_or_trial_positive` | `entry_judged_verified_nonwinning` |
+| VLA01-QF | `plot_trial_reviewed_and_shared_use_accepted` | `plot_trial_reviewed_with_poor_growth` |
+| VLA04-Q1 | `cart_safety_test_passed` | `cart_safety_test_failed` |
+| VLA04-Q2 | `bridge_safety_inspection_passed` | `bridge_safety_inspection_failed` |
+| VLA04-QF | `cart_course_verified_and_design_safety_passed` | `cart_course_verified_and_design_failed` |
+| VLA06-Q1 | `tasting_guess_correct_verified` | `tasting_guess_wrong_verified` |
+| VLA06-Q2 | `original_entry_found_verified` | `original_entry_missed_judging_verified` |
+| VLA06-QF | `entry_score_verified_and_player_won_or_trial_accepted` | `entry_score_verified_and_player_did_not_win_or_trial_rejected` |
+| VLA09-Q1 | `trail_match_verified` | `trail_uncertain_verified` |
+| VLA09-Q2 | `search_resolved_and_player_contribution_verified` | `search_resolved_by_others_verified` |
+| VLA09-QF | `all_markers_verified_and_safe_return` | `partial_markers_verified_and_safe_return` |
+| VLA13-Q1 | `flag_trial_and_display_passed` | `flag_trial_failed` |
+| VLA13-Q2 | `craft_item_found_verified` | `craft_item_unresolved_verified` |
+| VLA13-QF | `shared_display_accepted` | `combined_display_trial_rejected` |
+| VLA15-Q1 | `seed_identity_verified` | `seed_unknown_verified` |
+| VLA15-Q2 | `comparison_verified_two_real_snapshots` | `comparison_incomplete_verified` |
+| VLA15-QF | `puzzle_review_accepted` | `puzzle_clue_review_rejected` |
+| VLA18-Q1 | `route_trial_result_valid` | `route_trial_missing_markers_verified` |
+| VLA18-Q2 | `trial_delivery_intact_verified` | `trial_delivery_failed_verified` |
+| VLA18-QF | `return_guide_verified` | `return_route_incomplete_verified` |
+| VLA23-Q1 | `meal_relocation_safe_verified` | `meal_postponed_verified` |
+| VLA23-Q2 | `meal_layout_result_passed` | `meal_layout_result_below_target` |
+| VLA23-QF | `shared_activity_verified` | `contribution_only_verified` |
