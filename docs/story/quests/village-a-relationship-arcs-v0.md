@@ -1,4 +1,7 @@
 # Làng A — Tuyến nhiệm vụ theo độ thân thiết (8 cư dân chính, v0)
+
+> **CẬP NHẬT V2:** Bản này giữ nguyên ID, gate và nội dung V0 làm nguồn lịch sử. Bản viết lại đề xuất hiện nằm ở [Quest V2](VILLAGE_A_QUEST_SCRIPTS_V2.md) và [thoại riêng](../dialogue/VILLAGE_A_QUEST_DIALOGUE_V2.md). Không chạy cả hai bản cùng lúc hoặc trộn câu thoại cũ với tình huống V2. Chưa duyệt từng nhiệm vụ, chưa code.
+
 > **Hướng mới đã thống nhất:** Không phải gặp lần đầu là giao việc; mỗi nhân vật tuyến sâu có **nhiệm vụ 1 → giai đoạn sinh hoạt bình thường → nhiệm vụ 2 → giai đoạn quen thân → nhiệm vụ cuối**, mở theo **độ thân thiết + sự kiện đã trải qua**. Nhân vật tiếp tục hoạt động sau nhiệm vụ cuối. **Nội dung 24 nhiệm vụ và điểm số bên dưới là nháp biên kịch**, chưa phải canon hoặc code chạy trong game. Chỉ viết Làng A, không thêm Làng B.
 
 ## Mở nhiệm vụ thế nào?
