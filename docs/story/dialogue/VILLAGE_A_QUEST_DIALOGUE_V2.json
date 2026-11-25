@@ -16,22 +16,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA01-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA01-Q1-V2-DECLINE",
             "action_ref": "VLA01-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA01-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA01-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -46,7 +50,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA01-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA01-Q1-V2-DECLINE",
@@ -70,8 +74,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:animal_seen_and_cause_verified",
             "all_required_proofs_verified",
-            "outcome_matches:observed"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -84,8 +90,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:unseen"
+            "current_quest_attempt_matches",
+            "verified_fact:no_sighting_but_crop_protected",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -93,19 +100,45 @@
           "line_id": "DLG-VLA01-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-01",
-          "text_vi": "Tôi vẫn để ý mấy luống đó. Hôm nay yên hơn hẳn.",
+          "text_vi": "Mấy dấu trên đất hôm trước vẫn khiến tôi tò mò.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA01-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Tôi với Felix đã che lại luống. Khách đêm có quay lại thì để xem lần sau.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA01-Q2-V2",
@@ -121,22 +154,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA01-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA01-Q2-V2-DECLINE",
             "action_ref": "VLA01-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA01-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA01-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -151,7 +188,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA01-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA01-Q2-V2-DECLINE",
@@ -175,8 +212,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:entry_judged_verified_and_win_or_trial_positive",
             "all_required_proofs_verified",
-            "outcome_matches:quality|presentation"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -189,8 +228,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:entry_judged_verified_nonwinning",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -198,19 +238,45 @@
           "line_id": "DLG-VLA01-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-01",
-          "text_vi": "Hôm nay tôi nhìn rau khác trước một chút. Chợ lần tới chắc lại có chuyện để cãi.",
+          "text_vi": "Tôi vẫn còn muốn thử một kiểu chọn rau khác.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA01-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Tôi với Felix tự chọn giỏ rồi. Hai đứa vẫn không thống nhất màu nào đẹp hơn.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA01-QF-V2",
@@ -226,22 +292,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA01-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA01-QF-V2-DECLINE",
             "action_ref": "VLA01-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA01-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA01-QF-V2-MENU"
       },
       "lines": [
         {
@@ -256,7 +326,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA01-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA01-QF-V2-DECLINE",
@@ -280,8 +350,11 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:plot_trial_reviewed_and_shared_use_accepted",
             "all_required_proofs_verified",
-            "outcome_matches:team|compare"
+            "line_assertions_verified",
+            "shared_plot_actual_result_available"
           ],
           "next": "END"
         },
@@ -294,8 +367,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:plot_trial_reviewed_with_poor_growth",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -303,19 +377,45 @@
           "line_id": "DLG-VLA01-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-01",
-          "text_vi": "Nhìn góc vườn kia đi. Giờ tôi không biết trước hôm nay ai sẽ ghé, thế mà lại vui.",
+          "text_vi": "Góc vườn ấy khiến tôi có nhiều thứ để quan sát hơn.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA01-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Tôi đang thử một góc nhỏ với người nào muốn ghé. Chưa vội kết luận gì.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA04-Q1-V2",
@@ -331,22 +431,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA04-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA04-Q1-V2-DECLINE",
             "action_ref": "VLA04-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA04-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA04-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -361,7 +465,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA04-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA04-Q1-V2-DECLINE",
@@ -385,8 +489,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:cart_safety_test_passed",
             "all_required_proofs_verified",
-            "outcome_matches:wheel|frame"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -399,8 +505,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:cart_safety_test_failed",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -408,19 +515,45 @@
           "line_id": "DLG-VLA04-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-04",
-          "text_vi": "Chiếc xe hôm trước vẫn dùng được nếu đã qua kiểm. Hugo đã thôi đổ lỗi cho nó chưa thì tôi không biết.",
+          "text_vi": "Hugo lại ghé hỏi về cái xe. Anh ấy không chịu ngồi yên được lâu.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA04-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Hugo với tôi tự kiểm cái xe. Xe chưa đạt thì cứ để ở đây.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA04-Q2-V2",
@@ -436,22 +569,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA04-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA04-Q2-V2-DECLINE",
             "action_ref": "VLA04-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA04-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA04-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -466,7 +603,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA04-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA04-Q2-V2-DECLINE",
@@ -490,8 +627,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:bridge_safety_inspection_passed",
             "all_required_proofs_verified",
-            "outcome_matches:material|route"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -504,8 +643,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:bridge_safety_inspection_failed",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -513,19 +653,45 @@
           "line_id": "DLG-VLA04-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-04",
-          "text_vi": "Đi qua cầu, cậu có thấy đoạn gỗ mới không? Nó sẽ sẫm màu dần.",
+          "text_vi": "Tiếng gỗ ở cây cầu ấy làm tôi nhớ đợt kiểm vừa rồi.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA04-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Nhóm sửa cầu tự lo phần việc. Cứ theo lối đang mở, đừng thử chỗ còn cảnh báo.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA04-QF-V2",
@@ -541,22 +707,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA04-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA04-QF-V2-DECLINE",
             "action_ref": "VLA04-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA04-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA04-QF-V2-MENU"
       },
       "lines": [
         {
@@ -571,7 +741,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA04-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA04-QF-V2-DECLINE",
@@ -595,8 +765,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:cart_course_verified_and_design_safety_passed",
             "all_required_proofs_verified",
-            "outcome_matches:stable|light"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -609,8 +781,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:cart_course_verified_and_design_failed",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -618,19 +791,45 @@
           "line_id": "DLG-VLA04-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-04",
-          "text_vi": "Hugo cứ nhắc chuyện thử xe. Tôi nghĩ anh ấy thích cuộc thi hơn cái xe.",
+          "text_vi": "Hugo lại muốn thử xe. Lần này tôi bảo phải xem bánh trước.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA04-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Tôi tự thử xe với Hugo, có vài chỗ vẫn cần xem lại.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA06-Q1-V2",
@@ -646,22 +845,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA06-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA06-Q1-V2-DECLINE",
             "action_ref": "VLA06-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA06-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA06-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -676,7 +879,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA06-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA06-Q1-V2-DECLINE",
@@ -700,8 +903,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:tasting_guess_correct_verified",
             "all_required_proofs_verified",
-            "outcome_matches:correct"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -714,8 +919,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:wrong"
+            "current_quest_attempt_matches",
+            "verified_fact:tasting_guess_wrong_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -723,19 +929,45 @@
           "line_id": "DLG-VLA06-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-06",
-          "text_vi": "Felix vẫn chưa chịu thôi kể về lượt nếm ấy.",
+          "text_vi": "Felix vẫn hay nhận xét món của tôi trước khi nếm.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA06-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Felix đã thử đoán rồi. Tôi không nghĩ anh ấy tự tin như trước nữa.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA06-Q2-V2",
@@ -751,22 +983,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA06-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA06-Q2-V2-DECLINE",
             "action_ref": "VLA06-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA06-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA06-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -781,7 +1017,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA06-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA06-Q2-V2-DECLINE",
@@ -805,8 +1041,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:original_entry_found_verified",
             "all_required_proofs_verified",
-            "outcome_matches:recover"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -819,8 +1057,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:fallback|withdraw"
+            "current_quest_attempt_matches",
+            "verified_fact:original_entry_missed_judging_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -828,19 +1067,60 @@
           "line_id": "DLG-VLA06-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-06",
-          "text_vi": "Tôi vẫn nhớ lần món ăn biến mất. Từ hôm đó tôi ghi tên gian rõ hơn.",
+          "text_vi": "Từ hôm món ấy biến mất, tôi để ý nhãn gian hơn.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA06-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Ban tổ chức đã tự kiểm chuyện cái đĩa. Tôi sẽ hỏi họ kết quả, không đoán nữa.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA06-Q2-V2-FALLBACK",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Món dự phòng đã vào bàn chấm. Lần này không đúng kế hoạch, nhưng ít nhất mình vẫn có thứ để dự thi.",
+          "trigger": "player_reports_verified_result",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "current_quest_attempt_matches",
+            "fallback_entry_verified",
+            "fallback_entry_submitted_for_judging_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA06-QF-V2",
@@ -856,22 +1136,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA06-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA06-QF-V2-DECLINE",
             "action_ref": "VLA06-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA06-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA06-QF-V2-MENU"
       },
       "lines": [
         {
@@ -886,7 +1170,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA06-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA06-QF-V2-DECLINE",
@@ -910,8 +1194,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:entry_score_verified_and_player_won_or_trial_accepted",
             "all_required_proofs_verified",
-            "outcome_matches:familiar|bold"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -924,8 +1210,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:entry_score_verified_and_player_did_not_win_or_trial_rejected",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -933,19 +1220,45 @@
           "line_id": "DLG-VLA06-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-06",
-          "text_vi": "Tôi đang nghĩ biến thể khác cho lần sau. Không phải vì thua đâu... có lẽ một chút.",
+          "text_vi": "Tôi đang nghĩ tới một biến thể nữa. Chưa chắc Felix sẽ thích.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA06-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Tôi tự thử một mẫu nhỏ. Lần này tôi muốn nếm trước khi hỏi người khác.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA09-Q1-V2",
@@ -961,22 +1274,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA09-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA09-Q1-V2-DECLINE",
             "action_ref": "VLA09-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA09-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA09-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -991,7 +1308,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA09-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA09-Q1-V2-DECLINE",
@@ -1015,8 +1332,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:trail_match_verified",
             "all_required_proofs_verified",
-            "outcome_matches:matched"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1029,8 +1348,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:uncertain"
+            "current_quest_attempt_matches",
+            "verified_fact:trail_uncertain_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1038,19 +1358,45 @@
           "line_id": "DLG-VLA09-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-09",
-          "text_vi": "Dấu cũ hôm trước đã mờ rồi. Rừng chẳng giữ nguyên một bài kiểm tra cho ai.",
+          "text_vi": "Dấu trên đất không ở mãi một chỗ đâu.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA09-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tôi tự đi kiểm mấy dấu ở lối rừng. Chúng đã thay đổi rồi.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA09-Q2-V2",
@@ -1066,22 +1412,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA09-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA09-Q2-V2-DECLINE",
             "action_ref": "VLA09-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA09-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA09-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -1096,7 +1446,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA09-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA09-Q2-V2-DECLINE",
@@ -1120,8 +1470,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:search_resolved_and_player_contribution_verified",
             "all_required_proofs_verified",
-            "outcome_matches:find|support"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1134,8 +1486,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:standdown"
+            "current_quest_attempt_matches",
+            "verified_fact:search_resolved_by_others_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1143,19 +1496,45 @@
           "line_id": "DLG-VLA09-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-09",
-          "text_vi": "Lối rừng vẫn mở. Lần tới cứ nhớ những điểm mình đã kiểm.",
+          "text_vi": "Lối về là thứ cần nhớ nhất trong những buổi đi như thế.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA09-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Nhóm đã tự kiểm tuyến và kết thúc việc tìm. Không cần chạy thêm vào rừng.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA09-QF-V2",
@@ -1171,22 +1550,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA09-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA09-QF-V2-DECLINE",
             "action_ref": "VLA09-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA09-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA09-QF-V2-MENU"
       },
       "lines": [
         {
@@ -1201,7 +1584,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA09-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA09-QF-V2-DECLINE",
@@ -1225,8 +1608,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:all_markers_verified_and_safe_return",
             "all_required_proofs_verified",
-            "outcome_matches:all"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1239,8 +1624,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:partial"
+            "current_quest_attempt_matches",
+            "verified_fact:partial_markers_verified_and_safe_return",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1248,19 +1634,45 @@
           "line_id": "DLG-VLA09-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-09",
-          "text_vi": "Tôi vẫn giữ tuyến thử ấy cho ai thích đi rừng. Không phải lúc nào cũng cần tổ chức thi.",
+          "text_vi": "Tôi thích tuyến có vài chỗ buộc người ta phải nhìn kỹ.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA09-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tôi tự kiểm lại tuyến thử. Ai muốn đi cứ ghé khi phù hợp.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA13-Q1-V2",
@@ -1276,22 +1688,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA13-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA13-Q1-V2-DECLINE",
             "action_ref": "VLA13-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA13-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA13-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -1306,7 +1722,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA13-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA13-Q1-V2-DECLINE",
@@ -1330,8 +1746,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:flag_trial_and_display_passed",
             "all_required_proofs_verified",
-            "outcome_matches:bold|simple"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1344,8 +1762,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:flag_trial_failed",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1353,19 +1772,45 @@
           "line_id": "DLG-VLA13-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-13",
-          "text_vi": "Cái cờ hôm trước vẫn nằm trong nhóm mẫu của tôi.",
+          "text_vi": "Tôi đang nghĩ thêm một cách ghép màu cho lá cờ ấy.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA13-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi tự thử hai mẫu. Chưa cái nào đạt thì tôi vẫn để chúng ở bàn.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA13-Q2-V2",
@@ -1381,22 +1826,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA13-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA13-Q2-V2-DECLINE",
             "action_ref": "VLA13-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA13-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA13-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -1411,7 +1860,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA13-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA13-Q2-V2-DECLINE",
@@ -1435,8 +1884,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:craft_item_found_verified",
             "all_required_proofs_verified",
-            "outcome_matches:found"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1449,8 +1900,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:unresolved"
+            "current_quest_attempt_matches",
+            "verified_fact:craft_item_unresolved_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1458,19 +1910,45 @@
           "line_id": "DLG-VLA13-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-13",
-          "text_vi": "Tessa hôm nay lại làm một mẫu mới. Tôi nghĩ lần này nên để cô ấy tự chọn.",
+          "text_vi": "Tessa lại thử một mẫu mới. Tôi muốn xem cô ấy chọn gì.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA13-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi tự hỏi người tổ chức về món bị chuyển nhầm. Chưa có chứng cứ thì chưa kết luận.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA13-QF-V2",
@@ -1486,22 +1964,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA13-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA13-QF-V2-DECLINE",
             "action_ref": "VLA13-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA13-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA13-QF-V2-MENU"
       },
       "lines": [
         {
@@ -1516,7 +1998,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA13-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA13-QF-V2-DECLINE",
@@ -1540,8 +2022,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:shared_display_accepted",
             "all_required_proofs_verified",
-            "outcome_matches:mixed|pattern"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1554,8 +2038,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:combined_display_trial_rejected",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1563,19 +2048,45 @@
           "line_id": "DLG-VLA13-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-13",
-          "text_vi": "Lần sau tôi muốn có thêm màu lạ. Trước đây tôi sẽ không nói vậy đâu.",
+          "text_vi": "Lần sau tôi muốn thử thêm màu lạ.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA13-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Tôi tự ghép vài mẫu với những người muốn góp. Chưa xong thì thử tiếp.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA15-Q1-V2",
@@ -1591,22 +2102,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA15-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA15-Q1-V2-DECLINE",
             "action_ref": "VLA15-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA15-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA15-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -1621,7 +2136,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA15-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA15-Q1-V2-DECLINE",
@@ -1645,8 +2160,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:seed_identity_verified",
             "all_required_proofs_verified",
-            "outcome_matches:identified"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1659,8 +2176,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:unknown"
+            "current_quest_attempt_matches",
+            "verified_fact:seed_unknown_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1668,19 +2186,45 @@
           "line_id": "DLG-VLA15-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-15",
-          "text_vi": "Tôi đã để hũ ấy vào đúng nhóm nếu xác minh xong. Mấy hũ chưa rõ vẫn ở riêng.",
+          "text_vi": "Cái nhãn ấy nhắc tôi đừng tin chữ viết hơn thứ trước mắt.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA15-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi tự đối chiếu lại. Mẫu chưa xác định vẫn để riêng.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA15-Q2-V2",
@@ -1696,22 +2240,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA15-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA15-Q2-V2-DECLINE",
             "action_ref": "VLA15-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA15-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA15-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -1726,7 +2274,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA15-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA15-Q2-V2-DECLINE",
@@ -1750,8 +2298,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:comparison_verified_two_real_snapshots",
             "all_required_proofs_verified",
-            "outcome_matches:garden|lake"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1764,8 +2314,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:comparison_incomplete_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1773,19 +2324,45 @@
           "line_id": "DLG-VLA15-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-15",
-          "text_vi": "Tôi vẫn xem lại trang ghi chép ấy. Mỗi lần đọc lại thấy thêm một điều.",
+          "text_vi": "Cuốn sổ hôm ấy vẫn còn chỗ ghi thêm.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA15-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi tự ghi thêm một lượt ở vườn. Còn những nơi chưa tới thì để trống.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA15-QF-V2",
@@ -1801,22 +2378,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA15-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA15-QF-V2-DECLINE",
             "action_ref": "VLA15-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA15-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA15-QF-V2-MENU"
       },
       "lines": [
         {
@@ -1831,7 +2412,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA15-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA15-QF-V2-DECLINE",
@@ -1855,8 +2436,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:puzzle_review_accepted",
             "all_required_proofs_verified",
-            "outcome_matches:short|layered"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1869,8 +2452,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:puzzle_clue_review_rejected",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1878,19 +2462,45 @@
           "line_id": "DLG-VLA15-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-15",
-          "text_vi": "Tôi để bản thử ở chỗ ghi chép. Ai thích thì làm, không phải bài kiểm tra bắt buộc.",
+          "text_vi": "Tôi muốn người đọc tự phát hiện đáp án thay vì chờ tôi giải thích.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA15-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi tự làm một bản thử rồi. Còn phải xem gợi ý có dễ hiểu không.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA18-Q1-V2",
@@ -1906,22 +2516,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA18-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA18-Q1-V2-DECLINE",
             "action_ref": "VLA18-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA18-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA18-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -1936,7 +2550,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA18-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA18-Q1-V2-DECLINE",
@@ -1960,8 +2574,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:route_trial_result_valid",
             "all_required_proofs_verified",
-            "outcome_matches:short|steady"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1974,8 +2590,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:route_trial_missing_markers_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -1983,19 +2600,45 @@
           "line_id": "DLG-VLA18-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-18",
-          "text_vi": "Hugo vẫn còn nhắc đường tắt. Tôi đang chờ dịp thử lại.",
+          "text_vi": "Hugo vẫn nhắc chuyện đường tắt. Tôi chưa định đầu hàng đâu.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA18-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Tôi với Hugo tự đi thử. Chúng tôi lại có thêm chuyện để tranh luận.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA18-Q2-V2",
@@ -2011,22 +2654,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA18-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA18-Q2-V2-DECLINE",
             "action_ref": "VLA18-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA18-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA18-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -2041,7 +2688,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA18-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA18-Q2-V2-DECLINE",
@@ -2065,8 +2712,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:trial_delivery_intact_verified",
             "all_required_proofs_verified",
-            "outcome_matches:careful"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2079,8 +2728,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:retry"
+            "current_quest_attempt_matches",
+            "verified_fact:trial_delivery_failed_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2088,19 +2738,45 @@
           "line_id": "DLG-VLA18-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-18",
-          "text_vi": "Tôi còn để bản ghi chuyến thử ở góc chuẩn bị. Chưa có hàng đi làng khác đâu.",
+          "text_vi": "Tôi vẫn muốn thử một lượt đường dài hơn trong vùng này.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA18-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hugo với tôi đã tự kiểm kiện mẫu. Chưa có chuyến sang làng khác.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA18-QF-V2",
@@ -2116,22 +2792,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA18-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA18-QF-V2-DECLINE",
             "action_ref": "VLA18-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA18-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA18-QF-V2-MENU"
       },
       "lines": [
         {
@@ -2146,7 +2826,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA18-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA18-QF-V2-DECLINE",
@@ -2170,8 +2850,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:return_guide_verified",
             "all_required_proofs_verified",
-            "outcome_matches:forest|lake"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2184,8 +2866,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:return_route_incomplete_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2193,19 +2876,45 @@
           "line_id": "DLG-VLA18-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-18",
-          "text_vi": "Tôi giữ bản chỉ dẫn tuyến đó ở góc chuẩn bị. Có đường về rồi, còn nhiều chỗ để khám phá.",
+          "text_vi": "Tôi cứ nghĩ thêm nơi muốn đi, rồi lại nghĩ đến lối về.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA18-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Tôi tự ghi lại vài mốc trên tuyến quen. Cậu có thể xem lúc rảnh.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA23-Q1-V2",
@@ -2221,22 +2930,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA23-Q1:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA23-Q1-V2-DECLINE",
             "action_ref": "VLA23-Q1:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA23-Q1-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA23-Q1-V2-MENU"
       },
       "lines": [
         {
@@ -2251,7 +2964,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA23-Q1-V2-MENU"
         },
         {
           "line_id": "DLG-VLA23-Q1-V2-DECLINE",
@@ -2275,8 +2988,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:meal_relocation_safe_verified",
             "all_required_proofs_verified",
-            "outcome_matches:continue"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2289,8 +3004,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:postpone"
+            "current_quest_attempt_matches",
+            "verified_fact:meal_postponed_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2298,19 +3014,45 @@
           "line_id": "DLG-VLA23-Q1-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-23",
-          "text_vi": "Lần sau tôi sẽ xem chỗ trú trước khi bày đồ ra.",
+          "text_vi": "Tôi sẽ nhớ xem chỗ trú trước khi bày đồ ngoài trời.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA23-Q1-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Mọi người tự thu xếp đồ rồi. Bữa ăn tiếp tục hay hoãn thì còn tùy chỗ trú.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA23-Q2-V2",
@@ -2326,22 +3068,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA23-Q2:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA23-Q2-V2-DECLINE",
             "action_ref": "VLA23-Q2:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA23-Q2-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA23-Q2-V2-MENU"
       },
       "lines": [
         {
@@ -2356,7 +3102,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA23-Q2-V2-MENU"
         },
         {
           "line_id": "DLG-VLA23-Q2-V2-DECLINE",
@@ -2380,8 +3126,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:meal_layout_result_passed",
             "all_required_proofs_verified",
-            "outcome_matches:accuracy|speed"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2394,8 +3142,9 @@
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "verified_setback_or_nonwinning_result"
+            "current_quest_attempt_matches",
+            "verified_fact:meal_layout_result_below_target",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2403,19 +3152,45 @@
           "line_id": "DLG-VLA23-Q2-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-23",
-          "text_vi": "Hôm nay không thi nữa. Tôi muốn mọi người ăn chậm một chút.",
+          "text_vi": "Hôm nay không thi gì đâu. Cứ ngồi chơi nếu muốn.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA23-Q2-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Tôi tổ chức một lượt thử với người rảnh, không cần cả làng đến.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     },
     {
       "id": "DLG-VLA23-QF-V2",
@@ -2431,22 +3206,26 @@
             "id": "accept",
             "label_vi": "Tôi tham gia.",
             "action_ref": "VLA23-QF:accept",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           },
           {
             "id": "decline",
             "label_vi": "Lần này tôi không tham gia.",
             "line_ref": "DLG-VLA23-QF-V2-DECLINE",
             "action_ref": "VLA23-QF:decline",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "DLG-VLA23-QF-V2-DECLINE"
           },
           {
             "id": "later",
             "label_vi": "Để lúc khác.",
             "action_ref": "END",
-            "auto_speak": false
+            "auto_speak": false,
+            "next": "END"
           }
-        ]
+        ],
+        "id": "DLG-VLA23-QF-V2-MENU"
       },
       "lines": [
         {
@@ -2461,7 +3240,7 @@
             "quest_offer_gate_met",
             "quest_context_verified"
           ],
-          "next": "END"
+          "next": "DLG-VLA23-QF-V2-MENU"
         },
         {
           "line_id": "DLG-VLA23-QF-V2-DECLINE",
@@ -2485,8 +3264,10 @@
           "guards": [
             "npc_present",
             "npc_available",
+            "current_quest_attempt_matches",
+            "verified_fact:shared_activity_verified",
             "all_required_proofs_verified",
-            "outcome_matches:join"
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2495,12 +3276,13 @@
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-23",
           "text_vi": "Cảm ơn cậu đã góp một tay. Cứ đi khám phá đi, tôi sẽ tự chọn phần mình muốn làm.",
-          "trigger": "player_reports_verified_result_or_setback",
+          "trigger": "player_reports_verified_result",
           "guards": [
             "npc_present",
             "npc_available",
-            "outcome_or_setback_verified",
-            "outcome_matches:leave"
+            "current_quest_attempt_matches",
+            "verified_fact:contribution_only_verified",
+            "line_assertions_verified"
           ],
           "next": "END"
         },
@@ -2508,19 +3290,45 @@
           "line_id": "DLG-VLA23-QF-V2-REVISIT",
           "type": "NPC_DIALOGUE",
           "speaker_id": "VLA-23",
-          "text_vi": "Lần đó tôi đã tự chọn làm gì sau khi xong việc. Lần tới chắc cũng vậy.",
+          "text_vi": "Tôi thích ý nghĩ làm xong việc rồi được tự chọn đi đâu.",
           "trigger": "player_selects_revisit_topic",
           "guards": [
             "npc_present",
             "npc_available",
             "quest_resolved",
             "npc_knows_actual_result",
-            "revisit_line_facts_verified"
+            "distinct_return_visit",
+            "line_assertions_verified",
+            "quest.status==completed"
+          ],
+          "next": "END"
+        },
+        {
+          "line_id": "DLG-VLA23-QF-V2-SELF",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Chúng tôi tự chia việc. Khi xong phần mình, tôi cũng muốn đi chơi một lát.",
+          "trigger": "player_selects_revisit_topic",
+          "guards": [
+            "npc_present",
+            "npc_available",
+            "quest.status==resolved_without_player",
+            "npc_resolution_verified",
+            "distinct_return_visit",
+            "line_assertions_verified"
           ],
           "next": "END"
         }
       ],
-      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context."
+      "selection_policy": "Choose exactly one eligible line. Any factual assertion requires verified fact; if unbound do not speak. No old line fallback with mismatched context.",
+      "runtime_policy": {
+        "line_assertions": "TO_BIND; writer's factual constraints, not generic always true",
+        "result_facts_exclusive_for_same_report": true,
+        "if_neither_verified": "no_result_line; keep context",
+        "self_revisit_only": "SELF",
+        "completed_revisit_only": "REVISIT",
+        "no_automatic_sequence": true
+      }
     }
   ]
 }
