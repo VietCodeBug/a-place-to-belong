@@ -4,6 +4,8 @@
 
 **Tài liệu quy chuẩn:** [Narrative Design System](../production/NARRATIVE_DESIGN_SYSTEM_STANDARD_V1.md) · [Hunting gốc](../activities/hunting-v0.md) · [Bản đồ A1/hồ đã duyệt](../locations/a1-approved-exploration-v0.md) · [Hội thoại handoff](../production/narrative-dialogue-handoff-contract-v1.md).
 
+> **BẢN V2 ĐÃ TÁCH RIÊNG:** [EVENT ONLY](A1_EVENT_SCRIPTS_V2.md) và [DIALOGUE ONLY](../dialogue/A1_EVENT_DIALOGUE_V2.md). V1 là nguồn ý tưởng, không dùng song song như hai nguồn trigger runtime.
+
 ## 1. Chẩn đoán vấn đề: có 'đời sống' nhưng chưa có 'điều đáng chờ'
 
 24 nhiệm vụ đầu tiên quá thiên về việc chăm, sửa, sắp xếp. Những việc ấy **đúng làm nhịp nền**, nhưng không nên chiếm toàn bộ trải nghiệm. Game cần cảm giác **hôm nay có thể xảy ra một điều không ngờ tới**, có lúc vui và náo nhiệt, có lúc căng thẳng trong rừng, rồi mới trở về sự bình yên. Trò chơi có thể ấm áp **mà không buồn ngủ**: lễ hội có thi đua; cuộc săn có lần dấu, phán đoán và bỏ lỡ; mưa có lựa chọn đổi tuyến; NPC có mâu thuẫn và câu chuyện tồn tại qua nhiều ngày.
