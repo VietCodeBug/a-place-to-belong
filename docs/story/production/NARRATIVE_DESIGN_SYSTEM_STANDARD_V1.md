@@ -116,6 +116,9 @@ Mỗi sự kiện cần khai báo:
 
 ## 7. RANH GIỚI TUYỆT ĐỐI: LỜI DẪN KHÔNG PHẢI THOẠI
 
+**BỔ SUNG V2 — tách FILE, không chỉ tách nhãn:** EVENT chỉ chứa diễn biến/điều kiện/hành động/trạng thái; DIALOGUE chứa line và nhánh lựa chọn hội thoại. Event không gọi thoại để tự hoàn thành; dialogue không tự chuyển trạng thái event. Hội thoại thường ngày được phát độc lập, NPC có thể nói chuyện mà không giao việc. Thoại event chỉ tham chiếu event_id + occurrence_id và kết quả đã xác minh. Xem [event V2](../events/A1_EVENT_SCRIPTS_V2.md), [thoại 30 NPC](../dialogue/VILLAGE_A_DIALOGUE_BANK_V2.md), [thoại theo event](../dialogue/A1_EVENT_DIALOGUE_V2.md), [đối thoại phân nhánh](../dialogue/VILLAGE_A_BRANCHING_DIALOGUE_V2.md). Các câu và tình tiết V2 đều là nháp; không được thay thoại canon Thomas. Nếu thiếu guard hoặc presence, không phát thoại. Các câu có chi tiết không được kiểm chứng cần chọn fallback khác.
+
+
 | Nhãn loại nội dung | Ví dụ | Hiển thị thành thoại NPC? |
 |---|---|---|
 | **SCENE_CONTEXT** | “Rowan đang nhìn vệt đất ẩm cạnh lối đi.” | **KHÔNG** |
