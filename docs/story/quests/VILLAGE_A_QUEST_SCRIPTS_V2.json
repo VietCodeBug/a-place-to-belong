@@ -99,13 +99,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA01-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -134,7 +140,30 @@
         "VLA01-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "animal_seen_and_cause_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "no_sighting_but_crop_protected",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA01-Q2",
@@ -236,13 +265,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA01-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -271,7 +306,30 @@
         "VLA01-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "entry_judged_verified_and_win_or_trial_positive",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "entry_judged_verified_nonwinning",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA01-QF",
@@ -374,13 +432,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA01-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -409,7 +473,30 @@
         "VLA01-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "plot_trial_reviewed_and_shared_use_accepted",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "plot_trial_reviewed_with_poor_growth",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA04-Q1",
@@ -508,13 +595,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA04-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -543,7 +636,30 @@
         "VLA04-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "cart_safety_test_passed",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "cart_safety_test_failed",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA04-Q2",
@@ -645,13 +761,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA04-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -680,7 +802,30 @@
         "VLA04-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "bridge_safety_inspection_passed",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "bridge_safety_inspection_failed",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA04-QF",
@@ -783,13 +928,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA04-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -818,7 +969,30 @@
         "VLA04-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "cart_course_verified_and_design_safety_passed",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "cart_course_verified_and_design_failed",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA06-Q1",
@@ -917,13 +1091,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA06-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -952,7 +1132,30 @@
         "VLA06-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "tasting_guess_correct_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "tasting_guess_wrong_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA06-Q2",
@@ -1066,13 +1269,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA06-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1101,7 +1310,37 @@
         "VLA06-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "original_entry_found_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "original_entry_missed_judging_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object.",
+        "additional": [
+          {
+            "fact_ref": "fallback_entry_submitted_for_judging_verified",
+            "binding": "TO_BIND",
+            "line_ref": "DLG-VLA06-Q2-V2-FALLBACK"
+          }
+        ]
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA06-QF",
@@ -1204,13 +1443,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA06-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1239,7 +1484,30 @@
         "VLA06-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "entry_score_verified_and_player_won_or_trial_accepted",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "entry_score_verified_and_player_did_not_win_or_trial_rejected",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA09-Q1",
@@ -1339,13 +1607,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA09-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1374,7 +1648,30 @@
         "VLA09-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "trail_match_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "trail_uncertain_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA09-Q2",
@@ -1488,13 +1785,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA09-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1523,7 +1826,35 @@
         "VLA09-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "search_resolved_and_player_contribution_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "search_resolved_by_others_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object.",
+        "mode_required": [
+          "real_search",
+          "drill"
+        ],
+        "no_real_missing_person_in_drill": true
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA09-QF",
@@ -1627,13 +1958,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA09-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1662,7 +1999,30 @@
         "VLA09-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "all_markers_verified_and_safe_return",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "partial_markers_verified_and_safe_return",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA13-Q1",
@@ -1762,13 +2122,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA13-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1797,7 +2163,30 @@
         "VLA13-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "flag_trial_and_display_passed",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "flag_trial_failed",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA13-Q2",
@@ -1899,13 +2288,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA13-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -1934,7 +2329,30 @@
         "VLA13-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "craft_item_found_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "craft_item_unresolved_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA13-QF",
@@ -2037,13 +2455,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA13-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2072,7 +2496,30 @@
         "VLA13-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "shared_display_accepted",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "combined_display_trial_rejected",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA15-Q1",
@@ -2169,13 +2616,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA15-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2204,7 +2657,30 @@
         "VLA15-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "seed_identity_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "seed_unknown_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA15-Q2",
@@ -2307,13 +2783,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA15-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2342,7 +2824,30 @@
         "VLA15-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "comparison_verified_two_real_snapshots",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "comparison_incomplete_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA15-QF",
@@ -2445,13 +2950,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA15-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2480,7 +2991,30 @@
         "VLA15-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "puzzle_review_accepted",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "puzzle_clue_review_rejected",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA18-Q1",
@@ -2579,13 +3113,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA18-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2614,7 +3154,30 @@
         "VLA18-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "route_trial_result_valid",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "route_trial_missing_markers_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA18-Q2",
@@ -2716,13 +3279,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA18-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2751,7 +3320,30 @@
         "VLA18-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "trial_delivery_intact_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "trial_delivery_failed_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA18-QF",
@@ -2855,13 +3447,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA18-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -2890,7 +3488,30 @@
         "VLA18-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "return_guide_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "return_route_incomplete_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA23-Q1",
@@ -2989,13 +3610,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA23-Q1.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -3024,7 +3651,30 @@
         "VLA23-Q1-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "meal_relocation_safe_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "meal_postponed_verified",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA23-Q2",
@@ -3126,13 +3776,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA23-Q2.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -3161,7 +3817,30 @@
         "VLA23-Q2-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "meal_layout_result_passed",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "meal_layout_result_below_target",
+          "binding": "TO_BIND"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     },
     {
       "quest_id": "VLA23-QF",
@@ -3266,13 +3945,19 @@
       "completion": {
         "requires": [
           "explicit_player_acceptance",
-          "all_three_step_proofs_for_current_attempt",
-          "exactly_one_applicable_option_proof",
-          "npc_or_gameplay_result_confirmed"
+          "all_required_step_proofs_for_current_attempt",
+          "branch_specific_evidence_verified",
+          "quest_specific_terminal_result_verified"
         ],
         "status": "completed",
         "outcome_flag": "quest.VLA23-QF.outcome_id",
-        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified."
+        "note": "Completion records attempt/contribution, not automatic victory; safety failures may require retry or defer as specified.",
+        "blocked_if": [
+          "any_required_proof_missing",
+          "safety_or_required_action_pending",
+          "quest_context_no_longer_valid_and_no_approved_fallback"
+        ],
+        "resolution_note": "A verified terminal nonwinning/partial result may close a challenge as completed, but never as a win; unfinished safety-critical work stays in_progress or is resolved_without_player with correct credit. Other results remain in_progress until verified."
       },
       "branches": {
         "declined": {
@@ -3301,7 +3986,31 @@
         "VLA23-QF-D1"
       ],
       "never_play_legacy_offer_in_v2_context": true,
-      "unbound_runtime": "TO_BIND"
+      "unbound_runtime": "TO_BIND",
+      "result_contract": {
+        "positive": {
+          "fact_ref": "shared_activity_verified",
+          "binding": "TO_BIND"
+        },
+        "alternative_or_setback": {
+          "fact_ref": "contribution_only_verified",
+          "binding": "TO_BIND",
+          "meaning": "valid completion by contribution without attending together; not a failure"
+        },
+        "unverified": "do_not_finalize_or_play_result_line",
+        "status_independent_of_result": true,
+        "notes": "Facts must be mutually consistent for the current attempt. Use a positive/alternative result only if its particular evidence is true; where neither is true no result line. A failed safety test must never be credited as a repaired object."
+      },
+      "flow": {
+        "offer": "locked_or_available -> offered only if existing gate passes",
+        "accept": "offered -> in_progress",
+        "decline": "offered -> declined",
+        "later": "offered -> available",
+        "pause": "in_progress -> in_progress",
+        "report": "in_progress -> completed only if completion.requires and no block",
+        "npc_resolution": "available/declined/in_progress -> resolved_without_player only upon verified NPC resolution; preserve partial contribution separately without claiming completion",
+        "dialogue_is_read_only": true
+      }
     }
   ]
 }
