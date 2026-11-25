@@ -24,8 +24,10 @@
 | DIALOGUE đời thường | [30 NPC](dialogue/VILLAGE_A_DIALOGUE_BANK_V2.md) · [JSON](dialogue/VILLAGE_A_DIALOGUE_BANK_V2.json) | 128 câu thoại, chủ đề cá nhân, nghỉ ngơi, gặp lại; không tạo quest |
 | DIALOGUE phản ứng event | [24 event](dialogue/A1_EVENT_DIALOGUE_V2.md) · [JSON](dialogue/A1_EVENT_DIALOGUE_V2.json) | 70 câu, kiểm occurrence và kết quả thực tế; không tiến triển event |
 | DIALOGUE phân nhánh | [8 cuộc trò chuyện + 4 đoạn NPC tự trò chuyện](dialogue/VILLAGE_A_BRANCHING_DIALOGUE_V2.md) · [JSON](dialogue/VILLAGE_A_BRANCHING_DIALOGUE_V2.json) | 40 câu, lựa chọn và đối đáp; không bắt A nói hoặc làm nhiệm vụ |
+| QUEST | [24 nhiệm vụ viết lại](quests/VILLAGE_A_QUEST_SCRIPTS_V2.md) · [JSON](quests/VILLAGE_A_QUEST_SCRIPTS_V2.json) | 72 bước chơi, 50 nhánh, kết quả phải xác minh; không chứa thoại |
+| DIALOGUE nhiệm vụ | [Thoại nhiệm vụ V2](dialogue/VILLAGE_A_QUEST_DIALOGUE_V2.md) · [JSON](dialogue/VILLAGE_A_QUEST_DIALOGUE_V2.json) | 145 câu có trigger, nhánh kết quả, từ chối và NPC tự xử lý; không điều khiển tiến độ |
 
-**Quy tắc chuyển đổi:** các bản V0/V1 vẫn là nguồn tham khảo lịch sử; với phạm vi 24 event và hội thoại mới, ưu tiên V2 sau khi creator duyệt. Không đọc cả bank như văn bản tuần tự. Chỉ hiển thị line được chọn và đúng guard. Nếu guard chưa bind, không phát. 24 quest Q1/Q2/QF cũ vẫn tồn tại, chưa được viết lại toàn bộ theo event mới. Thomas CH01-003 và thoại gốc CH01-007 giữ nguyên. Tất cả event signal và vị trí chưa bind phải được dev kiểm chứng.
+**Quy tắc chuyển đổi:** các bản V0/V1 vẫn là nguồn tham khảo lịch sử. 24 quest quan hệ đã có bản V2 thay thế đề xuất; **chỉ chọn một phiên bản cho một quest ID sau khi duyệt**, không chạy song song V1/V2. Giữ ID, gate quan hệ, bond và thoại Thomas CH01-003/CH01-007. Không đọc cả ngân hàng như văn bản tuần tự. Các lựa chọn của A là menu. Chỉ hiển thị line được chọn khi đúng guard, NPC hiện diện và dữ kiện đã xác minh. `TO_BIND` không được xem là true. Sự kiện không phụ thuộc quest hoặc thoại. Các kịch bản V2 là DRAFT, chưa engine binding/kiểm thử Godot.
 
 ## Tài liệu
 
