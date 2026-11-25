@@ -1,0 +1,875 @@
+{
+  "schema": "apb.dialogue_branch_authoring.v2",
+  "status": "DRAFT_STORY",
+  "scope": "optional nonquest conversations, no event progression",
+  "groups": [
+    {
+      "id": "DLG-VLA01-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Cây hay người khó chiều hơn?",
+      "area_ref": "west_garden",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_near_garden"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA01-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Cậu nhìn cái luống này xem. Chăm cây có một điểm dễ hơn chăm người: chúng không giả vờ là mình không cần nước.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_near_garden"
+          ],
+          "next": "DLG-VLA01-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA01-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA01-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Vậy cô dễ hiểu hơn cái cây chứ?",
+              "auto_speak": false,
+              "next": "DLG-VLA01-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Cô có thích trồng gì ngoài rau không?",
+              "auto_speak": false,
+              "next": "DLG-VLA01-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA01-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Tùy ngày. Hôm nay hỏi lại sau khi tôi uống nước đã.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_near_garden"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA01-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Có chứ. Có hôm tôi chỉ muốn trồng một thứ chẳng cần thu hoạch.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_near_garden"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA04-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Một ngày không sửa gì",
+      "area_ref": "craft_yard",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_not_using_tools"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA04-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Cậu nghe thấy gì không? Không có tiếng cưa. Tôi đang thử xem một ngày như vậy sẽ thế nào.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_not_using_tools"
+          ],
+          "next": "DLG-VLA04-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA04-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA04-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Chắc cái ghế cũng được nghỉ.",
+              "auto_speak": false,
+              "next": "DLG-VLA04-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Ông thường làm gì vào ngày nghỉ?",
+              "auto_speak": false,
+              "next": "DLG-VLA04-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA04-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Ừ. Nó không phải làm việc với tôi nữa.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_not_using_tools"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA04-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Đi bộ. Đôi lúc nhìn những món đồ mình chẳng có ý định sửa.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_not_using_tools"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA06-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Món bánh đáng ngờ",
+      "area_ref": "central_square",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_has_time_to_chat"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA06-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Felix bảo bánh của tôi có hình dạng rất sáng tạo. Cậu nghe có giống lời khen không?",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_has_time_to_chat"
+          ],
+          "next": "DLG-VLA06-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA06-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA06-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Nghe giống cách nói lịch sự của người sợ bị mời ăn thêm.",
+              "auto_speak": false,
+              "next": "DLG-VLA06-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Cô thích thử món mới hay món quen hơn?",
+              "auto_speak": false,
+              "next": "DLG-VLA06-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA06-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Đấy! Tôi cũng nghĩ vậy. Lần sau tôi sẽ hỏi thẳng.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_has_time_to_chat"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA06-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Món mới, nếu không có người đứng sau lưng đếm từng phút.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_has_time_to_chat"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA09-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Đi mà không có đích",
+      "area_ref": "forest_path",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_safe_path"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA09-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Hôm nay tôi đã đi hết một đoạn đường rồi lại quay về. Không có cành nào cần dọn cả.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_safe_path"
+          ],
+          "next": "DLG-VLA09-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA09-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA09-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Vậy là một buổi làm việc thất bại?",
+              "auto_speak": false,
+              "next": "DLG-VLA09-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Ông thích đoạn đường nào nhất?",
+              "auto_speak": false,
+              "next": "DLG-VLA09-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA09-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Không. Một buổi đi dạo thành công.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_safe_path"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA09-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Đoạn mà cây che hết tiếng ở làng. Không phải vì tôi ghét làng đâu.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_safe_path"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA13-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Mũi chỉ lệch",
+      "area_ref": "craft_yard",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_not_using_tools"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA13-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Có một thứ tôi đang thử làm cho vui. Tôi còn chưa biết nó sẽ thành gì.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_not_using_tools"
+          ],
+          "next": "DLG-VLA13-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA13-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA13-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Hay đặt tên trước rồi tính sau?",
+              "auto_speak": false,
+              "next": "DLG-VLA13-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Không có mẫu sẵn à?",
+              "auto_speak": false,
+              "next": "DLG-VLA13-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA13-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Thế thì chắc nó sẽ mang một cái tên rất hay và chẳng có hình dạng gì.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_not_using_tools"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA13-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Không. Lần này tôi muốn thử xem mình chọn gì nếu không phải làm cho người khác.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_not_using_tools"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA15-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Cuốn sổ không ghi hết",
+      "area_ref": "west_garden",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_can_chat"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA15-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi từng ghi một trang dài về một buổi sáng. Đọc lại thì chẳng nhớ hôm đó có đẹp hay không.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_can_chat"
+          ],
+          "next": "DLG-VLA15-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA15-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA15-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Bà nên chừa một ô đánh dấu 'đẹp'.",
+              "auto_speak": false,
+              "next": "DLG-VLA15-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Bà thích nhớ điều gì nhất?",
+              "auto_speak": false,
+              "next": "DLG-VLA15-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA15-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Một ô thôi à? Có lẽ tôi cần thêm ô 'đáng ngồi lại'.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_can_chat"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA15-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Những thứ không nhất thiết phải ghi. Tiếng người đến gần, chẳng hạn.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_can_chat"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA18-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Cuộc tranh luận về lối tắt",
+      "area_ref": "village_square",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_can_chat"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA18-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hugo nói một lối tắt của tôi dài hơn đường chính. Tôi đang cố tìm cách phản bác.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_can_chat"
+          ],
+          "next": "DLG-VLA18-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA18-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA18-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Có lẽ cậu đang đo khoảng cách bằng số câu chuyện.",
+              "auto_speak": false,
+              "next": "DLG-VLA18-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Cậu thích đi một mình hay đi cùng ai đó?",
+              "auto_speak": false,
+              "next": "DLG-VLA18-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA18-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Thế thì tôi thắng chắc. Đường ấy có nhiều chuyện hơn hẳn.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_can_chat"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA18-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Cả hai. Đi một mình dễ đổi hướng. Đi cùng người khác thì có người nhắc mình về đúng giờ.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_can_chat"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-VLA23-V2-TOPIC",
+      "kind": "PLAYER_CONVERSATION",
+      "title_vi": "Một buổi chiều không có việc",
+      "area_ref": "central_square",
+      "trigger": "player_initiates_optional_topic",
+      "guards": [
+        "npc.met",
+        "npc_available_and_currently_resting"
+      ],
+      "starts_quest": false,
+      "repeat_policy": "one_per_distinct_visit_then_rotate",
+      "nodes": [
+        {
+          "id": "DLG-VLA23-V2-TOPIC-OPEN",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Hôm nay tôi đã định ngồi chơi. Rồi tôi mất một lúc nghĩ xem ngồi chơi thì nên làm gì.",
+          "trigger": "player_selects_topic:chat",
+          "guards": [
+            "npc_present",
+            "npc.met",
+            "npc_available_and_currently_resting"
+          ],
+          "next": "DLG-VLA23-V2-TOPIC-MENU"
+        },
+        {
+          "id": "DLG-VLA23-V2-TOPIC-MENU",
+          "type": "PLAYER_CHOICE",
+          "trigger": "after_line:DLG-VLA23-V2-TOPIC-OPEN",
+          "options": [
+            {
+              "id": "joke",
+              "label_vi": "Bà đang làm rất tốt việc ngồi chơi đấy.",
+              "auto_speak": false,
+              "next": "DLG-VLA23-V2-TOPIC-JOKE"
+            },
+            {
+              "id": "curious",
+              "label_vi": "Bà muốn đi đâu nếu có cả buổi chiều rảnh?",
+              "auto_speak": false,
+              "next": "DLG-VLA23-V2-TOPIC-CURIOUS"
+            },
+            {
+              "id": "leave",
+              "label_vi": "Tôi đi dạo tiếp đây.",
+              "auto_speak": false,
+              "next": "END"
+            }
+          ]
+        },
+        {
+          "id": "DLG-VLA23-V2-TOPIC-JOKE",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Cảm ơn. Hiếm có việc nào tôi làm mà được khen ngay như thế.",
+          "trigger": "player_selects_choice:joke",
+          "guards": [
+            "npc_present",
+            "npc_available_and_currently_resting"
+          ],
+          "next": "END"
+        },
+        {
+          "id": "DLG-VLA23-V2-TOPIC-CURIOUS",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Ra chỗ nào nghe thấy người qua lại, nhưng không có ai gọi tôi vào bếp.",
+          "trigger": "player_selects_choice:curious",
+          "guards": [
+            "npc_present",
+            "npc_available_and_currently_resting"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-V2-CHAT-01",
+      "kind": "OVERHEARD_NPC_CHAT",
+      "area_ref": "central_square",
+      "trigger": "npc_pair_conversation_occurs",
+      "guards": [
+        "both_present_and_idle_and_preparing_no_active_event",
+        "no_conflicting_event"
+      ],
+      "starts_quest": false,
+      "player_required": false,
+      "player_can_walk_away": true,
+      "lines": [
+        {
+          "id": "DLG-A1-V2-CHAT-01-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Tôi nghĩ cái túi này vẫn còn chỗ.",
+          "trigger": "conversation_started",
+          "guards": [
+            "both_present_and_idle_and_preparing_no_active_event",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-01-L2"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-01-L2",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Chỗ trống không phải lời mời nhét thêm đồ.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-01-L1",
+          "guards": [
+            "both_present_and_idle_and_preparing_no_active_event",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-01-L3"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-01-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Cậu nói y như cái túi có ý kiến riêng ấy.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-01-L2",
+          "guards": [
+            "both_present_and_idle_and_preparing_no_active_event",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-01-L4"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-01-L4",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Nó có. Lần trước nó đã đứt quai.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-01-L3",
+          "guards": [
+            "both_present_and_idle_and_preparing_no_active_event",
+            "speaker_present"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-V2-CHAT-02",
+      "kind": "OVERHEARD_NPC_CHAT",
+      "area_ref": "central_square",
+      "trigger": "npc_pair_conversation_occurs",
+      "guards": [
+        "both_present_and_idle",
+        "no_conflicting_event"
+      ],
+      "starts_quest": false,
+      "player_required": false,
+      "player_can_walk_away": true,
+      "lines": [
+        {
+          "id": "DLG-A1-V2-CHAT-02-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Anh nếm chưa mà đã gật đầu?",
+          "trigger": "conversation_started",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-02-L2"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-02-L2",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Tôi đang ủng hộ tinh thần.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-02-L1",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-02-L3"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-02-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Thế thì ủng hộ thêm bằng cách nếm đi.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-02-L2",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-02-L4"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-02-L4",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Đấy là chỗ tôi hơi lo.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-02-L3",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-V2-CHAT-03",
+      "kind": "OVERHEARD_NPC_CHAT",
+      "area_ref": "village_forest_edge",
+      "trigger": "npc_pair_conversation_occurs",
+      "guards": [
+        "both_present_and_idle",
+        "no_conflicting_event"
+      ],
+      "starts_quest": false,
+      "player_required": false,
+      "player_can_walk_away": true,
+      "lines": [
+        {
+          "id": "DLG-A1-V2-CHAT-03-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Ông đi cả buổi mà không mang gì về à?",
+          "trigger": "conversation_started",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-03-L2"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-03-L2",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Mang đôi giày đầy đất về.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-03-L1",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-03-L3"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-03-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Thế cũng được. Tôi có thể đan cho ông cái giỏ đựng đất.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-03-L2",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-03-L4"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-03-L4",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Để đất ở chỗ của nó đi.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-03-L3",
+          "guards": [
+            "both_present_and_idle",
+            "speaker_present"
+          ],
+          "next": "END"
+        }
+      ]
+    },
+    {
+      "id": "DLG-A1-V2-CHAT-04",
+      "kind": "OVERHEARD_NPC_CHAT",
+      "area_ref": "safe_public_square",
+      "trigger": "npc_pair_conversation_occurs",
+      "guards": [
+        "both_children_present_and_safe_public_area",
+        "no_conflicting_event"
+      ],
+      "starts_quest": false,
+      "player_required": false,
+      "player_can_walk_away": true,
+      "lines": [
+        {
+          "id": "DLG-A1-V2-CHAT-04-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-08",
+          "text_vi": "Đấy là con gì vậy?",
+          "trigger": "conversation_started",
+          "guards": [
+            "both_children_present_and_safe_public_area",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-04-L2"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-04-L2",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-28",
+          "text_vi": "Con ngựa.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-04-L1",
+          "guards": [
+            "both_children_present_and_safe_public_area",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-04-L3"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-04-L3",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-08",
+          "text_vi": "Sao nó có bánh xe?",
+          "trigger": "after_line:DLG-A1-V2-CHAT-04-L2",
+          "guards": [
+            "both_children_present_and_safe_public_area",
+            "speaker_present"
+          ],
+          "next": "DLG-A1-V2-CHAT-04-L4"
+        },
+        {
+          "id": "DLG-A1-V2-CHAT-04-L4",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-28",
+          "text_vi": "Để chạy nhanh hơn ngựa thường.",
+          "trigger": "after_line:DLG-A1-V2-CHAT-04-L3",
+          "guards": [
+            "both_children_present_and_safe_public_area",
+            "speaker_present"
+          ],
+          "next": "END"
+        }
+      ]
+    }
+  ]
+}
