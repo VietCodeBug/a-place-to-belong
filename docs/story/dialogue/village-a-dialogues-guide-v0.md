@@ -1,3 +1,5 @@
+> **CẬP NHẬT V2:** xem [bank đời thường 30 NPC](VILLAGE_A_DIALOGUE_BANK_V2.md), [bank phản ứng event](A1_EVENT_DIALOGUE_V2.md), [đối thoại phân nhánh](VILLAGE_A_BRANCHING_DIALOGUE_V2.md). Ba bank đều là DRAFT; không tự phát tất cả câu, không đọc event/quest mô tả như lời thoại. Giữ line ID cũ và thoại Thomas đã duyệt.
+
 # Làng A — Bộ hội thoại 30 cư dân (v0, biên kịch)
 
 > **Tình trạng:** 30 hồ sơ nhân vật đã có trong roster, nhưng tên/tuổi/cá tính cụ thể vẫn là **bản đề xuất**. Các câu thoại ở đây cũng là **DRAFT CHƯA DUYỆT**, không giả định đã triển khai. Chỉ Làng A; **chưa viết Làng B**. Thomas ở bìa rừng và **không nằm trong 30 cư dân**.
