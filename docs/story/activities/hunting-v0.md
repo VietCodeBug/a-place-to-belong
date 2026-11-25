@@ -4,6 +4,8 @@
 >
 > **CHƯA CHỐT:** loài thú, số lượng quần thể, mùa, lãnh thổ săn, vũ khí/công cụ, công thức chế biến, hệ tiền tệ, độ chân thực và độ khó. Không tự đưa **thợ săn mới** vào 30 người, không biến Rowan thành thợ săn khi chưa duyệt. Phần dưới là **biên kịch hoạt động và hậu quả**, không phải thiết kế vũ khí hay code combat.
 
+> **MỞ RỘNG BIÊN KỊCH (chưa duyệt nội dung mới):** [Danh mục A1 có 5 tình huống săn/động vật + chuỗi Vết chân qua rừng](../events/A1_HIGH_IMPACT_EVENTS_CATALOG_V1.md). Tài liệu này vẫn là **nguồn quy tắc săn gốc**: tự chọn, không chốt loài/vũ khí/vùng, không bắt trẻ em săn.
+
 ## Vị trí trong thế giới mở
 
 Săn bắn phải là lý do để **đi sâu vào rừng, học đọc môi trường, hiểu hệ động vật và đưa ra lựa chọn**, thay vì một máy tạo nguyên liệu vô hạn. Người chơi có thể:
