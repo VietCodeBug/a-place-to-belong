@@ -1,0 +1,1096 @@
+{
+  "schema": "apb.event_authoring.v2",
+  "status": "draft_not_runtime",
+  "events": [
+    {
+      "id": "EV-A1-FES-001",
+      "title_vi": "Đêm đèn trên mặt hồ",
+      "category": "WORLD",
+      "status": "DRAFT_STORY",
+      "location_ref": "bờ hồ / sân chung",
+      "trigger": {
+        "signal": "scheduled_festival_start",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Lễ hội mở theo lịch, đèn xuất hiện dọc lối xuống hồ; ba đội tự chuẩn bị trạm thi. Trời đổi gió giữa lúc khai hội.",
+      "world_action": {
+        "description_vi": "Đua tìm ba biểu tượng trên các trạm theo gợi ý; mỗi trạm có một biểu tượng giả. Đăng ký hoặc chỉ đi xem. Đội chơi phải tự về trạm chấm kết quả.",
+        "proof_events": [
+          {
+            "signal": "festival_registration",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "checkpoint_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "festival_result_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Chọn đường ngắn khó quan sát hoặc đường dài dễ nhớ; nếu gió mạnh, chuyển sang tuyến sân làng hoặc bỏ phần thi ngoài trời.",
+      "if_absent_vi": "Đội NPC vẫn thi; nếu chuyển nơi, kết quả chỉ tính các trạm hợp lệ ở nơi mới.",
+      "lasting_effect_vi": "Lưu kết quả thật, nơi diễn ra, người tham gia; sáng sau bảng kết quả và đèn được tháo dần.",
+      "linked_event_ids": [
+        "EV-A1-DRM-002",
+        "EV-A1-WRD-003"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "scheduled_occurrence",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-FES-002",
+      "title_vi": "Hội tìm dấu rừng",
+      "category": "WORLD",
+      "status": "DRAFT_STORY",
+      "location_ref": "lối rừng và nhánh gần cầu",
+      "trigger": {
+        "signal": "scheduled_tracking_contest",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Hai đội xuất phát từ mép rừng; các dấu dẫn tới những điểm quan sát khác nhau. Một dấu cũ đánh lạc hướng.",
+      "world_action": {
+        "description_vi": "Phân biệt dấu mới/cũ, kiểm ba điểm quan sát, trở về báo kết quả. Đi theo nhánh khác đội NPC; không tự sinh thú để đảm bảo thắng.",
+        "proof_events": [
+          {
+            "signal": "contest_joined",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "track_evidence_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "contest_returned",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Đua lấy kết quả hoặc đi chậm xác minh; chọn dừng nếu thú bị quấy rối.",
+      "if_absent_vi": "NPC có kết quả riêng; bỏ cuộc vẫn được rời rừng.",
+      "lasting_effect_vi": "Lưu số dấu đúng, thứ hạng đã xác nhận và tuyến đã khám phá.",
+      "linked_event_ids": [
+        "EV-A1-WLD-001",
+        "EV-A1-WLD-002"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "scheduled_occurrence",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-FES-003",
+      "title_vi": "Hội bếp và chợ chiều",
+      "category": "WORLD",
+      "status": "DRAFT_STORY",
+      "location_ref": "sân chung",
+      "trigger": {
+        "signal": "market_day_started",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Các gian hàng mở; một món dự thi bị chuyển nhầm sang gian khác ngay trước khi chấm.",
+      "world_action": {
+        "description_vi": "Chơi thử đoán nguyên liệu qua các lựa chọn, tham gia chấm món theo luật công bố; nếu muốn, tìm món thất lạc bằng cách kiểm các gian.",
+        "proof_events": [
+          {
+            "signal": "tasting_answer_selected",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "entry_location_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "judging_finished",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Thi hoặc làm khán giả; báo nhầm lẫn kín đáo hoặc hỏi công khai khiến gian hàng bị gián đoạn.",
+      "if_absent_vi": "Chợ vẫn mở; ban tổ chức tự tìm món hoặc chấm những gian còn đủ.",
+      "lasting_effect_vi": "Kết quả thi, gian đổi vị trí, ký ức ai thực sự tìm món.",
+      "linked_event_ids": [
+        "EV-A1-SOC-003"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "scheduled_occurrence",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-FES-004",
+      "title_vi": "Đêm lửa đầu mùa lạnh",
+      "category": "WORLD",
+      "status": "DRAFT_STORY",
+      "location_ref": "sân chung đã kiểm vị trí",
+      "trigger": {
+        "signal": "seasonal_gathering_started",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Nhóm cư dân tụ tập; mỗi lượt một người chọn âm thanh hoặc đồ vật để kể một chuyện ngắn. Một người tự rời vòng ngồi.",
+      "world_action": {
+        "description_vi": "Thi nhận diện âm thanh; chọn ở lại nghe, tìm người rời đi nếu đã quen, hoặc về nhà. Không ép đọc lời tâm sự.",
+        "proof_events": [
+          {
+            "signal": "sound_guess_submitted",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "gathering_attended",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "optional_visit_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Tham gia chơi hoặc chỉ ngồi nghe; hỏi thăm riêng hay tôn trọng khoảng cách.",
+      "if_absent_vi": "Cuộc tụ họp kết thúc bình thường; người rời đi không bị giữ lại.",
+      "lasting_effect_vi": "Lưu trò đã chơi, cuộc gặp riêng nếu có; không tự tiết lộ quá khứ A.",
+      "linked_event_ids": [
+        "EV-A1-SOC-002"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "scheduled_occurrence",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WLD-001",
+      "title_vi": "Đàn thú cắt ngang đường",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "rừng giữa nhà A và làng",
+      "trigger": {
+        "signal": "wildlife_crossing_verified",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Đàn thú xuất hiện ở rìa lối, di chuyển qua tán cây; đường cỏ thay đổi và dấu chân mới dần mất.",
+      "world_action": {
+        "description_vi": "Quan sát hướng đi; tự theo dấu qua hai đoạn địa hình đã mở; có thể chọn điểm nhìn để thấy đàn từ xa.",
+        "proof_events": [
+          {
+            "signal": "wildlife_seen",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "trail_evidence_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "observation_point_reached",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Theo đàn, đi vòng, hoặc trở về; không bắt buộc săn.",
+      "if_absent_vi": "Đàn tự rời vùng; dấu còn một thời gian rồi mất.",
+      "lasting_effect_vi": "Lưu phát hiện và thời điểm; không tự ghi đã săn.",
+      "linked_event_ids": [
+        "EV-A1-WLD-002"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WLD-002",
+      "title_vi": "Mất dấu trên nền đá",
+      "category": "EXPLORATION",
+      "status": "DRAFT_STORY",
+      "location_ref": "rừng gần hồ",
+      "trigger": {
+        "signal": "tracking_trail_split",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Dấu chân biến mất ở nền đá; hai hướng có tiếng động và vệt cỏ khác nhau, một hướng là dấu cũ.",
+      "world_action": {
+        "description_vi": "So sánh dấu ở hai nhánh, chọn điểm kiểm tiếp theo; chỉ tính tìm lại khi game xác nhận dấu đúng.",
+        "proof_events": [
+          {
+            "signal": "clue_inspected",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "route_selected",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "animal_relocated",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Tiếp tục hoặc dừng; chọn sai mất cơ hội ở lượt này, không mất quyền khám phá.",
+      "if_absent_vi": "Thú rời đi theo mô phỏng; không teleport vào tầm nhìn của A.",
+      "lasting_effect_vi": "Lưu dấu đúng/sai và phát hiện; có thể tạo cơ hội săn riêng nếu đủ điều kiện.",
+      "linked_event_ids": [
+        "EV-A1-WLD-005"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WLD-003",
+      "title_vi": "Cái bẫy bỏ quên",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "rìa rừng xa làng",
+      "trigger": {
+        "signal": "abandoned_trap_discovered",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Thiết bị cũ ở mép đường có dấu động vật, một khu vực phải tránh; chưa xác định người đặt.",
+      "world_action": {
+        "description_vi": "Đánh dấu nơi phát hiện, báo người lớn phù hợp nếu muốn; hỗ trợ xử lý chỉ khi hệ tương tác an toàn được duyệt.",
+        "proof_events": [
+          {
+            "signal": "hazard_marked",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "adult_notified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "hazard_removed_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Chỉ báo, tham gia xử lý, hoặc rời đi.",
+      "if_absent_vi": "Người có trách nhiệm tự phát hiện và xử lý; không giữ thú mắc kẹt vô hạn.",
+      "lasting_effect_vi": "Khu vực hết cảnh báo sau khi xử lý thật; không đổ lỗi vô căn cứ.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WLD-004",
+      "title_vi": "Đêm có khách ngoài vườn",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "vườn tây",
+      "trigger": {
+        "signal": "crop_disturbance_detected",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Dấu luống bị xáo trộn, một con thú đi qua rìa vườn lúc vắng người; Hazel và những người lớn theo dõi.",
+      "world_action": {
+        "description_vi": "Kiểm nơi bị ảnh hưởng, tham gia giữ đồ dùng/che luống hoặc quan sát từ nơi an toàn; không săn trong làng.",
+        "proof_events": [
+          {
+            "signal": "crop_damage_checked",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "protection_applied_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Giúp bảo vệ phần luống đang có nguy cơ hoặc không tham gia.",
+      "if_absent_vi": "NPC tự xử lý; có thể mất một phần vụ nếu hệ cây trồng hỗ trợ.",
+      "lasting_effect_vi": "Lưu mức ảnh hưởng và biện pháp đã thực hiện.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WLD-005",
+      "title_vi": "Cuộc săn không chắc thành công",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "vùng săn TO_BIND",
+      "trigger": {
+        "signal": "eligible_wildlife_hunt_opportunity",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Một cơ hội xuất hiện khi thú hợp lệ có mặt ở vùng được phép; thú có thể rời vùng trước khi A hoàn tất.",
+      "world_action": {
+        "description_vi": "Chọn quan sát hoặc chủ động tham gia cơ chế săn trong game; kết quả do hệ săn xác nhận, không do hội thoại.",
+        "proof_events": [
+          {
+            "signal": "hunt_attempted",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "hunt_result_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Săn thành công, thất bại/thú thoát, chủ động bỏ; không tự cấp loot.",
+      "if_absent_vi": "Thú tiếp tục di chuyển; cơ hội hết hạn.",
+      "lasting_effect_vi": "Lưu outcome và tác động quần thể nếu được duyệt. Không ghi thành công giả.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-EXP-001",
+      "title_vi": "Lối đi hiện ra sau mưa",
+      "category": "EXPLORATION",
+      "status": "DRAFT_STORY",
+      "location_ref": "nhánh lối rừng đã mở",
+      "trigger": {
+        "signal": "wet_path_trace_visible",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Một vệt đi cũ hiện rõ trên đất ẩm, dẫn tới góc nhìn khu rừng khác lối chính.",
+      "world_action": {
+        "description_vi": "Tìm hai dấu mốc và tự đi về qua nhánh đã kiểm; không sinh đường mới.",
+        "proof_events": [
+          {
+            "signal": "trace_seen",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "landmark_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "return_path_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Đi tiếp, đánh dấu để quay lại hoặc bỏ qua.",
+      "if_absent_vi": "Vệt mờ đi; nhánh đường vẫn tồn tại.",
+      "lasting_effect_vi": "Lưu khám phá tuyến nếu thật sự đi qua.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-EXP-002",
+      "title_vi": "Vật sáng dưới bờ đá",
+      "category": "EXPLORATION",
+      "status": "DRAFT_STORY",
+      "location_ref": "bờ đá hồ",
+      "trigger": {
+        "signal": "shore_object_visible",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Ánh sáng đổi theo góc nhìn, một vật trôi dạt mắc ở vùng bờ có thể tiếp cận; vật cụ thể TO_DECIDE.",
+      "world_action": {
+        "description_vi": "Đổi góc nhìn để xác định vật; nhặt nếu tiếp cận an toàn và hệ vật phẩm hỗ trợ; hỏi chủ đồ nếu có căn cứ.",
+        "proof_events": [
+          {
+            "signal": "object_identified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "pickup_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "ownership_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Nhặt/giữ lại để tìm chủ, chỉ ghi nhận hoặc rời đi.",
+      "if_absent_vi": "NPC có thể thu nhặt, hoặc vật đổi vị trí theo mô phỏng đã chốt.",
+      "lasting_effect_vi": "Lưu chủ sở hữu chỉ khi xác nhận; không tự mở bí mật giấc mơ.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-EXP-003",
+      "title_vi": "Tiếng gọi sau màn sương",
+      "category": "STORY",
+      "status": "DRAFT_STORY",
+      "location_ref": "rừng – cầu – làng",
+      "trigger": {
+        "signal": "adult_missing_on_local_walk",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Một người lớn đi lạc trong sương; tại làng người khác bắt đầu tìm. Dấu ở lối rừng dẫn hai hướng khác nhau.",
+      "world_action": {
+        "description_vi": "Tìm dấu đã xác minh, tìm đúng khu người ấy đang chờ và dẫn về lối an toàn; có thể báo nhóm tìm kiếm thay vì đi một mình.",
+        "proof_events": [
+          {
+            "signal": "search_clue_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "adult_located",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "safe_return_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Tự tìm, báo người làng, bỏ qua; đi sai hướng không tự nhận công.",
+      "if_absent_vi": "Nhóm NPC tìm và đưa người về; không biến thành mất tích vĩnh viễn.",
+      "lasting_effect_vi": "Lưu ai tìm thấy và ai hỗ trợ; nhân vật được tìm có ngày nghỉ sau đó.",
+      "linked_event_ids": [
+        "EV-A1-SOC-002"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-EXP-004",
+      "title_vi": "Trước khi đèn tắt",
+      "category": "EXPLORATION",
+      "status": "DRAFT_STORY",
+      "location_ref": "lối rừng gần cầu",
+      "trigger": {
+        "signal": "route_challenge_open",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Các đội có cùng ba dấu mốc và giờ kết thúc lượt thi; lựa chọn đường đi khác nhau.",
+      "world_action": {
+        "description_vi": "Tìm ba mốc, xác minh từng mốc, quay về trạm; không dùng waypoint tự động tìm thay A.",
+        "proof_events": [
+          {
+            "signal": "challenge_joined",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "marker_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "finish_line_crossed",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Chấp nhận thiếu mốc để quay về sớm hoặc cố tìm mốc cuối; có thể dừng.",
+      "if_absent_vi": "NPC tự hoàn thành thử thách; kết quả A không tham gia là not_entered.",
+      "lasting_effect_vi": "Lưu mốc đúng và thời gian từ hệ thi nếu có.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-EXP-005",
+      "title_vi": "Bình minh có đàn chim",
+      "category": "EXPLORATION",
+      "status": "DRAFT_STORY",
+      "location_ref": "bờ hồ",
+      "trigger": {
+        "signal": "dawn_wildlife_window",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Sương tan và chim xuất hiện ở nhiều vùng bờ; chuyển động có thể quan sát từ xa.",
+      "world_action": {
+        "description_vi": "Tự đến một trong các điểm nhìn, quan sát/chụp nếu cơ chế có; không cần NPC để khám phá.",
+        "proof_events": [
+          {
+            "signal": "lake_viewpoint_reached",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "wildlife_observed",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Đợi thêm, đổi điểm nhìn hoặc đi tiếp.",
+      "if_absent_vi": "Cảnh qua khi hết thời điểm; có thể lặp vào dịp phù hợp.",
+      "lasting_effect_vi": "Lưu các điểm nhìn thật sự phát hiện.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-DRM-001",
+      "title_vi": "Cầu gỗ sau trận mưa",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "cầu nối nhà A – làng",
+      "trigger": {
+        "signal": "bridge_damage_verified",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Một ván cầu hỏng; nhóm cư dân cảnh báo và tổ chức sửa. Lối an toàn phải luôn còn hoặc event không mở.",
+      "world_action": {
+        "description_vi": "Chọn đi lối an toàn đã kiểm, tham gia một khâu mang vật liệu nhẹ hoặc tìm người hỗ trợ; theo dõi tiến độ sửa.",
+        "proof_events": [
+          {
+            "signal": "safe_route_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "material_delivered",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "bridge_repaired_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Góp công, đi vòng nếu có, chờ NPC tự xử lý.",
+      "if_absent_vi": "Nhóm sửa hoàn thành qua tiến độ riêng; không khóa tuyến chính.",
+      "lasting_effect_vi": "Cầu có dấu vá mới; ghi người đã góp công.",
+      "linked_event_ids": [
+        "EV-A1-WRD-002"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-DRM-002",
+      "title_vi": "Gió nổi trước giờ khai hội",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "bờ hồ / sân chung",
+      "trigger": {
+        "signal": "festival_preparing_and_wind_unsafe",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Đồ trang trí bị gió làm xô lệch; ban tổ chức tạm dừng các hoạt động ven nước.",
+      "world_action": {
+        "description_vi": "Chuyển các vật nhẹ đến vùng an toàn, kiểm vị trí đã xác nhận; lựa chọn góp ý địa điểm thay thế.",
+        "proof_events": [
+          {
+            "signal": "decor_moved_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "safe_layout_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Chuyển sân làng, thu nhỏ ở bờ nếu an toàn, hoãn; NPC có quyền quyết định cuối.",
+      "if_absent_vi": "Ban tổ chức tự chọn phương án an toàn.",
+      "lasting_effect_vi": "Cập nhật bố cục FES-001; không cho thi ở nơi đã hủy.",
+      "linked_event_ids": [
+        "EV-A1-FES-001"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-DRM-003",
+      "title_vi": "Cây chắn lối phụ",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "nhánh rừng đã kiểm",
+      "trigger": {
+        "signal": "fallen_tree_detected",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Cây đổ chặn lối phụ; xuất hiện dấu thú đi vòng; trục chính vẫn thông.",
+      "world_action": {
+        "description_vi": "Kiểm đường vòng, báo người có tay nghề, hỗ trợ khâu đơn giản nếu có cơ chế; theo dấu thú nếu chọn khám phá.",
+        "proof_events": [
+          {
+            "signal": "detour_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "obstacle_reported",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "clearance_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Khám phá đường khác hoặc hỗ trợ; không bắt dùng công cụ nguy hiểm.",
+      "if_absent_vi": "NPC xử lý khi đủ điều kiện.",
+      "lasting_effect_vi": "Lối phụ thông lại sau event thật; dấu thú có thể dẫn WLD-001.",
+      "linked_event_ids": [
+        "EV-A1-WLD-001"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-DRM-004",
+      "title_vi": "Bữa ăn chạy mưa",
+      "category": "DYNAMIC",
+      "status": "DRAFT_STORY",
+      "location_ref": "sân chung",
+      "trigger": {
+        "signal": "outdoor_meal_and_rain",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Mưa làm một buổi ăn bị gián đoạn; cư dân tự gom đồ, chỗ trú được kiểm trước.",
+      "world_action": {
+        "description_vi": "Chuyển một khay nhẹ hoặc báo người ở xa sân; tìm chỗ trú hợp lệ.",
+        "proof_events": [
+          {
+            "signal": "meal_item_moved",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "shelter_reached",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Giúp, trú mưa hoặc về nhà; có thể hoãn bữa nếu thiếu chỗ.",
+      "if_absent_vi": "Cư dân tự chuyển hoặc hủy buổi ăn.",
+      "lasting_effect_vi": "Lưu vị trí/kết quả buổi ăn và người giúp.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-SOC-001",
+      "title_vi": "Hai cách giữ đường rừng",
+      "category": "SOCIAL",
+      "status": "DRAFT_STORY",
+      "location_ref": "lối rừng / sân chung",
+      "trigger": {
+        "signal": "rowan_silas_disagreement_active",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Rowan muốn giữ hoa; Silas lo người đi vấp. Họ tự tranh luận và khảo sát đường.",
+      "world_action": {
+        "description_vi": "Đi kiểm hai mép đường; đề xuất phương án dựa trên bằng chứng đã kiểm hoặc để hai người tự quyết.",
+        "proof_events": [
+          {
+            "signal": "path_evidence_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "suggestion_selected",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "agreement_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Dọn tối thiểu, bố trí lại mép đường nếu hợp lý hoặc không can thiệp.",
+      "if_absent_vi": "Hai NPC tự tìm giải pháp.",
+      "lasting_effect_vi": "Lưu phương án được họ đồng ý; không gán hai phe thù địch.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-SOC-002",
+      "title_vi": "Chiếc ghế trống ở lễ hội",
+      "category": "SOCIAL",
+      "status": "DRAFT_STORY",
+      "location_ref": "sân chung / lối làng",
+      "trigger": {
+        "signal": "expected_attendee_absent",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Một cư dân trưởng thành vắng mặt; bạn của họ nhận ra trước A. Người ấy có thể muốn ở một mình hoặc đi lạc tùy tình tiết đã chọn.",
+      "world_action": {
+        "description_vi": "Hỏi người quen, kiểm nơi thường ghé, tôn trọng yêu cầu ở riêng; chỉ chuyển tìm kiếm nếu có bằng chứng đi lạc.",
+        "proof_events": [
+          {
+            "signal": "absence_reason_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "checkin_completed",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Hỏi thăm, báo nhóm tìm, dự hội tiếp; không ép quay lại.",
+      "if_absent_vi": "NPC khác hỏi thăm; nếu thật sự đi lạc mở EXP-003.",
+      "lasting_effect_vi": "Lưu nguyên nhân thật và hành động của A; không suy diễn.",
+      "linked_event_ids": [
+        "EV-A1-EXP-003"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-SOC-003",
+      "title_vi": "Gian thi thiếu món",
+      "category": "SOCIAL",
+      "status": "DRAFT_STORY",
+      "location_ref": "sân thủ công / sân chung",
+      "trigger": {
+        "signal": "contest_entry_missing",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Một sản phẩm bị chuyển nhầm; người học lo bị đổ lỗi, Maeve chưa biết chuyện thật.",
+      "world_action": {
+        "description_vi": "Đối chiếu vị trí gian và người đã dời đồ; tìm vật ở nơi có bằng chứng; báo đúng người.",
+        "proof_events": [
+          {
+            "signal": "entry_clue_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "entry_found",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "owner_notified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Báo riêng, hỏi công khai, không tham gia; không được kết tội khi thiếu bằng chứng.",
+      "if_absent_vi": "Món được tìm sau buổi chấm hoặc bị bỏ lượt thi.",
+      "lasting_effect_vi": "Lưu kết quả cuộc thi và mức độ hiểu lầm đã giải quyết.",
+      "linked_event_ids": [
+        "EV-A1-FES-003"
+      ],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WRD-001",
+      "title_vi": "Bờ hồ thay đổi",
+      "category": "WORLD",
+      "status": "DRAFT_STORY",
+      "location_ref": "bờ hồ",
+      "trigger": {
+        "signal": "shore_weather_state_changed",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Đất và dấu bờ thay đổi theo môi trường thực có; một điểm đứng cũ có thể không thích hợp.",
+      "world_action": {
+        "description_vi": "Tìm góc nhìn mới trên bờ được phép; ghi nhận cảnh quan thay đổi.",
+        "proof_events": [
+          {
+            "signal": "shore_observation_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Quan sát, quay lại sau, không làm gì.",
+      "if_absent_vi": "Bờ thay đổi độc lập với A.",
+      "lasting_effect_vi": "Lưu snapshot khám phá; không sửa mực nước nếu engine chưa hỗ trợ.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WRD-002",
+      "title_vi": "Dấu sửa trên con đường",
+      "category": "WORLD",
+      "status": "DRAFT_STORY",
+      "location_ref": "cầu hoặc lối phụ",
+      "trigger": {
+        "signal": "community_repair_progress_changed",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Các nhóm tự chia việc theo tiến độ; đoạn đường thay đổi qua nhiều lần A quay lại.",
+      "world_action": {
+        "description_vi": "Góp một khâu nếu tự nguyện; kiểm đoạn đã sửa khi mở an toàn.",
+        "proof_events": [
+          {
+            "signal": "repair_contribution_verified",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "repair_finished_verified",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Góp công hoặc đi tiếp.",
+      "if_absent_vi": "NPC hoàn thành theo tiến độ riêng.",
+      "lasting_effect_vi": "Lưu tiến độ và người đóng góp; không cấp công cho A nếu vắng.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "TO_DECIDE",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    },
+    {
+      "id": "EV-A1-WRD-003",
+      "title_vi": "Sáng sau đêm hội",
+      "category": "DAILY_LIFE",
+      "status": "DRAFT_STORY",
+      "location_ref": "nơi lễ hội thực diễn ra",
+      "trigger": {
+        "signal": "festival_ended",
+        "binding": "TO_BIND"
+      },
+      "guards": [
+        "content_approved",
+        "required_locations_and_mechanics_bound",
+        "no_conflicting_event"
+      ],
+      "setup_vi": "Các đội tháo đèn, bảng kết quả còn lại, vài người nghỉ; mỗi vị trí phản ánh nơi hội đã tổ chức.",
+      "world_action": {
+        "description_vi": "Xem kết quả, ghé các điểm đã chơi, gặp NPC nếu có mặt; không bắt dọn dẹp.",
+        "proof_events": [
+          {
+            "signal": "festival_result_viewed",
+            "binding": "TO_BIND"
+          },
+          {
+            "signal": "aftermath_visited",
+            "binding": "TO_BIND"
+          }
+        ]
+      },
+      "options_vi": "Xem hậu quả hoặc đi khám phá tiếp.",
+      "if_absent_vi": "NPC tự dọn; bảng kết quả lưu theo thiết kế.",
+      "lasting_effect_vi": "Giữ attended, contributed, contest_result và actual_location tách biệt.",
+      "linked_event_ids": [],
+      "dialogue_policy": "NO_INLINE_DIALOGUE; resolve only from independent dialogue bank",
+      "repeat_policy": "once_per_festival_occurrence",
+      "quest_policy": "event_never_auto_accepts_quest",
+      "state_contract": {
+        "participation": "not_entered|observed|participated|left",
+        "resolution": "pending|player_involved|npc_resolved|expired|cancelled",
+        "proof_required_before_credit": true
+      }
+    }
+  ]
+}
