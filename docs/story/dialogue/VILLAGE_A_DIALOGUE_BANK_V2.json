@@ -1,0 +1,3854 @@
+{
+  "schema": "apb.dialogue_bank.v2",
+  "status": "draft_not_runtime",
+  "source": "village-a-dialogues-v0.json retained as legacy; CH01-003 and CH01-007 unchanged",
+  "scope": "ordinary dialogue independent of events and quests",
+  "routing": {
+    "select_one_group_per_interaction": true,
+    "priority": [
+      "busy_or_unavailable_legacy",
+      "context_specific",
+      "selected_topic",
+      "revisit",
+      "greeting"
+    ],
+    "no_auto_quest": true,
+    "do_not_display_metadata": true,
+    "player_choice_not_spoken": true,
+    "requires_presence": true
+  },
+  "groups": [
+    {
+      "id": "DLG-VLA01-V2-GREETING",
+      "character_id": "VLA-01",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA01-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Đừng đạp luống bên trái. Còn bên phải thì cứ đi, tôi chưa trồng gì cả.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA01-V2-SMALLTALK",
+      "character_id": "VLA-01",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA01-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Cậu trồng cây bao giờ chưa? Tôi từng tưới chết một chậu vì thương nó quá.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA01-V2-REST",
+      "character_id": "VLA-01",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA01-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Hôm nay tôi nghỉ sớm. Cây không biết xem đồng hồ, còn tôi thì có.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA01-V2-REVISIT",
+      "character_id": "VLA-01",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA01-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Mấy hôm rồi không thấy cậu. Đừng bảo lại lạc trong rừng nhé.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA01-V2-PERSONAL",
+      "character_id": "VLA-01",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA01-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-01",
+          "text_vi": "Mùa cây vừa nhú. Còn mùa thu hoạch thì tôi thích lúc nhìn người khác ăn hơn là lúc đếm từng củ.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Cô thích mùa nào nhất?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA02-V2-GREETING",
+      "character_id": "VLA-02",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA02-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-02",
+          "text_vi": "Ngửi thấy mùi gì không? Tôi vừa vò một chiếc lá. Đừng ăn thử, chưa chắc là thứ cậu nghĩ đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA02-V2-SMALLTALK",
+      "character_id": "VLA-02",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA02-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-02",
+          "text_vi": "Tôi thích ngồi ngoài hiên khi trời vừa tạnh. Mỗi người đi qua mang theo một câu chuyện.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA02-V2-REST",
+      "character_id": "VLA-02",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA02-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-02",
+          "text_vi": "Chậu này mãi không chịu lớn. Chắc nó có tính giống tôi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA02-V2-REVISIT",
+      "character_id": "VLA-02",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA02-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-02",
+          "text_vi": "Cậu ngồi đây một lát được đấy. Tôi đang nghe chim, chẳng có gì quan trọng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA03-V2-GREETING",
+      "character_id": "VLA-03",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA03-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-03",
+          "text_vi": "Suỵt! Con bé tí kia chạy nhanh hơn cháu tưởng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA03-V2-SMALLTALK",
+      "character_id": "VLA-03",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA03-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-03",
+          "text_vi": "Cháu đặt tên cho một con bọ rồi. Nhưng nó có chịu đứng lại nghe tên đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA03-V2-REST",
+      "character_id": "VLA-03",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA03-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-03",
+          "text_vi": "Hôm nay cháu đếm được ba loại bọ. Có thể là hai, một con quay lại.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA03-V2-REVISIT",
+      "character_id": "VLA-03",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA03-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-03",
+          "text_vi": "Chú có biết con gì đi được trên lá mà không làm lá rung không? Cháu đang đoán.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA04-V2-GREETING",
+      "character_id": "VLA-04",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA04-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Chào. Cẩn thận cái ghế kia, nó đang chờ sửa.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA04-V2-SMALLTALK",
+      "character_id": "VLA-04",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA04-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Tôi thích cái bàn cũ. Ít nhất nó không nói dối về chỗ bị lung lay.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA04-V2-REST",
+      "character_id": "VLA-04",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA04-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Nghỉ tay một lát. Cưa gỗ lúc cáu thì chỉ phí gỗ.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA04-V2-REVISIT",
+      "character_id": "VLA-04",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA04-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Cậu lại đây à. Ngồi được rồi, cái ghế hôm nay không phản đối nữa.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA04-V2-PERSONAL",
+      "character_id": "VLA-04",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA04-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-04",
+          "text_vi": "Có. Tôi không kể tên cái ghế. Nó đã chịu đủ rồi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Ông có lúc làm hỏng đồ không?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA05-V2-GREETING",
+      "character_id": "VLA-05",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA05-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-05",
+          "text_vi": "Nếu thấy một cái búa nằm sai chỗ thì đừng bảo Owen là tôi nói nhé.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA05-V2-SMALLTALK",
+      "character_id": "VLA-05",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA05-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-05",
+          "text_vi": "Tôi ghi việc cần làm ra giấy. Đôi khi lại phải ghi thêm việc đi tìm tờ giấy.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA05-V2-REST",
+      "character_id": "VLA-05",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA05-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-05",
+          "text_vi": "Hôm nay chẳng ai hỏi tôi để đồ ở đâu. Lạ thật.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA05-V2-REVISIT",
+      "character_id": "VLA-05",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA05-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-05",
+          "text_vi": "Cậu có vẻ biết đường trong làng rồi. Tốt, tôi đỡ phải vẽ bằng tay.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA06-V2-GREETING",
+      "character_id": "VLA-06",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA06-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Khoan, đừng nếm vội. Tôi còn chưa quyết có nên thêm chút gì không.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA06-V2-SMALLTALK",
+      "character_id": "VLA-06",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA06-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Tôi làm một mẻ bánh nhìn xấu đến mức Felix bảo đó là đá trang trí.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA06-V2-REST",
+      "character_id": "VLA-06",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA06-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Món hôm nay cứ để vậy. Tôi đã nếm đến mức chẳng còn biết ngon hay dở.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA06-V2-REVISIT",
+      "character_id": "VLA-06",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA06-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Cậu đến chơi hay đến ăn? Cả hai đều được, nhưng tôi muốn biết để lấy thêm bát.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA06-V2-PERSONAL",
+      "character_id": "VLA-06",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA06-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-06",
+          "text_vi": "Có một món Felix khen ngon đến ba lần. Tôi biết ngay anh ấy đang cố an ủi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Cô có món nào không bao giờ muốn nấu nữa không?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA07-V2-GREETING",
+      "character_id": "VLA-07",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA07-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Tôi vừa thắng một cuộc tranh luận với bao ngũ cốc. Nó không nói lại.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA07-V2-SMALLTALK",
+      "character_id": "VLA-07",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA07-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Nếu Clara bảo tôi nếm thử, tôi thường bảo ngon trước rồi mới hỏi món gì.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA07-V2-REST",
+      "character_id": "VLA-07",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA07-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Có ngày tôi chỉ muốn nhìn cây mọc thay vì đếm từng bao.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA07-V2-REVISIT",
+      "character_id": "VLA-07",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA07-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-07",
+          "text_vi": "Cậu đừng cười, tôi đã từng nhầm hạt giống với đồ ăn. May mà hỏi trước.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA08-V2-GREETING",
+      "character_id": "VLA-08",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA08-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-08",
+          "text_vi": "Chú đứng yên một chút! Cháu đang thử vẽ tóc người, khó quá.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA08-V2-SMALLTALK",
+      "character_id": "VLA-08",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA08-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-08",
+          "text_vi": "Màu xanh của hồ chắc phải dùng cả hộp màu mới vẽ được.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA08-V2-REST",
+      "character_id": "VLA-08",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA08-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-08",
+          "text_vi": "Cháu vẽ một con mèo có tám chân. Cháu bảo đó là hai con đang ôm nhau.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA08-V2-REVISIT",
+      "character_id": "VLA-08",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA08-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-08",
+          "text_vi": "Lần sau chú đi ngang, cho cháu vẽ cái bóng của chú nhé. Không cần đứng lâu đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA09-V2-GREETING",
+      "character_id": "VLA-09",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA09-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Đi được đấy. Đừng bước ra mép đường nếu chưa nhìn kỹ.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA09-V2-SMALLTALK",
+      "character_id": "VLA-09",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA09-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Người ta cứ bảo đường ngắn là tốt. Tôi thích đường mà khi đi về vẫn nhận ra.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA09-V2-REST",
+      "character_id": "VLA-09",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA09-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Tôi từng dọn hết hoa ở một lối nhỏ. Đường sạch thật, nhưng nhìn chẳng vui chút nào.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA09-V2-REVISIT",
+      "character_id": "VLA-09",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA09-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Hôm nay tôi chỉ đi một vòng. Rừng không cần lúc nào cũng có người sửa nó.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA09-V2-PERSONAL",
+      "character_id": "VLA-09",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA09-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-09",
+          "text_vi": "Không. Có hôm tôi đi hết một đoạn rồi ngồi nhìn tán cây. Chẳng ai trả công cho việc đó, may thật.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Ông đi rừng chỉ để làm việc thôi à?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA10-V2-GREETING",
+      "character_id": "VLA-10",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA10-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Cẩn thận cái giỏ. Tôi vừa làm xong, đừng thử xem nó chịu được sức nặng của cậu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA10-V2-SMALLTALK",
+      "character_id": "VLA-10",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA10-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Có người bảo tôi nói nhanh. Tôi bảo thế thì làm giỏ nhanh luôn cho tiện.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA10-V2-REST",
+      "character_id": "VLA-10",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA10-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Tôi đan nhầm một vòng mà nhìn lại thấy đẹp hơn. Không kể ai nhé.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA10-V2-REVISIT",
+      "character_id": "VLA-10",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA10-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-10",
+          "text_vi": "Cậu có thấy Rowan đâu không? À thôi, tôi sẽ tự tìm ông ấy sau.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA11-V2-GREETING",
+      "character_id": "VLA-11",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA11-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-11",
+          "text_vi": "Đừng nhìn lâu quá, tôi đang học chứ chưa phải thợ giỏi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA11-V2-SMALLTALK",
+      "character_id": "VLA-11",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA11-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-11",
+          "text_vi": "Maeve làm một mũi chỉ mất một nhịp, tôi mất ba nhịp rồi còn phải tháo.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA11-V2-REST",
+      "character_id": "VLA-11",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA11-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-11",
+          "text_vi": "Tôi muốn tự làm một thứ mà không có ai sửa hộ giữa chừng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA11-V2-REVISIT",
+      "character_id": "VLA-11",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA11-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-11",
+          "text_vi": "Hôm nay tôi làm hỏng ít hơn hôm qua. Đấy cũng tính là tiến bộ chứ?",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA12-V2-GREETING",
+      "character_id": "VLA-12",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA12-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-12",
+          "text_vi": "Nghe tiếng kia không? Cháu cược là chim, Finn bảo là cành cây.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA12-V2-SMALLTALK",
+      "character_id": "VLA-12",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA12-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-12",
+          "text_vi": "Cháu đang thi với chính mình xem ai nghe thấy chim trước. Cháu thắng suốt.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA12-V2-REST",
+      "character_id": "VLA-12",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA12-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-12",
+          "text_vi": "Nếu đứng yên lâu quá thì cháu lại quên mình đang đợi cái gì.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA12-V2-REVISIT",
+      "character_id": "VLA-12",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA12-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-12",
+          "text_vi": "Chú đi dạo à? Cháu ở sân thôi, hôm nay cháu chưa muốn chạy đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA13-V2-GREETING",
+      "character_id": "VLA-13",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA13-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Chào cậu. Đừng ngại, tôi chỉ đang gỡ một đường chỉ.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA13-V2-SMALLTALK",
+      "character_id": "VLA-13",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA13-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Có những vết vá nhìn khá đẹp. Tôi không hiểu sao mình cứ muốn giấu chúng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA13-V2-REST",
+      "character_id": "VLA-13",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA13-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Hôm nay tôi cất kim sớm. Ngồi không một lát cũng chẳng hỏng gì.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA13-V2-REVISIT",
+      "character_id": "VLA-13",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA13-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Cậu mặc áo này đi rừng à? Nhìn cái gấu áo là tôi đoán cậu có một ngày khá dài.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA13-V2-PERSONAL",
+      "character_id": "VLA-13",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA13-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-13",
+          "text_vi": "Một thứ không cần vừa với ai cả. Tôi có thể tháo ra làm lại mà chẳng ai đợi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Cô thích làm thứ gì khi không phải sửa đồ?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA14-V2-GREETING",
+      "character_id": "VLA-14",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA14-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Đồ cũ không phải đồ bỏ. Có lúc chỉ cần tìm đúng chỗ của nó.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA14-V2-SMALLTALK",
+      "character_id": "VLA-14",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA14-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Tôi có một cái hộp chưa biết đựng gì. Thế mà ai cũng muốn tôi vứt nó đi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA14-V2-REST",
+      "character_id": "VLA-14",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA14-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Thứ khó giữ nhất không phải cái ghế cũ, mà là nhớ mình đã cất chìa ở đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA14-V2-REVISIT",
+      "character_id": "VLA-14",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA14-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-14",
+          "text_vi": "Cậu đến đúng lúc. Tôi đang cố nhớ vì sao lại giữ cái nắp này.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA15-V2-GREETING",
+      "character_id": "VLA-15",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA15-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Cậu nhìn chiếc lá ấy kỹ chưa? Hôm qua nó còn khác hôm nay.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA15-V2-SMALLTALK",
+      "character_id": "VLA-15",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA15-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Tôi ghi chép nhiều đến mức đôi khi quên ngẩng đầu lên nhìn thật.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA15-V2-REST",
+      "character_id": "VLA-15",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA15-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Hôm nay tôi không mở sổ. Một buổi sáng đẹp cứ để nó đẹp thôi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA15-V2-REVISIT",
+      "character_id": "VLA-15",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA15-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Nếu cậu thấy điều gì lạ, cứ kể theo những gì đã thấy. Không cần thêm thắt cho hay.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA15-V2-PERSONAL",
+      "character_id": "VLA-15",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA15-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-15",
+          "text_vi": "Không. Tôi nhớ rõ hơn những lần mình chịu khó ngẩng đầu lên.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Bà có nhớ hết những gì từng ghi không?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA16-V2-GREETING",
+      "character_id": "VLA-16",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA16-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-16",
+          "text_vi": "Chào cậu. Ngồi nếu muốn. Tôi không có chuyện gì gấp.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA16-V2-SMALLTALK",
+      "character_id": "VLA-16",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA16-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-16",
+          "text_vi": "Có chiếc ghế tôi sửa nhiều lần hơn cả số lần ngồi lên nó.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA16-V2-REST",
+      "character_id": "VLA-16",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA16-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-16",
+          "text_vi": "Nghe tiếng gỗ khi trời đổi ẩm cũng thú vị. Chỉ cần chịu nghe một lát.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA16-V2-REVISIT",
+      "character_id": "VLA-16",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA16-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-16",
+          "text_vi": "Cậu lại đi xa à? Lúc nào về mệt thì cứ ngồi ở đây.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA17-V2-GREETING",
+      "character_id": "VLA-17",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA17-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-17",
+          "text_vi": "Xin chào! Tôi đang đi đúng hướng chứ nhỉ? À, đúng rồi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA17-V2-SMALLTALK",
+      "character_id": "VLA-17",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA17-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-17",
+          "text_vi": "Một lần tôi đưa giỏ đến đúng nhà nhưng sai người. May mà họ quen nhau.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA17-V2-REST",
+      "character_id": "VLA-17",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA17-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-17",
+          "text_vi": "Tôi không thích chạy, chỉ là chân tôi thường đi trước đầu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA17-V2-REVISIT",
+      "character_id": "VLA-17",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA17-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-17",
+          "text_vi": "Cậu cứ từ từ. Lần này tôi không có gì phải giao gấp.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA18-V2-GREETING",
+      "character_id": "VLA-18",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA18-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Cậu có vừa từ rừng về không? Đừng kể đường ngắn nhất, kể chỗ hay nhất đi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA18-V2-SMALLTALK",
+      "character_id": "VLA-18",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA18-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hugo bảo tôi chuẩn bị kỹ quá. Rồi lúc đi chính anh ấy lại hỏi tôi có mang dây dự phòng không.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA18-V2-REST",
+      "character_id": "VLA-18",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA18-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Hôm nay tôi chưa đi đâu. Cái túi cứ đứng ở đó, nó không tự xách mình đi được.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA18-V2-REVISIT",
+      "character_id": "VLA-18",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA18-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Có khi tôi muốn đi chỉ để xem lúc quay lại, làng trông có khác không.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA18-V2-PERSONAL",
+      "character_id": "VLA-18",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA18-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-18",
+          "text_vi": "Có. Tôi chỉ không thích gọi nó là sợ. Tôi gọi là chưa biết đường về.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Cậu có sợ lạc không?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA19-V2-GREETING",
+      "character_id": "VLA-19",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA19-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Đứng xa cái dây kia một chút. Nó từng thắng tôi trong một cuộc vật lộn.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA19-V2-SMALLTALK",
+      "character_id": "VLA-19",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA19-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Ada nhớ đường, tôi nhớ những thứ hay bị quên. Hai việc khá hợp nhau.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA19-V2-REST",
+      "character_id": "VLA-19",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA19-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Một cái xe không có hàng vẫn là một cái xe. Cứ để nó nghỉ hôm nay đi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA19-V2-REVISIT",
+      "character_id": "VLA-19",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA19-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-19",
+          "text_vi": "Cậu có nghe Ada kể chuyện đường xa chưa? Cô ấy kể nhanh hơn cả xe chạy.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA20-V2-GREETING",
+      "character_id": "VLA-20",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA20-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-20",
+          "text_vi": "Chào. Lối này thông rồi, cứ đi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA20-V2-SMALLTALK",
+      "character_id": "VLA-20",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA20-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-20",
+          "text_vi": "Tôi thích những việc làm xong rồi không cần ai nhắc nữa.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA20-V2-REST",
+      "character_id": "VLA-20",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA20-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-20",
+          "text_vi": "Có ngày tôi chẳng sửa gì. Tôi chỉ đi xem chỗ mình từng làm còn ổn không.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA20-V2-REVISIT",
+      "character_id": "VLA-20",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA20-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-20",
+          "text_vi": "Cậu muốn ngồi đây thì cứ ngồi. Không cần tìm việc để làm.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA21-V2-GREETING",
+      "character_id": "VLA-21",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA21-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-21",
+          "text_vi": "Giỏ này chưa xong, nhưng cái quai đã chắc. Tôi thử rồi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA21-V2-SMALLTALK",
+      "character_id": "VLA-21",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA21-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-21",
+          "text_vi": "Silas đan nhanh thật. Tôi thì không muốn giỏ của mình chạy nhanh hơn tay.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA21-V2-REST",
+      "character_id": "VLA-21",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA21-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-21",
+          "text_vi": "Tôi thích làm đồ có thể dùng lâu, chứ không phải làm nhiều cho đẹp mắt.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA21-V2-REVISIT",
+      "character_id": "VLA-21",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA21-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-21",
+          "text_vi": "Cậu nhìn thấy loại giỏ nào lạ trên đường chưa? Kể tôi nghe nếu có.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA22-V2-GREETING",
+      "character_id": "VLA-22",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA22-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-22",
+          "text_vi": "Này, nhìn tôi làm thử cái này không? Chờ đã, tôi làm lại cái đã.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA22-V2-SMALLTALK",
+      "character_id": "VLA-22",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA22-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-22",
+          "text_vi": "Tôi biết làm nhiều việc. Chỉ chưa biết việc nào làm giỏi nhất.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA22-V2-REST",
+      "character_id": "VLA-22",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA22-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-22",
+          "text_vi": "Hôm nay người ta bảo tôi bớt vội. Tôi đang bớt đây, thấy không?",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA22-V2-REVISIT",
+      "character_id": "VLA-22",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA22-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-22",
+          "text_vi": "Lần trước tôi tưởng mình hiểu rồi. Lần này tôi hỏi trước cho chắc.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA23-V2-GREETING",
+      "character_id": "VLA-23",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA23-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Đến đúng lúc đấy. Ngồi chơi cũng được, đừng đứng như đang chờ nhận việc.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA23-V2-SMALLTALK",
+      "character_id": "VLA-23",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA23-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Tôi từng nấu quá nhiều chỉ vì sợ thiếu. Sau đó cả nhà ăn một món đến phát ngán.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA23-V2-REST",
+      "character_id": "VLA-23",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA23-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Hôm nay tôi định ăn món mình thích. Có gì kỳ lạ đâu nhỉ?",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA23-V2-REVISIT",
+      "character_id": "VLA-23",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA23-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Lâu rồi mới thấy cậu. Đói không? Không đói thì cứ ngồi nói chuyện.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA23-V2-PERSONAL",
+      "character_id": "VLA-23",
+      "kind": "PERSONAL",
+      "trigger": "player_selects_choice:personal_topic",
+      "guards": [
+        "npc_available",
+        "relationship_familiar_or_above"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA23-V2-PERSONAL-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-23",
+          "text_vi": "Có người nói chuyện, có người im lặng. Và tôi được ăn trước khi món nguội.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "relationship_familiar_or_above"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [
+        {
+          "id": "personal_topic",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Bà muốn một bữa ăn thế nào?",
+          "on_select": "OPEN_GROUP",
+          "auto_speak": false
+        },
+        {
+          "id": "leave",
+          "type": "PLAYER_CHOICE",
+          "label_vi": "Để khi khác nhé.",
+          "on_select": "END",
+          "auto_speak": false
+        }
+      ],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "once_then_revisit"
+    },
+    {
+      "id": "DLG-VLA24-V2-GREETING",
+      "character_id": "VLA-24",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA24-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-24",
+          "text_vi": "Chào! Tôi vừa chuyển xong mấy giỏ. Lưng tôi đang viết đơn xin nghỉ.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA24-V2-SMALLTALK",
+      "character_id": "VLA-24",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA24-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-24",
+          "text_vi": "Có lần tôi mang nhầm hai giỏ nhẹ, để lại đúng cái nặng nhất cho mình.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA24-V2-REST",
+      "character_id": "VLA-24",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA24-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-24",
+          "text_vi": "Hôm nay tôi muốn ngồi ở chỗ có bóng mát. Không phải vì lười đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA24-V2-REVISIT",
+      "character_id": "VLA-24",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA24-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-24",
+          "text_vi": "Cậu mà nghe tôi than nhiều quá thì cứ bảo tôi đổi chủ đề.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA25-V2-GREETING",
+      "character_id": "VLA-25",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA25-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Chào cậu. Tôi đang thử xếp hoa, không biết màu này có hợp không.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA25-V2-SMALLTALK",
+      "character_id": "VLA-25",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA25-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Tôi thích nhìn món ăn trước khi nếm. Nhưng Clara bảo đừng ngắm đến nguội.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA25-V2-REST",
+      "character_id": "VLA-25",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA25-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Hôm nay tôi muốn thử một cách xếp hoa hơi kỳ. Xấu thì làm lại.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA25-V2-REVISIT",
+      "character_id": "VLA-25",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA25-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-25",
+          "text_vi": "Cậu thích màu nào? Tôi đang tìm một màu mà mình ít dùng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA26-V2-GREETING",
+      "character_id": "VLA-26",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA26-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Lối đi được. Đừng chắn chỗ người khác qua là được.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA26-V2-SMALLTALK",
+      "character_id": "VLA-26",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA26-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Tôi có thói quen đếm những chỗ cần sửa. Hôm nay may là đếm ít.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA26-V2-REST",
+      "character_id": "VLA-26",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA26-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Đôi khi giữ nguyên một chỗ lại là quyết định tốt nhất.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA26-V2-REVISIT",
+      "character_id": "VLA-26",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA26-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-26",
+          "text_vi": "Cậu đã đi quanh làng rồi à? Nếu thấy chỗ nào khó qua thì nói tôi biết, không cần đi sửa hộ.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA27-V2-GREETING",
+      "character_id": "VLA-27",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA27-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-27",
+          "text_vi": "Chào cậu! Cẩn thận mấy bông cạnh chân nhé, chúng không tự né được đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA27-V2-SMALLTALK",
+      "character_id": "VLA-27",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA27-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-27",
+          "text_vi": "Tôi thích một bụi hoa không đều màu. Nhìn giống nhiều người đang đứng cạnh nhau.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA27-V2-REST",
+      "character_id": "VLA-27",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA27-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-27",
+          "text_vi": "Hôm nay tôi cứ để cây mọc theo cách của nó. Tôi nghỉ một buổi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA27-V2-REVISIT",
+      "character_id": "VLA-27",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA27-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-27",
+          "text_vi": "Cậu có muốn ngồi nhìn hoa một chút không? Chẳng cần hiểu tên chúng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA28-V2-GREETING",
+      "character_id": "VLA-28",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA28-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-28",
+          "text_vi": "Chú xem cái này chạy được không? Cháu thử hoài mà nó cứ quay ngang.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA28-V2-SMALLTALK",
+      "character_id": "VLA-28",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA28-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-28",
+          "text_vi": "Cháu định làm một con vật bằng gỗ. Nó hơi giống cái ghế.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA28-V2-REST",
+      "character_id": "VLA-28",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA28-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-28",
+          "text_vi": "Hôm nay cháu chơi ở sân thôi. Chỗ này có đủ thứ để tưởng tượng rồi.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA28-V2-REVISIT",
+      "character_id": "VLA-28",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA28-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-28",
+          "text_vi": "Chú có thích chơi đoán đồ vật không? Cháu nghĩ ra một câu dễ lắm.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA29-V2-GREETING",
+      "character_id": "VLA-29",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA29-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-29",
+          "text_vi": "Chào cậu. Hôm nay trời khá dễ chịu để đi một vòng.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA29-V2-SMALLTALK",
+      "character_id": "VLA-29",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA29-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-29",
+          "text_vi": "Tôi hay đổi chỗ mấy món đồ nhỏ. Chẳng hiểu sao nhìn nhà lại mới hơn.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA29-V2-REST",
+      "character_id": "VLA-29",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA29-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-29",
+          "text_vi": "Có những việc để mai làm cũng được. Tôi vừa học được điều đó.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA29-V2-REVISIT",
+      "character_id": "VLA-29",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA29-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-29",
+          "text_vi": "Cậu cứ ngồi, đừng ngại. Tôi chưa cần dọn chỗ này ngay.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA30-V2-GREETING",
+      "character_id": "VLA-30",
+      "kind": "GREETING",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA30-V2-GREETING-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-30",
+          "text_vi": "Chào. Cái hộp này còn dùng được, tôi đang xem nắp.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA30-V2-SMALLTALK",
+      "character_id": "VLA-30",
+      "kind": "SMALLTALK",
+      "trigger": "player_selects_topic:smalltalk",
+      "guards": [
+        "npc_available",
+        "npc.met"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA30-V2-SMALLTALK-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-30",
+          "text_vi": "Tôi thích đồ có nắp vừa khít. Đỡ phải hỏi thứ bên trong đi đâu.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc.met"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA30-V2-REST",
+      "character_id": "VLA-30",
+      "kind": "REST",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "npc_currently_resting"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA30-V2-REST-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-30",
+          "text_vi": "Hôm nay không cần làm thêm cái nào. Mấy cái cũ còn tốt.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "npc_currently_resting"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    },
+    {
+      "id": "DLG-VLA30-V2-REVISIT",
+      "character_id": "VLA-30",
+      "kind": "REVISIT",
+      "trigger": "player_initiates_talk",
+      "guards": [
+        "npc_available",
+        "distinct_return_visit"
+      ],
+      "lines": [
+        {
+          "line_id": "DLG-VLA30-V2-REVISIT-L1",
+          "type": "NPC_DIALOGUE",
+          "speaker_id": "VLA-30",
+          "text_vi": "Cậu thấy cái hộp nào bị lệch nắp thì cứ chỉ. Tôi sẽ xem lúc rảnh.",
+          "trigger": "on_group_open",
+          "guards": [
+            "speaker_present",
+            "npc_available",
+            "distinct_return_visit"
+          ],
+          "next": "END"
+        }
+      ],
+      "choices": [],
+      "starts_quest": false,
+      "can_exit": true,
+      "repeat_policy": "rotation_with_cooldown_TO_DECIDE"
+    }
+  ]
+}
