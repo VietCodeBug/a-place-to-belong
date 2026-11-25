@@ -65,6 +65,8 @@ CHAPTER (nhóm nội dung, không khóa thứ tự)
    └─ NPC (có lịch & ký ức riêng) ←→ EVENT / DIALOGUE / WORLD STATE
 ~~~
 
+**YÊU CẦU MỚI VỀ ĐỘ HẤP DẪN:** ngoài các nhiệm vụ quan hệ nhỏ, bộ biên kịch cần có *set-piece* có hoạt động rõ: **lễ hội, tranh tài, theo dấu thú, săn bắn tự chọn, biến cố đường đi, chuỗi khám phá và sự kiện xã hội nhiều ngày**. Không viết chỉ mỗi nhiệm vụ chăm vườn/sửa đồ. Khi thêm sự kiện lớn, kiểm nhịp cao trào, lựa chọn thực, tình huống nếu A vắng, và hậu quả quay lại. **24 sự kiện đề xuất và 3 chuỗi tham khảo** đã nằm tại [A1 High-Impact Event Catalog](../events/A1_HIGH_IMPACT_EVENTS_CATALOG_V1.md); mọi sự kiện ở đó là **DRAFT**, không phải canon hoặc đã chạy.
+
 ## 4. Sáu nhóm sự kiện của *A Place to Belong*
 
 | Nhóm | Nội dung phù hợp | Khi A vắng mặt | Đặc biệt tránh |
