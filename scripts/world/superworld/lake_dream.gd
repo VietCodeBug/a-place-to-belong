@@ -3,6 +3,7 @@ extends "res://scripts/world/superworld/lake_masonry.gd"
 
 const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const BOTANY = preload("res://scripts/world/a1_botany.gd")
+const FLOWER_MESH = preload("res://scripts/world/superworld/lake_flower_mesh.gd")
 const VAULT = preload("res://scripts/world/superworld/lake_vault.gd")
 const FLOW = preload("res://scripts/story/map_flow.gd")
 
@@ -113,18 +114,9 @@ func build_courtyard_statue() -> void:
 	var figure := stone_visual("WornCourtyardFigure")
 	figure.position = at
 
-func triangle_with_uv(mesh: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color, glow: float) -> void:
-	var normal := (c-a).cross(b-a).normalized()
-	for p: Vector3 in [a,b,c]:
-		mesh.set_normal(normal)
-		mesh.set_color(color)
-		mesh.set_uv(Vector2(0,glow))
-		mesh.add_vertex(p)
-
 func build_garden() -> void:
 	var anchor := bank_origin(FIELD.LIGHT_GARDEN,0)
-	var flowers := SurfaceTool.new()
-	flowers.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var groups := [[],[],[]]
 	var patches := [
 		Vector4(-5,-3,2.7,9),Vector4(5,-3,2.9,10),Vector4(4,4,2.5,8),
 		Vector4(-4,3,2.5,8),Vector4(-.8,-6.4,1.7,8),
@@ -133,48 +125,37 @@ func build_garden() -> void:
 		for i in int(patch.w):
 			var offset := Vector2(patch.x,patch.y)+Vector2.from_angle(rng.randf()*TAU)*sqrt(rng.randf())*patch.z
 			var plant := bank_origin(FIELD.LIGHT_GARDEN+offset,-.03)-anchor
-			var scale := rng.randf_range(.46,.87)
-			flower(flowers,plant,scale,i)
-	flower(flowers,bank_origin(FIELD.LIGHT_GARDEN+Vector2(3.8,-4.2),-.03)-anchor,1.85,0)
-	flower(flowers,bank_origin(FIELD.LIGHT_GARDEN+Vector2(5.2,-4.7),-.03)-anchor,1.25,1)
-	flower(flowers,bank_origin(FIELD.LIGHT_GARDEN+Vector2(2.6,-5.5),-.03)-anchor,1.15,2)
+			var size := rng.randf_range(.47,.91)
+			var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled_local(Vector3(size,size,size))
+			groups[i%3].append(Transform3D(basis,plant))
+	for kind in 3:
+		var offset: Vector2 = [Vector2(3.8,-4.2),Vector2(5.2,-4.7),Vector2(2.6,-5.5)][kind]
+		var size: float = [1.68,1.26,1.21][kind]
+		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled_local(Vector3(size,size,size))
+		var plant := bank_origin(FIELD.LIGHT_GARDEN+offset,-.03)-anchor
+		groups[kind].append(Transform3D(basis,plant))
 	garden_material = ShaderMaterial.new()
 	garden_material.shader = preload("res://shaders/a1_lake_garden.gdshader")
-	var blooms := add_visual("LightGarden",flowers.commit(),garden_material)
-	blooms.position = anchor
-	blooms.visibility_range_end = 74.0
-
-func flower(mesh: SurfaceTool, foot: Vector3, size: float, variant: int) -> void:
-	var bearing := rng.randf()*TAU
-	var lean := Vector3(cos(bearing),0,sin(bearing))*size
-	var joints := [foot,foot+Vector3.UP*(.58*size),foot+Vector3.UP*(1.14*size)+lean*.19,
-		foot+Vector3.UP*(1.65*size)+lean*.42]
-	for face in 5:
-		var ray := Vector3.RIGHT.rotated(Vector3.UP,bearing+float(face)*TAU/5.0)
-		var next := ray.rotated(Vector3.UP,TAU/5.0)
-		for segment in 3:
-			var lower: Vector3 = joints[segment]
-			var upper: Vector3 = joints[segment+1]
-			var w := size*(.076-.010*segment)
-			var green := Color("217D75").lerp(Color("5AADA0"),float(segment)/3.0)
-			triangle_with_uv(mesh,lower+ray*w,upper+ray*w,lower+next*w,green,.10)
-			triangle_with_uv(mesh,lower+next*w,upper+ray*w,upper+next*w,green,.10)
-	var base: Vector3 = joints[3]
-	var color: Color = [Color("D8FFF8"),Color("74D0C4"),Color("8FC6EE")][variant%3]
-	for petal in 6:
-		var outward := Vector3.RIGHT.rotated(Vector3.UP,bearing+petal*TAU/6.0)
-		var side := outward.cross(Vector3.UP)
-		var center := base+outward*(.44*size)+Vector3.UP*(.23*size)
-		var tip := base+outward*(.85*size)+Vector3.UP*(.34*size)
-		var fold := center+Vector3.UP*(.14*size)
-		for ribbon_side: float in [-1.0,1.0]:
-			var edge := center+side*(ribbon_side*.23*size)
-			triangle_with_uv(mesh,base,fold,edge,color.darkened(.17),.61)
-			triangle_with_uv(mesh,edge,fold,tip,color,.91)
-	var crown := base+Vector3.UP*(.40*size)
-	for i in 5:
-		var direction := Vector3.RIGHT.rotated(Vector3.UP,i*TAU/5.0)*(.17*size)
-		triangle_with_uv(mesh,base+direction,crown,base+direction.rotated(Vector3.UP,TAU/5.0),Color("E3FFFC"),1.0)
+	for kind in 3:
+		var batch := MultiMesh.new()
+		batch.transform_format = MultiMesh.TRANSFORM_3D
+		batch.use_colors = true
+		batch.use_custom_data = true
+		batch.mesh = FLOWER_MESH.new().build(kind)
+		batch.instance_count = groups[kind].size()
+		for i in batch.instance_count:
+			batch.set_instance_transform(i,groups[kind][i])
+			var brightness := .91+float((i*5+kind)%11)*.009
+			batch.set_instance_color(i,Color(brightness,brightness,brightness,1))
+			batch.set_instance_custom_data(i,Color(float((i*11)%23)/23.0,float((i*7+kind*3)%17)/17.0,0,1))
+		var blooms := MultiMeshInstance3D.new()
+		blooms.name = "LightGardenFlowers%d" % kind
+		blooms.multimesh = batch
+		blooms.material_override = garden_material
+		blooms.position = anchor
+		blooms.visibility_range_end = 74.0
+		blooms.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(blooms)
 
 func build_shafts() -> void:
 	var shafts := SurfaceTool.new()

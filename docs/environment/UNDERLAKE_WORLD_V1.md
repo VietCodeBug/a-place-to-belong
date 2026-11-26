@@ -10,7 +10,7 @@ Khu hồ phía tây là tuyến khám phá yên tĩnh với nước xanh ngọc 
 | Đồng cỏ nước | `267, -457` | Gờ cát sáng có rong thấp và một đàn 20 cá nhỏ. |
 | Đường đá chìm | `286, -470` | Đi theo những phiến đá mòn xuống vòm đá tự nhiên rồi tới đình. |
 | Đình đá chìm | `336, -456` | Mái vòm vỡ, sân lát, tượng mòn và chuông chìm. |
-| Vườn ánh sáng | `363, -428` | Cụm hoa ngà, xanh ngọc và lam nhạt giữa đá lớn, có tia sáng xuống tận nền. |
+| Vườn ánh sáng | `363, -428` | Ba dáng hoa cánh cong hai lớp, ngả nhẹ theo nước. Sắc ngà, xanh ngọc và lam nhạt, phát sáng dịu ở nhụy và mép cánh. |
 | Phòng kín | Gần vườn ánh sáng | Lối cửa đá dưới vách, mở khi rung chuông ở đình. Bên trong có mảnh gốm để nhặt bằng `E`. |
 
 Tuyến chính nối bến, gờ rong, đường đá và đình với vườn. Hai đường nhánh đi từ đình tới **Hành lang cột**, và từ mép vườn qua **Cổng bậc đá** tới **Tháp vỡ**. Mở `M` rồi phóng gần hồ để thấy tuyến bơi nét đứt. Các khe vực vẫn có dòng chảy giới hạn lặn tại chỗ.
@@ -37,3 +37,4 @@ Nguồn để đối chiếu khi cần bổ sung asset gồm Quaternius Stylized
 - Chạy `godot --path . -- --a1-superworld --no-title`. `WASD` bơi, `Ctrl` lặn, `Space` nổi, `E` tương tác.
 - `a1_superworld_test.gd` kiểm collider cửa trước khi rung chuông, thao tác mở cửa và nhặt gốm, bơi xuyên phòng kín, đàn cá chiều xuất hiện khi trời quang và biến mất khi mưa. Bài kiểm tuyến cũ vẫn bao gồm cả hai khe vực.
 - Ảnh duyệt chụp bằng Godot 4.6.3 Compatibility trên Linux/Mesa llvmpipe. Kiểm FPS trên GPU Windows còn chờ. [Ảnh và bản đồ sáu khu](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/ver-17-gpt-underlake-world/docs/environment/review-underlake-world/README.md)
+- Hoa dùng ba mesh chung, mỗi mesh một surface. Độ cong và mặt cánh được tạo bằng hình học, thân và lá uốn bằng shader. [Ảnh hoa trước–sau cùng góc](https://github.com/VietCodeBug/a-place-to-belong/blob/preview/ver-18-gpt-light-garden-flowers/docs/environment/review-light-garden-flowers/README.md)
