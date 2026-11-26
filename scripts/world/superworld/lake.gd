@@ -5,7 +5,12 @@ const COVER = preload("res://scripts/world/superworld/biome_cover.gd")
 const BOTANY = preload("res://scripts/world/a1_botany.gd")
 const SHAPES = preload("res://scripts/world/shapes.gd")
 const RUINS = preload("res://scripts/world/superworld/lake_ruins.gd")
+const HABITATS = preload("res://scripts/world/superworld/lake_habitats.gd")
+const LANDMARKS = preload("res://scripts/world/superworld/lake_landmarks.gd")
+const TRENCH = preload("res://scripts/world/superworld/lake_trench.gd")
 const SWIM_SPEED := 3.8
+const TRENCH_DIVE_METRES := 18.0
+const TRENCH_FLOOR_Y := FIELD.WATER - TRENCH_DIVE_METRES - 1.2
 const FISH := [
 	preload("res://assets/vendor/quaternius/fish/Fish1.glb"),
 	preload("res://assets/vendor/quaternius/fish/Fish2.glb"),
@@ -32,10 +37,10 @@ var outer_water: ShaderMaterial
 var underside: MeshInstance3D
 var surface_group: Node3D
 var cover: COVER
-var plant_material := ShaderMaterial.new()
 var fish_tick := 0.0
 var shore_stones: Node3D
 var pavilion: RUINS
+var trenches: Array[TRENCH] = []
 
 
 func setup(source: FIELD, planting: COVER) -> void:
@@ -50,11 +55,22 @@ func setup(source: FIELD, planting: COVER) -> void:
 	merge_lakeside_stones()
 	shore_stones.free()
 	shore_stones = null
-	make_aquatic_plants()
+	var habitats := HABITATS.new()
+	add_child(habitats)
+	habitats.setup(field)
 	make_arch()
 	pavilion = RUINS.new()
 	add_child(pavilion)
 	pavilion.setup(field)
+	for site in LANDMARKS.SITES.size():
+		var landmark := LANDMARKS.new()
+		add_child(landmark)
+		landmark.setup(field,site)
+	for i in FIELD.TRENCHES.size():
+		var trench := TRENCH.new()
+		add_child(trench)
+		trench.setup(field,FIELD.TRENCHES[i],i)
+		trenches.append(trench)
 	make_fish()
 
 func make_surface() -> void:
@@ -251,60 +267,6 @@ func merge_lakeside_stones() -> void:
 			visual.visibility_range_end = 153.0
 			clusters.add_child(visual)
 
-func make_aquatic_plants() -> void:
-	var builder := SurfaceTool.new()
-	builder.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 333113
-	for blade in 9:
-		var a := Vector2.from_angle(blade*2.39)
-		var side := a.orthogonal() * rng.randf_range(.055,.16)
-		var base := a*rng.randf_range(.05,.24)
-		var h := rng.randf_range(.48,1.56)
-		var curve := rng.randf_range(.26,.75)
-		for segment in 5:
-			for corner: Vector2 in [Vector2(0,-1),Vector2(1,-1),Vector2(0,1),Vector2(1,-1),Vector2(1,1),Vector2(0,1)]:
-				var t := (segment+corner.x)/5.0
-				var ripple := a.orthogonal()*sin(t*TAU+blade)*t*.09
-				var p := base + a*curve*t*t + ripple + side*corner.y*sin(PI*(.08+t*.92))
-				builder.set_color(Color(t,rng.randf_range(.38,.87)*t,0))
-				builder.add_vertex(Vector3(p.x,h*t,p.y))
-	builder.generate_normals()
-	var mesh := builder.commit()
-	plant_material.shader = preload("res://shaders/a1_submerged_plants.gdshader")
-	for center: Vector2 in [Vector2(232,-465),Vector2(236,-501),Vector2(260,-460),Vector2(283,-484),
-		Vector2(306,-479),Vector2(317,-462),Vector2(326,-445),Vector2(328,-466),Vector2(344,-445),
-		Vector2(351,-466),Vector2(337,-484),Vector2(346,-493),Vector2(370,-453),Vector2(394,-483),Vector2(452,-438)]:
-		var poses: Array[Transform3D] = []
-		for i in (58 if center.x<335 else 36):
-			var fan := Vector2.from_angle(rng.randf()*TAU)*sqrt(rng.randf())*rng.randf_range(2,14)
-			var spot := center+fan
-			var h := field.height(spot)
-			var d := FIELD.WATER-h
-			if d<.35 or (absf(spot.y-FIELD.ARCH.y)<2.5 and absf(spot.x-FIELD.ARCH.x)<13):
-				continue
-			if spot.distance_squared_to(RUINS.CENTER)<44.0:
-				continue
-			var size := rng.randf_range(.44,1.54) * (1.34 if i%8==0 else .84)
-			var height := minf(size*(1.55 if i%7==0 else 1.04),d*.34)
-			poses.append(Transform3D(Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3(size,height,size)),
-				Vector3(fan.x,h-.08,fan.y)))
-		if poses.is_empty():
-			continue
-		var multi := MultiMesh.new()
-		multi.transform_format = MultiMesh.TRANSFORM_3D
-		multi.mesh = mesh
-		multi.instance_count = poses.size()
-		for i in poses.size():
-			multi.set_instance_transform(i,poses[i])
-		var plant := MultiMeshInstance3D.new()
-		plant.multimesh = multi
-		plant.material_override = plant_material
-		plant.position = Vector3(center.x,0,center.y)
-		plant.visibility_range_end = 112.0
-		plant.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		add_child(plant)
-
 func set_season(index: int) -> void:
 	shore_grass.visible = index != 3
 	for tree in shore_trees:
@@ -447,6 +409,13 @@ func _process(delta: float) -> void:
 func contains(p: Vector3) -> bool:
 	return field.lake_ratio(Vector2(p.x,p.z))<1.0 and p.y < FIELD.WATER-.29
 
+func lowest_swim_height(at: Vector2) -> float:
+	var influence := field.trench_influence(at)
+	return lerpf(FIELD.WATER-65.0,TRENCH_FLOOR_Y,influence) if influence>0.0 else -INF
+
+func at_dive_limit(p: Vector3) -> bool:
+	return p.y <= lowest_swim_height(Vector2(p.x,p.z)) + .20
+
 func swim(player: CharacterBody3D, direction: Vector3, blocked: bool, delta: float) -> void:
 	var velocity_target := 0.0
 	if not blocked and Input.is_action_pressed("a1_dive"):
@@ -458,12 +427,31 @@ func swim(player: CharacterBody3D, direction: Vector3, blocked: bool, delta: flo
 	player.velocity.x = move_toward(player.velocity.x,direction.x*SWIM_SPEED,delta*8.0)
 	player.velocity.z = move_toward(player.velocity.z,direction.z*SWIM_SPEED,delta*8.0)
 	player.velocity.y = move_toward(player.velocity.y,velocity_target,delta*9.0)
+	var start := Vector2(player.position.x,player.position.z)
+	var next := start+Vector2(player.velocity.x,player.velocity.z)*delta
+	var floor_before := lowest_swim_height(start)
+	var next_floor := lowest_swim_height(next)
+	var start_y := player.position.y
+	var needed := (next_floor-start_y)/delta
+	# A swimmer arriving below the lip from the open basin must ascend before crossing.
+	if needed>3.2 and next_floor>floor_before+.001:
+		player.velocity.x = 0.0
+		player.velocity.z = 0.0
+	player.velocity.y = maxf(player.velocity.y,minf(needed,3.2))
 	player.move_and_slide()
+	if start_y>=floor_before-.001:
+		var actual_floor := lowest_swim_height(Vector2(player.position.x,player.position.z))
+		var correction := actual_floor-player.position.y
+		if correction>.001:
+			player.move_and_collide(Vector3.UP*correction)
+			player.velocity.y = maxf(0.0,player.velocity.y)
 
 func update_view(camera: Camera3D) -> void:
 	var below := contains(camera.global_position)
 	underside.visible = below
 	pavilion.shafts.visible = below
+	for trench in trenches:
+		trench.current.visible = below
 	if fog_camera != camera:
 		if is_instance_valid(fog_camera):
 			fog_camera.environment = null

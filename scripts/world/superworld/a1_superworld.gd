@@ -59,6 +59,9 @@ func _process(_delta: float) -> void:
 		swim_hint.text = "%s %.1f m   ·   SPACE %s   ·   CTRL %s" % [
 			FLOW.text("Depth","Độ sâu"),lake.depth,
 			FLOW.text("surface","nổi"),FLOW.text("dive","lặn")]
+		if lake.at_dive_limit(player.position):
+			swim_hint.text = "%s   ·   SPACE %s" % [FLOW.text("Strong current below","Dòng chảy mạnh phía dưới"),
+				FLOW.text("surface","nổi")]
 	streamer.cover.weather(weather.wetness,weather.wind_direction,weather.clock)
 	lake.update_weather(weather)
 	if not is_equal_approx(wetness,weather.wetness):
