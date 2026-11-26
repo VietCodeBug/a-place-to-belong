@@ -36,10 +36,17 @@ vec3 detail_ground(vec3 albedo, vec3 ground_position, float steep) {
 	float depth = 5.0 - ground_position.y;
 	float caustic = 0.0;
 	if (depth > 0.0 && depth < 15.0 && length((ground_position.xz-lake_center)/lake_radii)<1.09) {
-		caustic = lake_caustic(ground_position.xz,TIME) * (1.0-smoothstep(.7,9.0,depth));
-		albedo *= mix(vec3(.99,.98,.88),vec3(.46,.73,.72),smoothstep(2.0,23.0,depth));
+		vec2 bed = ground_position.xz;
+		float banks = ground_noise(bed * .11);
+		float ripple = sin(bed.x * 2.18 + bed.y * .81 + 1.3 * sin(bed.y*.79 + banks*3.0));
+		vec3 silt = mix(vec3(.419,.485,.480), vec3(.553,.589,.561), banks) * (.91 + .068 * ripple + .035 * grain);
+		float shelf = smoothstep(.4,3.0,depth) * (1.0-smoothstep(11.0,18.0,depth));
+		albedo = mix(albedo,silt,shelf*(.10+.80*(1.0-steep)));
+		albedo *= mix(vec3(1.0,1.01,.95),vec3(.42,.74,.87),smoothstep(5.0,22.0,depth));
+		caustic = lake_caustic(bed + depth * vec2(.34,.22),TIME)
+			* (1.0-smoothstep(2.0,15.0,depth)) * (.45 + .55 * (1.0-steep));
 	}
-	return albedo * (1.0 - wetness * .22) + vec3(.029,.047,.039)*caustic;
+	return albedo * (1.0 - wetness * .22) + vec3(.079,.106,.119)*caustic;
 }
 
 void fragment() {

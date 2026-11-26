@@ -157,7 +157,7 @@ func _draw() -> void:
 		markers.append([biome[1],biome[2],biome[3]])
 	for marker in markers:
 		var pin := point(marker[0],rect,view)
-		if not rect.has_point(pin) or (marker[0]==FIELD.ARCH and zoom<3.0):
+		if not rect.has_point(pin) or (marker[0] in [FIELD.ARCH,FIELD.PAVILION] and zoom<3.0):
 			continue
 		draw_circle(pin,4.0,Color("F3DB9C"))
 		var offset := Vector2(8,-5)

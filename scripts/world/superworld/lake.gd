@@ -4,7 +4,20 @@ const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const COVER = preload("res://scripts/world/superworld/biome_cover.gd")
 const BOTANY = preload("res://scripts/world/a1_botany.gd")
 const SHAPES = preload("res://scripts/world/shapes.gd")
+const RUINS = preload("res://scripts/world/superworld/lake_ruins.gd")
 const SWIM_SPEED := 3.8
+const FISH := [
+	preload("res://assets/vendor/quaternius/fish/Fish1.glb"),
+	preload("res://assets/vendor/quaternius/fish/Fish2.glb"),
+	preload("res://assets/vendor/quaternius/fish/Fish3.glb"),
+]
+# Center, orbit, count, mesh, size, height through the water column.
+const SHOALS := [
+	[Vector2(270,-469),Vector2(5.0,3.6),20,0,.55,.50],
+	[Vector2(326,-448),Vector2(4.0,2.85),15,2,.62,.57],
+	[Vector2(352,-461),Vector2(6.2,4.7),12,1,.92,.49],
+	[Vector2(345,-473),Vector2(5.4,3.1),18,0,.66,.34],
+]
 var field: FIELD
 var underwater := false
 var depth := 0.0
@@ -22,6 +35,7 @@ var cover: COVER
 var plant_material := ShaderMaterial.new()
 var fish_tick := 0.0
 var shore_stones: Node3D
+var pavilion: RUINS
 
 
 func setup(source: FIELD, planting: COVER) -> void:
@@ -38,6 +52,9 @@ func setup(source: FIELD, planting: COVER) -> void:
 	shore_stones = null
 	make_aquatic_plants()
 	make_arch()
+	pavilion = RUINS.new()
+	add_child(pavilion)
+	pavilion.setup(field)
 	make_fish()
 
 func make_surface() -> void:
@@ -239,23 +256,25 @@ func make_aquatic_plants() -> void:
 	builder.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 333113
-	for blade in 7:
+	for blade in 9:
 		var a := Vector2.from_angle(blade*2.39)
 		var side := a.orthogonal() * rng.randf_range(.055,.16)
 		var base := a*rng.randf_range(.05,.24)
-		var h := rng.randf_range(.42,1.34)
-		var curve := rng.randf_range(.11,.49)
+		var h := rng.randf_range(.48,1.56)
+		var curve := rng.randf_range(.26,.75)
 		for segment in 5:
 			for corner: Vector2 in [Vector2(0,-1),Vector2(1,-1),Vector2(0,1),Vector2(1,-1),Vector2(1,1),Vector2(0,1)]:
 				var t := (segment+corner.x)/5.0
-				var p := base + a*curve*t*t + side*corner.y*sin(PI*(.08+t*.92))
+				var ripple := a.orthogonal()*sin(t*TAU+blade)*t*.09
+				var p := base + a*curve*t*t + ripple + side*corner.y*sin(PI*(.08+t*.92))
 				builder.set_color(Color(t,rng.randf_range(.38,.87)*t,0))
 				builder.add_vertex(Vector3(p.x,h*t,p.y))
 	builder.generate_normals()
 	var mesh := builder.commit()
 	plant_material.shader = preload("res://shaders/a1_submerged_plants.gdshader")
 	for center: Vector2 in [Vector2(232,-465),Vector2(236,-501),Vector2(260,-460),Vector2(283,-484),
-		Vector2(306,-479),Vector2(317,-462),Vector2(337,-484),Vector2(346,-493),Vector2(370,-453),Vector2(394,-483),Vector2(452,-438)]:
+		Vector2(306,-479),Vector2(317,-462),Vector2(326,-445),Vector2(328,-466),Vector2(344,-445),
+		Vector2(351,-466),Vector2(337,-484),Vector2(346,-493),Vector2(370,-453),Vector2(394,-483),Vector2(452,-438)]:
 		var poses: Array[Transform3D] = []
 		for i in (58 if center.x<335 else 36):
 			var fan := Vector2.from_angle(rng.randf()*TAU)*sqrt(rng.randf())*rng.randf_range(2,14)
@@ -264,8 +283,11 @@ func make_aquatic_plants() -> void:
 			var d := FIELD.WATER-h
 			if d<.35 or (absf(spot.y-FIELD.ARCH.y)<2.5 and absf(spot.x-FIELD.ARCH.x)<13):
 				continue
+			if spot.distance_squared_to(RUINS.CENTER)<44.0:
+				continue
 			var size := rng.randf_range(.44,1.54) * (1.34 if i%8==0 else .84)
-			poses.append(Transform3D(Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3(size,minf(size,d*.68),size)),
+			var height := minf(size*(1.55 if i%7==0 else 1.04),d*.34)
+			poses.append(Transform3D(Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3(size,height,size)),
 				Vector3(fan.x,h-.08,fan.y)))
 		if poses.is_empty():
 			continue
@@ -358,35 +380,39 @@ func make_arch() -> void:
 	rock.add_child(body)
 
 func make_fish() -> void:
-	var geometry := SurfaceTool.new()
-	geometry.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var body := PackedVector3Array([Vector3(.29,0,0),Vector3(.025,.075,0),Vector3(.025,-.065,0),
-		Vector3(-.17,0,0),Vector3(.04,0,.054),Vector3(.04,0,-.054),
-		Vector3(-.29,.071,.014),Vector3(-.29,-.067,.014)])
-	for face in [[0,1,4],[0,4,2],[0,2,5],[0,5,1],[3,4,1],[3,2,4],
-		[3,5,2],[3,1,5],[3,6,7]]:
-		for i in face:
-			geometry.add_vertex(body[i])
-	geometry.generate_normals()
-	var mesh := geometry.commit()
-	var material := StandardMaterial3D.new()
-	material.albedo_color = Color("ABC0A4")
-	material.roughness = .45
-	material.vertex_color_use_as_albedo = true
-	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	for i in 3:
-		var fish := MultiMesh.new()
-		fish.transform_format = MultiMesh.TRANSFORM_3D
-		fish.mesh = mesh
-		fish.use_colors = true
-		fish.instance_count = [14,12,17][i]
-		for slot in fish.instance_count:
-			var tint: Color = [Color("C2D4AE"),Color("A7C8C4"),Color("C6AF82")][i]
-			fish.set_instance_color(slot,tint.darkened(.10+.06*(slot%5)))
+	var meshes: Array[Mesh] = []
+	for fish_scene: PackedScene in FISH:
+		var fish := fish_scene.instantiate()
+		var source := fish.find_children("*","MeshInstance3D",true,false)[0] as MeshInstance3D
+		meshes.append(source.mesh)
+		fish.free()
+	var material := ShaderMaterial.new()
+	material.shader = preload("res://shaders/a1_school_fish.gdshader")
+	for config: Array in SHOALS:
+		var center: Vector2 = config[0]
+		var orbit: Vector2 = config[1]
+		var bottom := -INF
+		for segment in 12:
+			bottom = maxf(bottom,field.height(center+Vector2.from_angle(segment*TAU/12.0)*(orbit+Vector2.ONE)))
+		var height := lerpf(bottom+.52,FIELD.WATER-1.20,config[5])
+		var mesh := MultiMesh.new()
+		mesh.transform_format = MultiMesh.TRANSFORM_3D
+		mesh.mesh = meshes[config[3]]
+		mesh.use_colors = true
+		mesh.use_custom_data = true
+		mesh.instance_count = config[2]
+		for slot in mesh.instance_count:
+			var brightness := .86+float((slot*7)%13)*.017
+			mesh.set_instance_color(slot,Color(brightness,brightness,brightness,1))
+			mesh.set_instance_custom_data(slot,Color(float(slot%7)/7.0,float((slot*7)%19)/19.0,0,1))
 		var school := MultiMeshInstance3D.new()
-		school.multimesh = fish
+		school.name = "LakeSchool%d" % schools.size()
+		school.position = Vector3(center.x,height,center.y)
+		school.multimesh = mesh
+		school.custom_aabb = AABB(Vector3(-orbit.x-2,-1.4,-orbit.y-2),Vector3((orbit.x+2)*2,2.8,(orbit.y+2)*2))
 		school.material_override = material
 		school.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		school.hide()
 		add_child(school)
 		schools.append(school)
 
@@ -399,19 +425,24 @@ func _process(delta: float) -> void:
 	var camera := get_viewport().get_camera_3d()
 	if camera == null:
 		return
+	var eye := Vector2(camera.global_position.x,camera.global_position.z)
 	for j in schools.size():
 		var school := schools[j]
-		var center: Vector2 = [FIELD.SHELF+Vector2(5,-8),FIELD.ARCH+Vector2(-2,7),Vector2(352,-470)][j]
-		var eye := Vector2(camera.global_position.x,camera.global_position.z)
-		school.visible = eye.distance_squared_to(center)<100.0*100.0
+		var config: Array = SHOALS[j]
+		var center: Vector2 = config[0]
+		var orbit: Vector2 = config[1]
+		school.visible = eye.distance_squared_to(center)<88.0*88.0
 		if not school.visible:
 			continue
 		for i in school.multimesh.instance_count:
-			var a := clock*(.26+j*.048)+j*2.9+i*.139
-			var p := center+Vector2(cos(a),sin(a))*Vector2(7.0+(i%5)*.45,4.7+(i%4)*.7)
-			var y := lerpf(field.height(p),FIELD.WATER,.58-j*.095+sin(i*1.2+clock*.66)*.14)
-			var basis := Basis(Vector3.UP,-a-PI*.5).scaled(Vector3.ONE*(1.05+float(i%5)*.14))
-			school.multimesh.set_instance_transform(i,Transform3D(basis,Vector3(p.x,y,p.y)))
+			var a := clock*(.24+j*.035)+j*2.9+i*.184
+			var ring := orbit+Vector2(.37*float(i%5)-.64,.36*float(i%4)-.48)
+			var p := Vector2.from_angle(a)*ring
+			var bob := sin(i*1.26+clock*.98)*.38+cos(a*2.0)*.17
+			var heading := Vector2(-sin(a)*ring.x,cos(a)*ring.y)
+			var scale: float = config[4]*(.82+float(i%5)*.09)
+			var basis := Basis(Vector3.UP,-heading.angle()).scaled(Vector3.ONE*scale)
+			school.multimesh.set_instance_transform(i,Transform3D(basis,Vector3(p.x,bob,p.y)))
 
 func contains(p: Vector3) -> bool:
 	return field.lake_ratio(Vector2(p.x,p.z))<1.0 and p.y < FIELD.WATER-.29
@@ -432,6 +463,7 @@ func swim(player: CharacterBody3D, direction: Vector3, blocked: bool, delta: flo
 func update_view(camera: Camera3D) -> void:
 	var below := contains(camera.global_position)
 	underside.visible = below
+	pavilion.shafts.visible = below
 	if fog_camera != camera:
 		if is_instance_valid(fog_camera):
 			fog_camera.environment = null
@@ -444,12 +476,15 @@ func update_view(camera: Camera3D) -> void:
 		var base := camera.get_world_3d().environment
 		underwater_environment = base.duplicate() as Environment
 		underwater_environment.background_mode = Environment.BG_COLOR
-		underwater_environment.background_color = Color("103C50")
+		underwater_environment.background_color = Color("2E9BBE")
 		underwater_environment.fog_enabled = true
 		underwater_environment.fog_mode = Environment.FOG_MODE_EXPONENTIAL
-		underwater_environment.fog_light_color = Color("22727A")
-		underwater_environment.fog_density = .043
-		underwater_environment.ambient_light_energy *= .56
+		underwater_environment.fog_sky_affect = 0.0
+		underwater_environment.fog_light_color = Color("469FBE")
+		underwater_environment.fog_density = .015
+		underwater_environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+		underwater_environment.ambient_light_color = Color("9AD9ED")
+		underwater_environment.ambient_light_energy *= .80
 		camera.environment = underwater_environment
 	else:
 		camera.environment = null
@@ -465,8 +500,10 @@ func update_weather(weather: Node) -> void:
 		material.set_shader_parameter("sky_zenith",Color("13293E").lerp(Color("4C839C"),daylight))
 	if underwater and is_instance_valid(fog_camera):
 		var below := FIELD.WATER-fog_camera.global_position.y
-		var middle := smoothstep(2.3,11.5,below)
-		var basin := smoothstep(11.0,28.0,below)
-		underwater_environment.fog_density = lerpf(.023,.051,middle)+basin*.023+float(weather.weather_value.y)*.013
-		underwater_environment.fog_light_color = Color("488571").lerp(Color("28617A"),middle).lerp(Color("132F48"),basin)
-		underwater_environment.ambient_light_energy = lerpf(.64,.28,middle)*(1.0-basin*.48)*lerpf(.5,1.0,daylight)
+		var middle := smoothstep(3.0,13.5,below)
+		var basin := smoothstep(11.0,27.0,below)
+		underwater_environment.fog_density = lerpf(.014,.022,middle)+basin*.012+float(weather.weather_value.y)*.005
+		var scatter := Color("44BED8").lerp(Color("1788B7"),middle).lerp(Color("0A426C"),basin)
+		underwater_environment.fog_light_color = Color("153753").lerp(scatter,lerpf(.34,1.0,daylight))
+		underwater_environment.background_color = underwater_environment.fog_light_color
+		underwater_environment.ambient_light_energy = lerpf(.79,.52,middle)*(1.0-basin*.37)*lerpf(.48,1.0,daylight)

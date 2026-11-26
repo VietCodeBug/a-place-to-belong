@@ -129,6 +129,19 @@ func run() -> void:
 	Input.action_press("a1_dive")
 	check(await walk(Vector2(311,-471)),"Submerged arch passage blocked")
 	release()
+	await put(FIELD.PAVILION+Vector2(-8,0))
+	actor.position.y = -.58
+	var pavilion: Node3D = world.lake.get_node("FloodedPavilion")
+	var crown := Vector3(FIELD.PAVILION.x+.72,FIELD.WATER+.3,FIELD.PAVILION.y-.42)
+	var ceiling := PhysicsRayQueryParameters3D.create(crown,crown-Vector3.UP*4.0)
+	var ceiling_hit := actor.get_world_3d().direct_space_state.intersect_ray(ceiling)
+	check(not ceiling_hit.is_empty() and pavilion.is_ancestor_of(ceiling_hit.collider),"Flooded pavilion roof is missing collision")
+	var fish_meshes := {}
+	for school: MultiMeshInstance3D in world.lake.schools:
+		fish_meshes[school.multimesh.mesh.get_instance_id()] = true
+	check(fish_meshes.size()==3 and world.lake.schools.size()==4,"Underwater schools did not load all silhouettes")
+	check(await walk(FIELD.PAVILION+Vector2(2.25,.1)) and actor.state=="swimming","Open pavilion entry does not allow swimming")
+	release()
 	await put(Vector2(208,-462))
 	var weather: Node = hub.get_node("ForestWeather")
 	weather.paused = true

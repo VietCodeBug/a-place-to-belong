@@ -1,5 +1,7 @@
 shader_type spatial;
-render_mode cull_front,unshaded;
+render_mode cull_front, unshaded;
+
+#include "res://shaders/a1_lake_caustics.gdshaderinc"
 
 varying vec3 world;
 void vertex() {
@@ -7,12 +9,15 @@ void vertex() {
 }
 
 void fragment() {
-	float weave = .5+.5*sin(world.x*.46+world.z*.37+TIME*.81);
-	float ripples = sin(world.x*.74-world.z*.83+TIME*1.25+weave*1.38);
-	float glow = pow(.5+.5*ripples,4.0)*(.34+weave*.61);
+	vec3 eye_ray = normalize(world-CAMERA_POSITION_WORLD);
+	float above = smoothstep(.03,.86,eye_ray.y);
+	float reach = smoothstep(.78,1.0,UV.x);
 	float depth = max(0.0,world.y-CAMERA_POSITION_WORLD.y);
-	float reach = smoothstep(.72,1.0,UV.x);
-	ALBEDO = mix(vec3(.026,.154,.221),vec3(.090,.375,.341),reach)*(1.0+glow*.32);
-	ALBEDO *= 1.0-smoothstep(1.5,25.0,depth)*.77;
-	ALPHA = .69*(1.0-smoothstep(.992,1.0,UV.x));
+	float glint = lake_caustic(world.xz*.68,TIME*.78);
+	float broad = .5+.5*sin(world.x*.43+world.z*.34+TIME*.72);
+	vec3 turquoise = mix(vec3(.037,.39,.60),vec3(.10,.74,.91),above);
+	turquoise = mix(turquoise,vec3(.055,.52,.67),reach*.37);
+	turquoise += vec3(.12,.29,.34)*glint*(.06+above*.28)*(.51+.49*broad);
+	float attenuate = smoothstep(3.0,28.0,depth);
+	ALBEDO = mix(turquoise,vec3(.025,.265,.441),.64*attenuate);
 }

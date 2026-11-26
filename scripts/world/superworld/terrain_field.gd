@@ -8,6 +8,7 @@ const WATER := 5.0
 const SHORE := Vector2(217, -455)
 const SHELF := Vector2(269, -473)
 const ARCH := Vector2(305, -471)
+const PAVILION := Vector2(336, -456)
 const MEADOW := Vector2(330, 138)
 const OVERLOOK := Vector2(270, -825)
 const BIOMES := [
@@ -16,7 +17,8 @@ const BIOMES := [
 	["river_valley",Vector2(0,74),"River and bridge","Sông và cầu"],
 	["village_a",Vector2(5.2,128),"Village A","Làng A"],
 	["highland",OVERLOOK,"Highland overlook","Điểm ngắm cao nguyên"],
-	["underwater",ARCH,"Underwater arch","Vòm đá dưới hồ"]
+	["underwater",ARCH,"Underwater arch","Vòm đá dưới hồ"],
+	["pavilion",PAVILION,"Sunken pavilion","Đình đá chìm"],
 ]
 const TRAILS := [
 	[Vector2(4,-274),Vector2(28,-293),Vector2(64,-309),Vector2(96,-330),Vector2(124,-360),Vector2(159,-407),Vector2(187,-439),SHORE],
