@@ -9,6 +9,10 @@ const SHORE := Vector2(217, -455)
 const SHELF := Vector2(269, -473)
 const ARCH := Vector2(305, -471)
 const PAVILION := Vector2(336, -456)
+const DIVE_ENTRY := Vector2(234, -455)
+const LAKE_MEADOW := Vector2(267, -457)
+const LIGHT_GARDEN := Vector2(363, -428)
+const LAKE_VAULT := Vector2(387, -439)
 const STAIR_GATE := Vector2(380, -416)
 const COLONNADE := Vector2(418, -474)
 const BROKEN_TOWER := Vector2(478, -402)
@@ -20,6 +24,12 @@ const TRENCHES := [
 	[WEST_TRENCH, Vector2(16.0, 36.0), .26, 22.0],
 	[EAST_TRENCH, Vector2(21.0, 42.0), -.47, MAX_TRENCH_CUT],
 ]
+const LAKE_ROUTES := [
+	[DIVE_ENTRY, Vector2(250,-457), LAKE_MEADOW, Vector2(286,-470), Vector2(299,-471),
+		Vector2(312,-471), Vector2(324,-459), PAVILION, Vector2(345,-448), Vector2(355,-433), LIGHT_GARDEN],
+	[Vector2(343,-465), Vector2(357,-474), Vector2(382,-480), Vector2(404,-476), COLONNADE],
+	[Vector2(367,-422), STAIR_GATE, Vector2(402,-406), Vector2(435,-400), Vector2(456,-397), BROKEN_TOWER],
+]
 const MEADOW := Vector2(330, 138)
 const OVERLOOK := Vector2(270, -825)
 const BIOMES := [
@@ -30,6 +40,9 @@ const BIOMES := [
 	["highland",OVERLOOK,"Highland overlook","Điểm ngắm cao nguyên"],
 	["underwater",ARCH,"Underwater arch","Vòm đá dưới hồ"],
 	["pavilion",PAVILION,"Sunken pavilion","Đình đá chìm"],
+	["dive_entry",DIVE_ENTRY,"Dive entry","Lối xuống hồ"],
+	["lake_meadow",LAKE_MEADOW,"Water meadow","Đồng cỏ nước"],
+	["light_garden",LIGHT_GARDEN,"Garden of lights","Vườn ánh sáng"],
 	["stair_gate",STAIR_GATE,"Stair gate","Cổng bậc đá"],
 	["colonnade",COLONNADE,"Colonnade","Hành lang cột"],
 	["broken_tower",BROKEN_TOWER,"Broken tower","Tháp vỡ"],

@@ -5,6 +5,7 @@ const FIELD = preload("res://scripts/world/superworld/terrain_field.gd")
 const CELL := 32.0
 const PATCHES := [
 	Vector4(233,-466,10,51), Vector4(242,-500,14,35), Vector4(260,-460,14,73),
+	Vector4(255,-451,6,57), Vector4(266,-451,7,76), Vector4(272,-463,8,62),
 	Vector4(283,-484,13,60), Vector4(302,-481,10,51), Vector4(316,-459,11,56),
 	Vector4(324,-445,10,54), Vector4(330,-470,12,40), Vector4(347,-448,10,54),
 	Vector4(350,-472,14,46), Vector4(349,-430,17,47), Vector4(363,-406,12,56),
@@ -86,6 +87,11 @@ func keep_open(p: Vector2) -> bool:
 	for clearing: Vector3 in CLEARINGS:
 		if p.distance_squared_to(Vector2(clearing.x,clearing.y)) < clearing.z*clearing.z:
 			return true
+	for route: Array in FIELD.LAKE_ROUTES:
+		for i in range(route.size()-1):
+			var near := Geometry2D.get_closest_point_to_segment(p,route[i],route[i+1])
+			if p.distance_squared_to(near)<1.38:
+				return true
 	return false
 
 func ribbon(builder: SurfaceTool, spine: PackedVector3Array, widths: PackedFloat32Array,

@@ -159,6 +159,15 @@ func _draw() -> void:
 				draw_circle(waypoint,2.25,Color("F4DFAB"))
 	var markers := MARKERS.duplicate()
 	if zoom>=10.0:
+		for route_index in FIELD.LAKE_ROUTES.size():
+			var lake_route: Array = FIELD.LAKE_ROUTES[route_index]
+			for i in range(lake_route.size()-1):
+				var a := point(lake_route[i],rect,view)
+				var b := point(lake_route[i+1],rect,view)
+				var clipped := clip_segment(a,b,rect)
+				if clipped.size()==2:
+					var color := Color("BBF4E7") if route_index==0 else Color("81BDCA")
+					draw_dashed_line(clipped[0],clipped[1],color,2.0,5.0,true)
 		markers.append([FIELD.WEST_TRENCH,"West trench","Khe tây"])
 		markers.append([FIELD.EAST_TRENCH,"East trench","Khe đông"])
 		for trench: Array in FIELD.TRENCHES:
@@ -179,7 +188,8 @@ func _draw() -> void:
 		if not rect.has_point(pin):
 			continue
 		if (marker[0] in [FIELD.ARCH,FIELD.PAVILION] and zoom<6.0
-				or marker[0] in [FIELD.STAIR_GATE,FIELD.COLONNADE,FIELD.BROKEN_TOWER] and zoom<10.0):
+				or marker[0] in [FIELD.DIVE_ENTRY,FIELD.LAKE_MEADOW,FIELD.LIGHT_GARDEN,
+					FIELD.STAIR_GATE,FIELD.COLONNADE,FIELD.BROKEN_TOWER] and zoom<10.0):
 			continue
 		draw_circle(pin,4.0,Color("F3DB9C"))
 		var offset := Vector2(8,-5)
@@ -189,9 +199,19 @@ func _draw() -> void:
 		elif marker[0]==Vector2(5,-320) and zoom<4.0:
 			offset = Vector2(-92,12)
 		elif marker[0]==FIELD.ARCH:
-			offset = Vector2(8,17)
+			offset = Vector2(-38,-12)
+		elif marker[0]==FIELD.PAVILION:
+			offset = Vector2(8,-11)
 		elif marker[0]==FIELD.COLONNADE:
 			offset = Vector2(8,17)
+		elif marker[0]==FIELD.DIVE_ENTRY:
+			offset = Vector2(8,23)
+		elif marker[0]==FIELD.LAKE_MEADOW:
+			offset = Vector2(-29,19)
+		elif marker[0]==FIELD.LIGHT_GARDEN:
+			offset = Vector2(-92,17)
+		elif marker[0]==FIELD.BROKEN_TOWER:
+			offset = Vector2(-58,17)
 		elif marker[0]==FIELD.EAST_TRENCH:
 			offset = Vector2(-73,-8)
 		draw_string_outline(font,pin+offset,FLOW.text(marker[1],marker[2]),HORIZONTAL_ALIGNMENT_LEFT,-1,14,2,Color("F3E9C9"))

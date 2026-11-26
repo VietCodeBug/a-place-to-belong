@@ -139,7 +139,7 @@ func run() -> void:
 	var fish_meshes := {}
 	for school: MultiMeshInstance3D in world.lake.schools:
 		fish_meshes[school.multimesh.mesh.get_instance_id()] = true
-	check(fish_meshes.size()==3 and world.lake.schools.size()==4,"Underwater schools did not load all silhouettes")
+	check(fish_meshes.size()==3 and world.lake.schools.size()==5,"Underwater schools did not load all silhouettes")
 	check(await walk(FIELD.PAVILION+Vector2(2.25,.1)) and actor.state=="swimming","Open pavilion entry does not allow swimming")
 	release()
 	for site in [["StairGate",FIELD.STAIR_GATE,Vector2(-10,0),Vector2(3,0)],
@@ -186,6 +186,49 @@ func run() -> void:
 	check(await walk(FIELD.EAST_TRENCH) and world.lake.at_dive_limit(actor.position),"Lateral trench entry did not follow the safe ascent edge")
 	check(actor.position.y>=world.lake.lowest_swim_height(Vector2(actor.position.x,actor.position.z))-.12,"Lateral approach bypassed the trench current")
 	release()
+	await put(FIELD.LAKE_VAULT+Vector2(-10,0))
+	var vault: Node3D = world.lake.dream.vault
+	var vault_y := vault.position.y+1.10
+	actor.position.y = vault_y
+	var doorway := PhysicsRayQueryParameters3D.create(
+		Vector3(FIELD.LAKE_VAULT.x-8,vault_y,FIELD.LAKE_VAULT.y),
+		Vector3(FIELD.LAKE_VAULT.x-2,vault_y,FIELD.LAKE_VAULT.y),1,[actor.get_rid()])
+	var door_hit := actor.get_world_3d().direct_space_state.intersect_ray(doorway)
+	check(not vault.opened and not door_hit.is_empty() and door_hit.collider==vault.door,"Secret chamber did not start physically closed")
+	var chime: Node3D = vault.chime
+	await put(Vector2(chime.global_position.x,chime.global_position.z))
+	actor.position.y = chime.global_position.y-.28
+	for tick in 4:
+		await process_frame
+	check(hub.ui.active==chime,"The pavilion chime is not reachable through normal interaction")
+	press_key(KEY_E)
+	check(vault.opened and hub.ui.panel.visible,"The chime did not open the hidden passage")
+	hub.ui.close()
+	for tick in 80:
+		await physics_frame
+	await put(FIELD.LAKE_VAULT+Vector2(-10,0))
+	actor.position.y = vault_y
+	check(await walk(FIELD.LAKE_VAULT+Vector2(.85,0)),"Open secret chamber is not reachable by swimming")
+	release()
+	for tick in 4:
+		await process_frame
+	check(hub.ui.active==vault.relic,"The chamber's pottery shard cannot be reached")
+	press_key(KEY_E)
+	check(vault.relic_found and not vault.relic.is_in_group("interactables"),"Pottery shard could not be collected")
+	hub.ui.close()
+	var lake_weather: Node = hub.get_node("ForestWeather")
+	lake_weather.paused = true
+	lake_weather.set_time(17.0)
+	lake_weather.set_weather("clear",true)
+	for tick in 6:
+		await process_frame
+	var rare_school: Node3D = world.lake.schools[-1]
+	check(world.lake.garden_event and rare_school.visible,"Clear evening did not reveal the pearl fish")
+	lake_weather.set_weather("light_rain",true)
+	for tick in 6:
+		await process_frame
+	check(not world.lake.garden_event and not rare_school.visible,"Pearl fish did not leave in the rain")
+	lake_weather.paused = false
 	await put(Vector2(208,-462))
 	var weather: Node = hub.get_node("ForestWeather")
 	weather.paused = true

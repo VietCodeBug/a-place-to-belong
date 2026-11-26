@@ -3,6 +3,8 @@ render_mode cull_front, unshaded;
 
 #include "res://shaders/a1_lake_caustics.gdshaderinc"
 
+uniform vec4 horizon_tint : source_color = vec4(0.26, 0.72, 0.82, 1.0);
+
 varying vec3 world;
 void vertex() {
 	world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -16,6 +18,7 @@ void fragment() {
 	float glint = lake_caustic(world.xz*.68,TIME*.78);
 	float broad = .5+.5*sin(world.x*.43+world.z*.34+TIME*.72);
 	vec3 turquoise = mix(vec3(.037,.39,.60),vec3(.10,.74,.91),above);
+	turquoise = mix(turquoise, horizon_tint.rgb, .62 * (1.0 - smoothstep(.02,.30,eye_ray.y)));
 	turquoise = mix(turquoise,vec3(.055,.52,.67),reach*.37);
 	turquoise += vec3(.12,.29,.34)*glint*(.06+above*.28)*(.51+.49*broad);
 	float attenuate = smoothstep(3.0,28.0,depth);

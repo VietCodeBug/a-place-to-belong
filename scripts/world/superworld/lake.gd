@@ -8,6 +8,7 @@ const RUINS = preload("res://scripts/world/superworld/lake_ruins.gd")
 const HABITATS = preload("res://scripts/world/superworld/lake_habitats.gd")
 const LANDMARKS = preload("res://scripts/world/superworld/lake_landmarks.gd")
 const TRENCH = preload("res://scripts/world/superworld/lake_trench.gd")
+const DREAM = preload("res://scripts/world/superworld/lake_dream.gd")
 const SWIM_SPEED := 3.8
 const TRENCH_DIVE_METRES := 18.0
 const TRENCH_FLOOR_Y := FIELD.WATER - TRENCH_DIVE_METRES - 1.2
@@ -18,10 +19,11 @@ const FISH := [
 ]
 # Center, orbit, count, mesh, size, height through the water column.
 const SHOALS := [
-	[Vector2(270,-469),Vector2(5.0,3.6),20,0,.55,.50],
+	[FIELD.LAKE_MEADOW,Vector2(5.0,3.6),20,0,.43,.48],
 	[Vector2(326,-448),Vector2(4.0,2.85),15,2,.62,.57],
 	[Vector2(352,-461),Vector2(6.2,4.7),12,1,.92,.49],
 	[Vector2(345,-473),Vector2(5.4,3.1),18,0,.66,.34],
+	[FIELD.LIGHT_GARDEN+Vector2(3.0,-5.0),Vector2(3.0,2.3),7,0,.48,.34],
 ]
 var field: FIELD
 var underwater := false
@@ -41,6 +43,8 @@ var fish_tick := 0.0
 var shore_stones: Node3D
 var pavilion: RUINS
 var trenches: Array[TRENCH] = []
+var dream: DREAM
+var garden_event := false
 
 
 func setup(source: FIELD, planting: COVER) -> void:
@@ -71,6 +75,9 @@ func setup(source: FIELD, planting: COVER) -> void:
 		add_child(trench)
 		trench.setup(field,FIELD.TRENCHES[i],i)
 		trenches.append(trench)
+	dream = DREAM.new()
+	add_child(dream)
+	dream.setup(field)
 	make_fish()
 
 func make_surface() -> void:
@@ -350,7 +357,8 @@ func make_fish() -> void:
 		fish.free()
 	var material := ShaderMaterial.new()
 	material.shader = preload("res://shaders/a1_school_fish.gdshader")
-	for config: Array in SHOALS:
+	for j in SHOALS.size():
+		var config: Array = SHOALS[j]
 		var center: Vector2 = config[0]
 		var orbit: Vector2 = config[1]
 		var bottom := -INF
@@ -366,7 +374,7 @@ func make_fish() -> void:
 		for slot in mesh.instance_count:
 			var brightness := .86+float((slot*7)%13)*.017
 			mesh.set_instance_color(slot,Color(brightness,brightness,brightness,1))
-			mesh.set_instance_custom_data(slot,Color(float(slot%7)/7.0,float((slot*7)%19)/19.0,0,1))
+			mesh.set_instance_custom_data(slot,Color(float(slot%7)/7.0,float((slot*7)%19)/19.0,1.0 if j==SHOALS.size()-1 else 0,1))
 		var school := MultiMeshInstance3D.new()
 		school.name = "LakeSchool%d" % schools.size()
 		school.position = Vector3(center.x,height,center.y)
@@ -393,7 +401,7 @@ func _process(delta: float) -> void:
 		var config: Array = SHOALS[j]
 		var center: Vector2 = config[0]
 		var orbit: Vector2 = config[1]
-		school.visible = eye.distance_squared_to(center)<88.0*88.0
+		school.visible = eye.distance_squared_to(center)<88.0*88.0 and (j<SHOALS.size()-1 or garden_event)
 		if not school.visible:
 			continue
 		for i in school.multimesh.instance_count:
@@ -457,21 +465,23 @@ func update_view(camera: Camera3D) -> void:
 			fog_camera.environment = null
 		fog_camera = camera
 		underwater = false
+		dream.set_underwater(below)
 	if below == underwater:
 		return
 	underwater = below
+	dream.set_underwater(below)
 	if below:
 		var base := camera.get_world_3d().environment
 		underwater_environment = base.duplicate() as Environment
 		underwater_environment.background_mode = Environment.BG_COLOR
-		underwater_environment.background_color = Color("2E9BBE")
+		underwater_environment.background_color = Color("42B8D1")
 		underwater_environment.fog_enabled = true
 		underwater_environment.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 		underwater_environment.fog_sky_affect = 0.0
-		underwater_environment.fog_light_color = Color("469FBE")
-		underwater_environment.fog_density = .015
+		underwater_environment.fog_light_color = Color("42B8D1")
+		underwater_environment.fog_density = .011
 		underwater_environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-		underwater_environment.ambient_light_color = Color("9AD9ED")
+		underwater_environment.ambient_light_color = Color("C7F0F1")
 		underwater_environment.ambient_light_energy *= .80
 		camera.environment = underwater_environment
 	else:
@@ -481,17 +491,22 @@ func update_view(camera: Camera3D) -> void:
 func update_weather(weather: Node) -> void:
 	var hours: float = weather.hours
 	var daylight := smoothstep(0.0,.35,sin((hours-6.0)*TAU/24.0))
+	var rain: float = weather.weather_value.y
+	garden_event = hours>=16.5 and hours<18.5 and weather.weather_value.x<.28 and rain<.13
 	for material in [water_material,outer_water]:
 		material.set_shader_parameter("wind_strength",float(weather.weather_value.z)*.75)
-		material.set_shader_parameter("rain",float(weather.weather_value.y))
+		material.set_shader_parameter("rain",rain)
 		material.set_shader_parameter("sky_horizon",Color("25404F").lerp(Color("9DB8B5"),daylight))
 		material.set_shader_parameter("sky_zenith",Color("13293E").lerp(Color("4C839C"),daylight))
 	if underwater and is_instance_valid(fog_camera):
+		dream.update_light(daylight,rain,garden_event)
+		(pavilion.shafts.material_override as ShaderMaterial).set_shader_parameter("strength",daylight*(1.3-rain*.71))
 		var below := FIELD.WATER-fog_camera.global_position.y
-		var middle := smoothstep(3.0,13.5,below)
-		var basin := smoothstep(11.0,27.0,below)
-		underwater_environment.fog_density = lerpf(.014,.022,middle)+basin*.012+float(weather.weather_value.y)*.005
-		var scatter := Color("44BED8").lerp(Color("1788B7"),middle).lerp(Color("0A426C"),basin)
-		underwater_environment.fog_light_color = Color("153753").lerp(scatter,lerpf(.34,1.0,daylight))
+		var middle := smoothstep(1.0,10.0,below)
+		var basin := smoothstep(11.0,30.0,below)
+		underwater_environment.fog_density = lerpf(.009,.015,middle)+basin*.009+rain*.003
+		var scatter := Color("8DE3E8").lerp(Color("42B8D1"),middle).lerp(Color("1E6F95"),basin)
+		underwater_environment.fog_light_color = Color("144D68").lerp(scatter,lerpf(.38,1.0,daylight))
 		underwater_environment.background_color = underwater_environment.fog_light_color
-		underwater_environment.ambient_light_energy = lerpf(.79,.52,middle)*(1.0-basin*.37)*lerpf(.48,1.0,daylight)
+		(underside.material_override as ShaderMaterial).set_shader_parameter("horizon_tint",underwater_environment.fog_light_color)
+		underwater_environment.ambient_light_energy = lerpf(.84,.64,middle)*(1.0-basin*.32)*lerpf(.55,1.0,daylight)
