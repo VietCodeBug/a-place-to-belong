@@ -66,6 +66,7 @@ func make_mesh(start: Vector2, width: int, step: int, sink: float = 0.0) -> Arra
 	# Each corner is shared by several normals. Sample one padded lattice
 	# for both heights and central differences instead of evaluating corners five times.
 	var padded := side+2
+	var trench_panorama := FIELD.TRENCH_BOUNDS.grow(step)
 	var heights := PackedFloat32Array()
 	heights.resize(padded*padded)
 	for row in padded:
@@ -78,7 +79,11 @@ func make_mesh(start: Vector2, width: int, step: int, sink: float = 0.0) -> Arra
 			var y := heights[index]
 			var hx := heights[index+1]-heights[index-1]
 			var hz := heights[index+padded]-heights[index-padded]
-			vertices.append(Vector3(p.x,y-sink,p.y))
+			var render_y := y-sink
+			# Coarse triangles straddling a narrow trench must stay below the physical bed.
+			if sink>0.0 and trench_panorama.has_point(p):
+				render_y -= FIELD.MAX_TRENCH_CUT
+			vertices.append(Vector3(p.x,render_y,p.y))
 			normals.append(Vector3(-hx,2.0*step,-hz).normalized())
 			colors.append(field.ground_color(p,y))
 	for row in range(side-1):

@@ -1,0 +1,39 @@
+{
+  "author": "Quaternius",
+  "pack": "Animated Fish Pack",
+  "license": "CC0-1.0",
+  "source": "https://quaternius.com/packs/animatedfish.html",
+  "mirror": "https://github.com/seoyxxn11/araatti_project/tree/b27b13c2bef9b7d90f6ffa9e0acccb064fe0a10a/unity/UnderTheSea/Assets/QuaterniusAnimatedFish",
+  "files": [
+    {
+      "path": "art_source/lake_fish/source/Fish1.fbx",
+      "sha256": "1adea1cca2f02f351cf524b60d2448502e3acb3ef2965f74a21c45a5dfce77e3",
+      "bytes": 98156
+    },
+    {
+      "path": "assets/vendor/quaternius/fish/Fish1.glb",
+      "sha256": "33fc95fb0636c26dce8cbe31333fb7c364f45966e1077b68b0b60615fa0f49f9",
+      "bytes": 39588
+    },
+    {
+      "path": "art_source/lake_fish/source/Fish2.fbx",
+      "sha256": "ab12853cbd9c205a3aeb1d2cff1fd0cced44e5faa707020637bfd41634201509",
+      "bytes": 97996
+    },
+    {
+      "path": "assets/vendor/quaternius/fish/Fish2.glb",
+      "sha256": "03c1eefe2261f8b509091f8c5c9aef053a0e2b71eb4d6ada218e14e69e02dc12",
+      "bytes": 33700
+    },
+    {
+      "path": "art_source/lake_fish/source/Fish3.fbx",
+      "sha256": "142bb6559b928c61ff839eecbba4ee0cfafa964df37720db6a6ba3a90b4ed639",
+      "bytes": 87468
+    },
+    {
+      "path": "assets/vendor/quaternius/fish/Fish3.glb",
+      "sha256": "403673514bf1b27ae46479bed8f09e0c814f5acf9dd01e4dd3e3f88207d905a2",
+      "bytes": 48156
+    }
+  ]
+}

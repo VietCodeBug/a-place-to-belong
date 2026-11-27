@@ -35,11 +35,24 @@ vec3 detail_ground(vec3 albedo, vec3 ground_position, float steep) {
 	albedo = season_tint(albedo,steep,moss,ground_position.y);
 	float depth = 5.0 - ground_position.y;
 	float caustic = 0.0;
-	if (depth > 0.0 && depth < 15.0 && length((ground_position.xz-lake_center)/lake_radii)<1.09) {
-		caustic = lake_caustic(ground_position.xz,TIME) * (1.0-smoothstep(.7,9.0,depth));
-		albedo *= mix(vec3(.99,.98,.88),vec3(.46,.73,.72),smoothstep(2.0,23.0,depth));
+	if (depth > 0.0 && length((ground_position.xz-lake_center)/lake_radii)<1.12) {
+		vec2 bed = ground_position.xz;
+		float banks = ground_noise(bed * .11);
+		float ripple = sin(bed.x * 2.18 + bed.y * .81 + 1.3 * sin(bed.y*.79 + banks*3.0));
+		vec3 silt = mix(vec3(.46,.52,.503), vec3(.585,.61,.56), banks) * (.93 + .050 * ripple + .035 * grain);
+		float shelf = smoothstep(.4,3.0,depth) * (1.0-smoothstep(11.0,18.0,depth));
+		albedo = mix(albedo,silt,shelf*(.10+.80*(1.0-steep)));
+		albedo *= mix(vec3(1.0,1.01,.95),vec3(.42,.74,.87),smoothstep(5.0,22.0,depth));
+		if (depth < 15.0) {
+			caustic = lake_caustic(bed + depth * vec2(.34,.22),TIME)
+				* (1.0-smoothstep(2.0,15.0,depth)) * (.45 + .55 * (1.0-steep));
+		}
+		float rock_layers = mix(.79,1.10,seams);
+		float deep = smoothstep(12.0,29.0,depth);
+		vec3 shale = mix(vec3(.024,.042,.058),vec3(.066,.123,.153),strokes)*rock_layers;
+		albedo = mix(albedo,shale,deep*(.65+.35*steep));
 	}
-	return albedo * (1.0 - wetness * .22) + vec3(.029,.047,.039)*caustic;
+	return albedo * (1.0 - wetness * .22) + vec3(.082,.123,.138)*caustic;
 }
 
 void fragment() {

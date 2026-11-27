@@ -122,8 +122,13 @@ func _draw() -> void:
 	var metres_per_pixel := view.size.x/rect.size.x
 	var tile_pixels := field.chunk_size/metres_per_pixel
 	for id: Vector2i in explored:
-		var origin := point(Vector2(id)*field.chunk_size,rect,view)
-		draw_rect(Rect2(origin,Vector2.ONE*tile_pixels).intersection(rect),Color(.96,.84,.51,.37))
+		var tile_origin := Vector2(id)*field.chunk_size
+		var origin := point(tile_origin,rect,view)
+		var tile_rect := Rect2(origin,Vector2.ONE*tile_pixels).intersection(rect)
+		if not tile_rect.has_area():
+			continue
+		var tint := Color(.73,.89,.85,.14) if field.lake_ratio(tile_origin+Vector2.ONE*field.chunk_size*.5)<1.0 else Color(.96,.84,.51,.37)
+		draw_rect(tile_rect,tint)
 	if show_chunks:
 		for id: Vector2i in world.streamer.chunks:
 			var origin := point(Vector2(id)*field.chunk_size,rect,view)
@@ -153,11 +158,38 @@ func _draw() -> void:
 				draw_circle(waypoint,4.0,INK)
 				draw_circle(waypoint,2.25,Color("F4DFAB"))
 	var markers := MARKERS.duplicate()
+	if zoom>=10.0:
+		for route_index in FIELD.LAKE_ROUTES.size():
+			var lake_route: Array = FIELD.LAKE_ROUTES[route_index]
+			for i in range(lake_route.size()-1):
+				var a := point(lake_route[i],rect,view)
+				var b := point(lake_route[i+1],rect,view)
+				var clipped := clip_segment(a,b,rect)
+				if clipped.size()==2:
+					var color := Color("BBF4E7") if route_index==0 else Color("81BDCA")
+					draw_dashed_line(clipped[0],clipped[1],color,2.0,5.0,true)
+		markers.append([FIELD.WEST_TRENCH,"West trench","Khe tây"])
+		markers.append([FIELD.EAST_TRENCH,"East trench","Khe đông"])
+		for trench: Array in FIELD.TRENCHES:
+			var center_at: Vector2 = trench[0]
+			var radii: Vector2 = trench[1]
+			var shape: PackedVector2Array
+			for i in range(17):
+				var border := (Vector2.from_angle(i*TAU/16.0)*radii).rotated(-trench[2])
+				shape.append(point(center_at+border,rect,view))
+			for i in range(shape.size()-1):
+				var clipped := clip_segment(shape[i],shape[i+1],rect)
+				if clipped.size()==2:
+					draw_line(clipped[0],clipped[1],Color("1B455F"),2.0,true)
 	for biome in FIELD.BIOMES:
 		markers.append([biome[1],biome[2],biome[3]])
 	for marker in markers:
 		var pin := point(marker[0],rect,view)
-		if not rect.has_point(pin) or (marker[0]==FIELD.ARCH and zoom<3.0):
+		if not rect.has_point(pin):
+			continue
+		if (marker[0] in [FIELD.ARCH,FIELD.PAVILION] and zoom<6.0
+				or marker[0] in [FIELD.DIVE_ENTRY,FIELD.LAKE_MEADOW,FIELD.LIGHT_GARDEN,
+					FIELD.STAIR_GATE,FIELD.COLONNADE,FIELD.BROKEN_TOWER] and zoom<10.0):
 			continue
 		draw_circle(pin,4.0,Color("F3DB9C"))
 		var offset := Vector2(8,-5)
@@ -167,7 +199,21 @@ func _draw() -> void:
 		elif marker[0]==Vector2(5,-320) and zoom<4.0:
 			offset = Vector2(-92,12)
 		elif marker[0]==FIELD.ARCH:
+			offset = Vector2(-38,-12)
+		elif marker[0]==FIELD.PAVILION:
+			offset = Vector2(8,-11)
+		elif marker[0]==FIELD.COLONNADE:
 			offset = Vector2(8,17)
+		elif marker[0]==FIELD.DIVE_ENTRY:
+			offset = Vector2(8,23)
+		elif marker[0]==FIELD.LAKE_MEADOW:
+			offset = Vector2(-29,19)
+		elif marker[0]==FIELD.LIGHT_GARDEN:
+			offset = Vector2(-92,17)
+		elif marker[0]==FIELD.BROKEN_TOWER:
+			offset = Vector2(-58,17)
+		elif marker[0]==FIELD.EAST_TRENCH:
+			offset = Vector2(-73,-8)
 		draw_string_outline(font,pin+offset,FLOW.text(marker[1],marker[2]),HORIZONTAL_ALIGNMENT_LEFT,-1,14,2,Color("F3E9C9"))
 		draw_string(font,pin+offset,FLOW.text(marker[1],marker[2]),HORIZONTAL_ALIGNMENT_LEFT,-1,14,INK)
 	var p := point(Vector2(player.position.x,player.position.z),rect,view)

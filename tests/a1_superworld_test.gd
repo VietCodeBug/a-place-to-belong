@@ -129,6 +129,106 @@ func run() -> void:
 	Input.action_press("a1_dive")
 	check(await walk(Vector2(311,-471)),"Submerged arch passage blocked")
 	release()
+	await put(FIELD.PAVILION+Vector2(-8,0))
+	actor.position.y = -.58
+	var pavilion: Node3D = world.lake.get_node("FloodedPavilion")
+	var crown := Vector3(FIELD.PAVILION.x+.72,FIELD.WATER+.3,FIELD.PAVILION.y-.42)
+	var ceiling := PhysicsRayQueryParameters3D.create(crown,crown-Vector3.UP*4.0)
+	var ceiling_hit := actor.get_world_3d().direct_space_state.intersect_ray(ceiling)
+	check(not ceiling_hit.is_empty() and pavilion.is_ancestor_of(ceiling_hit.collider),"Flooded pavilion roof is missing collision")
+	var fish_meshes := {}
+	for school: MultiMeshInstance3D in world.lake.schools:
+		fish_meshes[school.multimesh.mesh.get_instance_id()] = true
+	check(fish_meshes.size()==3 and world.lake.schools.size()==5,"Underwater schools did not load all silhouettes")
+	check(await walk(FIELD.PAVILION+Vector2(2.25,.1)) and actor.state=="swimming","Open pavilion entry does not allow swimming")
+	release()
+	for site in [["StairGate",FIELD.STAIR_GATE,Vector2(-10,0),Vector2(3,0)],
+			["Colonnade",FIELD.COLONNADE,Vector2(-10,0),Vector2(6,0)],
+			["BrokenTower",FIELD.BROKEN_TOWER,Vector2(-7,-.94),Vector2(0,-.94)]]:
+		var center: Vector2 = site[1]
+		var ruin: Node3D = world.lake.get_node(site[0])
+		await put(center+site[2])
+		actor.position.y = ruin.position.y+.93
+		var site_floor := Vector3(center.x,ruin.position.y,center.y)
+		var query := PhysicsRayQueryParameters3D.create(site_floor+Vector3.UP*.3,site_floor-Vector3.UP*1.4)
+		var foundation_hit := actor.get_world_3d().direct_space_state.intersect_ray(query)
+		check(not foundation_hit.is_empty() and ruin.is_ancestor_of(foundation_hit.collider),"Ruin floor collision missing: "+site[0])
+		check(await walk(center+site[3]) and actor.state=="swimming","Ruin entrance blocked: "+site[0])
+		release()
+	var plants: Node3D = world.lake.get_node("LakeHabitats")
+	var plant_meshes := {}
+	for cluster: MultiMeshInstance3D in plants.get_children():
+		plant_meshes[cluster.multimesh.mesh.get_instance_id()] = true
+	check(plant_meshes.size()==3 and plants.instance_count>=1000,"Submerged plant habitat incomplete")
+	print("lake_plant_clumps=",plants.instance_count," lake_plant_batches=",plants.get_child_count())
+	for trench: Vector2 in [FIELD.WEST_TRENCH,FIELD.EAST_TRENCH]:
+		world.prepare_at(trench)
+		actor.position = Vector3(trench.x,-4.0,trench.y)
+		actor.velocity = Vector3.ZERO
+		for settle in 12:
+			await physics_frame
+		probe(trench)
+		check(FIELD.WATER-field.height(trench)>40.0,"Trench geometry is too shallow")
+		Input.action_press("a1_dive")
+		for tick in 290:
+			await physics_frame
+		var limit: float = world.lake.lowest_swim_height(trench)
+		check(absf(actor.position.y-limit)<.12 and world.lake.at_dive_limit(actor.position),"Held dive bypassed trench current")
+		release()
+		Input.action_press("a1_surface")
+		for tick in 145:
+			await physics_frame
+		check(actor.position.y>limit+5.0,"Trench current trapped ascent")
+		release()
+	await put(Vector2(488,-475))
+	actor.position.y = -17.3
+	Input.action_press("a1_dive")
+	check(await walk(FIELD.EAST_TRENCH) and world.lake.at_dive_limit(actor.position),"Lateral trench entry did not follow the safe ascent edge")
+	check(actor.position.y>=world.lake.lowest_swim_height(Vector2(actor.position.x,actor.position.z))-.12,"Lateral approach bypassed the trench current")
+	release()
+	await put(FIELD.LAKE_VAULT+Vector2(-10,0))
+	var vault: Node3D = world.lake.dream.vault
+	var vault_y := vault.position.y+1.10
+	actor.position.y = vault_y
+	var doorway := PhysicsRayQueryParameters3D.create(
+		Vector3(FIELD.LAKE_VAULT.x-8,vault_y,FIELD.LAKE_VAULT.y),
+		Vector3(FIELD.LAKE_VAULT.x-2,vault_y,FIELD.LAKE_VAULT.y),1,[actor.get_rid()])
+	var door_hit := actor.get_world_3d().direct_space_state.intersect_ray(doorway)
+	check(not vault.opened and not door_hit.is_empty() and door_hit.collider==vault.door,"Secret chamber did not start physically closed")
+	var chime: Node3D = vault.chime
+	await put(Vector2(chime.global_position.x,chime.global_position.z))
+	actor.position.y = chime.global_position.y-.28
+	for tick in 4:
+		await process_frame
+	check(hub.ui.active==chime,"The pavilion chime is not reachable through normal interaction")
+	press_key(KEY_E)
+	check(vault.opened and hub.ui.panel.visible,"The chime did not open the hidden passage")
+	hub.ui.close()
+	for tick in 80:
+		await physics_frame
+	await put(FIELD.LAKE_VAULT+Vector2(-10,0))
+	actor.position.y = vault_y
+	check(await walk(FIELD.LAKE_VAULT+Vector2(.85,0)),"Open secret chamber is not reachable by swimming")
+	release()
+	for tick in 4:
+		await process_frame
+	check(hub.ui.active==vault.relic,"The chamber's pottery shard cannot be reached")
+	press_key(KEY_E)
+	check(vault.relic_found and not vault.relic.is_in_group("interactables"),"Pottery shard could not be collected")
+	hub.ui.close()
+	var lake_weather: Node = hub.get_node("ForestWeather")
+	lake_weather.paused = true
+	lake_weather.set_time(17.0)
+	lake_weather.set_weather("clear",true)
+	for tick in 6:
+		await process_frame
+	var rare_school: Node3D = world.lake.schools[-1]
+	check(world.lake.garden_event and rare_school.visible,"Clear evening did not reveal the pearl fish")
+	lake_weather.set_weather("light_rain",true)
+	for tick in 6:
+		await process_frame
+	check(not world.lake.garden_event and not rare_school.visible,"Pearl fish did not leave in the rain")
+	lake_weather.paused = false
 	await put(Vector2(208,-462))
 	var weather: Node = hub.get_node("ForestWeather")
 	weather.paused = true

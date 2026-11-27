@@ -8,6 +8,28 @@ const WATER := 5.0
 const SHORE := Vector2(217, -455)
 const SHELF := Vector2(269, -473)
 const ARCH := Vector2(305, -471)
+const PAVILION := Vector2(336, -456)
+const DIVE_ENTRY := Vector2(234, -455)
+const LAKE_MEADOW := Vector2(267, -457)
+const LIGHT_GARDEN := Vector2(363, -428)
+const LAKE_VAULT := Vector2(387, -439)
+const STAIR_GATE := Vector2(380, -416)
+const COLONNADE := Vector2(418, -474)
+const BROKEN_TOWER := Vector2(478, -402)
+const WEST_TRENCH := Vector2(456, -447)
+const EAST_TRENCH := Vector2(524, -478)
+const TRENCH_BOUNDS := Rect2(413, -546, 158, 155)
+const MAX_TRENCH_CUT := 25.0
+const TRENCHES := [
+	[WEST_TRENCH, Vector2(16.0, 36.0), .26, 22.0],
+	[EAST_TRENCH, Vector2(21.0, 42.0), -.47, MAX_TRENCH_CUT],
+]
+const LAKE_ROUTES := [
+	[DIVE_ENTRY, Vector2(250,-457), LAKE_MEADOW, Vector2(286,-470), Vector2(299,-471),
+		Vector2(312,-471), Vector2(324,-459), PAVILION, Vector2(345,-448), Vector2(355,-433), LIGHT_GARDEN],
+	[Vector2(343,-465), Vector2(357,-474), Vector2(382,-480), Vector2(404,-476), COLONNADE],
+	[Vector2(367,-422), STAIR_GATE, Vector2(402,-406), Vector2(435,-400), Vector2(456,-397), BROKEN_TOWER],
+]
 const MEADOW := Vector2(330, 138)
 const OVERLOOK := Vector2(270, -825)
 const BIOMES := [
@@ -16,7 +38,14 @@ const BIOMES := [
 	["river_valley",Vector2(0,74),"River and bridge","Sông và cầu"],
 	["village_a",Vector2(5.2,128),"Village A","Làng A"],
 	["highland",OVERLOOK,"Highland overlook","Điểm ngắm cao nguyên"],
-	["underwater",ARCH,"Underwater arch","Vòm đá dưới hồ"]
+	["underwater",ARCH,"Underwater arch","Vòm đá dưới hồ"],
+	["pavilion",PAVILION,"Sunken pavilion","Đình đá chìm"],
+	["dive_entry",DIVE_ENTRY,"Dive entry","Lối xuống hồ"],
+	["lake_meadow",LAKE_MEADOW,"Water meadow","Đồng cỏ nước"],
+	["light_garden",LIGHT_GARDEN,"Garden of lights","Vườn ánh sáng"],
+	["stair_gate",STAIR_GATE,"Stair gate","Cổng bậc đá"],
+	["colonnade",COLONNADE,"Colonnade","Hành lang cột"],
+	["broken_tower",BROKEN_TOWER,"Broken tower","Tháp vỡ"],
 ]
 const TRAILS := [
 	[Vector2(4,-274),Vector2(28,-293),Vector2(64,-309),Vector2(96,-330),Vector2(124,-360),Vector2(159,-407),Vector2(187,-439),SHORE],
@@ -89,6 +118,31 @@ func shore_rockiness(p: Vector2) -> float:
 	var wetland := sin((p.y+455.0)*.034 + p.x*.009)*.42
 	var grain := ecology.get_noise_2d(p.x+73,p.y-520)*.66
 	return clampf(.40+wetland+grain,0.0,1.0)
+
+func trench_distance(p: Vector2, channel: Array) -> float:
+	var center: Vector2 = channel[0]
+	var radii: Vector2 = channel[1]
+	var axis := (p-center).rotated(channel[2])
+	axis.x += sin(axis.y*.137) * 2.8
+	return (axis/radii).length()
+
+func trench_influence(p: Vector2) -> float:
+	if not TRENCH_BOUNDS.has_point(p):
+		return 0.0
+	var influence := 0.0
+	for channel: Array in TRENCHES:
+		influence = maxf(influence,1.0-smoothstep(.63,1.31,trench_distance(p,channel)))
+	return influence
+
+func trench_cut(p: Vector2) -> float:
+	if not TRENCH_BOUNDS.has_point(p):
+		return 0.0
+	var cut := 0.0
+	for channel: Array in TRENCHES:
+		var d := trench_distance(p,channel)
+		var rim := 1.0-smoothstep(.34,1.05,d)
+		cut = maxf(cut,float(channel[3])*rim)
+	return cut
 
 func forest_cover(p: Vector2) -> float:
 	var hills := ecology.get_noise_2d(p.x,p.y)
@@ -192,6 +246,7 @@ func outside_shape(p: Vector2) -> float:
 		var bank := shore_rockiness(p)*(1.0-smoothstep(.025,.13,absf(d-1.0)))
 		ripple += bank*2.65*smoothstep(1.005,1.07,d)
 		waterbed += ripple*smoothstep(0.0,.13,absf(d-1.0))
+		waterbed -= trench_cut(p)
 		h = lerpf(waterbed,h,smoothstep(1.055,1.20,d))
 	return h
 
@@ -239,6 +294,8 @@ func ground_color(p: Vector2, y: float) -> Color:
 		var bank := sand.lerp(Color("6B7063").lerp(Color("535647"),n),smoothstep(.29,.82,shore))
 		var silt := bank.lerp(Color("47594B"),smoothstep(1.2,12.0,WATER-y))
 		silt = silt.lerp(Color("293E39"),smoothstep(11.0,28.0,WATER-y))
+		if y < WATER-14.0:
+			silt = silt.lerp(Color("142A37").lerp(Color("2A4353"),n),trench_influence(p))
 		return silt.lerp(Color("4D6537").lerp(Color("65634A"),shore),smoothstep(1.008,1.056,d))
 	var band := habitat(p,y)
 	var color := [Color("4D6039"),Color("435941"),Color("557243"),Color("788444"),
@@ -250,5 +307,6 @@ func ground_color(p: Vector2, y: float) -> Color:
 
 func map_color(p: Vector2, y: float) -> Color:
 	if lake_ratio(p)<1.0:
-		return Color("72ABB0").lerp(Color("37757F"),smoothstep(0.0,25.0,WATER-y))
+		var water := Color("72ABB0").lerp(Color("37757F"),smoothstep(0.0,25.0,WATER-y))
+		return water.lerp(Color("1B455F"),trench_influence(p)*.82)
 	return ground_color(p,y)
