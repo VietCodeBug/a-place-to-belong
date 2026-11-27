@@ -116,27 +116,36 @@ func build_courtyard_statue() -> void:
 
 func build_garden() -> void:
 	var anchor := bank_origin(FIELD.LIGHT_GARDEN,0)
-	var groups := [[],[],[]]
-	var patches := [
-		Vector4(-5,-3,2.7,9),Vector4(5,-3,2.9,10),Vector4(4,4,2.5,8),
-		Vector4(-4,3,2.5,8),Vector4(-.8,-6.4,1.7,8),
+	var groups := [[],[],[],[]]
+	# Plant on alternating sides of the sunken stones, with low leaves at the rock faces.
+	var beds := [
+		[Vector4(-5.9,-2.8,1.43,5),Vector4(3.0,-4.6,1.62,4),Vector4(4.6,3.3,2.01,5)],
+		[Vector4(-6.82,.1,1.63,6),Vector4(.8,-6.4,2.12,6),Vector4(5.4,-2.3,1.35,5),Vector4(-1.4,4.6,1.42,4)],
+		[Vector4(-3.1,-5.2,1.38,6),Vector4(4.8,.6,1.90,6),Vector4(.3,3.0,1.33,6)],
+		[Vector4(-6.84,-1.1,2.30,8),Vector4(-3.7,-5.5,1.87,7),Vector4(4.1,-4.1,2.32,7),
+			Vector4(5.8,2.9,2.11,7),Vector4(-1.7,3.8,1.91,7)]
 	]
-	for patch: Vector4 in patches:
-		for i in int(patch.w):
-			var offset := Vector2(patch.x,patch.y)+Vector2.from_angle(rng.randf()*TAU)*sqrt(rng.randf())*patch.z
-			var plant := bank_origin(FIELD.LIGHT_GARDEN+offset,-.03)-anchor
-			var size := rng.randf_range(.47,.91)
-			var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled_local(Vector3(size,size,size))
-			groups[i%3].append(Transform3D(basis,plant))
-	for kind in 3:
-		var offset: Vector2 = [Vector2(3.8,-4.2),Vector2(5.2,-4.7),Vector2(2.6,-5.5)][kind]
-		var size: float = [1.68,1.26,1.21][kind]
-		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled_local(Vector3(size,size,size))
-		var plant := bank_origin(FIELD.LIGHT_GARDEN+offset,-.03)-anchor
-		groups[kind].append(Transform3D(basis,plant))
+	for kind in groups.size():
+		for bed: Vector4 in beds[kind]:
+			for i in int(bed.w):
+				var radial := Vector2.from_angle(rng.randf()*TAU)*pow(rng.randf(),.83)*bed.z
+				var offset := Vector2(bed.x,bed.y)+radial
+				var point := FIELD.LIGHT_GARDEN+offset
+				if in_garden_walkway(point):
+					continue
+				var size := rng.randf_range(.52,.97)
+				var height := size*rng.randf_range(.84,1.19)
+				var breadth := size*rng.randf_range(.87,1.12)
+				var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled_local(Vector3(breadth,height,breadth))
+				groups[kind].append(Transform3D(basis,bank_origin(point,-.019)-anchor))
+	for focal: Vector4 in [Vector4(3.8,-4.2,1.58,0),Vector4(-5.74,-2.7,1.23,0),
+			Vector4(-6.2,.8,1.31,1),Vector4(1.0,-5.2,1.22,1),Vector4(4.9,-1.2,1.17,2)]:
+		var basis := Basis(Vector3.UP,rng.randf()*TAU).scaled_local(Vector3.ONE*focal.z)
+		var point := FIELD.LIGHT_GARDEN+Vector2(focal.x,focal.y)
+		groups[int(focal.w)].append(Transform3D(basis,bank_origin(point,-.026)-anchor))
 	garden_material = ShaderMaterial.new()
 	garden_material.shader = preload("res://shaders/a1_lake_garden.gdshader")
-	for kind in 3:
+	for kind in groups.size():
 		var batch := MultiMesh.new()
 		batch.transform_format = MultiMesh.TRANSFORM_3D
 		batch.use_colors = true
@@ -156,6 +165,15 @@ func build_garden() -> void:
 		blooms.visibility_range_end = 74.0
 		blooms.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(blooms)
+
+func in_garden_walkway(point: Vector2) -> bool:
+	for route_index in [0,2]:
+		var route: Array = FIELD.LAKE_ROUTES[route_index]
+		for i in range(route.size()-1):
+			var closest := Geometry2D.get_closest_point_to_segment(point,route[i],route[i+1])
+			if point.distance_squared_to(closest)<.88:
+				return true
+	return false
 
 func build_shafts() -> void:
 	var shafts := SurfaceTool.new()
